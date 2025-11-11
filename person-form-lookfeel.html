@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Personen-Formular</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- validator.js CDN -->
+  <script src="https://unpkg.com/validator@13.12.0/validator.min.js"></script>
+
+  <style>
+    /* Falls Tailwind nicht geladen ist */
+    .hidden { display: none; }
+    .error-msg {
+      font-size: 0.875rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="w-full max-w-3xl mx-auto p-6">
+    <div class="bg-white rounded-xl shadow-md p-6 md:p-8">
+      <h1 class="text-2xl font-semibold mb-4">Personendaten erfassen</h1>
+      <p class="text-sm text-gray-600 mb-6">
+        Bitte wählen Sie zuerst, ob die Person lebend oder verstorben ist. Entsprechend werden einige Felder ausgeblendet.
+      </p>
+
+      <form id="personForm" novalidate class="space-y-6">
+
+        <!-- Status: lebend / verstorben -->
+        <fieldset class="border border-gray-200 rounded-lg p-4">
+          <legend class="text-sm font-medium text-gray-700 px-1">Status der Person</legend>
+          <div class="mt-2 flex flex-col sm:flex-row gap-4">
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="status" value="living"
+                     class="status-toggle h-4 w-4 text-blue-600 border-gray-300">
+              <span>lebend</span>
+            </label>
+            <label class="inline-flex items-center gap-2 cursor-pointer">
+              <input type="radio" name="status" value="dead"
+                     class="status-toggle h-4 w-4 text-blue-600 border-gray-300">
+              <span>verstorben</span>
+            </label>
+          </div>
+          <p class="text-red-600 mt-2 error-msg hidden" data-error-for="status"></p>
+        </fieldset>
+
+        <!-- Basisdaten -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="vorname" class="block text-sm font-medium text-gray-700">Vorname *</label>
+            <input type="text" id="vorname" name="vorname"
+                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                   required>
+            <p class="text-red-600 mt-1 error-msg hidden" data-error-for="vorname"></p>
+          </div>
+          <div>
+            <label for="nachname" class="block text-sm font-medium text-gray-700">Nachname *</label>
+            <input type="text" id="nachname" name="nachname"
+                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                   required>
+            <p class="text-red-600 mt-1 error-msg hidden" data-error-for="nachname"></p>
+          </div>
+        </div>
+
+        <!-- Lebensdaten -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="geburtsdatum" class="block text-sm font-medium text-gray-700">Geburtsdatum</label>
+            <input type="date" id="geburtsdatum" name="geburtsdatum"
+                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <p class="text-red-600 mt-1 error-msg hidden" data-error-for="geburtsdatum"></p>
+          </div>
+          <div class="hide_livingperson">
+            <label for="sterbedatum" class="block text-sm font-medium text-gray-700">
+              Sterbedatum <span class="text-xs text-gray-500">(nur bei verstorben)</span>
+            </label>
+            <input type="date" id="sterbedatum" name="sterbedatum"
+                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+            <p class="text-red-600 mt-1 error-msg hidden" data-error-for="sterbedatum"></p>
+          </div>
+        </div>
+
+        <!-- Kontakt (nur lebende Personen) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 hide_deadperson">
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">
+              E-Mail <span class="text-xs text-gray-500">(nur bei lebend)</span>
+            </label>
+            <input type="email" id="email" name="email"
+                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                   placeholder="name@beispiel.org">
+            <p class="text-red-600 mt-1 error-msg hidden" data-error-for="email"></p>
+          </div>
+          <div>
+            <label for="telefon" class="block text-sm font-medium text-gray-700">
+              Telefon <span class="text-xs text-gray-500">(nur bei lebend, optional)</span>
+            </label>
+            <input type="tel" id="telefon" name="telefon"
+                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                   placeholder="+43 1 1234567">
+            <p class="text-red-600 mt-1 error-msg hidden" data-error-for="telefon"></p>
+          </div>
+        </div>
+
+        <!-- Identifier -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label for="gnd" class="block text-sm font-medium text-gray-700">GND ID</label>
+            <input type="text" id="gnd" name="gnd"
+                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                   placeholder="z. B. 123456789">
+            <p class="text-red-600 mt-1 error-msg hidden" data-error-for="gnd"></p>
+          </div>
+          <div>
+            <label for="orcid" class="block text-sm font-medium text-gray-700">ORCID</label>
+            <input type="text" id="orcid" name="orcid"
+                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                   placeholder="0000-0000-0000-0000">
+            <p class="text-red-600 mt-1 error-msg hidden" data-error-for="orcid"></p>
+          </div>
+          <div>
+            <label for="internId" class="block text-sm font-medium text-gray-700">Interne Personen-ID</label>
+            <input type="text" id="internId" name="internId"
+                   class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                   placeholder="UUID oder Nummer">
+            <p class="text-red-600 mt-1 error-msg hidden" data-error-for="internId"></p>
+          </div>
+        </div>
+
+        <!-- Notizen -->
+        <div>
+          <label for="notizen" class="block text-sm font-medium text-gray-700">Notizen</label>
+          <textarea id="notizen" name="notizen" rows="3"
+                    class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="Zusätzliche Informationen, Rollen, Bemerkungen"></textarea>
+          <p class="text-red-600 mt-1 error-msg hidden" data-error-for="notizen"></p>
+        </div>
+
+        <!-- Formularaktionen -->
+        <div class="flex items-center justify-between">
+          <button type="reset"
+                  class="px-4 py-2 text-sm rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">
+            Zurücksetzen
+          </button>
+          <button type="submit"
+                  class="px-5 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            Speichern
+          </button>
+        </div>
+
+        <div id="formSuccess"
+             class="mt-4 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg px-4 py-2 hidden">
+          Formular wurde erfolgreich validiert. Hier würde ein Speichern im Backend erfolgen.
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("personForm");
+      const statusRadios = document.querySelectorAll(".status-toggle");
+      const livingGroups = document.querySelectorAll(".hide_livingperson, .hide_lvingperson, .hide_if_livingperson");
+      const deadGroups = document.querySelectorAll(".hide_deadperson, .hide_if_deadperson");
+      const successBox = document.getElementById("formSuccess");
+
+      function setVisibility(statusValue) {
+        if (statusValue === "living") {
+          livingGroups.forEach(el => el.classList.add("hidden"));
+          deadGroups.forEach(el => el.classList.remove("hidden"));
+        } else if (statusValue === "dead") {
+          livingGroups.forEach(el => el.classList.remove("hidden"));
+          deadGroups.forEach(el => el.classList.add("hidden"));
+        } else {
+          // Fallback: alles anzeigen
+          livingGroups.forEach(el => el.classList.remove("hidden"));
+          deadGroups.forEach(el => el.classList.remove("hidden"));
+        }
+      }
+
+      statusRadios.forEach(r => {
+        r.addEventListener("change", function () {
+          setVisibility(this.value);
+          clearError("status");
+        });
+      });
+
+      function showError(fieldName, message) {
+        const msgEl = document.querySelector(`[data-error-for="${fieldName}"]`);
+        if (msgEl) {
+          msgEl.textContent = message;
+          msgEl.classList.remove("hidden");
+        }
+      }
+
+      function clearError(fieldName) {
+        const msgEl = document.querySelector(`[data-error-for="${fieldName}"]`);
+        if (msgEl) {
+          msgEl.textContent = "";
+          msgEl.classList.add("hidden");
+        }
+      }
+
+      function getStatusValue() {
+        const checked = Array.from(statusRadios).find(r => r.checked);
+        return checked ? checked.value : "";
+      }
+
+      function validateField(field) {
+        const name = field.name;
+        const value = field.value.trim();
+        clearError(name);
+
+        if (name === "vorname" || name === "nachname") {
+          if (!value) {
+            showError(name, "Pflichtfeld");
+            return false;
+          }
+        }
+
+        if (name === "email" && value) {
+          if (!validator.isEmail(value)) {
+            showError(name, "Bitte eine gültige E-Mail-Adresse eingeben");
+            return false;
+          }
+        }
+
+        if (name === "orcid" && value) {
+          // Sehr einfache ORCID-Prüfung: 0000-0000-0000-0000
+          const orcidPattern = /^\d{4}-\d{4}-\d{4}-\d{3}[\dxX]$/;
+          if (!orcidPattern.test(value)) {
+            showError(name, "Format z. B. 0000-0000-0000-0000");
+            return false;
+          }
+        }
+
+        if ((name === "geburtsdatum" || name === "sterbedatum") && value) {
+          if (!validator.isDate(value)) {
+            showError(name, "Ungültiges Datum");
+            return false;
+          }
+        }
+
+        return true;
+      }
+
+      // Live-Validierung bei Blur
+      form.querySelectorAll("input, textarea").forEach(field => {
+        field.addEventListener("blur", function () {
+          validateField(field);
+        });
+      });
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        successBox.classList.add("hidden");
+
+        let valid = true;
+
+        // Status prüfen
+        if (!getStatusValue()) {
+          showError("status", "Bitte wählen Sie lebend oder verstorben");
+          valid = false;
+        }
+
+        // Alle Felder prüfen
+        form.querySelectorAll("input, textarea").forEach(field => {
+          // ausgeblendete Felder überspringen
+          if (field.closest(".hidden")) return;
+          if (!validateField(field)) valid = false;
+        });
+
+        if (!valid) return;
+
+        // Hier würde normalerweise ein Submit an das Backend erfolgen
+        successBox.classList.remove("hidden");
+      });
+    });
+  </script>
+</body>
+</html>
