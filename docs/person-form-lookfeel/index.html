@@ -266,7 +266,7 @@
             <div>
               <div class="flex items-center gap-2">
                 <label for="vorname" class="text-sm font-medium text-slate-700">Vorname</label>
-                <button type="button" class="tooltip-button"
+                <button type="button" class="tooltip-button" tabindex="-1" tabindex="-1"
                   title="Vorname der Person. Beispiel: Jane oder J.">i</button>
               </div>
               <input id="vorname" name="vorname" type="text" autocomplete="given-name" x-model.trim="form.vorname"
@@ -280,7 +280,7 @@
               <div class="flex items-center gap-2">
                 <label for="nachname" class="text-sm font-medium text-slate-700">Nachname <span
                     class="text-red-600">*</span></label>
-                <button type="button" class="tooltip-button"
+                <button type="button" class="tooltip-button" tabindex="-1"
                   title="Nachname der Person. Beispiel: Doe oder D.">i</button>
               </div>
               <input id="nachname" name="nachname" type="text" autocomplete="family-name" x-model.trim="form.nachname"
@@ -296,7 +296,7 @@
             <div>
               <div class="flex items-center gap-2">
                 <label for="mittelname" class="text-sm font-medium text-slate-700">Mittelname / Zweitname</label>
-                <button type="button" class="tooltip-button"
+                <button type="button" class="tooltip-button" tabindex="-1"
                   title="Zweitname oder weiterer Vorname, optional.">i</button>
               </div>
               <input id="mittelname" name="mittelname" type="text" x-model.trim="form.mittelname"
@@ -321,7 +321,7 @@
           </div>
           <div>
           </div>
-          <div class="md:col-span-2">
+          <div >
             <div class="flex items-center gap-2">
               <label for="anzeigename" class="text-sm font-medium text-slate-700">Anzeigename <span
                   class="text-red-600">*</span></label>
@@ -332,7 +332,7 @@
               placeholder="Nachname, Vorname"
               class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
               :class="inputClass('anzeigename')">
-            <p class="mt-2 text-xs text-slate-500">Pflichtfeld; 1–255 Zeichen.</p>
+            <p class="mt-2 text-xs text-slate-500">Pflichtfeld; max. 255 Zeichen.</p>
             <p x-show="errors.anzeigename" x-text="errors.anzeigename" class="mt-2 text-sm text-red-600"></p>
           </div>
 
@@ -348,7 +348,7 @@
             </div>
             <button type="button" @click="addNamensvariante"
               class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500">
-              Weitere Variante
+              + weitere Variante hinzufügen
             </button>
           </div>
 
@@ -378,9 +378,9 @@
                 <button type="button" class="tooltip-button"
                   title="Alternative Namensschreibungen als Freitext (max. 255 Zeichen pro Eintrag, getrennt durch Semikolon).">i</button>
               </div>
-              <textarea id="aliase" name="aliase" rows="3" x-model.trim="form.aliase"
+              <input id="aliase" name="aliase" rows="3" type="text" x-model.trim="form.aliase"
                 class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('aliase')" placeholder="z. B. Jane Doe; Johanna Doe"></textarea>
+                :class="inputClass('aliase')" placeholder="z. B. Jane Doe; Johanna Doe"></input>
               <p class="mt-2 text-xs text-slate-500">Weitere Schreibweisen, getrennt durch Semikolon.</p>
               <p x-show="errors.aliase" x-text="errors.aliase" class="mt-2 text-sm text-red-600"></p>
             </div>
@@ -406,10 +406,38 @@
           class="bg-white/80 backdrop-blur border border-slate-200/70 rounded-3xl p-10 shadow-md shadow-slate-200/50 space-y-8">
           <div class="space-y-2">
             <h2 class="text-2xl font-semibold text-slate-800">4. Akademische und historische Titel</h2>
-            <p class="text-sm text-slate-500">Titelangaben werden getrennt erfasst und können über Autocomplete ergänzt
-              werden.</p>
+            <p class="text-sm text-slate-500">Titelangaben werden getrennt erfasst und können über Autocomplete ergänzt werden.</p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <div class="flex items-center gap-2">
+                <label for="adelstitel" class="text-sm font-medium text-slate-700">Historische Titel / Adelstitel</label>
+                <button type="button" class="tooltip-button"
+                  title="Historischer Adelstitel. Beispiel: Graf von.">i</button>
+              </div>
+              <input id="adelstitel" name="adelstitel" type="text" list="adelstitel-options"
+                x-model.trim="form.adelstitel"
+                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
+                :class="inputClass('adelstitel')" placeholder="z. B. Graf von">
+              <datalist id="adelstitel-options">
+                <option value="Graf"></option>
+                <option value="Gräfin"></option>
+                <option value="Freiherr"></option>
+                <option value="Freifrau"></option>
+                <option value="Baron"></option>
+                <option value="Baronin"></option>
+                <option value="Ritter"></option>
+                <option value="Fürst"></option>
+                <option value="Fürstin"></option>
+                <option value="Herzog"></option>
+                <option value="Herzogin"></option>
+                <option value="Landgraf"></option>
+                <option value="Landgräfin"></option>
+              </datalist>
+              <p class="mt-2 text-xs text-slate-500">Autocomplete mit Dummy-Werten; freie Eingabe bis 100 Zeichen
+                möglich.</p>
+              <p x-show="errors.adelstitel" x-text="errors.adelstitel" class="mt-2 text-sm text-red-600"></p>
+            </div>
             <div>
               <div class="flex items-center gap-2">
                 <label for="akademischerTitel" class="text-sm font-medium text-slate-700">Akademischer Titel</label>
@@ -424,35 +452,6 @@
               </p>
             </div>
           </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <label for="adelstitel" class="text-sm font-medium text-slate-700">historische Titel / Adelstitel</label>
-              <button type="button" class="tooltip-button"
-                title="Historischer Adelstitel. Beispiel: Graf von.">i</button>
-            </div>
-            <input id="adelstitel" name="adelstitel" type="text" list="adelstitel-options"
-              x-model.trim="form.adelstitel"
-              class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-              :class="inputClass('adelstitel')" placeholder="z. B. Graf von">
-            <datalist id="adelstitel-options">
-              <option value="Graf"></option>
-              <option value="Gräfin"></option>
-              <option value="Freiherr"></option>
-              <option value="Freifrau"></option>
-              <option value="Baron"></option>
-              <option value="Baronin"></option>
-              <option value="Ritter"></option>
-              <option value="Fürst"></option>
-              <option value="Fürstin"></option>
-              <option value="Herzog"></option>
-              <option value="Herzogin"></option>
-              <option value="Landgraf"></option>
-              <option value="Landgräfin"></option>
-            </datalist>
-            <p class="mt-2 text-xs text-slate-500">Autocomplete mit Dummy-Werten; freie Eingabe bis 100 Zeichen
-              möglich.</p>
-            <p x-show="errors.adelstitel" x-text="errors.adelstitel" class="mt-2 text-sm text-red-600"></p>
-          </div>
         </section>
 
         <!-- Lebensdaten -->
@@ -464,82 +463,81 @@
               Person gewählt wurde.</p>
           </div>
 
-          <div class="grid gap-8 md:grid-cols-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="geburtsdatum" class="text-sm font-medium text-slate-700">Geburtsdatum</label>
-                <button type="button" class="tooltip-button"
-                  title="Jahr, Monat, Tag soweit bekannt. Beispiel: 1824-05.">i</button>
+          <div class="space-y-8">
+            <div class="grid gap-6 md:grid-cols-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <label for="geburtsdatum" class="text-sm font-medium text-slate-700">Geburtsdatum</label>
+                  <button type="button" class="tooltip-button" title="Jahr, Monat, Tag soweit bekannt. Beispiel: 1824-05.">i</button>
+                </div>
+                <input id="geburtsdatum" name="geburtsdatum" type="text" placeholder="YYYY oder YYYY-MM(-DD)"
+                  x-model.trim="form.geburtsdatum"
+                  class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
+                  :class="inputClass('geburtsdatum')">
+                <p class="mt-2 text-xs text-slate-500">ISO-ähnliches Format.</p>
+                <p x-show="errors.geburtsdatum" x-text="errors.geburtsdatum" class="mt-2 text-sm text-red-600"></p>
               </div>
-              <input id="geburtsdatum" name="geburtsdatum" type="text" placeholder="YYYY oder YYYY-MM(-DD)"
-                x-model.trim="form.geburtsdatum"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('geburtsdatum')">
-              <p class="mt-2 text-xs text-slate-500">ISO-ähnliches Format.</p>
-              <p x-show="errors.geburtsdatum" x-text="errors.geburtsdatum" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div x-show="isFieldVisible('sterbedatum')" x-transition>
-              <div class="flex items-center gap-2">
-                <label for="sterbedatum" class="text-sm font-medium text-slate-700">Sterbedatum</label>
-                <button type="button" class="tooltip-button"
-                  title="Jahr, Monat, Tag des Todes soweit bekannt.">i</button>
+              <div>
+                <div class="flex items-center gap-2">
+                  <label for="geburtsort" class="text-sm font-medium text-slate-700">Geburtsort</label>
+                  <button type="button" class="tooltip-button" title="Ort der Geburt, Freitext.">i</button>
+                </div>
+                <input id="geburtsort" name="geburtsort" type="text" x-model.trim="form.geburtsort"
+                  class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
+                  :class="inputClass('geburtsort')">
+                <p class="mt-2 text-xs text-slate-500">Freitext bis 255 Zeichen.</p>
+                <p x-show="errors.geburtsort" x-text="errors.geburtsort" class="mt-2 text-sm text-red-600"></p>
               </div>
-              <input id="sterbedatum" name="sterbedatum" type="text" placeholder="YYYY oder YYYY-MM(-DD)"
-                x-model.trim="form.sterbedatum"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('sterbedatum')" :disabled="!isFieldVisible('sterbedatum')">
-              <p class="mt-2 text-xs text-slate-500">Nur bei verstorbenen Personen.</p>
-              <p x-show="errors.sterbedatum" x-text="errors.sterbedatum" class="mt-2 text-sm text-red-600"></p>
             </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="geschlecht" class="text-sm font-medium text-slate-700">Geschlecht <span
-                    class="text-red-600">*</span></label>
-                <button type="button" class="tooltip-button"
-                  title="Enumerierter Wert: männlich, weiblich, divers oder unbekannt.">i</button>
-              </div>
-              <select id="geschlecht" name="geschlecht" x-model="form.geschlecht"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('geschlecht')">
-                <option value="">– bitte auswählen –</option>
-                <option value="männlich">männlich</option>
-                <option value="weiblich">weiblich</option>
-                <option value="divers">divers</option>
-                <option value="unbekannt">unbekannt</option>
-              </select>
-              <p class="mt-2 text-xs text-slate-500">Pflichtfeld laut CSV.</p>
-              <p x-show="errors.geschlecht" x-text="errors.geschlecht" class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </div>
 
-          <div class="grid gap-8 md:grid-cols-3">
+            <div class="grid gap-6 md:grid-cols-2" x-show="isFieldVisible('sterbedatum') || isFieldVisible('sterbeort')" x-transition>
+              <div x-show="isFieldVisible('sterbedatum')" x-transition>
+                <div class="flex items-center gap-2">
+                  <label for="sterbedatum" class="text-sm font-medium text-slate-700">Sterbedatum</label>
+                  <button type="button" class="tooltip-button" title="Jahr, Monat, Tag des Todes soweit bekannt.">i</button>
+                </div>
+                <input id="sterbedatum" name="sterbedatum" type="text" placeholder="YYYY oder YYYY-MM(-DD)"
+                  x-model.trim="form.sterbedatum"
+                  class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
+                  :class="inputClass('sterbedatum')" :disabled="!isFieldVisible('sterbedatum')">
+                <p class="mt-2 text-xs text-slate-500">Nur bei verstorbenen Personen.</p>
+                <p x-show="errors.sterbedatum" x-text="errors.sterbedatum" class="mt-2 text-sm text-red-600"></p>
+              </div>
+              <div x-show="isFieldVisible('sterbeort')" x-transition>
+                <div class="flex items-center gap-2">
+                  <label for="sterbeort" class="text-sm font-medium text-slate-700">Sterbeort</label>
+                  <button type="button" class="tooltip-button" title="Ort des Todes, Freitext.">i</button>
+                </div>
+                <input id="sterbeort" name="sterbeort" type="text" x-model.trim="form.sterbeort"
+                  class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
+                  :class="inputClass('sterbeort')" :disabled="!isFieldVisible('sterbeort')">
+                <p class="mt-2 text-xs text-slate-500">Nur bei verstorbenen Personen.</p>
+                <p x-show="errors.sterbeort" x-text="errors.sterbeort" class="mt-2 text-sm text-red-600"></p>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="flex items-center gap-2">
+                <span class="text-sm font-medium text-slate-700">Geschlecht</span>
+                <button type="button" class="tooltip-button" title="Optional; mehrere Angaben möglich.">i</button>
+              </div>
+              <p class="text-xs text-slate-500">Optional; Auswahl über Checkboxen.</p>
+              <div class="flex flex-wrap gap-3" :class="errors.geschlecht ? 'ring-2 ring-rose-300 rounded-xl px-3 py-2' : ''">
+                <template x-for="option in geschlechtOptions" :key="option.id">
+                  <label :for="`geschlecht-option-${option.id}`" class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm hover:bg-slate-100 focus-within:ring-2 focus-within:ring-sky-500">
+                    <input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-sky-500 focus:ring-sky-500"
+                      :value="option.value" x-model="form.geschlecht" :id="`geschlecht-option-${option.id}`">
+                    <span x-text="option.label"></span>
+                  </label>
+                </template>
+              </div>
+              <p x-show="errors.geschlecht" x-text="errors.geschlecht" class="text-sm text-red-600"></p>
+            </div>
+
             <div>
-              <div class="flex items-center gap-2">
-                <label for="geburtsort" class="text-sm font-medium text-slate-700">Geburtsort</label>
-                <button type="button" class="tooltip-button" title="Ort der Geburt, Freitext.">i</button>
-              </div>
-              <input id="geburtsort" name="geburtsort" type="text" x-model.trim="form.geburtsort"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('geburtsort')">
-              <p class="mt-2 text-xs text-slate-500">Freitext bis 255 Zeichen.</p>
-              <p x-show="errors.geburtsort" x-text="errors.geburtsort" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div x-show="isFieldVisible('sterbeort')" x-transition>
-              <div class="flex items-center gap-2">
-                <label for="sterbeort" class="text-sm font-medium text-slate-700">Sterbeort</label>
-                <button type="button" class="tooltip-button" title="Ort des Todes, Freitext.">i</button>
-              </div>
-              <input id="sterbeort" name="sterbeort" type="text" x-model.trim="form.sterbeort"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('sterbeort')" :disabled="!isFieldVisible('sterbeort')">
-              <p class="mt-2 text-xs text-slate-500">Nur bei verstorbenen Personen.</p>
-              <p x-show="errors.sterbeort" x-text="errors.sterbeort" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div class="md:col-span-3">
               <div class="flex items-center gap-2">
                 <label for="wirkungsorte" class="text-sm font-medium text-slate-700">Wirkungsorte</label>
-                <button type="button" class="tooltip-button"
-                  title="Weitere relevante Orte, getrennt durch Semikolon.">i</button>
+                <button type="button" class="tooltip-button" title="Weitere relevante Orte, getrennt durch Semikolon.">i</button>
               </div>
               <textarea id="wirkungsorte" name="wirkungsorte" rows="2" x-model.trim="form.wirkungsorte"
                 class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
@@ -845,8 +843,16 @@
         dateIso: /^\d{4}-\d{2}-\d{2}$/
       };
 
+      const geschlechtOptions = [
+        { id: 'maennlich', value: 'männlich', label: 'männlich' },
+        { id: 'weiblich', value: 'weiblich', label: 'weiblich' },
+        { id: 'divers', value: 'divers', label: 'divers' },
+        { id: 'unbekannt', value: 'unbekannt', label: 'unbekannt' }
+      ];
+      const geschlechtValues = geschlechtOptions.map(option => option.value);
+
       const schema = yup.object({
-        vorname: yup.string().trim().matches(patterns.personName, 'Vorname enthält unzulässige Zeichen oder ist zu lang.'),
+        vorname: yup.string().trim().required('Bitte einen Vornamen angeben.').matches(patterns.personName, 'Vorname enthält unzulässige Zeichen oder ist zu lang.'),
         nachname: yup.string().trim().required('Bitte einen Nachnamen angeben.').matches(patterns.personName, 'Nachname enthält unzulässige Zeichen oder ist zu lang.'),
         mittelname: yup.string().trim().matches(patterns.personName, { message: 'Zweitname enthält unzulässige Zeichen.', excludeEmptyString: true }),
         anzeigename: yup.string().trim().required('Bitte einen Anzeigenamen hinterlegen.').matches(patterns.displayName, 'Anzeigename muss zwischen 1 und 255 Zeichen lang sein.'),
@@ -865,7 +871,9 @@
           otherwise: yup.string().trim().matches(patterns.partialDate, { message: 'Sterbedatum bitte als YYYY, YYYY-MM oder YYYY-MM-DD angeben.', excludeEmptyString: true })
         }),
         lebensstatus: yup.string().oneOf(['lebend', 'verstorben', 'unbekannt'], 'Bitte eine gültige Option wählen.').required('Bitte zunächst den Status festlegen.'),
-        geschlecht: yup.string().oneOf(['männlich', 'weiblich', 'divers', 'unbekannt'], 'Ungültige Auswahl für Geschlecht.').required('Bitte ein Geschlecht auswählen oder „unbekannt“ wählen.'),
+        geschlecht: yup.array().ensure()
+          .of(yup.string().oneOf(geschlechtValues, 'Ungültige Auswahl für Geschlecht.'))
+          .max(geschlechtValues.length, 'Ungültige Auswahl für Geschlecht.'),
         berufFunktion: yup.string().trim().matches(patterns.ort255, { message: 'Beruf/Funktion darf höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
         institution: yup.string().trim().matches(patterns.ort255, { message: 'Institution darf höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
         abteilung: yup.string().trim().matches(patterns.ort255, { message: 'Abteilung darf höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
@@ -929,7 +937,7 @@
         geburtsdatum: 'geburtsdatum',
         sterbedatum: 'sterbedatum',
         lebensstatus: 'lebensstatus-lebend',
-        geschlecht: 'geschlecht',
+        geschlecht: 'geschlecht-option-maennlich',
         geburtsort: 'geburtsort',
         sterbeort: 'sterbeort',
         wirkungsorte: 'wirkungsorte',
@@ -965,6 +973,7 @@
         schema,
         normFields,
         fieldVisibility,
+        geschlechtOptions,
         form: {
           vorname: '',
           nachname: '',
@@ -979,7 +988,7 @@
           geburtsdatum: '',
           sterbedatum: '',
           lebensstatus: '',
-          geschlecht: '',
+          geschlecht: [],
           geburtsort: '',
           sterbeort: '',
           wirkungsorte: '',
@@ -1012,7 +1021,10 @@
         },
         errors: {},
         success: false,
-        init() { },
+        init() {
+          // Defensive: ensure tooltip buttons are not focusable via keyboard
+          document.querySelectorAll('.tooltip-button').forEach(btn => btn.setAttribute('tabindex', '-1'));
+        },
         inputClass(field) {
           return this.errors[field] ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-slate-200 focus:border-sky-400 focus:ring-sky-400';
         },
@@ -1098,7 +1110,7 @@
             geburtsdatum: '',
             sterbedatum: '',
             lebensstatus: '',
-            geschlecht: '',
+            geschlecht: [],
             geburtsort: '',
             sterbeort: '',
             wirkungsorte: '',
