@@ -67,33 +67,53 @@
     updateRolePermissions();
 })();
 
-// Anzeigename Auto-Update
+// Anzeigename Auto-Update (erweitert)
 (function() {
     const vornameInput = document.getElementById('vorname');
     const mittelnameInput = document.getElementById('mittelname');
     const nachnameInput = document.getElementById('nachname');
+    const geburtsInput = document.getElementById('geburtsdatum');
+    const sterbeInput = document.getElementById('sterbedatum');
+    const wirkVonInput = document.getElementById('wirkungszeitraum_von');
+    const wirkBisInput = document.getElementById('wirkungszeitraum_bis');
+
     const anzeigeNameDisplay = document.getElementById('anzeigeNameDisplay');
-    
+    const anzeigeNameDates = document.getElementById('anzeigeNameDates');
+    const collectionSuffix = ' [Sammlungsname]';
+
     function updateAnzeigename() {
-        const vorname = vornameInput.value.trim();
-        const mittelname = mittelnameInput.value.trim();
-        const nachname = nachnameInput.value.trim();
-        
-        const parts = [vorname, mittelname, nachname].filter(part => part !== '');
-        
-        if (parts.length === 0) {
-            anzeigeNameDisplay.textContent = '—';
-        } else {
-            anzeigeNameDisplay.textContent = parts.join(' ');
+        const vorname = (vornameInput && vornameInput.value || '').trim();
+        const mittel = (mittelnameInput && mittelnameInput.value || '').trim();
+        const nach = (nachnameInput && nachnameInput.value || '').trim();
+
+        const nameParts = [vorname, mittel, nach].filter(p => p !== '');
+        const displayNameBase = nameParts.length ? nameParts.join(' ') : '—';
+        anzeigeNameDisplay.textContent = displayNameBase + collectionSuffix;
+
+        // Dates
+        const geb = (geburtsInput && geburtsInput.value || '').trim();
+        const sterb = (sterbeInput && sterbeInput.value || '').trim();
+        const v = (wirkVonInput && wirkVonInput.value || '').trim();
+        const b = (wirkBisInput && wirkBisInput.value || '').trim();
+
+        const datePieces = [];
+        if (geb) datePieces.push('geb.: ' + geb);
+        if (sterb) datePieces.push('gest.: ' + sterb);
+        if (v || b) {
+            if (v && b) datePieces.push('Wirkungszeitraum: ' + v + '–' + b);
+            else if (v) datePieces.push('Wirkungszeitraum ab: ' + v);
+            else datePieces.push('Wirkungszeitraum bis: ' + b);
         }
+
+        anzeigeNameDates.textContent = datePieces.join(' · ');
     }
-    
-    // Event listeners
-    vornameInput.addEventListener('input', updateAnzeigename);
-    mittelnameInput.addEventListener('input', updateAnzeigename);
-    nachnameInput.addEventListener('input', updateAnzeigename);
-    
-    // Initial update
+
+    // attach listeners if elements exist
+    [vornameInput, mittelnameInput, nachnameInput, geburtsInput, sterbeInput, wirkVonInput, wirkBisInput].forEach(el => {
+        if (el) el.addEventListener('input', updateAnzeigename);
+    });
+
+    // initial
     updateAnzeigename();
 })();
 
