@@ -1,1152 +1,1038 @@
 <!DOCTYPE html>
-<html lang="de">
-
+<html lang="de" data-bs-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Personendaten-Formular</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://unpkg.com/alpinejs@3.13.10/dist/cdn.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/yup@1.4.0/dist/yup.min.js"></script>
-  <style>
-    [x-cloak] {
-      display: none !important;
-    }
-
-    body {
-      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(160deg, #eef2ff 0%, #f8fafc 40%, #fff 100%);
-      min-height: 100vh;
-    }
-
-    .choice-tile {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-      border-radius: 1.5rem;
-      border: 2px solid rgba(148, 163, 184, 0.25);
-      background: rgba(255, 255, 255, 0.85);
-      padding: 1.75rem;
-      color: rgb(71 85 105);
-      transition: all 0.2s ease;
-      min-height: 12rem;
-    }
-
-    .choice-tile:hover {
-      border-color: rgba(14, 165, 233, 0.4);
-      box-shadow: 0 16px 40px rgba(148, 163, 184, 0.22);
-      transform: translateY(-2px);
-    }
-
-    .choice-tile:focus-within {
-      border-color: rgba(59, 130, 246, 0.6);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
-    }
-
-    .choice-tile .choice-title {
-      font-size: 0.95rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: inherit;
-    }
-
-    .choice-tile .choice-description {
-      font-size: 0.9rem;
-      line-height: 1.55;
-      color: rgba(71, 85, 105, 0.85);
-      margin-top: 0.75rem;
-    }
-
-    .choice-tile.choice-selected {
-      transform: translateY(-3px);
-      box-shadow: 0 22px 45px rgba(148, 163, 184, 0.28);
-      border-color: rgba(14, 165, 233, 0.35);
-    }
-
-    .choice-tile.choice-selected .choice-description {
-      color: rgba(51, 65, 85, 0.85);
-    }
-
-    .choice-tile.choice-live.choice-selected {
-      background: linear-gradient(150deg, rgba(224, 242, 254, 0.95), rgba(191, 219, 254, 0.85));
-      border-color: rgba(14, 165, 233, 0.65);
-      color: rgb(30 41 59);
-    }
-
-    .choice-tile.choice-dead.choice-selected {
-      background: linear-gradient(150deg, rgba(254, 226, 226, 0.95), rgba(251, 207, 232, 0.85));
-      border-color: rgba(236, 72, 153, 0.55);
-      color: rgb(76 29 149);
-    }
-
-    .choice-tile.choice-unknown.choice-selected {
-      background: linear-gradient(150deg, rgba(254, 243, 199, 0.95), rgba(253, 230, 138, 0.85));
-      border-color: rgba(245, 158, 11, 0.55);
-      color: rgb(120 53 15);
-    }
-
-    .tooltip-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.65rem;
-      height: 1.65rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      background-color: rgb(219 234 254);
-      color: rgb(30 64 175);
-    }
-
-    .tooltip-button:focus {
-      outline: 2px solid rgb(14 165 233);
-      outline-offset: 2px;
-    }
-
-    .status-indicator {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 1.75rem;
-      height: 1.75rem;
-      border-radius: 9999px;
-      border: 2px solid rgba(148, 163, 184, 0.4);
-      color: transparent;
-      font-size: 0.8rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-
-    .status-indicator-active {
-      color: rgb(15 118 110);
-      border-color: rgb(45 212 191);
-      background-color: rgb(236 253 245);
-      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.25);
-    }
-
-    .status-indicator-active.sky {
-      color: rgb(255 255 255);
-      /* make icon white */
-      border-color: rgb(96 165 250);
-      background-color: rgb(37 99 235);
-      /* fill with highlight color (blue) */
-      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
-    }
-
-    .status-indicator-active.rose {
-      color: rgb(255 255 255);
-      /* make icon white */
-      border-color: rgb(244 114 182);
-      background-color: rgb(190 24 93);
-      /* fill with highlight color (rose) */
-      box-shadow: 0 8px 20px rgba(244, 114, 182, 0.25);
-    }
-
-    .status-indicator-active.amber {
-      color: rgb(255 255 255);
-      /* make icon white */
-      border-color: rgb(251 191 36);
-      background-color: rgb(217 119 6);
-      /* fill with highlight color (amber) */
-      box-shadow: 0 8px 20px rgba(251, 191, 36, 0.25);
-    }
-  </style>
-</head>
-
-<body>
-  <main class="max-w-6xl mx-auto px-4 lg:px-10 py-12">
-    <div class="space-y-12" x-data="personForm()" x-init="init()" x-cloak>
-      <header
-        class="bg-white/80 backdrop-blur border border-slate-200/60 rounded-3xl p-10 shadow-lg shadow-indigo-100/40 space-y-6">
-        <div class="space-y-3">
-          <p class="text-xs uppercase tracking-[0.25em] text-slate-500">Personenformular <i>look&feel</i></p>
-          <h1 class="text-3xl sm:text-4xl font-semibold text-slate-800">Mock-up zur Erfassung von Personendaten</h1>
-        </div>
-        <p class="text-sm sm:text-base leading-relaxed text-slate-600 max-w-3xl">
-          Bitte beantworten Sie zuerst, ob die Person lebend oder verstorben ist. Je nach Auswahl werden nicht benötigte
-          Felder automatisch ausgeblendet.
-          Alle Eingabefelder lassen sich auch komfortabel per Tastatur erledigen.
-        </p>
-        <div x-show="success"
-          class="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-700 text-sm" role="alert">
-          Datensatz wurde erfolgreich geprüft. (Demo: Es findet kein Speichern statt.)
-        </div>
-      </header>
-
-      <form @submit.prevent="submit" novalidate class="space-y-16">
-        <!-- Lebensstatus Auswahl -->
-        <section
-          class="bg-white/80 backdrop-blur border border-slate-200/70 rounded-3xl p-10 shadow-md shadow-slate-200/50 space-y-8">
-          <div class="space-y-3">
-            <h2 class="text-2xl font-semibold text-slate-800">1. Status der Person</h2>
-            <p class="text-sm text-slate-500 max-w-3xl">
-              Diese Entscheidung steuert, welche Felder angezeigt werden. Wählen Sie „lebend“ oder „verstorben“. Falls
-              der Status unbekannt ist,
-              wählen Sie „unbekannt“, um alle relevanten Felder einzublenden.
-            </p>
-          </div>
-          <div class="grid gap-6 md:grid-cols-3" role="radiogroup" aria-label="Status der Person">
-            <label class="relative cursor-pointer choice-tile choice-live"
-              :class="form.lebensstatus === 'lebend' ? 'choice-selected' : ''" for="lebensstatus-lebend"
-              @keydown.enter.prevent="form.lebensstatus = 'lebend'"
-              @keydown.space.prevent="form.lebensstatus = 'lebend'" :aria-checked="form.lebensstatus === 'lebend'">
-              <input class="sr-only" type="radio" name="lebensstatus" id="lebensstatus-lebend" value="lebend"
-                x-model="form.lebensstatus">
-              <div class="choice-title">Lebende Person</div>
-              <p class="choice-description">Kontaktfelder bleiben aktiv, Angaben zum Sterben werden ausgeblendet.</p>
-              <!-- <span class="status-indicator"
-                :class="form.lebensstatus === 'lebend' ? 'status-indicator-active sky' : ''" aria-hidden="true">
-                <svg x-show="form.lebensstatus === 'lebend'" xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 text-sky-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8z"
-                    clip-rule="evenodd" />
-                </svg>
-              </span> -->
-            </label>
-
-            <label class="relative cursor-pointer choice-tile choice-dead"
-              :class="form.lebensstatus === 'verstorben' ? 'choice-selected' : ''" for="lebensstatus-verstorben"
-              @keydown.enter.prevent="form.lebensstatus = 'verstorben'"
-              @keydown.space.prevent="form.lebensstatus = 'verstorben'"
-              :aria-checked="form.lebensstatus === 'verstorben'">
-              <input class="sr-only" type="radio" name="lebensstatus" id="lebensstatus-verstorben" value="verstorben"
-                x-model="form.lebensstatus">
-              <div class="choice-title">Verstorbene Person</div>
-              <p class="choice-description">Kontaktdaten werden ausgeblendet, Sterbedaten aktiviert.</p>
-              <!-- <span class="status-indicator"
-                :class="form.lebensstatus === 'verstorben' ? 'status-indicator-active rose' : ''" aria-hidden="true">
-                <svg x-show="form.lebensstatus === 'verstorben'" xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 text-rose-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8z"
-                    clip-rule="evenodd" />
-                </svg>
-              </span> -->
-            </label>
-
-            <label class="relative cursor-pointer choice-tile choice-unknown"
-              :class="form.lebensstatus === 'unbekannt' ? 'choice-selected' : ''" for="lebensstatus-unbekannt"
-              @keydown.enter.prevent="form.lebensstatus = 'unbekannt'"
-              @keydown.space.prevent="form.lebensstatus = 'unbekannt'"
-              :aria-checked="form.lebensstatus === 'unbekannt'">
-              <input class="sr-only" type="radio" name="lebensstatus" id="lebensstatus-unbekannt" value="unbekannt"
-                x-model="form.lebensstatus">
-              <div class="choice-title">Status unbekannt</div>
-              <p class="choice-description">Es werden keine Felder automatisch ausgeblendet.</p>
-              <!-- <span class="status-indicator"
-                :class="form.lebensstatus === 'unbekannt' ? 'status-indicator-active amber' : ''" aria-hidden="true">
-                <svg x-show="form.lebensstatus === 'unbekannt'" xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 text-amber-700" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd"
-                    d="M16.707 5.293a1 1 0 00-1.414-1.414L8 11.172 4.707 7.879a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8z"
-                    clip-rule="evenodd" />
-                </svg>
-              </span> -->
-            </label>
-          </div>
-          <p x-show="errors.lebensstatus" x-text="errors.lebensstatus" class="text-sm text-red-600"></p>
-        </section>
-
-        <!-- Kernidentität -->
-        <section
-          class="bg-white/80 backdrop-blur border border-slate-200/70 rounded-3xl p-10 shadow-md shadow-slate-200/50 space-y-8">
-          <div class="space-y-2">
-            <h2 class="text-2xl font-semibold text-slate-800">2. Kernidentität</h2>
-            <p class="text-sm text-slate-500">Pflichtfelder sind mit * markiert. Tooltips enthalten Beschreibung und
-              Beispiele aus der Tabelle.</p>
-          </div>
-          <div class="grid gap-8 md:grid-cols-2">
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="vorname" class="text-sm font-medium text-slate-700">Vorname</label>
-                <button type="button" class="tooltip-button" tabindex="-1" tabindex="-1"
-                  title="Vorname der Person. Beispiel: Jane oder J.">i</button>
-              </div>
-              <input id="vorname" name="vorname" type="text" autocomplete="given-name" x-model.trim="form.vorname"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('vorname')">
-              <p class="mt-2 text-xs text-slate-500">Buchstaben, Leerzeichen, Punkt und Bindestrich; max. 255 Zeichen.
-              </p>
-              <p x-show="errors.vorname" x-text="errors.vorname" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="nachname" class="text-sm font-medium text-slate-700">Nachname <span
-                    class="text-red-600">*</span></label>
-                <button type="button" class="tooltip-button" tabindex="-1"
-                  title="Nachname der Person. Beispiel: Doe oder D.">i</button>
-              </div>
-              <input id="nachname" name="nachname" type="text" autocomplete="family-name" x-model.trim="form.nachname"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('nachname')">
-              <p class="mt-2 text-xs text-slate-500">Buchstaben, Leerzeichen, Punkt und Bindestrich; max. 255 Zeichen.
-              </p>
-              <p x-show="errors.nachname" x-text="errors.nachname" class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </div>
-
-          <div class="grid gap-8 md:grid-cols-2">
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="mittelname" class="text-sm font-medium text-slate-700">Mittelname / Zweitname</label>
-                <button type="button" class="tooltip-button" tabindex="-1"
-                  title="Zweitname oder weiterer Vorname, optional.">i</button>
-              </div>
-              <input id="mittelname" name="mittelname" type="text" x-model.trim="form.mittelname"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('mittelname')">
-              <p class="mt-2 text-xs text-slate-500">Buchstaben, Leerzeichen, Punkt und Bindestrich; max. 255 Zeichen.
-              </p>
-              <p x-show="errors.mittelname" x-text="errors.mittelname" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div class="flex items-center gap-2">
-              <label for="namenskuerzel" class="text-sm font-medium text-slate-700">Namenskürzel</label>
-              <button type="button" class="tooltip-button"
-                title="Historisches Namenskürzel, z. B. J. Natterer.">i</button>
-            </div>
-            <input id="namenskuerzel" name="namenskuerzel" type="text" x-model.trim="form.namenskuerzel"
-              placeholder="z. B. J.J.F. Natterer"
-              class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-              :class="inputClass('namenskuerzel')">
-            <p class="mt-2 text-xs text-slate-500">Max. 50 Zeichen; Erlaubt sind Buchstaben, Punkt, Leerzeichen,
-              Bindestrich.</p>
-            <p x-show="errors.namenskuerzel" x-text="errors.namenskuerzel" class="mt-2 text-sm text-red-600"></p>
-          </div>
-          <div>
-          </div>
-          <div >
-            <div class="flex items-center gap-2">
-              <label for="anzeigename" class="text-sm font-medium text-slate-700">Anzeigename <span
-                  class="text-red-600">*</span></label>
-              <button type="button" class="tooltip-button"
-                title="Normierter Anzeigename. Beispiel: &quot;Doe, Jane&quot;.">i</button>
-            </div>
-            <input id="anzeigename" name="anzeigename" type="text" x-model.trim="form.anzeigename"
-              placeholder="Nachname, Vorname"
-              class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-              :class="inputClass('anzeigename')">
-            <p class="mt-2 text-xs text-slate-500">Pflichtfeld; max. 255 Zeichen.</p>
-            <p x-show="errors.anzeigename" x-text="errors.anzeigename" class="mt-2 text-sm text-red-600"></p>
-          </div>
-
-        </section>
-
-        <!-- Namensvarianten -->
-        <section
-          class="bg-white/80 backdrop-blur border border-slate-200/70 rounded-3xl p-10 shadow-md shadow-slate-200/50 space-y-8">
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h2 class="text-2xl font-semibold text-slate-800">3. Namensvarianten</h2>
-              <p class="text-sm text-slate-500">Alias- oder Variantenamen können mehrfach ergänzt werden.</p>
-            </div>
-            <button type="button" @click="addNamensvariante"
-              class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500">
-              + weitere Variante hinzufügen
-            </button>
-          </div>
-
-          <template x-for="(alias, index) in form.namensvarianten" :key="'alias-'+index">
-            <div class="rounded-2xl border border-slate-200 bg-slate-50/60 px-4 py-4">
-              <div class="flex items-center gap-2">
-                <label :for="`namensvariante-${index}`" class="text-sm font-medium text-slate-700">Namensvariante <span
-                    x-text="index + 1"></span></label>
-                <button type="button" class="tooltip-button"
-                  title="Alias-/Variantenname, Freitext bis 255 Zeichen.">i</button>
-                <button type="button" @click="removeNamensvariante(index)" x-show="form.namensvarianten.length > 1"
-                  class="ml-auto inline-flex items-center gap-1 text-xs font-medium text-rose-600 hover:text-rose-700 focus:outline-none">Entfernen</button>
-              </div>
-              <input :id="`namensvariante-${index}`" type="text" x-model.trim="form.namensvarianten[index]"
-                class="mt-3 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('namensvarianten[' + index + ']')">
-              <p class="mt-2 text-xs text-slate-500">Freitext, max. 255 Zeichen.</p>
-              <p x-show="errors['namensvarianten[' + index + ']']" x-text="errors['namensvarianten[' + index + ']']"
-                class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </template>
-
-          <div class="grid gap-8 md:grid-cols-2">
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="aliase" class="text-sm font-medium text-slate-700">Aliase</label>
-                <button type="button" class="tooltip-button"
-                  title="Alternative Namensschreibungen als Freitext (max. 255 Zeichen pro Eintrag, getrennt durch Semikolon).">i</button>
-              </div>
-              <input id="aliase" name="aliase" rows="3" type="text" x-model.trim="form.aliase"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('aliase')" placeholder="z. B. Jane Doe; Johanna Doe"></input>
-              <p class="mt-2 text-xs text-slate-500">Weitere Schreibweisen, getrennt durch Semikolon.</p>
-              <p x-show="errors.aliase" x-text="errors.aliase" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="aliasNamenskuerzel" class="text-sm font-medium text-slate-700">Aliase Namenskürzel</label>
-                <button type="button" class="tooltip-button"
-                  title="Abweichende Namenskürzel für Aliasnamen (max. 50 Zeichen, getrennt durch Semikolon).">i</button>
-              </div>
-              <input id="aliasNamenskuerzel" name="aliasNamenskuerzel" type="text"
-                x-model.trim="form.aliasNamenskuerzel" placeholder="z. B. J.D.; J.N."
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('aliasNamenskuerzel')">
-              <p class="mt-2 text-xs text-slate-500">Mehrere Kürzel durch Semikolon trennen.</p>
-              <p x-show="errors.aliasNamenskuerzel" x-text="errors.aliasNamenskuerzel"
-                class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Akademische und historische Titel -->
-        <section
-          class="bg-white/80 backdrop-blur border border-slate-200/70 rounded-3xl p-10 shadow-md shadow-slate-200/50 space-y-8">
-          <div class="space-y-2">
-            <h2 class="text-2xl font-semibold text-slate-800">4. Akademische und historische Titel</h2>
-            <p class="text-sm text-slate-500">Titelangaben werden getrennt erfasst und können über Autocomplete ergänzt werden.</p>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="adelstitel" class="text-sm font-medium text-slate-700">Historische Titel / Adelstitel</label>
-                <button type="button" class="tooltip-button"
-                  title="Historischer Adelstitel. Beispiel: Graf von.">i</button>
-              </div>
-              <input id="adelstitel" name="adelstitel" type="text" list="adelstitel-options"
-                x-model.trim="form.adelstitel"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('adelstitel')" placeholder="z. B. Graf von">
-              <datalist id="adelstitel-options">
-                <option value="Graf"></option>
-                <option value="Gräfin"></option>
-                <option value="Freiherr"></option>
-                <option value="Freifrau"></option>
-                <option value="Baron"></option>
-                <option value="Baronin"></option>
-                <option value="Ritter"></option>
-                <option value="Fürst"></option>
-                <option value="Fürstin"></option>
-                <option value="Herzog"></option>
-                <option value="Herzogin"></option>
-                <option value="Landgraf"></option>
-                <option value="Landgräfin"></option>
-              </datalist>
-              <p class="mt-2 text-xs text-slate-500">Autocomplete mit Dummy-Werten; freie Eingabe bis 100 Zeichen
-                möglich.</p>
-              <p x-show="errors.adelstitel" x-text="errors.adelstitel" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="akademischerTitel" class="text-sm font-medium text-slate-700">Akademischer Titel</label>
-                <button type="button" class="tooltip-button" title="Akademischer Grad. Beispiel: Dr., Prof.">i</button>
-              </div>
-              <input id="akademischerTitel" name="akademischerTitel" type="text" x-model.trim="form.akademischerTitel"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('akademischerTitel')" placeholder="z. B. Dr.">
-              <p class="mt-2 text-xs text-slate-500">Optional; max. 100 Zeichen, idealerweise aus kontrollierter Liste.
-              </p>
-              <p x-show="errors.akademischerTitel" x-text="errors.akademischerTitel" class="mt-2 text-sm text-red-600">
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Lebensdaten -->
-        <section
-          class="bg-white/80 backdrop-blur border border-slate-200/70 rounded-3xl p-10 shadow-md shadow-slate-200/50 space-y-10">
-          <div class="space-y-2">
-            <h2 class="text-2xl font-semibold text-slate-800">5. Lebensdaten</h2>
-            <p class="text-sm text-slate-500">Sterbedaten und -orte werden automatisch ausgeblendet, wenn eine lebende
-              Person gewählt wurde.</p>
-          </div>
-
-          <div class="space-y-8">
-            <div class="grid gap-6 md:grid-cols-2">
-              <div>
-                <div class="flex items-center gap-2">
-                  <label for="geburtsdatum" class="text-sm font-medium text-slate-700">Geburtsdatum</label>
-                  <button type="button" class="tooltip-button" title="Jahr, Monat, Tag soweit bekannt. Beispiel: 1824-05.">i</button>
-                </div>
-                <input id="geburtsdatum" name="geburtsdatum" type="text" placeholder="YYYY oder YYYY-MM(-DD)"
-                  x-model.trim="form.geburtsdatum"
-                  class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                  :class="inputClass('geburtsdatum')">
-                <p class="mt-2 text-xs text-slate-500">ISO-ähnliches Format.</p>
-                <p x-show="errors.geburtsdatum" x-text="errors.geburtsdatum" class="mt-2 text-sm text-red-600"></p>
-              </div>
-              <div>
-                <div class="flex items-center gap-2">
-                  <label for="geburtsort" class="text-sm font-medium text-slate-700">Geburtsort</label>
-                  <button type="button" class="tooltip-button" title="Ort der Geburt, Freitext.">i</button>
-                </div>
-                <input id="geburtsort" name="geburtsort" type="text" x-model.trim="form.geburtsort"
-                  class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                  :class="inputClass('geburtsort')">
-                <p class="mt-2 text-xs text-slate-500">Freitext bis 255 Zeichen.</p>
-                <p x-show="errors.geburtsort" x-text="errors.geburtsort" class="mt-2 text-sm text-red-600"></p>
-              </div>
-            </div>
-
-            <div class="grid gap-6 md:grid-cols-2" x-show="isFieldVisible('sterbedatum') || isFieldVisible('sterbeort')" x-transition>
-              <div x-show="isFieldVisible('sterbedatum')" x-transition>
-                <div class="flex items-center gap-2">
-                  <label for="sterbedatum" class="text-sm font-medium text-slate-700">Sterbedatum</label>
-                  <button type="button" class="tooltip-button" title="Jahr, Monat, Tag des Todes soweit bekannt.">i</button>
-                </div>
-                <input id="sterbedatum" name="sterbedatum" type="text" placeholder="YYYY oder YYYY-MM(-DD)"
-                  x-model.trim="form.sterbedatum"
-                  class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                  :class="inputClass('sterbedatum')" :disabled="!isFieldVisible('sterbedatum')">
-                <p class="mt-2 text-xs text-slate-500">Nur bei verstorbenen Personen.</p>
-                <p x-show="errors.sterbedatum" x-text="errors.sterbedatum" class="mt-2 text-sm text-red-600"></p>
-              </div>
-              <div x-show="isFieldVisible('sterbeort')" x-transition>
-                <div class="flex items-center gap-2">
-                  <label for="sterbeort" class="text-sm font-medium text-slate-700">Sterbeort</label>
-                  <button type="button" class="tooltip-button" title="Ort des Todes, Freitext.">i</button>
-                </div>
-                <input id="sterbeort" name="sterbeort" type="text" x-model.trim="form.sterbeort"
-                  class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                  :class="inputClass('sterbeort')" :disabled="!isFieldVisible('sterbeort')">
-                <p class="mt-2 text-xs text-slate-500">Nur bei verstorbenen Personen.</p>
-                <p x-show="errors.sterbeort" x-text="errors.sterbeort" class="mt-2 text-sm text-red-600"></p>
-              </div>
-            </div>
-
-            <div class="space-y-3">
-              <div class="flex items-center gap-2">
-                <span class="text-sm font-medium text-slate-700">Geschlecht</span>
-                <button type="button" class="tooltip-button" title="Optional; mehrere Angaben möglich.">i</button>
-              </div>
-              <p class="text-xs text-slate-500">Optional; Auswahl über Checkboxen.</p>
-              <div class="flex flex-wrap gap-3" :class="errors.geschlecht ? 'ring-2 ring-rose-300 rounded-xl px-3 py-2' : ''">
-                <template x-for="option in geschlechtOptions" :key="option.id">
-                  <label :for="`geschlecht-option-${option.id}`" class="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-700 shadow-sm hover:bg-slate-100 focus-within:ring-2 focus-within:ring-sky-500">
-                    <input type="checkbox" class="h-4 w-4 rounded border-slate-300 text-sky-500 focus:ring-sky-500"
-                      :value="option.value" x-model="form.geschlecht" :id="`geschlecht-option-${option.id}`">
-                    <span x-text="option.label"></span>
-                  </label>
-                </template>
-              </div>
-              <p x-show="errors.geschlecht" x-text="errors.geschlecht" class="text-sm text-red-600"></p>
-            </div>
-
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="wirkungsorte" class="text-sm font-medium text-slate-700">Wirkungsorte</label>
-                <button type="button" class="tooltip-button" title="Weitere relevante Orte, getrennt durch Semikolon.">i</button>
-              </div>
-              <textarea id="wirkungsorte" name="wirkungsorte" rows="2" x-model.trim="form.wirkungsorte"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('wirkungsorte')" placeholder="z. B. Wien; Triest"></textarea>
-              <p class="mt-2 text-xs text-slate-500">Mehrere Orte möglich; max. 500 Zeichen.</p>
-              <p x-show="errors.wirkungsorte" x-text="errors.wirkungsorte" class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Biografie und Institution -->
-        <section
-          class="bg-white/80 backdrop-blur border border-slate-200/70 rounded-3xl p-10 shadow-md shadow-slate-200/50 space-y-10">
-          <div class="space-y-2">
-            <h2 class="text-2xl font-semibold text-slate-800">6. Biografie &amp; Institution</h2>
-            <p class="text-sm text-slate-500">Freitextfelder für berufliche Rollen und Zuordnungen.</p>
-          </div>
-
-          <div class="grid gap-8 md:grid-cols-2">
-            <div class="md:col-span-2">
-              <div class="flex items-center gap-2">
-                <label for="berufFunktion" class="text-sm font-medium text-slate-700">Beruf / Funktion</label>
-                <button type="button" class="tooltip-button"
-                  title="Beruf oder Rolle außerhalb einer Institution.">i</button>
-              </div>
-              <input id="berufFunktion" name="berufFunktion" type="text" x-model.trim="form.berufFunktion"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('berufFunktion')" placeholder="z. B. Zoologe, Botanikerin">
-              <p class="mt-2 text-xs text-slate-500">Freitext, max. 255 Zeichen.</p>
-              <p x-show="errors.berufFunktion" x-text="errors.berufFunktion" class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </div>
-
-          <div class="grid gap-8 md:grid-cols-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="institution" class="text-sm font-medium text-slate-700">Institution</label>
-                <button type="button" class="tooltip-button"
-                  title="Zugehörige Institution; Referenz auf Stammdatensatz empfohlen.">i</button>
-              </div>
-              <input id="institution" name="institution" type="text" x-model.trim="form.institution"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('institution')">
-              <p class="mt-2 text-xs text-slate-500">Optional; max. 255 Zeichen.</p>
-              <p x-show="errors.institution" x-text="errors.institution" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="abteilung" class="text-sm font-medium text-slate-700">Abteilung</label>
-                <button type="button" class="tooltip-button" title="Zugehörige Abteilung; optional.">i</button>
-              </div>
-              <input id="abteilung" name="abteilung" type="text" x-model.trim="form.abteilung"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('abteilung')">
-              <p class="mt-2 text-xs text-slate-500">Optional; max. 255 Zeichen.</p>
-              <p x-show="errors.abteilung" x-text="errors.abteilung" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="rolle" class="text-sm font-medium text-slate-700">Rolle</label>
-                <button type="button" class="tooltip-button"
-                  title="Rolle/Funktion im Sammlungs- oder Projektkontext.">i</button>
-              </div>
-              <input id="rolle" name="rolle" type="text" x-model.trim="form.rolle"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('rolle')" placeholder="z. B. Sammler, Bearbeiter">
-              <p class="mt-2 text-xs text-slate-500">Optional; max. 255 Zeichen.</p>
-              <p x-show="errors.rolle" x-text="errors.rolle" class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </div>
-
-          <div class="grid gap-8 md:grid-cols-2">
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="zeitraum" class="text-sm font-medium text-slate-700">Zeitraum</label>
-                <button type="button" class="tooltip-button"
-                  title="Zeitraum der Tätigkeit. Beispiele: 1850-1900, seit 1920.">i</button>
-              </div>
-              <input id="zeitraum" name="zeitraum" type="text" x-model.trim="form.zeitraum"
-                placeholder="z. B. 1850-1900"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('zeitraum')">
-              <p class="mt-2 text-xs text-slate-500">Erlaubte Muster: YYYY, YYYY-YYYY, seit YYYY.</p>
-              <p x-show="errors.zeitraum" x-text="errors.zeitraum" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="adresseRoh" class="text-sm font-medium text-slate-700">Adresse (archiviert)</label>
-                <button type="button" class="tooltip-button"
-                  title="Frühere Anschriften, Freitext bis 500 Zeichen.">i</button>
-              </div>
-              <textarea id="adresseRoh" name="adresseRoh" rows="3" x-model.trim="form.adresseRoh"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('adresseRoh')" placeholder="Straße, PLZ, Ort, Land"></textarea>
-              <p class="mt-2 text-xs text-slate-500">Historische Anschriften (Freitext).</p>
-              <p x-show="errors.adresseRoh" x-text="errors.adresseRoh" class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Kontakt (nur lebende) -->
-        <section x-show="isFieldVisible('kontaktBlock')" x-transition
-          class="bg-white/80 backdrop-blur border border-slate-200/70 rounded-3xl p-10 shadow-md shadow-slate-200/50 space-y-10">
-          <div class="space-y-2">
-            <h2 class="text-2xl font-semibold text-slate-800">7. Kontakt &amp; Profil</h2>
-            <p class="text-sm text-slate-500">Diese Angaben werden nur für lebende Personen benötigt.</p>
-          </div>
-
-          <div class="grid gap-8 md:grid-cols-3">
-            <div x-show="isFieldVisible('email')">
-              <div class="flex items-center gap-2">
-                <label for="email" class="text-sm font-medium text-slate-700">E-Mail</label>
-                <button type="button" class="tooltip-button" title="E-Mail-Adresse (RFC-konform).">i</button>
-              </div>
-              <input id="email" name="email" type="email" x-model.trim="form.email" autocomplete="email"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('email')" :disabled="!isFieldVisible('email')" placeholder="name@beispiel.org">
-              <p class="mt-2 text-xs text-slate-500">Pflicht für lebende Personen.</p>
-              <p x-show="errors.email" x-text="errors.email" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div x-show="isFieldVisible('telefon')">
-              <div class="flex items-center gap-2">
-                <label for="telefon" class="text-sm font-medium text-slate-700">Telefon</label>
-                <button type="button" class="tooltip-button"
-                  title="Ziffern, +, /, (), Leerzeichen oder Bindestrich (3–50 Zeichen).">i</button>
-              </div>
-              <input id="telefon" name="telefon" type="tel" x-model.trim="form.telefon" autocomplete="tel"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('telefon')" :disabled="!isFieldVisible('telefon')" placeholder="+43 1 1234567">
-              <p class="mt-2 text-xs text-slate-500">Optional, aber nur für lebende Personen relevant.</p>
-              <p x-show="errors.telefon" x-text="errors.telefon" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div x-show="isFieldVisible('nhmwProfil')">
-              <div class="flex items-center gap-2">
-                <label for="nhmwProfil" class="text-sm font-medium text-slate-700">NHMW-Profil (URL)</label>
-                <button type="button" class="tooltip-button"
-                  title="Interner/öffentlicher Profil-Link des NHMW.">i</button>
-              </div>
-              <input id="nhmwProfil" name="nhmwProfil" type="url" x-model.trim="form.nhmwProfil"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('nhmwProfil')" :disabled="!isFieldVisible('nhmwProfil')"
-                placeholder="https://www.nhm.at/profil">
-              <p class="mt-2 text-xs text-slate-500">URL muss mit http:// oder https:// beginnen.</p>
-              <p x-show="errors.nhmwProfil" x-text="errors.nhmwProfil" class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Normdaten -->
-        <section
-          class="bg-white/80 backdrop-blur border border-slate-200/70 rounded-3xl p-10 shadow-md shadow-slate-200/50 space-y-10">
-          <div class="space-y-2">
-            <h2 class="text-2xl font-semibold text-slate-800">8. Normdaten / Identifier</h2>
-            <p class="text-sm text-slate-500">Optional, müssen bei Eingabe aber die definierten Muster einhalten.</p>
-          </div>
-          <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-            <template x-for="field in normFields" :key="field.name">
-              <div>
-                <div class="flex items-center gap-2">
-                  <label :for="field.name" class="text-sm font-medium text-slate-700" x-text="field.label"></label>
-                  <button type="button" class="tooltip-button" :title="`Beschreibung: ${field.description}`">i</button>
-                </div>
-                <input :id="field.name" :name="field.name" type="text" x-model.trim="form[field.name]"
-                  class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                  :class="inputClass(field.name)">
-                <p class="mt-2 text-xs text-slate-500" x-text="field.hint"></p>
-                <p x-show="errors[field.name]" x-text="errors[field.name]" class="mt-2 text-sm text-red-600"></p>
-              </div>
-            </template>
-          </div>
-        </section>
-
-        <!-- Dokumentation -->
-        <section
-          class="bg-white/80 backdrop-blur border border-slate-200/70 rounded-3xl p-10 shadow-md shadow-slate-200/50 space-y-10">
-          <div class="space-y-2">
-            <h2 class="text-2xl font-semibold text-slate-800">9. Dokumentation</h2>
-            <p class="text-sm text-slate-500">Freitextfelder für Hinweise, Quellen und Importangaben.</p>
-          </div>
-
-          <div class="grid gap-8 md:grid-cols-2">
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="anmerkungen" class="text-sm font-medium text-slate-700">Anmerkungen</label>
-                <button type="button" class="tooltip-button" title="Freitext, max. 2000 Zeichen.">i</button>
-              </div>
-              <textarea id="anmerkungen" name="anmerkungen" rows="3" x-model.trim="form.anmerkungen"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('anmerkungen')"></textarea>
-              <p class="mt-2 text-xs text-slate-500">Gedacht für allgemeine Hinweise.</p>
-              <p x-show="errors.anmerkungen" x-text="errors.anmerkungen" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="kommentar" class="text-sm font-medium text-slate-700">Kommentar</label>
-                <button type="button" class="tooltip-button" title="Interner Freitext, max. 2000 Zeichen.">i</button>
-              </div>
-              <textarea id="kommentar" name="kommentar" rows="3" x-model.trim="form.kommentar"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('kommentar')"></textarea>
-              <p class="mt-2 text-xs text-slate-500">Interne Hinweise; nicht für Veröffentlichung.</p>
-              <p x-show="errors.kommentar" x-text="errors.kommentar" class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </div>
-
-          <div class="grid gap-8 md:grid-cols-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="quelle" class="text-sm font-medium text-slate-700">Quelle</label>
-                <button type="button" class="tooltip-button"
-                  title="Herkunft der Information, max. 255 Zeichen.">i</button>
-              </div>
-              <input id="quelle" name="quelle" type="text" x-model.trim="form.quelle"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('quelle')" placeholder="z. B. Datenbank Altbestand">
-              <p class="mt-2 text-xs text-slate-500">Optionales Anzeige-Feld.</p>
-              <p x-show="errors.quelle" x-text="errors.quelle" class="mt-2 text-sm text-red-600"></p>
-            </div>
-            <div class="md:col-span-2">
-              <div class="flex items-center gap-2">
-                <label for="quelldaten" class="text-sm font-medium text-slate-700">Quelldaten</label>
-                <button type="button" class="tooltip-button"
-                  title="Originalangabe als Freitext bis 2000 Zeichen.">i</button>
-              </div>
-              <textarea id="quelldaten" name="quelldaten" rows="3" x-model.trim="form.quelldaten"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('quelldaten')"></textarea>
-              <p class="mt-2 text-xs text-slate-500">Nur Anzeige laut CSV.</p>
-              <p x-show="errors.quelldaten" x-text="errors.quelldaten" class="mt-2 text-sm text-red-600"></p>
-            </div>
-          </div>
-
-          <div class="grid gap-8 md:grid-cols-2">
-            <div>
-              <div class="flex items-center gap-2">
-                <label for="quellimportDatum" class="text-sm font-medium text-slate-700">Quellimport Datum</label>
-                <button type="button" class="tooltip-button" title="ISO-8601 Datum (YYYY-MM-DD).">i</button>
-              </div>
-              <input id="quellimportDatum" name="quellimportDatum" type="text" x-model.trim="form.quellimportDatum"
-                placeholder="YYYY-MM-DD"
-                class="mt-2 block w-full rounded-2xl border bg-white px-4 py-3 text-sm shadow-sm focus:outline-none focus:ring-2"
-                :class="inputClass('quellimportDatum')">
-              <p class="mt-2 text-xs text-slate-500">Optional; Anzeige beim Import.</p>
-              <p x-show="errors.quellimportDatum" x-text="errors.quellimportDatum" class="mt-2 text-sm text-red-600">
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <!-- Form actions -->
-        <section class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <button type="button" @click="resetForm"
-            class="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-sky-500">
-            Formular zurücksetzen
-          </button>
-          <button type="submit"
-            class="inline-flex items-center justify-center rounded-full bg-sky-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-sky-200 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
-            Eingaben prüfen
-          </button>
-        </section>
-      </form>
-    </div>
-  </main>
-
-  <script>
-    function personForm() {
-      const fieldVisibility = {
-        sterbedatum: { hideIfLiving: true },
-        sterbeort: { hideIfLiving: true },
-        email: { hideIfDead: true },
-        telefon: { hideIfDead: true },
-        nhmwProfil: { hideIfDead: true },
-        kontaktBlock: { hideIfDead: true }
-      };
-
-      const patterns = {
-        personName: /^[A-Za-zÀ-ÖØ-öø-ÿ.' -]{1,255}$/u,
-        displayName: /^.{1,255}$/,
-        alias: /^.{1,255}$/,
-        namenskuerzel: /^[A-Za-zÀ-ÖØ-öø-ÿ.\- ]{1,50}$/u,
-        aliasNamenskuerzel: /^[A-Za-zÀ-ÖØ-öø-ÿ.\- ;]{0,255}$/u,
-        title: /^.{0,100}$/,
-        partialDate: /^\d{4}(?:-\d{2}){0,2}$/,
-        timeframe: /^(?:\d{4}(?:[-–]\d{4})?|seit \d{4})$/,
-        email: /^[^@\s]+@[^@\s]+\.[^@\s]+$/,
-        telefon: /^[0-9+()\/\s-]{3,50}$/,
-        url: /^https?:\/\/.+$/,
-        ort255: /^.{0,255}$/,
-        ort500: /^.{0,500}$/,
-        orcid: /^(?:\d{4}-\d{4}-\d{4}-\d{3}[0-9X]|https:\/\/orcid\.org\/\d{4}-\d{4}-\d{4}-\d{3}[0-9X])$/,
-        viaf: /^(?:\d+|https:\/\/viaf\.org\/viaf\/\d+)$/,
-        gnd: /^(?:1\d{7,8}|https:\/\/d-nb\.info\/gnd\/1\d{7,8})$/,
-        wikidata: /^(?:Q\d+|https:\/\/www\.wikidata\.org\/entity\/Q\d+)$/,
-        isni: /^\d{15}[0-9X]$/,
-        lcnaf: /^(?:n\d{8}|http:\/\/id\.loc\.gov\/authorities\/names\/n\d{8})$/,
-        bnf: /^(?:ark:\/12148\/cb\d+|https:\/\/data\.bnf\.fr\/ark:\/12148\/cb\d+)$/,
-        bhl: /^(?:https:\/\/www\.biodiversitylibrary\.org\/creator\/\d+|\d+)$/,
-        zoobank: /^urn:lsid:zoobank\.org:author:[A-F0-9-]+$/i,
-        zobodat: /^(?:https:\/\/www\.zobodat\.at\/personen\.php\?id=\d+|\d+)$/,
-        wikipedia: /^(?:https:\/\/[a-z]{2}\.wikipedia\.org\/wiki\/.+)$/,
-        ulan: /^(?:5000\d+|https:\/\/vocab\.getty\.edu\/page\/ulan\/5000\d+)$/,
-        max2000: /^.{0,2000}$/,
-        dateIso: /^\d{4}-\d{2}-\d{2}$/
-      };
-
-      const geschlechtOptions = [
-        { id: 'maennlich', value: 'männlich', label: 'männlich' },
-        { id: 'weiblich', value: 'weiblich', label: 'weiblich' },
-        { id: 'divers', value: 'divers', label: 'divers' },
-        { id: 'unbekannt', value: 'unbekannt', label: 'unbekannt' }
-      ];
-      const geschlechtValues = geschlechtOptions.map(option => option.value);
-
-      const schema = yup.object({
-        vorname: yup.string().trim().required('Bitte einen Vornamen angeben.').matches(patterns.personName, 'Vorname enthält unzulässige Zeichen oder ist zu lang.'),
-        nachname: yup.string().trim().required('Bitte einen Nachnamen angeben.').matches(patterns.personName, 'Nachname enthält unzulässige Zeichen oder ist zu lang.'),
-        mittelname: yup.string().trim().matches(patterns.personName, { message: 'Zweitname enthält unzulässige Zeichen.', excludeEmptyString: true }),
-        anzeigename: yup.string().trim().required('Bitte einen Anzeigenamen hinterlegen.').matches(patterns.displayName, 'Anzeigename muss zwischen 1 und 255 Zeichen lang sein.'),
-        namensvarianten: yup.array().of(
-          yup.string().trim().matches(patterns.alias, { message: 'Namensvariante darf höchstens 255 Zeichen besitzen.', excludeEmptyString: true })
-        ),
-        aliase: yup.string().trim().matches(patterns.ort500, { message: 'Aliase dürfen höchstens 500 Zeichen umfassen.', excludeEmptyString: true }),
-        aliasNamenskuerzel: yup.string().trim().matches(patterns.aliasNamenskuerzel, { message: 'Aliase Namenskürzel dürfen nur zulässige Zeichen enthalten und höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
-        namenskuerzel: yup.string().trim().matches(patterns.namenskuerzel, { message: 'Namenskürzel darf maximal 50 Zeichen haben und nur zulässige Zeichen enthalten.', excludeEmptyString: true }),
-        adelstitel: yup.string().trim().matches(patterns.title, { message: 'Adelstitel darf höchstens 100 Zeichen haben.', excludeEmptyString: true }),
-        akademischerTitel: yup.string().trim().matches(patterns.title, { message: 'Akademischer Titel darf höchstens 100 Zeichen haben.', excludeEmptyString: true }),
-        geburtsdatum: yup.string().trim().matches(patterns.partialDate, { message: 'Geburtsdatum bitte als YYYY, YYYY-MM oder YYYY-MM-DD angeben.', excludeEmptyString: true }),
-        sterbedatum: yup.string().trim().when('lebensstatus', {
-          is: val => val === 'verstorben',
-          then: yup.string().trim().required('Sterbedatum ist für verstorbene Personen erforderlich.').matches(patterns.partialDate, 'Sterbedatum bitte als YYYY, YYYY-MM oder YYYY-MM-DD angeben.'),
-          otherwise: yup.string().trim().matches(patterns.partialDate, { message: 'Sterbedatum bitte als YYYY, YYYY-MM oder YYYY-MM-DD angeben.', excludeEmptyString: true })
-        }),
-        lebensstatus: yup.string().oneOf(['lebend', 'verstorben', 'unbekannt'], 'Bitte eine gültige Option wählen.').required('Bitte zunächst den Status festlegen.'),
-        geschlecht: yup.array().ensure()
-          .of(yup.string().oneOf(geschlechtValues, 'Ungültige Auswahl für Geschlecht.'))
-          .max(geschlechtValues.length, 'Ungültige Auswahl für Geschlecht.'),
-        berufFunktion: yup.string().trim().matches(patterns.ort255, { message: 'Beruf/Funktion darf höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
-        institution: yup.string().trim().matches(patterns.ort255, { message: 'Institution darf höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
-        abteilung: yup.string().trim().matches(patterns.ort255, { message: 'Abteilung darf höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
-        rolle: yup.string().trim().matches(patterns.ort255, { message: 'Rolle darf höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
-        zeitraum: yup.string().trim().matches(patterns.timeframe, { message: 'Zeitraum bitte als YYYY, YYYY-YYYY oder „seit YYYY“ angeben.', excludeEmptyString: true }),
-        adresseRoh: yup.string().trim().matches(patterns.ort500, { message: 'Adresse darf höchstens 500 Zeichen umfassen.', excludeEmptyString: true }),
-        email: yup.string().trim().when('lebensstatus', {
-          is: val => val === 'lebend',
-          then: yup.string().trim().required('Für lebende Personen wird eine E-Mail-Adresse benötigt.').matches(patterns.email, 'Bitte eine gültige E-Mail-Adresse angeben.'),
-          otherwise: yup.string().trim().matches(patterns.email, { message: 'Bitte eine gültige E-Mail-Adresse angeben.', excludeEmptyString: true })
-        }),
-        telefon: yup.string().trim().matches(patterns.telefon, { message: 'Telefonnummer erlaubt nur Ziffern, +, /, (), Leerzeichen und - (3–50 Zeichen).', excludeEmptyString: true }),
-        nhmwProfil: yup.string().trim().matches(patterns.url, { message: 'NHMW-Profil muss mit http:// oder https:// beginnen.', excludeEmptyString: true }),
-        geburtsort: yup.string().trim().matches(patterns.ort255, { message: 'Geburtsort darf höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
-        sterbeort: yup.string().trim().matches(patterns.ort255, { message: 'Sterbeort darf höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
-        wirkungsorte: yup.string().trim().matches(patterns.ort500, { message: 'Wirkungsorte dürfen höchstens 500 Zeichen umfassen.', excludeEmptyString: true }),
-        orcid: yup.string().trim().matches(patterns.orcid, { message: 'ORCID muss als 16-stellige ID oder vollständige URL angegeben werden.', excludeEmptyString: true }),
-        viaf: yup.string().trim().matches(patterns.viaf, { message: 'VIAF muss als numerische ID oder URL angegeben werden.', excludeEmptyString: true }),
-        gnd: yup.string().trim().matches(patterns.gnd, { message: 'GND muss als numerische ID oder URL angegeben werden.', excludeEmptyString: true }),
-        wikidata: yup.string().trim().matches(patterns.wikidata, { message: 'Wikidata-ID muss mit Q beginnen oder als URL vorliegen.', excludeEmptyString: true }),
-        isni: yup.string().trim().matches(patterns.isni, { message: 'ISNI besteht aus 16 Ziffern (letzte kann X sein).', excludeEmptyString: true }),
-        lcnaf: yup.string().trim().matches(patterns.lcnaf, { message: 'LCNAF muss als nXXXXXXXX oder entsprechende URL angegeben werden.', excludeEmptyString: true }),
-        bnf: yup.string().trim().matches(patterns.bnf, { message: 'BNF muss als ark-ID oder URL angegeben werden.', excludeEmptyString: true }),
-        bhl: yup.string().trim().matches(patterns.bhl, { message: 'BHL-ID muss numerisch oder als URL angegeben werden.', excludeEmptyString: true }),
-        zoobank: yup.string().trim().matches(patterns.zoobank, { message: 'ZooBank erwartet eine gültige LSID.', excludeEmptyString: true }),
-        zobodat: yup.string().trim().matches(patterns.zobodat, { message: 'ZOBODAT erwartet eine numerische ID oder URL.', excludeEmptyString: true }),
-        wikipedia: yup.string().trim().matches(patterns.wikipedia, { message: 'Wikipedia-URL muss im Format https://xx.wikipedia.org/wiki/... vorliegen.', excludeEmptyString: true }),
-        ulan: yup.string().trim().matches(patterns.ulan, { message: 'ULAN erwartet eine numerische ID ab 5000… oder entsprechende URL.', excludeEmptyString: true }),
-        anmerkungen: yup.string().trim().matches(patterns.max2000, { message: 'Anmerkungen dürfen höchstens 2000 Zeichen umfassen.', excludeEmptyString: true }),
-        kommentar: yup.string().trim().matches(patterns.max2000, { message: 'Kommentar darf höchstens 2000 Zeichen umfassen.', excludeEmptyString: true }),
-        quelle: yup.string().trim().matches(patterns.ort255, { message: 'Quelle darf höchstens 255 Zeichen umfassen.', excludeEmptyString: true }),
-        quelldaten: yup.string().trim().matches(patterns.max2000, { message: 'Quelldaten dürfen höchstens 2000 Zeichen umfassen.', excludeEmptyString: true }),
-        quellimportDatum: yup.string().trim().matches(patterns.dateIso, { message: 'Datum bitte als YYYY-MM-DD angeben.', excludeEmptyString: true })
-      });
-
-      const normFields = [
-        { name: 'orcid', label: 'ORCID', description: 'Eindeutige Kennung für Forschende (heute lebend).', hint: 'Format: 0000-0000-0000-000X oder URL.' },
-        { name: 'viaf', label: 'VIAF', description: 'Internationale Normdatei (VIAF ID).', hint: 'Numerische ID oder https://viaf.org/viaf/ID.' },
-        { name: 'gnd', label: 'GND', description: 'Gemeinsame Normdatei (DNB).', hint: '1XXXXXXXX oder https://d-nb.info/gnd/1XXXXXXXX.' },
-        { name: 'wikidata', label: 'Wikidata', description: 'Wikidata-Eintrag.', hint: 'Q-ID oder https://www.wikidata.org/entity/Q…' },
-        { name: 'isni', label: 'ISNI', description: 'Internationale Standardnummer.', hint: '16-stellige ID (letzte Zeichen kann X sein).' },
-        { name: 'lcnaf', label: 'LCNAF', description: 'Library of Congress Name Authority File.', hint: 'nXXXXXXXX oder http://id.loc.gov/authorities/names/nXXXXXXXX.' },
-        { name: 'bnf', label: 'BNF', description: 'Bibliothèque nationale de France.', hint: 'ark:/12148/cb… oder entsprechende URL.' },
-        { name: 'bhl', label: 'BHL', description: 'Biodiversity Heritage Library (Author ID).', hint: 'Numerische ID oder https://www.biodiversitylibrary.org/creator/…' },
-        { name: 'zoobank', label: 'ZooBank', description: 'Zoologische Namensdatenbank.', hint: 'LSID im Format urn:lsid:zoobank.org:author:…' },
-        { name: 'zobodat', label: 'ZOBODAT', description: 'Österreichische Biodatenbank.', hint: 'Numerische ID oder https://www.zobodat.at/personen.php?id=…' },
-        { name: 'wikipedia', label: 'Wikipedia', description: 'Wikipedia-Seite.', hint: 'Vollständige URL inkl. Sprachkennung.' },
-        { name: 'ulan', label: 'ULAN', description: 'Getty Union List of Artist Names.', hint: '5000… ID oder https://vocab.getty.edu/page/ulan/5000…' }
-      ];
-
-      const fieldIdMap = {
-        vorname: 'vorname',
-        nachname: 'nachname',
-        mittelname: 'mittelname',
-        anzeigename: 'anzeigename',
-        namenskuerzel: 'namenskuerzel',
-        aliase: 'aliase',
-        aliasNamenskuerzel: 'aliasNamenskuerzel',
-        adelstitel: 'adelstitel',
-        akademischerTitel: 'akademischerTitel',
-        geburtsdatum: 'geburtsdatum',
-        sterbedatum: 'sterbedatum',
-        lebensstatus: 'lebensstatus-lebend',
-        geschlecht: 'geschlecht-option-maennlich',
-        geburtsort: 'geburtsort',
-        sterbeort: 'sterbeort',
-        wirkungsorte: 'wirkungsorte',
-        berufFunktion: 'berufFunktion',
-        institution: 'institution',
-        abteilung: 'abteilung',
-        rolle: 'rolle',
-        zeitraum: 'zeitraum',
-        adresseRoh: 'adresseRoh',
-        email: 'email',
-        telefon: 'telefon',
-        nhmwProfil: 'nhmwProfil',
-        orcid: 'orcid',
-        viaf: 'viaf',
-        gnd: 'gnd',
-        wikidata: 'wikidata',
-        isni: 'isni',
-        lcnaf: 'lcnaf',
-        bnf: 'bnf',
-        bhl: 'bhl',
-        zoobank: 'zoobank',
-        zobodat: 'zobodat',
-        wikipedia: 'wikipedia',
-        ulan: 'ulan',
-        anmerkungen: 'anmerkungen',
-        kommentar: 'kommentar',
-        quelle: 'quelle',
-        quelldaten: 'quelldaten',
-        quellimportDatum: 'quellimportDatum'
-      };
-
-      return {
-        schema,
-        normFields,
-        fieldVisibility,
-        geschlechtOptions,
-        form: {
-          vorname: '',
-          nachname: '',
-          mittelname: '',
-          anzeigename: '',
-          namensvarianten: [''],
-          aliase: '',
-          aliasNamenskuerzel: '',
-          namenskuerzel: '',
-          adelstitel: '',
-          akademischerTitel: '',
-          geburtsdatum: '',
-          sterbedatum: '',
-          lebensstatus: '',
-          geschlecht: [],
-          geburtsort: '',
-          sterbeort: '',
-          wirkungsorte: '',
-          berufFunktion: '',
-          institution: '',
-          abteilung: '',
-          rolle: '',
-          zeitraum: '',
-          adresseRoh: '',
-          email: '',
-          telefon: '',
-          nhmwProfil: '',
-          orcid: '',
-          viaf: '',
-          gnd: '',
-          wikidata: '',
-          isni: '',
-          lcnaf: '',
-          bnf: '',
-          bhl: '',
-          zoobank: '',
-          zobodat: '',
-          wikipedia: '',
-          ulan: '',
-          anmerkungen: '',
-          kommentar: '',
-          quelle: '',
-          quelldaten: '',
-          quellimportDatum: ''
-        },
-        errors: {},
-        success: false,
-        init() {
-          // Defensive: ensure tooltip buttons are not focusable via keyboard
-          document.querySelectorAll('.tooltip-button').forEach(btn => btn.setAttribute('tabindex', '-1'));
-        },
-        inputClass(field) {
-          return this.errors[field] ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-slate-200 focus:border-sky-400 focus:ring-sky-400';
-        },
-        isFieldVisible(name) {
-          const visibility = this.fieldVisibility[name];
-          if (!visibility) return true;
-          if (visibility.hideIfLiving && this.form.lebensstatus === 'lebend') return false;
-          if (visibility.hideIfDead && this.form.lebensstatus === 'verstorben') return false;
-          return true;
-        },
-        addNamensvariante() {
-          this.form.namensvarianten.push('');
-        },
-        removeNamensvariante(index) {
-          if (this.form.namensvarianten.length === 1) {
-            this.form.namensvarianten[0] = '';
-            return;
-          }
-          this.form.namensvarianten.splice(index, 1);
-        },
-        sanitize() {
-          const cleaned = {};
-          for (const [key, value] of Object.entries(this.form)) {
-            if (Array.isArray(value)) {
-              cleaned[key] = value.map(v => (typeof v === 'string' ? v.trim() : v)).filter(v => v !== '');
-            } else if (typeof value === 'string') {
-              cleaned[key] = value.trim();
-            } else {
-              cleaned[key] = value;
-            }
-          }
-          return cleaned;
-        },
-        async submit() {
-          this.errors = {};
-          this.success = false;
-          const payload = this.sanitize();
-          try {
-            await this.schema.validate(payload, { abortEarly: false });
-            this.success = true;
-            console.info('Validierte Eingaben', payload);
-          } catch (err) {
-            if (err.inner) {
-              err.inner.forEach(issue => {
-                if (!this.errors[issue.path]) {
-                  this.errors[issue.path] = issue.message;
-                }
-              });
-            } else if (err.path) {
-              this.errors[err.path] = err.message;
-            }
-            this.focusFirstError();
-          }
-        },
-        focusFirstError() {
-          this.$nextTick(() => {
-            const firstKey = Object.keys(this.errors)[0];
-            if (!firstKey) return;
-            let targetId = fieldIdMap[firstKey] || firstKey;
-            const match = firstKey.match(/^namensvarianten\[(\d+)\]$/);
-            if (match) {
-              targetId = `namensvariante-${match[1]}`;
-            }
-            const element = document.getElementById(targetId);
-            if (element) {
-              element.focus({ preventScroll: false });
-              element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-          });
-        },
-        resetForm() {
-          Object.assign(this.form, {
-            vorname: '',
-            nachname: '',
-            mittelname: '',
-            anzeigename: '',
-            namensvarianten: [''],
-            aliase: '',
-            aliasNamenskuerzel: '',
-            namenskuerzel: '',
-            adelstitel: '',
-            akademischerTitel: '',
-            geburtsdatum: '',
-            sterbedatum: '',
-            lebensstatus: '',
-            geschlecht: [],
-            geburtsort: '',
-            sterbeort: '',
-            wirkungsorte: '',
-            berufFunktion: '',
-            institution: '',
-            abteilung: '',
-            rolle: '',
-            zeitraum: '',
-            adresseRoh: '',
-            email: '',
-            telefon: '',
-            nhmwProfil: '',
-            orcid: '',
-            viaf: '',
-            gnd: '',
-            wikidata: '',
-            isni: '',
-            lcnaf: '',
-            bnf: '',
-            bhl: '',
-            zoobank: '',
-            zobodat: '',
-            wikipedia: '',
-            ulan: '',
-            anmerkungen: '',
-            kommentar: '',
-            quelle: '',
-            quelldaten: '',
-            quellimportDatum: ''
-          });
-          this.errors = {};
-          this.success = false;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personenverwaltung</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* Increased contrast for borders and text */
+        :root {
+            --bs-border-color: #c0c4c8;
+            --bs-body-color: #1a1d20;
         }
-      };
-    }
-  </script>
-</body>
+        
+        [data-bs-theme="dark"] {
+            --bs-border-color: #495057;
+            --bs-body-color: #e9ecef;
+        }
+        
+        .form-control,
+        .form-select,
+        textarea.form-control {
+            border-color: var(--bs-border-color);
+            color: var(--bs-body-color);
+        }
+        
+        .card {
+            border-color: var(--bs-border-color);
+        }
+        
+        .table {
+            --bs-table-border-color: var(--bs-border-color);
+            color: var(--bs-body-color);
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+        .form-section {
+            scroll-margin-top: 20px;
+        }
+        .disabled-section {
+            pointer-events: none;
+        }
+        .disabled-section .card-header {
+            opacity: 1;
+        }
+        .disabled-section .card-body {
+            opacity: 1;
+        }
+        .disabled-section .form-control,
+        .disabled-section .form-select,
+        .disabled-section textarea.form-control,
+        .disabled-section .table {
+            color: var(--bs-body-color) !important;
+            opacity: 1 !important;
+        }
+        
+        /* Gray out labels when input is disabled */
+        label:has(+ input:disabled),
+        label:has(+ .input-group input:disabled),
+        label:has(+ .autocomplete-wrapper input:disabled),
+        label:has(+ select:disabled),
+        label:has(+ textarea:disabled) {
+            color: #999 !important;
+            opacity: 0.6;
+        }
+        
+        [data-bs-theme="dark"] label:has(+ input:disabled),
+        [data-bs-theme="dark"] label:has(+ .input-group input:disabled),
+        [data-bs-theme="dark"] label:has(+ .autocomplete-wrapper input:disabled),
+        [data-bs-theme="dark"] label:has(+ select:disabled),
+        [data-bs-theme="dark"] label:has(+ textarea:disabled) {
+            color: #aaa !important;
+        }
+        
+        .disabled-section .form-control:disabled,
+        .disabled-section .form-select:disabled,
+        .disabled-section textarea.form-control:disabled {
+            background-color: var(--bs-secondary-bg);
+            opacity: 0.7;
+        }
+        
+        .dynamic-field-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .autocomplete-wrapper {
+            position: relative;
+        }
+        .autocomplete-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            max-height: 200px;
+            overflow-y: auto;
+            background: var(--bs-body-bg);
+            border: 1px solid var(--bs-border-color);
+            border-radius: 0.375rem;
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+            display: none;
+        }
+        .autocomplete-dropdown.show {
+            display: block;
+        }
+        .autocomplete-item {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+        .autocomplete-item:hover,
+        .autocomplete-item.active {
+            background-color: var(--bs-primary);
+            color: white;
+        }
+        [data-bs-theme="dark"] .autocomplete-dropdown {
+            background: var(--bs-dark);
+        }
+        
+        /* Lebensstatus Radio Button Styling */
+        .lebensstatus-option {
+            flex: 1;
+            position: relative;
+        }
+        .lebensstatus-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+        .lebensstatus-option label {
+            display: block;
+            padding: 1rem;
+            text-align: center;
+            border: 2px solid var(--bs-border-color);
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: var(--bs-body-bg);
+            font-weight: 500;
+        }
+        .lebensstatus-option label:hover {
+            border-color: var(--bs-primary);
+            background-color: var(--bs-primary-bg-subtle);
+        }
+        
+        /* Lebend - Grün */
+        .lebensstatus-option:has(#lebend) input[type="radio"]:checked + label {
+            border-color: #198754;
+            background-color: #198754;
+            color: white;
+            box-shadow: 0 0.125rem 0.25rem rgba(25, 135, 84, 0.3);
+        }
+        .lebensstatus-option:has(#lebend) label:hover {
+            border-color: #198754;
+            background-color: rgba(25, 135, 84, 0.1);
+        }
+        
+        /* Verstorben - Dunkelrot/Bordeaux */
+        .lebensstatus-option:has(#verstorben) input[type="radio"]:checked + label {
+            border-color: #842029;
+            background-color: #842029;
+            color: white;
+            box-shadow: 0 0.125rem 0.25rem rgba(132, 32, 41, 0.3);
+        }
+        .lebensstatus-option:has(#verstorben) label:hover {
+            border-color: #842029;
+            background-color: rgba(132, 32, 41, 0.1);
+        }
+        
+        /* Unbekannt - Grau */
+        .lebensstatus-option:has(#unbekannt) input[type="radio"]:checked + label {
+            border-color: #6c757d;
+            background-color: #6c757d;
+            color: white;
+            box-shadow: 0 0.125rem 0.25rem rgba(108, 117, 125, 0.3);
+        }
+        .lebensstatus-option:has(#unbekannt) label:hover {
+            border-color: #6c757d;
+            background-color: rgba(108, 117, 125, 0.1);
+        }
+        
+        .lebensstatus-option input[type="radio"]:focus + label {
+            outline: 2px solid var(--bs-primary);
+            outline-offset: 2px;
+        }
+        
+        /* Row separators for Lebensdaten */
+        .row-separator {
+            border-bottom: 1px solid var(--bs-border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+        .row-separator:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <!-- Main Form -->
+            <div class="col-md-9 col-lg-8 col-xl-7 order-md-1" style="max-width: 800px;">
+                <div data-bs-spy="scroll" data-bs-target="#navbar-sections" data-bs-smooth-scroll="true">
+                    <h1 class="mb-4">Personenerfassung</h1>
 
+                    <form id="personForm" novalidate>
+                        
+                        <!-- 0. USER-ROLLE (GATE) -->
+                        <section id="userrolle" class="form-section mb-5">
+                            <div class="card border-primary">
+                                <div class="card-header bg-primary text-white">
+                                    <h3 class="h5 mb-0">
+                                        User-Rolle
+                                        <small class="d-block mt-1 opacity-75">Wählen Sie eine User-Rolle:</small>
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-info mb-3" role="alert">
+                                        <i class="bi bi-shield-lock-fill me-2"></i>
+                                        <strong>Wichtig:</strong> Ihre Rolle bestimmt, welche Bereiche Sie bearbeiten können.
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="userrolle" id="rolle_kurator" value="kurator">
+                                                <label class="form-check-label" for="rolle_kurator">
+                                                    <strong>DB-Owner (Superadmin z.B: Kurator der PersonenDatenBank)</strong>
+                                                    <br>
+                                                    <small class="text-muted">Volle Bearbeitungsrechte für alle Sektionen</small>
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="userrolle" id="rolle_kustode" value="kustode">
+                                                <label class="form-check-label" for="rolle_kustode">
+                                                    <strong>Record-Owner (Sammlungsspezifische Admins z.B: Kustode / Kustodin der sammlungsspezifischen Personeneinträge)</strong>
+                                                    <br>
+                                                    <small class="text-muted">Lebensstatus und Identität sind schreibgeschützt</small>
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="radio" name="userrolle" id="rolle_wissenschaftler" value="wissenschaftler">
+                                                <label class="form-check-label" for="rolle_wissenschaftler">
+                                                    <strong>Record-Editor (Wissenschaftliche Mitarbeiter)</strong>
+                                                    <br>
+                                                    <small class="text-muted">Lebensstatus, Identität und Kontakt sind schreibgeschützt</small>
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-3">
+                                                <input class="form-check-input" type="radio" name="userrolle" id="rolle_user" value="user">
+                                                <label class="form-check-label" for="rolle_user">
+                                                    <strong>User (sammlungsfremder Mitarbeiter, read-only)</strong>
+                                                    <br>
+                                                    <small class="text-muted">Nur Kommentare abgeben möglich</small>
+                                                </label>
+                                            </div>
+                                            
+                                            <hr class="my-3">
+                                            
+                                            <div class="alert alert-success mb-0" role="alert">
+                                                <i class="bi bi-shield-lock-fill me-2"></i>
+                                                <strong>Draft</strong> Rollen- und Berechtigungsdefinitionen sind ein erste Überlegung <i>[tbd]</i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 1. LEBENSSTATUS (GATE) -->
+                        <section id="lebensstatus" class="form-section mb-5 disabled-section" data-role-restriction="kustode,wissenschaftler,user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Lebensstatus</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex gap-3">
+                                        <div class="lebensstatus-option">
+                                            <input class="form-check-input" type="radio" name="lebensstatus" id="lebend" value="lebend">
+                                            <label class="form-check-label" for="lebend">
+                                                <i class="bi bi-person-check fs-4 d-block mb-2"></i>
+                                                Lebend
+                                            </label>
+                                        </div>
+                                        <div class="lebensstatus-option">
+                                            <input class="form-check-input" type="radio" name="lebensstatus" id="verstorben" value="verstorben">
+                                            <label class="form-check-label" for="verstorben">
+                                                <i class="bi bi-person-x fs-4 d-block mb-2"></i>
+                                                Verstorben
+                                            </label>
+                                        </div>
+                                        <div class="lebensstatus-option">
+                                            <input class="form-check-input" type="radio" name="lebensstatus" id="unbekannt" value="unbekannt">
+                                            <label class="form-check-label" for="unbekannt">
+                                                <i class="bi bi-question-circle fs-4 d-block mb-2"></i>
+                                                Unbekannt
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="invalid-feedback d-block" id="lebensstatusError" style="display:none!important"></div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 2. ANZEIGENAME -->
+                        <section id="anzeigename" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Anzeigename</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label">Anzeigename (automatisch generiert)</label>
+                                            <div class="alert alert-secondary mb-0" role="alert">
+                                                <strong id="anzeigeNameDisplay" class="fs-5">—</strong>
+                                            </div>
+                                            <div class="form-text">Der Anzeigename wird automatisch aus Vorname, Mittelname und Nachname zusammengesetzt.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 3. IDENTITÄT -->
+                        <section id="identitaet" class="form-section mb-5 disabled-section" data-role-restriction="kustode,wissenschaftler,user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Identität</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3 row-separator">
+                                        <div class="col-md-4">
+                                            <label for="vorname" class="form-label">Vorname</label>
+                                            <input type="text" class="form-control" id="vorname" name="vorname">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="mittelname" class="form-label">Mittelname</label>
+                                            <input type="text" class="form-control" id="mittelname" name="mittelname">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="nachname" class="form-label">Nachname <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="nachname" name="nachname" required>
+                                            <div class="invalid-feedback">Nachname ist erforderlich</div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="namenskuerzel" class="form-label">Namenskürzel</label>
+                                            <input type="text" class="form-control" id="namenskuerzel" name="namenskuerzel">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="form-label">Geschlecht</label>
+                                            <div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="geschlecht" id="geschlecht_m" value="m">
+                                                    <label class="form-check-label" for="geschlecht_m">Männlich</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="geschlecht" id="geschlecht_w" value="w">
+                                                    <label class="form-check-label" for="geschlecht_w">Weiblich</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="geschlecht" id="geschlecht_div" value="div">
+                                                    <label class="form-check-label" for="geschlecht_div">Divers</label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="geschlecht" id="geschlecht_unbekannt" value="unbekannt">
+                                                    <label class="form-check-label" for="geschlecht_unbekannt">Unbekannt</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-3 row-separator">
+                                        <div class="col-md-6">
+                                            <label for="standes_und_amtstitel" class="form-label">Standes- und Amtstitel</label>
+                                            <div class="autocomplete-wrapper">
+                                                <input type="text" class="form-control autocomplete-input" 
+                                                       id="standes_und_amtstitel" name="standes_und_amtstitel"
+                                                       data-autocomplete="standesTitel">
+                                                <div class="autocomplete-dropdown"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="akademischer_titel" class="form-label">Akademischer Titel</label>
+                                            <div class="autocomplete-wrapper">
+                                                <input type="text" class="form-control autocomplete-input" 
+                                                       id="akademischer_titel" name="akademischer_titel"
+                                                       data-autocomplete="akademischeTitel">
+                                                <div class="autocomplete-dropdown"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label">Namensvarianten</label>
+                                            <div id="namensvarianten-container">
+                                                <!-- Pre-filled entries -->
+                                                <div class="dynamic-field-row">
+                                                    <input type="text" class="form-control flex-grow-1" name="namensvarianten[]" value="Johann von Müller">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="dynamic-field-row">
+                                                    <input type="text" class="form-control flex-grow-1" name="namensvarianten[]" value="J. Müller">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="dynamic-field-row">
+                                                    <input type="text" class="form-control flex-grow-1" name="namensvarianten[]" value="Hans Müller">
+                                                    <button type="button" class="btn btn-outline-danger btn-sm">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="namensvarianten">
+                                                <i class="bi bi-plus-circle"></i> Namensvariante hinzufügen
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 4. LEBENSDATEN -->
+                        <section id="lebensdaten" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Lebensdaten</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3 row-separator">
+                                        <div class="col-md-6">
+                                            <label for="geburtsdatum" class="form-label">Geburtsdatum (EDTF)</label>
+                                            <input type="text" class="form-control" id="geburtsdatum" name="geburtsdatum"
+                                                   placeholder="YYYY oder YYYY-MM oder YYYY-MM-DD"
+                                                   data-validate="edtf">
+                                            <div class="form-text">Format: YYYY, YYYY-MM oder YYYY-MM-DD</div>
+                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="geburtsort" class="form-label">Geburtsort</label>
+                                            <input type="text" class="form-control" id="geburtsort" name="geburtsort">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-3 row-separator">
+                                        <div class="col-md-6">
+                                            <label for="sterbedatum" class="form-label">Sterbedatum (EDTF)</label>
+                                            <input type="text" class="form-control" id="sterbedatum" name="sterbedatum"
+                                                   placeholder="YYYY oder YYYY-MM oder YYYY-MM-DD"
+                                                   data-validate="edtf">
+                                            <div class="form-text">Format: YYYY, YYYY-MM oder YYYY-MM-DD</div>
+                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="sterbeort" class="form-label">Sterbeort</label>
+                                            <input type="text" class="form-control" id="sterbeort" name="sterbeort">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-3 row-separator">
+                                        <div class="col-md-6">
+                                            <label for="wirkungszeitraum_von" class="form-label">Wirkungszeitraum von (EDTF)</label>
+                                            <input type="text" class="form-control" id="wirkungszeitraum_von" name="wirkungszeitraum_von"
+                                                   placeholder="YYYY oder YYYY-MM oder YYYY-MM-DD"
+                                                   data-validate="edtf">
+                                            <div class="form-text">Format: YYYY, YYYY-MM oder YYYY-MM-DD</div>
+                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="wirkungszeitraum_bis" class="form-label">Wirkungszeitraum bis (EDTF)</label>
+                                            <input type="text" class="form-control" id="wirkungszeitraum_bis" name="wirkungszeitraum_bis"
+                                                   placeholder="YYYY oder YYYY-MM oder YYYY-MM-DD"
+                                                   data-validate="edtf">
+                                            <div class="form-text">Format: YYYY, YYYY-MM oder YYYY-MM-DD</div>
+                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label">Datum ohne Kontext (EDTF)</label>
+                                            <div id="datum-ohne-kontext-container"></div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="datumOhneKontext">
+                                                <i class="bi bi-plus-circle"></i> Datum hinzufügen
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 5. TÄTIGKEITEN / ROLLEN -->
+                        <section id="taetigkeiten" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Tätigkeiten / Rollen</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div id="taetigkeiten-container">
+                                        <!-- Tätigkeit 1 (Pre-filled) -->
+                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h6 class="mb-0">Tätigkeit #1</h6>
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.taetigkeiten-entry').remove()">
+                                                    <i class="bi bi-trash"></i> Entfernen
+                                                </button>
+                                            </div>
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Beruf / Funktion</label>
+                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Kurator">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Institution</label>
+                                                    <div class="autocomplete-wrapper">
+                                                        <input type="text" class="form-control autocomplete-input" 
+                                                               name="institution[]"
+                                                               data-autocomplete="institutionen"
+                                                               value="Naturhistorisches Museum Wien">
+                                                        <div class="autocomplete-dropdown"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Abteilung</label>
+                                                    <input type="text" class="form-control" name="abteilung[]" value="Zoologie">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Zeitraum</label>
+                                                    <input type="text" class="form-control" name="zeitraum[]"
+                                                           placeholder="z.B. 1990-2000" value="2010-2024">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Rollen</label>
+                                                    <div class="rollen-container-1">
+                                                        <div class="dynamic-field-row">
+                                                            <div class="autocomplete-wrapper flex-grow-1">
+                                                                <input type="text" class="form-control autocomplete-input" 
+                                                                       name="rollen_1[]"
+                                                                       data-autocomplete="rollen"
+                                                                       value="Sammler">
+                                                                <div class="autocomplete-dropdown"></div>
+                                                            </div>
+                                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 1)">
+                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-outline-primary" id="addTaetigkeitBtn">
+                                        <i class="bi bi-plus-circle"></i> Weitere Tätigkeit hinzufügen
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 6. ORTE -->
+                        <section id="orte" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Orte</h3>
+                                </div>
+                                <div class="card-body">
+                                    <label class="form-label">Wirkungsorte</label>
+                                    <div id="wirkungsorte-container"></div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="wirkungsorte">
+                                        <i class="bi bi-plus-circle"></i> Wirkungsort hinzufügen
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 7. NORMDATEN -->
+                        <section id="normdaten" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Normdaten</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label for="orcid" class="form-label">ORCID</label>
+                                            <input type="text" class="form-control" id="orcid" name="orcid"
+                                                   placeholder="0000-0000-0000-000X oder URL"
+                                                   data-validate="orcid">
+                                            <div class="invalid-feedback">Ungültiges ORCID-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="viaf" class="form-label">VIAF</label>
+                                            <input type="text" class="form-control" id="viaf" name="viaf"
+                                                   placeholder="Zahl oder URL"
+                                                   data-validate="viaf">
+                                            <div class="invalid-feedback">Ungültiges VIAF-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="gnd" class="form-label">GND</label>
+                                            <input type="text" class="form-control" id="gnd" name="gnd"
+                                                   placeholder="Zahl oder URL"
+                                                   data-validate="gnd">
+                                            <div class="invalid-feedback">Ungültiges GND-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="wikidata" class="form-label">Wikidata</label>
+                                            <input type="text" class="form-control" id="wikidata" name="wikidata"
+                                                   placeholder="Q + Zahl"
+                                                   data-validate="wikidata">
+                                            <div class="invalid-feedback">Ungültiges Wikidata-Format (Q + Zahl)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="isni" class="form-label">ISNI</label>
+                                            <input type="text" class="form-control" id="isni" name="isni"
+                                                   placeholder="16-stellig"
+                                                   data-validate="isni">
+                                            <div class="invalid-feedback">Ungültiges ISNI-Format (16 Ziffern)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="lcnaf" class="form-label">LCNAF</label>
+                                            <input type="text" class="form-control" id="lcnaf" name="lcnaf"
+                                                   placeholder="n + Zahl"
+                                                   data-validate="lcnaf">
+                                            <div class="invalid-feedback">Ungültiges LCNAF-Format (n + Zahl)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="bnf" class="form-label">BNF</label>
+                                            <input type="text" class="form-control" id="bnf" name="bnf"
+                                                   placeholder="cb + Zahl"
+                                                   data-validate="bnf">
+                                            <div class="invalid-feedback">Ungültiges BNF-Format (cb + Zahl)</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="bhl" class="form-label">BHL</label>
+                                            <input type="text" class="form-control" id="bhl" name="bhl"
+                                                   placeholder="Zahl oder URL"
+                                                   data-validate="bhl">
+                                            <div class="invalid-feedback">Ungültiges BHL-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="zoobank" class="form-label">ZooBank</label>
+                                            <input type="text" class="form-control" id="zoobank" name="zoobank"
+                                                   placeholder="UUID/LSID"
+                                                   data-validate="zoobank">
+                                            <div class="invalid-feedback">Ungültiges ZooBank-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="zobodat" class="form-label">ZOBODAT</label>
+                                            <input type="text" class="form-control" id="zobodat" name="zobodat"
+                                                   placeholder="URL"
+                                                   data-validate="url">
+                                            <div class="invalid-feedback">Ungültige URL</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="wikipedia" class="form-label">Wikipedia</label>
+                                            <input type="text" class="form-control" id="wikipedia" name="wikipedia"
+                                                   placeholder="URL"
+                                                   data-validate="url">
+                                            <div class="invalid-feedback">Ungültige URL</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="ulan" class="form-label">ULAN</label>
+                                            <input type="text" class="form-control" id="ulan" name="ulan"
+                                                   placeholder="Zahl oder URL"
+                                                   data-validate="ulan">
+                                            <div class="invalid-feedback">Ungültiges ULAN-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="ipni" class="form-label">IPNI</label>
+                                            <input type="text" class="form-control" id="ipni" name="ipni"
+                                                   placeholder="URL"
+                                                   data-validate="url">
+                                            <div class="invalid-feedback">Ungültige URL</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 8. KONTAKT (SENSITIV) -->
+                        <section id="kontakt" class="form-section mb-5 disabled-section" data-role-restriction="wissenschaftler,user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Kontakt (Sensitiv)</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="einwilligung" name="einwilligung">
+                                        <label class="form-check-label" for="einwilligung">
+                                            <strong>Einwilligung liegt vor</strong>
+                                        </label>
+                                    </div>
+                                    <div id="kontakt-fields">
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <label for="email" class="form-label">E-Mail</label>
+                                                <input type="email" class="form-control" id="email" name="email"
+                                                       data-validate="email">
+                                                <div class="invalid-feedback">Ungültige E-Mail-Adresse</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="telefon" class="form-label">Telefon</label>
+                                                <input type="tel" class="form-control" id="telefon" name="telefon"
+                                                       data-validate="telefon">
+                                                <div class="invalid-feedback">Ungültige Telefonnummer</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="mobil" class="form-label">Mobil</label>
+                                                <input type="tel" class="form-control" id="mobil" name="mobil"
+                                                       data-validate="telefon">
+                                                <div class="invalid-feedback">Ungültige Mobilnummer</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="fax" class="form-label">Fax</label>
+                                                <input type="tel" class="form-control" id="fax" name="fax"
+                                                       data-validate="telefon">
+                                                <div class="invalid-feedback">Ungültige Faxnummer</div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="adresse_roh" class="form-label">Adresse</label>
+                                                <textarea class="form-control" id="adresse_roh" name="adresse_roh" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 9. ANMERKUNGEN UND KOMMENTARE -->
+                        <section id="meta" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Anmerkungen und Kommentare</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-info d-flex align-items-start mb-3" role="alert">
+                                        <i class="bi bi-chat-left-text-fill me-2 fs-5"></i>
+                                        <div>
+                                            <strong>Hinweis:</strong> In diesem Bereich können Sie zusätzliche Informationen zur Person dokumentieren. 
+                                            Nutzen Sie die Anmerkungen für ausführliche Notizen, den Kommentar für kurze Hinweise und die Quelle 
+                                            zur Angabe der Herkunft der Informationen.
+                                        </div>
+                                    </div>
+
+                                    <!-- Dummy Anmerkungen mit Kommentaren -->
+                                    <div class="mb-4">
+                                        <h6 class="mb-3">Bisherige Anmerkungen</h6>
+                                        
+                                        <!-- Anmerkung 1 -->
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <strong class="text-primary">Dr. Maria Schmidt</strong>
+                                                        <span class="badge bg-primary ms-2">Kuratorin</span>
+                                                    </div>
+                                                    <small class="text-muted">15.01.2024, 14:30</small>
+                                                </div>
+                                                <p class="mb-2">Die Geburtsdaten müssen noch verifiziert werden. Laut Archivunterlagen könnte das Geburtsjahr 1885 statt 1884 sein.</p>
+                                                
+                                                <!-- Kommentare zur Anmerkung 1 -->
+                                                <div class="ms-4 mt-3 border-start border-3 border-secondary ps-3">
+                                                    <div class="mb-3">
+                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                            <div>
+                                                                <strong>Prof. Thomas Weber</strong>
+                                                                <span class="badge bg-success ms-2">Administrator</span>
+                                                            </div>
+                                                            <small class="text-muted">15.01.2024, 16:45</small>
+                                                        </div>
+                                                        <p class="mb-0 small">Ich habe die Originalquelle geprüft - 1885 ist korrekt. Bitte aktualisieren.</p>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                            <div>
+                                                                <strong>Anna Müller</strong>
+                                                                <span class="badge bg-info ms-2">Bearbeiterin</span>
+                                                            </div>
+                                                            <small class="text-muted">16.01.2024, 09:15</small>
+                                                        </div>
+                                                        <p class="mb-0 small">Danke für die Klärung! Ich werde das Datum entsprechend anpassen.</p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2">
+                                                    <i class="bi bi-chat-dots"></i> Kommentar abgeben
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Anmerkung 2 -->
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <strong class="text-primary">Mag. Johannes Kraft</strong>
+                                                        <span class="badge bg-warning text-dark ms-2">Wissenschaftler</span>
+                                                    </div>
+                                                    <small class="text-muted">12.01.2024, 11:20</small>
+                                                </div>
+                                                <p class="mb-2">ORCID-Nummer wurde von der Person selbst bestätigt. Alle Publikationen sind korrekt zugeordnet.</p>
+                                                
+                                                <!-- Kommentare zur Anmerkung 2 -->
+                                                <div class="ms-4 mt-3 border-start border-3 border-secondary ps-3">
+                                                    <div class="mb-3">
+                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                            <div>
+                                                                <strong>Dr. Maria Schmidt</strong>
+                                                                <span class="badge bg-primary ms-2">Kuratorin</span>
+                                                            </div>
+                                                            <small class="text-muted">12.01.2024, 14:00</small>
+                                                        </div>
+                                                        <p class="mb-0 small">Sehr gut, danke für die Bestätigung!</p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2">
+                                                    <i class="bi bi-chat-dots"></i> Kommentar abgeben
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Anmerkung 3 -->
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <strong class="text-primary">Lisa Berger</strong>
+                                                        <span class="badge bg-secondary ms-2">Praktikantin</span>
+                                                    </div>
+                                                    <small class="text-muted">10.01.2024, 10:05</small>
+                                                </div>
+                                                <p class="mb-2">Bei der Recherche habe ich weitere Wirkungsorte gefunden: Graz (1920-1925) und Innsbruck (1925-1930). Soll ich diese ergänzen?</p>
+                                                
+                                                <!-- Kommentare zur Anmerkung 3 -->
+                                                <div class="ms-4 mt-3 border-start border-3 border-secondary ps-3">
+                                                    <div class="mb-3">
+                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                            <div>
+                                                                <strong>Prof. Thomas Weber</strong>
+                                                                <span class="badge bg-success ms-2">Administrator</span>
+                                                            </div>
+                                                            <small class="text-muted">10.01.2024, 11:30</small>
+                                                        </div>
+                                                        <p class="mb-0 small">Ja bitte, aber füge auch die Quellen hinzu.</p>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                            <div>
+                                                                <strong>Lisa Berger</strong>
+                                                                <span class="badge bg-secondary ms-2">Praktikantin</span>
+                                                            </div>
+                                                            <small class="text-muted">10.01.2024, 15:20</small>
+                                                        </div>
+                                                        <p class="mb-0 small">Erledigt! Quellen: Universitätsarchiv Graz, Personalakte Nr. 1234 und Tiroler Landesarchiv, Bestand XY.</p>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                            <div>
+                                                                <strong>Mag. Johannes Kraft</strong>
+                                                                <span class="badge bg-warning text-dark ms-2">Wissenschaftler</span>
+                                                            </div>
+                                                            <small class="text-muted">11.01.2024, 08:45</small>
+                                                        </div>
+                                                        <p class="mb-0 small">Hervorragende Arbeit! Die Zeiträume passen auch zu den bekannten Publikationen.</p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2">
+                                                    <i class="bi bi-chat-dots"></i> Kommentar abgeben
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Button zum Hinzufügen neuer Anmerkungen -->
+                                        <button type="button" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-plus-circle"></i> Neue Anmerkung hinzufügen
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 10. QUELLENANGABEN -->
+                        <section id="quellenangaben" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Quellenangaben</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 55%;">Quellenangabe</th>
+                                                    <th style="width: 25%;">Erfasst von</th>
+                                                    <th style="width: 20%;">Datum</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Universitätsarchiv Wien, Personalakte Nr. 5678/1920</td>
+                                                    <td>
+                                                        <strong>Dr. Maria Schmidt</strong>
+                                                        <br>
+                                                        <span class="badge bg-primary">Kuratorin</span>
+                                                    </td>
+                                                    <td>
+                                                        <small class="text-muted">15.01.2024<br>14:30</small>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Österreichisches Staatsarchiv, Bestand Naturhistorisches Museum, Karton 42</td>
+                                                    <td>
+                                                        <strong>Anna Müller</strong>
+                                                        <br>
+                                                        <span class="badge bg-info">Bearbeiterin</span>
+                                                    </td>
+                                                    <td>
+                                                        <small class="text-muted">12.01.2024<br>10:15</small>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tiroler Landesarchiv, Nachlass Johann Müller, Sign. NL-JM-1885</td>
+                                                    <td>
+                                                        <strong>Lisa Berger</strong>
+                                                        <br>
+                                                        <span class="badge bg-secondary">Praktikantin</span>
+                                                    </td>
+                                                    <td>
+                                                        <small class="text-muted">10.01.2024<br>15:20</small>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Bibliothek des Naturhistorischen Museums, Katalog 1890-1920, S. 234</td>
+                                                    <td>
+                                                        <strong>Mag. Johannes Kraft</strong>
+                                                        <br>
+                                                        <span class="badge bg-warning text-dark">Wissenschaftler</span>
+                                                    </td>
+                                                    <td>
+                                                        <small class="text-muted">08.01.2024<br>09:00</small>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2">
+                                        <i class="bi bi-plus-circle"></i> Neue Quellenangabe hinzufügen
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 11. IMPORTDATEN (READONLY) -->
+                        <section id="import" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Importdaten (Readonly)</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label for="import_quelle" class="form-label">Import-Quelle</label>
+                                            <input type="text" class="form-control" id="import_quelle" name="import_quelle" readonly disabled>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="import_quelldaten" class="form-label">Import-Quelldaten</label>
+                                            <input type="text" class="form-control" id="import_quelldaten" name="import_quelldaten" readonly disabled>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="import_datum" class="form-label">Import-Datum</label>
+                                            <input type="text" class="form-control" id="import_datum" name="import_datum" readonly disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sidebar Navigation -->
+            <div class="col-md-3 col-lg-2 order-md-2">
+                <div class="sidebar">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5>Navigation</h5>
+                        <button id="themeToggle" class="btn btn-sm btn-outline-secondary" title="Theme wechseln">
+                            <i class="bi bi-moon-fill"></i>
+                        </button>
+                    </div>
+                    <nav id="navbar-sections" class="nav flex-column">
+                        <a class="nav-link" href="#userrolle">User-Rolle</a>
+                        <a class="nav-link" href="#lebensstatus">Lebensstatus</a>
+                        <a class="nav-link" href="#anzeigename">Anzeigename</a>
+                        <a class="nav-link" href="#identitaet">Identität</a>
+                        <a class="nav-link" href="#lebensdaten">Lebensdaten</a>
+                        <a class="nav-link" href="#taetigkeiten">Tätigkeiten / Rollen</a>
+                        <a class="nav-link" href="#orte">Orte</a>
+                        <a class="nav-link" href="#normdaten">Normdaten</a>
+                        <a class="nav-link" href="#kontakt">Kontakt</a>
+                        <a class="nav-link" href="#meta">Anmerkungen und Kommentare</a>
+                        <a class="nav-link" href="#quellenangaben">Quellenangaben</a>
+                        <a class="nav-link" href="#import">Importdaten</a>
+                    </nav>
+                    <button id="exportJson" class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-download"></i> JSON exportieren
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="autocomplete-data.js"></script>
+    <script src="validation.js"></script>
+    <script src="theme.js"></script>
+    <script src="form.js"></script>
+</body>
 </html>
