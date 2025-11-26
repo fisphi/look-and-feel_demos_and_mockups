@@ -79,7 +79,7 @@
 
     const anzeigeNameDisplay = document.getElementById('anzeigeNameDisplay');
     const anzeigeNameDates = document.getElementById('anzeigeNameDates');
-    const collectionSuffix = ' [Sammlungsname]';
+    const collectionSuffix = ' [Birdcollection]';
 
     function updateAnzeigename() {
         const vorname = (vornameInput && vornameInput.value || '').trim();
@@ -88,7 +88,6 @@
 
         const nameParts = [vorname, mittel, nach].filter(p => p !== '');
         const displayNameBase = nameParts.length ? nameParts.join(' ') : '—';
-        anzeigeNameDisplay.textContent = displayNameBase + collectionSuffix;
 
         // Dates
         const geb = (geburtsInput && geburtsInput.value || '').trim();
@@ -97,15 +96,15 @@
         const b = (wirkBisInput && wirkBisInput.value || '').trim();
 
         const datePieces = [];
-        if (geb) datePieces.push('geb.: ' + geb);
-        if (sterb) datePieces.push('gest.: ' + sterb);
+        if (geb) datePieces.push('[geb.: ' + geb + ']');
+        if (sterb) datePieces.push('[gest.: ' + sterb + ']');
         if (v || b) {
-            if (v && b) datePieces.push('Wirkungszeitraum: ' + v + '–' + b);
-            else if (v) datePieces.push('Wirkungszeitraum ab: ' + v);
-            else datePieces.push('Wirkungszeitraum bis: ' + b);
+            if (v && b) datePieces.push('[Wirkungszeitraum: ' + v + '–' + b + ']');
+            else if (v) datePieces.push('[Wirkungszeitraum ab: ' + v + ']');
+            else datePieces.push('{Wirkungszeitraum bis: ' + b + ']');
         }
-
-        anzeigeNameDates.textContent = datePieces.join(' · ');
+        anzeigeNameDisplay.textContent = displayNameBase ;
+        anzeigeNameDates.textContent =  collectionSuffix + ' · ' + datePieces.join(' · ');
     }
 
     // attach listeners if elements exist

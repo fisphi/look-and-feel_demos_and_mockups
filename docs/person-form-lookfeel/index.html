@@ -337,12 +337,15 @@
                                 <div class="card-body">
                                     <div class="row g-3">
                                         <div class="col-12">
-                                            <label class="form-label">Anzeigename (automatisch generiert)</label>
-                                            <div class="alert alert-secondary mb-1" role="alert">
-                                                <strong id="anzeigeNameDisplay" class="fs-5">—</strong>
+                                            <label class="form-label">Anzeigename und Suffixe (automatisch generiert)</label>
+                                            <div class="alert alert-sec ondary mb-1" role="alert">
+                                               <strong id="anzeigeNameDisplay" class="fs-5">—</strong>  <br/><strong id="anzeigeNameDates" class="fs-5">—</strong>
                                             </div>
-                                            <!-- neue Zeile für Geburt/Tod/Wirkungszeitraum -->
-                                            <div id="anzeigeNameDates" class="small text-muted mb-2"> </div>
+                                            <!-- <div class="alert alert-secondary mb-1" role="alert"></div> -->
+                                                <!-- neue Zeile für Geburt/Tod/Wirkungszeitraum -->
+                                                <!-- <div id="anzeigeNameDates" class="small text-muted mb-2"> </div> -->
+                                                 <!-- <strong id="anzeigeNameDates" class="fs-5">—</strong>
+                                             </div> -->
                                             <div class="form-text">Der Anzeigename wird automatisch aus Vorname, Mittelname und Nachname zusammengesetzt. Am Ende erscheint statisch [Vogelsammlung].</div>
                                         </div>
                                     </div>
@@ -761,6 +764,78 @@
                             </div>
                         </section>
 
+                        <!-- 10. QUELLENANGABEN -->
+                        <section id="quellenangaben" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Quellenangaben</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 55%;">Quellenangabe</th>
+                                                    <th style="width: 25%;">Erfasst von</th>
+                                                    <th style="width: 20%;">Datum</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Universitätsarchiv Wien, Personalakte Nr. 5678/1920</td>
+                                                    <td>
+                                                        <strong>Dr. Maria Schmidt</strong>
+                                                        <br>
+                                                        <span class="badge bg-primary">Kuratorin</span>
+                                                    </td>
+                                                    <td>
+                                                        <small class="text-muted">15.01.2024<br>14:30</small>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Österreichisches Staatsarchiv, Bestand Naturhistorisches Museum, Karton 42</td>
+                                                    <td>
+                                                        <strong>Anna Müller</strong>
+                                                        <br>
+                                                        <span class="badge bg-info">Bearbeiterin</span>
+                                                    </td>
+                                                    <td>
+                                                        <small class="text-muted">12.01.2024<br>10:15</small>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tiroler Landesarchiv, Nachlass Johann Müller, Sign. NL-JM-1885</td>
+                                                    <td>
+                                                        <strong>Lisa Berger</strong>
+                                                        <br>
+                                                        <span class="badge bg-secondary">Praktikantin</span>
+                                                    </td>
+                                                    <td>
+                                                        <small class="text-muted">10.01.2024<br>15:20</small>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Bibliothek des Naturhistorischen Museums, Katalog 1890-1920, S. 234</td>
+                                                    <td>
+                                                        <strong>Mag. Johannes Kraft</strong>
+                                                        <br>
+                                                        <span class="badge bg-warning text-dark">Wissenschaftler</span>
+                                                    </td>
+                                                    <td>
+                                                        <small class="text-muted">08.01.2024<br>09:00</small>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2">
+                                        <i class="bi bi-plus-circle"></i> Neue Quellenangabe hinzufügen
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
                         <!-- 9. ANMERKUNGEN UND KOMMENTARE -->
                         <section id="meta" class="form-section mb-5 disabled-section" data-role-restriction="user">
                             <div class="card">
@@ -919,77 +994,7 @@
                             </div>
                         </section>
 
-                        <!-- 10. QUELLENANGABEN -->
-                        <section id="quellenangaben" class="form-section mb-5 disabled-section" data-role-restriction="user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="h5 mb-0">Quellenangaben</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 55%;">Quellenangabe</th>
-                                                    <th style="width: 25%;">Erfasst von</th>
-                                                    <th style="width: 20%;">Datum</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Universitätsarchiv Wien, Personalakte Nr. 5678/1920</td>
-                                                    <td>
-                                                        <strong>Dr. Maria Schmidt</strong>
-                                                        <br>
-                                                        <span class="badge bg-primary">Kuratorin</span>
-                                                    </td>
-                                                    <td>
-                                                        <small class="text-muted">15.01.2024<br>14:30</small>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Österreichisches Staatsarchiv, Bestand Naturhistorisches Museum, Karton 42</td>
-                                                    <td>
-                                                        <strong>Anna Müller</strong>
-                                                        <br>
-                                                        <span class="badge bg-info">Bearbeiterin</span>
-                                                    </td>
-                                                    <td>
-                                                        <small class="text-muted">12.01.2024<br>10:15</small>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Tiroler Landesarchiv, Nachlass Johann Müller, Sign. NL-JM-1885</td>
-                                                    <td>
-                                                        <strong>Lisa Berger</strong>
-                                                        <br>
-                                                        <span class="badge bg-secondary">Praktikantin</span>
-                                                    </td>
-                                                    <td>
-                                                        <small class="text-muted">10.01.2024<br>15:20</small>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Bibliothek des Naturhistorischen Museums, Katalog 1890-1920, S. 234</td>
-                                                    <td>
-                                                        <strong>Mag. Johannes Kraft</strong>
-                                                        <br>
-                                                        <span class="badge bg-warning text-dark">Wissenschaftler</span>
-                                                    </td>
-                                                    <td>
-                                                        <small class="text-muted">08.01.2024<br>09:00</small>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    
-                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2">
-                                        <i class="bi bi-plus-circle"></i> Neue Quellenangabe hinzufügen
-                                    </button>
-                                </div>
-                            </div>
-                        </section>
+
 
                         <!-- 11. IMPORTDATEN (READONLY) -->
                         <section id="import" class="form-section mb-5 disabled-section" data-role-restriction="user">
@@ -1001,7 +1006,7 @@
                                     <div class="row g-3">
                                         <div class="col-md-4">
                                             <label for="import_quelle" class="form-label">Import-Quelle</label>
-                                            <input type="text" class="form-control" id="import_quelle" name="import_quelle" readonly disabled>
+                                            <input type="text" class="form-control" id="import_quelle" name="import_quelle" value="Birdcollection" readonly disabled>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="import_quelldaten" class="form-label">Import-Quelldaten</label>
