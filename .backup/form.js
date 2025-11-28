@@ -96,12 +96,12 @@
         const b = (wirkBisInput && wirkBisInput.value || '').trim();
 
         const datePieces = [];
-        if (geb) datePieces.push('[* ' + geb + ']');
-        if (sterb) datePieces.push('[† ' + sterb + ']');
+        if (geb) datePieces.push('[geb.: ' + geb + ']');
+        if (sterb) datePieces.push('[gest.: ' + sterb + ']');
         if (v || b) {
-            if (v && b) datePieces.push('[fl. ' + v + '–' + b + ']');
-            else if (v) datePieces.push('[fl. ab ' + v + ']');
-            else datePieces.push('[fl. bis ' + b + ']');
+            if (v && b) datePieces.push('[Wirkungszeitraum: ' + v + '–' + b + ']');
+            else if (v) datePieces.push('[Wirkungszeitraum ab: ' + v + ']');
+            else datePieces.push('{Wirkungszeitraum bis: ' + b + ']');
         }
         anzeigeNameDisplay.textContent = displayNameBase ;
         anzeigeNameDates.textContent =  datePieces.join(' · ') + ' · ' + collectionSuffix;

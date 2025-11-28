@@ -346,13 +346,12 @@ a.btn {
                     <h4 class="mb-4">
                         <div class="mb-2">
                             <span class="badge rounded-pill bg-secondary text-white me-1 small py-1 px-2">look&amp;feel</span>
-                            <span class="badge rounded-pill bg-info text-white me-1 small py-1 px-2">mockup</span>
-                            <span class="badge rounded-pill bg-warning text-dark me-1 small py-1 px-2">demo</span>
-                            <span class="badge rounded-pill bg-danger text-white me-1 small py-1 px-2">draft</span>
+                            <span class="badge rounded-pill bg-info text-white me-1 small py-1 px-2">mock-up</span>
+                            <span class="badge rounded-pill bg-warning text-dark me-1 small py-1 px-2">draft</span>
                         </div>
                         Formular zur Erfassung von personenbezogenen Daten
                     </h4>
-                    <p class="lead text-muted mb-4"><strong>Hinweis:</strong> Dies ist ein <i>look&feel</i> Mockup zur Demonstration von Eingabefeldern, Interaktionslogik und Funktionalitäten füŕ die Erfassung von per&shy;sonen&shy;bezogenen Daten. Dieses Formular ist nur für die praxisnahe Evaluierung gedacht!<br/><b>Status: <i>Draft</i></b></p>
+                    <p class="lead text-muted mb-4"><strong>Hinweis:</strong> Dies ist ein <i>look&feel</i> Mockup zur Demonstration von Eingabefeldern, Interaktionslogik und Funktionalitäten füŕ die Erfassung von per&shy;sonen&shy;bezogenen Daten. Dieses Formular ist nur für die Evaluierung von Design- und Prototypzwecke gedacht! <br/><b>Status: <i>Draft</i></b></p>
 
                     <form id="personForm" novalidate>
                         
@@ -361,8 +360,8 @@ a.btn {
                             <div class="card border-primary">
                                 <div class="card-header bg-primary text-white">
                                     <h3 class="h5 mb-0">
-                                         User-Rolle wählen
-                                        <small class="d-block mt-1 opacity-75">Wählen Sie als erstes eine User-Rolle:</small>
+                                        User-Rollen
+                                        <small class="d-block mt-1 opacity-75">Wählen Sie eine User-Rolle:</small>
                                     </h3>
                                 </div>
                                 <div class="card-body">
@@ -420,9 +419,8 @@ a.btn {
                         <!-- 1. LEBENSSTATUS (GATE) -->
                         <section id="lebensstatus" class="form-section mb-5 disabled-section" data-role-restriction="kustode,wissenschaftler,user">
                             <div class="card">
-                                <div class="card-header bg-primary text-white">
+                                <div class="card-header">
                                     <h3 class="h5 mb-0">Lebensstatus</h3>
-                                    <small class="d-block mt-1 opacity-75">Bitte wählen Sie zuerst, ob die Person lebend oder verstorben ist. Entsprechend werden einige Felder ausgeblendet.</small>
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex gap-3">
@@ -464,14 +462,14 @@ a.btn {
                                         <div class="col-12">
                                             <label class="form-label">Anzeigename und Suffixe (automatisch generiert)</label>
                                             <div class="alert alert-sec ondary mb-1" role="alert">
-                                               <strong id="anzeigeNameDisplay" class="fs-5">—</strong> <i><small id="anzeigeNameDates" class="fs-5">—</small></i></div>
+                                               <strong id="anzeigeNameDisplay" class="fs-5">—</strong>  <br/><i><strong id="anzeigeNameDates" class="fs-5">—</strong></i></div>
                                             </div>
                                             <!-- <div class="alert alert-secondary mb-1" role="alert"></div> -->
                                                 <!-- neue Zeile für Geburt/Tod/Wirkungszeitraum -->
                                                 <!-- <div id="anzeigeNameDates" class="small text-muted mb-2"> </div> -->
                                                  <!-- <strong id="anzeigeNameDates" class="fs-5">—</strong>
                                              </div> -->
-                                            <div class="form-text">Der Anzeigename wird automatisch aus Vorname, Mittelname und Nachname zusammengesetzt. Am Ende erscheint statisch <i>[Sammlung] und falls bekannt davor das [* Geburtsdatum], [† Sterbedatum] oder [(fl.) Wirkungszeitraum]</i>.</div>
+                                            <div class="form-text">Der Anzeigename wird automatisch aus Vorname, Mittelname und Nachname zusammengesetzt. Am Ende erscheint statisch <i>[Birdcollection]</i>.</div>
                                         </div>
                                     </div>
                                 
@@ -661,7 +659,7 @@ a.btn {
                                         <div class="taetigkeiten-entry border rounded p-3 mb-3">
                                             <div class="d-flex justify-content-between align-items-center mb-3">
                                                 <h6 class="mb-0">Tätigkeit #1</h6>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled onclick="this.closest('.taetigkeiten-entry').remove()">
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.taetigkeiten-entry').remove()">
                                                     <i class="bi bi-trash"></i> Entfernen
                                                 </button>
                                             </div>
