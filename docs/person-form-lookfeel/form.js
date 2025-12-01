@@ -242,13 +242,15 @@
     
     function updateFormState() {
         const selectedStatus = document.querySelector('input[name="lebensstatus"]:checked');
-        const selectedRole = document.querySelector('input[name="userrolle"]:checked');
-        
-        if (!selectedStatus || !selectedRole) {
-            return;
-        }
-        
+        if (!selectedStatus) return;
         const status = selectedStatus.value;
+        // Geschlecht inputs beeinflussen: bei "lebend" deaktivieren und Auswahl entfernen
+        const geschlechtInputs = document.querySelectorAll('input[name="geschlecht"]');
+        if (status === 'lebend') {
+            geschlechtInputs.forEach(i => { i.checked = false; i.disabled = true; });
+        } else {
+            geschlechtInputs.forEach(i => { i.disabled = false; });
+        }
         
         // Sterbedaten-Logik
         if (status === 'lebend') {
@@ -637,4 +639,68 @@ document.addEventListener('DOMContentLoaded', function() {
         target: '#navbar-sections',
         offset: 100
     });
+});
+
+// add: reset form button handler
+function attachResetButton() {
+	const btn = document.getElementById('resetForm');
+	if (!btn) return;
+	btn.addEventListener('click', function () {
+		const confirmed = window.confirm('Formular wirklich zurücksetzen? Alle ungespeicherten Änderungen gehen verloren.');
+		if (!confirmed) return;
+
+		const form = document.getElementById('personForm');
+		if (!form) return;
+
+		// Clear basic inputs/selects/textareas and uncheck radios/checkboxes
+		form.querySelectorAll('input, textarea, select').forEach(el => {
+			const tag = el.tagName.toLowerCase();
+			const type = el.type;
+			if (type === 'checkbox' || type === 'radio') {
+				el.checked = false;
+			} else if (tag === 'select') {
+				try { el.selectedIndex = -1; } catch(e) { el.value = ''; }
+			} else {
+				el.value = '';
+			}
+			el.removeAttribute('disabled');
+			el.classList.remove('is-invalid');
+		});
+
+		// Remove dynamic rows / containers
+		['namensvarianten-container','taetigkeiten-container','wirkungsorte-container','datum-ohne-kontext-container'].forEach(id => {
+			const c = document.getElementById(id);
+			if (c) c.innerHTML = '';
+		});
+
+		// Reset Anzeige-Namen UI
+		const anzeigeNameDisplay = document.getElementById('anzeigeNameDisplay');
+		const anzeigeNameDates = document.getElementById('anzeigeNameDates');
+		if (anzeigeNameDisplay) anzeigeNameDisplay.textContent = '—';
+		if (anzeigeNameDates) anzeigeNameDates.textContent = '—';
+
+		// Ensure gates update: dispatch change events for role/status/consent so listeners re-evaluate
+		document.querySelectorAll('input[name="userrolle"]').forEach(r => r.dispatchEvent(new Event('change', { bubbles: true })));
+		document.querySelectorAll('input[name="lebensstatus"]').forEach(r => r.dispatchEvent(new Event('change', { bubbles: true })));
+		const consent = document.getElementById('einwilligung');
+		if (consent) consent.dispatchEvent(new Event('change', { bubbles: true }));
+
+		// Re-init autocomplete bindings for any empty inputs still present
+		document.querySelectorAll('.autocomplete-input').forEach(input => {
+			const dropdown = input.nextElementSibling;
+			const key = input.dataset.autocomplete;
+			if (key && dropdown && dropdown.classList.contains('autocomplete-dropdown')) {
+				// re-init only if dropdown empty
+				if (!dropdown.children.length) initAutocomplete(input, dropdown, key);
+			}
+		});
+	});
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+	// JSON controls init
+	// Kontakt consent init
+	// ...
+	// attach reset button
+	attachResetButton();
 });

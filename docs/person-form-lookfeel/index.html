@@ -355,7 +355,7 @@ a.btn {
                     <p class="lead text-muted mb-4"><strong>Hinweis:</strong> Dies ist ein <i>look&feel</i> Mockup zur Demonstration von Eingabefeldern, Interaktionslogik und Funktionalitäten füŕ die Erfassung von per&shy;sonen&shy;bezogenen Daten. Dieses Formular ist nur für die praxisnahe Evaluierung gedacht!<br/><b>Status: <i>Draft</i></b></p>
 
                     <form id="personForm" novalidate>
-                        
+
                         <!-- 0. USER-ROLLE (GATE) -->
                         <section id="userrolle" class="form-section mb-5">
                             <div class="card border-primary">
@@ -434,7 +434,7 @@ a.btn {
                                             </label>
                                         </div>
                                         <div class="lebensstatus-option">
-                                            <input class="form-check-input" type="radio" name="lebensstatus" id="verstorben" value="verstorben">
+                                            <input class="form-check-input" type="radio" name="lebensstatus" id="verstorben" value="verstorben" checked>
                                             <label class="form-check-label" for="verstorben">
                                                 <i class="bi bi-person-x fs-4 d-block mb-2"></i>
                                                 Verstorben
@@ -1244,114 +1244,114 @@ a.btn {
                                             <button id="rawToggle" type="button" class="btn btn-sm btn-outline-secondary">Raw</button>
                                             <br>
                                             <!-- original textarea (hidden) kept for copy/export -->
-<textarea id="import_quelldaten" name="import_quelldaten" class="d-none" aria-hidden="true" rows="20">
-{
-    "person_id": "550e8400-e29b-41d4-a716-446655440000",
+                                            <textarea id="import_quelldaten" name="import_quelldaten" class="d-none" aria-hidden="true" rows="20">
+                                            {
+                                                "person_id": "550e8400-e29b-41d4-a716-446655440000",
 
-    "identitaet": {
-        "vorname": "Ferdinand",
-        "mittelname": null,
-        "nachname": "von Hochstetter",
-        "anzeigename": "Hochstetter, Ferdinand von",
-        "namensvarianten": [
-            "F. Hochstetter",
-            "Ferdinand Hochstetter"
-        ],
-        "namenskuerzel": "F.H.",
-        "lebensstatus": "verstorben",
-        "geschlecht": "männlich"
-    },
+                                                "identitaet": {
+                                                    "vorname": "Ferdinand",
+                                                    "mittelname": null,
+                                                    "nachname": "von Hochstetter",
+                                                    "anzeigename": "Hochstetter, Ferdinand von",
+                                                    "namensvarianten": [
+                                                        "F. Hochstetter",
+                                                        "Ferdinand Hochstetter"
+                                                    ],
+                                                    "namenskuerzel": "F.H.",
+                                                    "lebensstatus": "verstorben",
+                                                    "geschlecht": "männlich"
+                                                },
 
-    "titel": {
-        "akad_titel": [
-            "Dr.",
-            "Prof."
-        ],
-        "standes_und_amtstitel": [
-            {
-                "bezeichnung": "k. k. Hofrat",
-                "typ": "Amtstitel",
-                "gueltig_von": null,
-                "gueltig_bis": null
-            }
-        ]
-    },
+                                                "titel": {
+                                                    "akad_titel": [
+                                                        "Dr.",
+                                                        "Prof."
+                                                    ],
+                                                    "standes_und_amtstitel": [
+                                                        {
+                                                            "bezeichnung": "k. k. Hofrat",
+                                                            "typ": "Amtstitel",
+                                                            "gueltig_von": null,
+                                                            "gueltig_bis": null
+                                                        }
+                                                    ]
+                                                },
 
-    "biografie": {
-        "geburtsdatum": "1829-04",
-        "sterbedatum": "1884-07-18",
-        "geburtsort": "Esslingen am Neckar",
-        "sterbeort": "Wien",
-        "wirkungsorte": [
-            "Neuseeland",
-            "Wien",
-            "Triest"
-        ]
-    },
+                                                "biografie": {
+                                                    "geburtsdatum": "1829-04",
+                                                    "sterbedatum": "1884-07-18",
+                                                    "geburtsort": "Esslingen am Neckar",
+                                                    "sterbeort": "Wien",
+                                                    "wirkungsorte": [
+                                                        "Neuseeland",
+                                                        "Wien",
+                                                        "Triest"
+                                                    ]
+                                                },
 
-    "taetigkeiten": {
-        "beruf_funktionen": [
-            "Direktor",
-            "Geologe",
-            "Naturforscher",
-            "Professor für Geologie und Mineralogie"
-        ],
-        "institution": "Naturhistorisches Hofmuseum",
-        "abteilungen": [
-            "Direktion",
-            "Geologie & Paläontologie"
-        ],
-        "rolle": "Sammler",
-        "zeitraum": "1857–1865"
-    },
+                                                "taetigkeiten": {
+                                                    "beruf_funktionen": [
+                                                        "Direktor",
+                                                        "Geologe",
+                                                        "Naturforscher",
+                                                        "Professor für Geologie und Mineralogie"
+                                                    ],
+                                                    "institution": "Naturhistorisches Hofmuseum",
+                                                    "abteilungen": [
+                                                        "Direktion",
+                                                        "Geologie & Paläontologie"
+                                                    ],
+                                                    "rolle": "Sammler",
+                                                    "zeitraum": "1857–1865"
+                                                },
 
-    "kontakte": {
-        "email": null,
-        "telefon": null,
-        "adresse_roh": "Mariahilfer Straße 12, 1060 Wien, Österreich"
-    },
+                                                "kontakte": {
+                                                    "email": null,
+                                                    "telefon": null,
+                                                    "adresse_roh": "Mariahilfer Straße 12, 1060 Wien, Österreich"
+                                                },
 
-    "normdaten": {
-        "orcid": null,
-        "viaf": "37065520",
-        "gnd": "118552161",
-        "wikidata": "Q69947",
-        "isni": "0000 0000 8088 0918",
-        "lcnaf": "n50015168",
-        "bnf": "cb123456789",
-        "bhl": "Hochstetter,_Ferdinand_von",
-        "zoobank": "urn:lsid:zoobank.org:author:12345",
-        "ulan": "500034875"
-    },
+                                                "normdaten": {
+                                                    "orcid": null,
+                                                    "viaf": "37065520",
+                                                    "gnd": "118552161",
+                                                    "wikidata": "Q69947",
+                                                    "isni": "0000 0000 8088 0918",
+                                                    "lcnaf": "n50015168",
+                                                    "bnf": "cb123456789",
+                                                    "bhl": "Hochstetter,_Ferdinand_von",
+                                                    "zoobank": "urn:lsid:zoobank.org:author:12345",
+                                                    "ulan": "500034875"
+                                                },
 
-    "webseiten": {
-        "nhmw_profil_url": null,
-        "wikipedia": "https://de.wikipedia.org/wiki/Ferdinand_von_Hochstetter",
-        "zobodat": "https://www.zobodat.at/personen.php?id=12345"
-    },
+                                                "webseiten": {
+                                                    "nhmw_profil_url": null,
+                                                    "wikipedia": "https://de.wikipedia.org/wiki/Ferdinand_von_Hochstetter",
+                                                    "zobodat": "https://www.zobodat.at/personen.php?id=12345"
+                                                },
 
-    "kommentare": [
-        {
-            "text": "Historische Titel: Dr. und Professor und k. k. Hofrath.",
-            "by_user": "XYZ",
-            "created_at": "2025-11-11T14:32:00"
-        },
-        {
-            "text": "Von ihm stammt die erste geologische Übersichtskarte des Balkangebietes.",
-            "by_user": "ZXY",
-            "created_at": "2023-01-01T10:02:00"
-        }
-    ],
+                                                "kommentare": [
+                                                    {
+                                                        "text": "Historische Titel: Dr. und Professor und k. k. Hofrath.",
+                                                        "by_user": "XYZ",
+                                                        "created_at": "2025-11-11T14:32:00"
+                                                    },
+                                                    {
+                                                        "text": "Von ihm stammt die erste geologische Übersichtskarte des Balkangebietes.",
+                                                        "by_user": "ZXY",
+                                                        "created_at": "2023-01-01T10:02:00"
+                                                    }
+                                                ],
 
-    "quellen": {
-        "liste": [
-            "NHMW Archiv",
-            "ZOBODAT",
-            "Digitalisat des Expeditionstagebuchs"
-        ]
-    }
-}
-</textarea>
+                                                "quellen": {
+                                                    "liste": [
+                                                        "NHMW Archiv",
+                                                        "ZOBODAT",
+                                                        "Digitalisat des Expeditionstagebuchs"
+                                                    ]
+                                                }
+                                            }
+                                            </textarea>
                                             <pre id="import_quelldaten_pre" class="json-pre" role="region" aria-label="Import Quelldaten (JSON-LD)"></pre>
                                             <textarea id="import_quelldaten_raw" class="d-none form-control" rows="20" readonly aria-hidden="true"></textarea>
                                         </div>
@@ -1387,9 +1387,14 @@ a.btn {
                         <a class="nav-link" href="#quellenangaben">Quellenangaben</a>
                         <a class="nav-link" href="#import">Importdaten</a>
                     </nav>
-                    <button id="exportJson" class="btn btn-primary w-100 mt-3">
-                        <i class="bi bi-download"></i> JSON exportieren
-                    </button>
+                    <div class="d-grid gap-2 mt-3">
+                        <button id="resetForm" class="btn btn-outline-danger w-100" title="Formular zurücksetzen">
+                            <i class="bi bi-arrow-counterclockwise"></i> Formular zurücksetzen
+                        </button>
+                        <button id="exportJson" class="btn btn-primary w-100">
+                            <i class="bi bi-download"></i> JSON exportieren
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
