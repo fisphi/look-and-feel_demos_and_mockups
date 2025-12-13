@@ -581,7 +581,7 @@
                 const isDark = theme === "dark";
                 document.body.classList.toggle("dark-mode", isDark);
                 if (themeToggleButton) {
-                    themeToggleButton.textContent = isDark ? "Light Mode" : "Dark Mode";
+                    themeToggleButton.textContent = isDark ? "☀️" : "🌙";
                     themeToggleButton.setAttribute("aria-pressed", String(isDark));
                 }
                 if (isDark) {
