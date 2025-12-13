@@ -1,40 +1,186 @@
 (function () {
-    const LOREM_PARTS = [
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        "Praesent mauris. Fusce nec tellus sed augue semper porta. Praesent mauris. Fusce nec tellus sed augue semper porta.",
-        "Class aptent taciti sociosqu ad litora torquent per conubia. Praesent mauris. ",
-        "Integer nec odio. Praesent libero. Sed cursus ante dapibus.",
-        "Duis sagittis ipsum.  "
-    ];
 
-    function loremMix() {
-        const pick = () => LOREM_PARTS[Math.floor(Math.random() * LOREM_PARTS.length)];
-        return `${pick()} ${pick()}`;
+    const baseRecords = [
+    {
+        attributtyp: "Attribut",
+        name: "Description",
+        id: "ATT-00068",
+        maps_to: null, // rein internes DIVINA-Feld
+        type: "Text",
+        publish: true,
+        infotext: "Freitextfeld für eine aussagekräftige Beschreibung des Objekts.",
+        kommentar: "Kann Hinweise zu Zustand, Besonderheiten oder Provenienz enthalten.",
+        sammlung: "VS",
+        anzahl_objekte: 4588,
+        created_by: "AK",
+        created_at: "2023-01-15",
+        updated_by: "MS",
+        updated_at: "2024-03-20"
+    },
+    {
+        attributtyp: "Attribut",
+        name: "Field number",
+        id: "ATT-00007",
+        maps_to: "DWC: fieldNumber",
+        type: "Text",
+        publish: true,
+        infotext: "Darwin Core: fieldNumber – Feldnummer bei der Aufsammlung",
+        kommentar: "Originale Feldnummer laut Aufsammlungsprotokoll.",
+        sammlung: "VS, MIN",
+        anzahl_objekte: 3201,
+        created_by: "KM",
+        created_at: "2022-11-10",
+        updated_by: "AK",
+        updated_at: "2024-02-14"
+    },
+    {
+        attributtyp: "Thesaurus",
+        name: "Habitat",
+        id: "ATT-00023",
+        maps_to: "DWC: habitat",
+        type: "Controlled Vocabulary",
+        publish: true,
+        infotext: "Darwin Core: habitat – Lebensraum",
+        kommentar: "Standardisierte Angaben zum Lebensraum; freie Begriffe vermeiden.",
+        sammlung: "VS, MY, MO",
+        anzahl_objekte: 750,
+        created_by: "KM",
+        created_at: "2023-04-05",
+        updated_by: "AK",
+        updated_at: "2024-01-25"
+    },
+    {
+        attributtyp: "Attribut",
+        name: "Event Date",
+        id: "ATT-01001",
+        maps_to: "DWC: eventDate",
+        type: "Date",
+        publish: true,
+        infotext: "Darwin Core: Datum/Zeit des Vorkommens",
+        kommentar: "ISO 8601",
+        sammlung: "VS, MY, MO, MIN",
+        anzahl_objekte: 0,
+        created_by: "PF",
+        created_at: "2024-01-01",
+        updated_by: "PF",
+        updated_at: "2024-01-01"
+    },
+    {
+        attributtyp: "Attribut",
+        name: "Location ID",
+        id: "ATT-01002",
+        maps_to: "DWC: locationID",
+        type: "Text",
+        publish: true,
+        infotext: "Darwin Core: Referenz auf Location-Entity",
+        kommentar: "FK auf Ort",
+        sammlung: "VS, MY, MO, MIN",
+        anzahl_objekte: 0,
+        created_by: "PF",
+        created_at: "2024-01-01",
+        updated_by: "PF",
+        updated_at: "2024-01-01"
+    },
+    {
+        attributtyp: "Attribut",
+        name: "Decimal Latitude",
+        id: "ATT-01003",
+        maps_to: "DWC: decimalLatitude",
+        type: "Metric (6)",
+        publish: true,
+        infotext: "Darwin Core: geographische Breite (WGS84)",
+        kommentar: "WGS84",
+        sammlung: "VS, MY, MO, MIN",
+        anzahl_objekte: 0,
+        created_by: "PF",
+        created_at: "2024-01-01",
+        updated_by: "PF",
+        updated_at: "2024-01-01"
+    },
+    {
+        attributtyp: "Thesaurus",
+        name: "Life Stage",
+        id: "ATT-01004",
+        maps_to: "DWC: lifeStage",
+        type: "Controlled Vocabulary",
+        publish: true,
+        infotext: "Darwin Core: Lebensstadium",
+        kommentar: "adult | juvenile | larva | …",
+        sammlung: "VS, MY, MO, MIN",
+        anzahl_objekte: 0,
+        created_by: "PF",
+        created_at: "2024-01-01",
+        updated_by: "PF",
+        updated_at: "2024-01-01"
+    },
+    {
+        attributtyp: "Thesaurus",
+        name: "Sex",
+        id: "ATT-01005",
+        maps_to: "DWC: sex",
+        type: "Controlled Vocabulary",
+        publish: true,
+        infotext: "Darwin Core: Geschlecht",
+        kommentar: "male | female | unknown",
+        sammlung: "VS, MY, MO, MIN",
+        anzahl_objekte: 0,
+        created_by: "PF",
+        created_at: "2024-01-01",
+        updated_by: "PF",
+        updated_at: "2024-01-01"
+    },
+    {
+        attributtyp: "Stammattribut",
+        name: "Unit ID",
+        id: "ATT-01006",
+        maps_to: "ABCD: unitID",
+        type: "Text",
+        publish: false,
+        infotext: "ABCD: Eindeutige Objekt-ID",
+        kommentar: "Interne Referenz",
+        sammlung: "VS, MY, MO, MIN",
+        anzahl_objekte: 0,
+        created_by: "PF",
+        created_at: "2024-01-01",
+        updated_by: "PF",
+        updated_at: "2024-01-01"
+    },
+    {
+        attributtyp: "Attribut",
+        name: "Gathering Date",
+        id: "ATT-01007",
+        maps_to: "ABCD: gatheringDate",
+        type: "Date",
+        publish: true,
+        infotext: "ABCD: Sammeldatum",
+        kommentar: "Kann von eventDate abweichen",
+        sammlung: "VS, MY, MO, MIN",
+        anzahl_objekte: 0,
+        created_by: "PF",
+        created_at: "2024-01-01",
+        updated_by: "PF",
+        updated_at: "2024-01-01"
+    },
+    {
+        attributtyp: "Attribut",
+        name: "Locality Description",
+        id: "ATT-01008",
+        maps_to: "ABCD: localityText",
+        type: "Textarea",
+        publish: true,
+        infotext: "ABCD: verbale Ortsbeschreibung",
+        kommentar: "Freitext",
+        sammlung: "VS, MY, MO, MIN",
+        anzahl_objekte: 0,
+        created_by: "PF",
+        created_at: "2024-01-01",
+        updated_by: "PF",
+        updated_at: "2024-01-01"
     }
+];
 
-    const tableData = [
-        { attributtyp: "Attribut", name: "Description", id: "ATT-00068", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 4588, created_by: "Admin", created_at: "2023-01-15", updated_by: "Editor", updated_at: "2024-03-20" },
-        { attributtyp: "Attribut", name: "Height", id: "ATT-00065", type: "Metric (4)", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 3201, created_by: "System", created_at: "2022-11-10", updated_by: "Admin", updated_at: "2024-02-14" },
-        { attributtyp: "Attribut", name: "Diameter", id: "ATT-00077", type: "Metric (0)", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 1542, created_by: "Editor", created_at: "2023-05-22", updated_by: "Editor", updated_at: "2024-01-08" },
-        { attributtyp: "Attribut", name: "DNA comment", id: "ATT-00004", type: "Textarea", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 892, created_by: "Admin", created_at: "2023-02-18", updated_by: "System", updated_at: "2024-03-15" },
-        { attributtyp: "Attribut", name: "DNA extraction", id: "ATT-00005", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MY", anzahl_objekte: 1200, created_by: "Admin", created_at: "2023-03-10", updated_by: "Editor", updated_at: "2024-02-20" },
-        { attributtyp: "Attribut", name: "DNA Storage", id: "ATT-00006", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 750, created_by: "System", created_at: "2023-04-05", updated_by: "Admin", updated_at: "2024-01-25" },
-        { attributtyp: "Stammattribut", name: "Inventory History", id: "ATT-00038", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MY, MO, MIN", anzahl_objekte: 4588, created_by: "Admin", created_at: "2023-01-15", updated_by: "Editor", updated_at: "2024-03-20" },
-        { attributtyp: "Attribut", name: "Editor", id: "ATT-00029", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 3201, created_by: "System", created_at: "2022-11-10", updated_by: "Admin", updated_at: "2024-02-14" },
-        { attributtyp: "Attribut", name: "Examination Comment", id: "ATT-00053", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MIN", anzahl_objekte: 1542, created_by: "Editor", created_at: "2023-05-22", updated_by: "Editor", updated_at: "2024-01-08" },
-        { attributtyp: "Attribut", name: "Expedition", id: "ATT-00026", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MIN", anzahl_objekte: 892, created_by: "Admin", created_at: "2023-02-18", updated_by: "System", updated_at: "2024-03-15" },
-        { attributtyp: "Attribut", name: "General Topic", id: "ATT-00033", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 1200, created_by: "Admin", created_at: "2023-03-10", updated_by: "Editor", updated_at: "2024-02-20" },
-        { attributtyp: "Thesaurus", name: "Habitat", id: "ATT-00023", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MY, MO", anzahl_objekte: 750, created_by: "System", created_at: "2023-04-05", updated_by: "Admin", updated_at: "2024-01-25" },
-        { attributtyp: "Attribut", name: "Individuum comment", id: "ATT-00010", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 4588, created_by: "Admin", created_at: "2023-01-15", updated_by: "Editor", updated_at: "2024-03-20" },
-        { attributtyp: "Attribut", name: "Field number", id: "ATT-00007", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MIN", anzahl_objekte: 3201, created_by: "System", created_at: "2022-11-10", updated_by: "Admin", updated_at: "2024-02-14" },
-        { attributtyp: "Attribut", name: "Iris", id: "ATT-00058", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 1542, created_by: "Editor", created_at: "2023-05-22", updated_by: "Editor", updated_at: "2024-01-08" },
-        { attributtyp: "Thesaurus", name: "Label printed", id: "ATT-00051", type: "Yes/No", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 892, created_by: "Admin", created_at: "2023-02-18", updated_by: "System", updated_at: "2024-03-15" },
-        { attributtyp: "Stammattribut", name: "Inventorybook origin name", id: "ATT-00011", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 1200, created_by: "Admin", created_at: "2023-03-10", updated_by: "Editor", updated_at: "2024-02-20" },
-        { attributtyp: "Attribut", name: "from captivity", id: "ATT-00046", type: "Yes/No", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 750, created_by: "System", created_at: "2023-04-05", updated_by: "Admin", updated_at: "2024-01-25" },
-        { attributtyp: "Thesaurus", name: "Datasource", id: "ATT-00003", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 4588, created_by: "Admin", created_at: "2023-01-15", updated_by: "Editor", updated_at: "2024-03-20" },
-        { attributtyp: "Attribut", name: "Count (male)", id: "ATT-00016", type: "Metric (0)", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 3201, created_by: "System", created_at: "2022-11-10", updated_by: "Admin", updated_at: "2024-02-14" }
-    ];
 
-    window.loremMix = loremMix;
+    const tableData = baseRecords;
+
     window.tableData = tableData;
 })();
