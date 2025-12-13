@@ -120,6 +120,11 @@
             opacity: 0.9;
         }
 
+        .hl {
+            background: yellow;
+            font-weight: bold;
+        }
+
         .multi-select {
             width: 100%;
             height: 32px; /* gleiche Höhe wie text inputs */
@@ -388,9 +393,9 @@
 
 <body>
     <div class="container">
-        <h2>Tabulator Attribute Demo – Multi-Select Facetten, Chips & Reset</h2>
+        <h2>Tabulator-JS Demo – Attribute</h2>
         <p class="subtitle">
-            Interaktive Tabelle mit Facetten-Filtern (Attributtyp, Type, Publizieren), 
+            Interaktive Tabelle mit Facetten-Filtern, 
             Chip-basierter Filteranzeige, Responsive Collapse für mobile Ansichten, 
             Hover-Tooltips für Langtext-Felder, Edit-Modal für Inline-Bearbeitung 
             und farbcodierten Attributtypen.
@@ -401,6 +406,10 @@
             <div id="facet-chips" class="chip-container"></div>
             <!-- Reset Button (rechts) -->
             <button id="resetFilters">Reset All Filters</button>
+        </div>
+
+        <div class="controls-row">
+            <input type="text" id="globalSearch" class="multi-select" placeholder="Global Search" />
         </div>
 
         <!-- Tabelle -->
@@ -454,19 +463,43 @@
 
     <script>
         // --------------------------------------------------------------
+        //  DOM REFERENCES
+        // --------------------------------------------------------------
+        const chipContainer = document.getElementById("facet-chips");
+        const resetFiltersButton = document.getElementById("resetFilters");
+        const tooltipElement = document.getElementById("textTooltip");
+        const editModal = document.getElementById("editModal");
+        const globalSearchInput = document.getElementById("globalSearch");
+
+        const modalFields = {
+            attributtyp: document.getElementById("modal-attributtyp"),
+            name: document.getElementById("modal-name"),
+            id: document.getElementById("modal-id"),
+            type: document.getElementById("modal-type"),
+            publish: document.getElementById("modal-publish"),
+            infotext: document.getElementById("modal-infotext"),
+            kommentar: document.getElementById("modal-kommentar")
+        };
+
+        const modalButtons = {
+            cancel: document.getElementById("modalCancel"),
+            save: document.getElementById("modalSave")
+        };
+
+        // --------------------------------------------------------------
         //  LOREM
         // --------------------------------------------------------------
-        const L1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
-        const L2 = "Praesent mauris. Fusce nec tellus sed augue semper porta.";
-        const L3 = "Class aptent taciti sociosqu ad litora torquent per conubia.";
-        const L4 = "Integer nec odio. Praesent libero. Sed cursus ante dapibus.";
-        const L5 = "Duis sagittis ipsum. Fusce nec tellus sed augue semper porta.";
+        const LOREM_PARTS = [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Praesent mauris. Fusce nec tellus sed augue semper porta. Praesent mauris. Fusce nec tellus sed augue semper porta.",
+            "Class aptent taciti sociosqu ad litora torquent per conubia. Praesent mauris. ",
+            "Integer nec odio. Praesent libero. Sed cursus ante dapibus.",
+            "Duis sagittis ipsum.  "
+        ];
 
         function loremMix() {
-            const parts = [L1, L2, L3, L4, L5];
-            return parts[Math.floor(Math.random() * parts.length)]
-                + " "
-                + parts[Math.floor(Math.random() * parts.length)];
+            const pick = () => LOREM_PARTS[Math.floor(Math.random() * LOREM_PARTS.length)];
+            return `${pick()} ${pick()}`;
         }
 
         // --------------------------------------------------------------
@@ -496,328 +529,393 @@
         ];
 
         // --------------------------------------------------------------
-        //  GLOBAL FILTER STATE
+        //  FILTER STATE HELPERS
         // --------------------------------------------------------------
-        let activeFilters = {
-            attributtyp: null,
-            type: null,
-            publish: null,
-            sammlung: null
+        function createDefaultFilters() {
+            return {
+                attributtyp: null,
+                type: null,
+                publish: null,
+                sammlung: null
+            };
+        }
+
+        let activeFilters = createDefaultFilters();
+
+        const FIELD_WEIGHTS = {
+            name: 5,
+            id: 4,
+            attributtyp: 3,
+            infotext: 2,
+            kommentar: 1,
         };
+        const DEFAULT_WEIGHT = 1;
+        let globalSearchQuery = "";
 
         // --------------------------------------------------------------
-        //  UPDATE FACET CHIPS
-        // --------------------------------------------------------------
-        // Render chips: add type class so chips are colorful
-        function renderChips() {
-            const chipBox = document.getElementById("facet-chips");
-            chipBox.innerHTML = "";
-
-            if (activeFilters.attributtyp) {
-                const val = activeFilters.attributtyp;
-                const chip = document.createElement("div");
-                const cls = val.toLowerCase().replace(/\s/g, '');
-                chip.className = `chip ${cls}`;
-                chip.innerHTML = `Attributtyp: ${val} <span data-type="attributtyp" data-value="${val}">×</span>`;
-                chipBox.appendChild(chip);
-            }
-
-            // Type chip (single-select)
-            if (activeFilters.type) {
-                const chip = document.createElement("div");
-                chip.className = `chip type`;
-                chip.innerHTML = `Type: ${activeFilters.type} <span data-type="type" data-value="${activeFilters.type}">×</span>`;
-                chipBox.appendChild(chip);
-            }
-
-            // Publish chip (single-select true/false)
-            if (activeFilters.publish !== null) {
-                const chip = document.createElement("div");
-                const txt = activeFilters.publish ? "Publiziert" : "Nicht publiziert";
-                chip.className = `chip publish`;
-                chip.innerHTML = `Publizieren: ${txt} <span data-type="publish" data-value="${activeFilters.publish}">×</span>`;
-                chipBox.appendChild(chip);
-            }
-
-            // Sammlung chip
-            if (activeFilters.sammlung) {
-                const chip = document.createElement("div");
-                chip.className = `chip sammlung`;
-                chip.innerHTML = `Sammlung: ${activeFilters.sammlung} <span data-type="sammlung" data-value="${activeFilters.sammlung}">×</span>`;
-                chipBox.appendChild(chip);
-            }
-
-            chipBox.querySelectorAll("span").forEach(x => {
-                x.onclick = () => {
-                    const filterType = x.dataset.type;
-                    const value = x.dataset.value;
-                    if (filterType === 'type') {
-                        activeFilters.type = null;
-                    } else if (filterType === 'publish') {
-                        activeFilters.publish = null;
-                    } else if (filterType === 'attributtyp') {
-                        activeFilters.attributtyp = null;
-                    } else if (filterType === 'sammlung') {
-                        activeFilters.sammlung = null;
-                    } else {
-                        activeFilters[filterType] = activeFilters[filterType].filter(v => v !== value);
-                    }
-                    updateFilter();
-                };
-            });
-        }
-
-        // --------------------------------------------------------------
-        // CUSTOM ATTRIBUTTYP HEADER FILTER (single-select dropdown)
-        // --------------------------------------------------------------
-        function attributtypHeaderFilter(cell) {
-            const select = document.createElement("select");
-            select.className = "multi-select";
-
-            const defaultOpt = document.createElement("option");
-            defaultOpt.value = "";
-            defaultOpt.textContent = "All";
-            select.appendChild(defaultOpt);
-
-            ["Attribut", "Stammattribut", "Thesaurus"].forEach(v => {
-                const opt = document.createElement("option");
-                opt.value = v;
-                opt.textContent = v;
-                select.appendChild(opt);
-            });
-
-            select.onchange = () => {
-                activeFilters.attributtyp = select.value || null;
-                updateFilter();
-            };
-
-            return select;
-        }
-
-        // --------------------------------------------------------------
-        // CUSTOM TYPE HEADER FILTER (single-select dropdown)
-        // --------------------------------------------------------------
-        function typeHeaderFilter(cell) {
-            const select = document.createElement("select");
-            select.className = "multi-select";
-
-            // "All" option
-            let defaultOpt = document.createElement("option");
-            defaultOpt.value = "";
-            defaultOpt.textContent = "All";
-            select.appendChild(defaultOpt);
-
-            // unique type values from data
-            const types = Array.from(new Set(tableData.map(d => d.type))).sort();
-            types.forEach(v => {
-                let opt = document.createElement("option");
-                opt.value = v;
-                opt.textContent = v;
-                select.appendChild(opt);
-            });
-
-            select.onchange = () => {
-                activeFilters.type = select.value || null;
-                updateFilter();
-            };
-
-            return select;
-        }
-
-        // --------------------------------------------------------------
-        // CUSTOM PUBLISH HEADER FILTER (single-select dropdown)
-        // --------------------------------------------------------------
-        function publishHeaderFilter(cell) {
-            const select = document.createElement("select");
-            select.className = "multi-select";
-
-            const defaultOpt = document.createElement("option");
-            defaultOpt.value = "";
-            defaultOpt.textContent = "All";
-            select.appendChild(defaultOpt);
-
-            const optTrue = document.createElement("option");
-            optTrue.value = "true";
-            optTrue.textContent = "Publiziert";
-            select.appendChild(optTrue);
-
-            const optFalse = document.createElement("option");
-            optFalse.value = "false";
-            optFalse.textContent = "Nicht publiziert";
-            select.appendChild(optFalse);
-
-            select.onchange = () => {
-                if (select.value === "") activeFilters.publish = null;
-                else activeFilters.publish = select.value === "true";
-                updateFilter();
-            };
-
-            return select;
-        }
-
-        // --------------------------------------------------------------
-        // CUSTOM SAMMLUNG HEADER FILTER (single-select dropdown)
-        // --------------------------------------------------------------
-        function sammlungHeaderFilter(cell) {
-            const select = document.createElement("select");
-            select.className = "multi-select";
-
-            const defaultOpt = document.createElement("option");
-            defaultOpt.value = "";
-            defaultOpt.textContent = "All";
-            select.appendChild(defaultOpt);
-
-            const sammlungen = Array.from(new Set(tableData.map(d => d.sammlung))).sort();
-            sammlungen.forEach(v => {
-                const opt = document.createElement("option");
-                opt.value = v;
-                opt.textContent = v;
-                select.appendChild(opt);
-            });
-
-            select.onchange = () => {
-                activeFilters.sammlung = select.value || null;
-                updateFilter();
-            };
-
-            return select;
-        }
-
-        // --------------------------------------------------------------
-        // FORMATTER
-        // --------------------------------------------------------------
-        // attributtyp formatter: colored text per type
-        function attributtypFormatter(cell) {
-            const val = cell.getValue() || "";
-            const cls = val.toLowerCase().replace(/\s/g, ''); // attribut, stammattribut, thesaurus
-            return `<div class="attributtyp-cell ${cls}">${val}</div>`;
-        }
-
-        // ID formatter: with hover tooltip showing additional info
-        function idFormatter(cell) {
-            const val = cell.getValue() || "";
-            return `<div class="cell-id" 
-                onmouseenter="showIDTooltip(event, '${val}')" 
-                onmouseleave="hideTooltip()">${val}</div>`;
-        }
-
-        function longTextFormatter(cell) {
-            const v = cell.getValue() || "";
-            return `<div class="cell-longtext" 
-                onmouseenter="showTooltip(event, '${v.replace(/'/g, "&apos;")}')" 
-                onmouseleave="hideTooltip()">${v}</div>`;
-        }
-
-        // kommentar formatter: full text without ellipsis
-        function kommentarFormatter(cell) {
-            const v = cell.getValue() || "";
-            return `<div class="cell-kommentar">${v}</div>`;
-        }
-
-        // publish formatter: centered colored pill
-        function publishFormatter(cell) {
-            const val = cell.getValue();
-            return `<span class="publish-icon ${val ? 'true' : 'false'}" title="${val ? 'Publiziert' : 'Nicht publiziert'}">${val ? '🌐' : '🔒'}</span>`;
-        }
-        // edit formatter: centered icon pill (slanted pencil with black outline)
-        function editFormatter() {
-            return `<button class="edit-btn" title="Edit" aria-label="Edit" onclick="openEditModal(event)">
-		<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-			<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-			<path d="M20.71 7.04a1 1 0 0 0 0-1.41L18.37 3.29a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
-		</svg>
-	</button>`;
-        }
-
-        // --------------------------------------------------------------
-        // MODAL FUNCTIONS
+        //  MODAL STATE
         // --------------------------------------------------------------
         let currentEditRow = null;
 
+        // --------------------------------------------------------------
+        //  UTILITY FUNCTIONS
+        // --------------------------------------------------------------
+        function createSelectFilter(options, onChange) {
+            const select = document.createElement("select");
+            select.className = "multi-select";
+
+            const defaultOption = document.createElement("option");
+            defaultOption.value = "";
+            defaultOption.textContent = "All";
+            select.appendChild(defaultOption);
+
+            options.forEach(option => {
+                const opt = document.createElement("option");
+                opt.value = option.value;
+                opt.textContent = option.label;
+                select.appendChild(opt);
+            });
+
+            select.onchange = () => onChange(select.value);
+            return select;
+        }
+
+        function getUniqueValues(data, field) {
+            return Array.from(new Set(data.map(item => item[field]))).sort();
+        }
+
+        function resetSelectElement(select) {
+            if (select.multiple) {
+                select.querySelectorAll("option").forEach(option => option.selected = false);
+            } else {
+                select.value = "";
+            }
+            select.dispatchEvent(new Event("change", { bubbles: true }));
+        }
+
+        function resetHeaderFilters() {
+            document.querySelectorAll("select.multi-select").forEach(resetSelectElement);
+        }
+
+        function clearFilterValue(filterType, value) {
+            const currentValue = activeFilters[filterType];
+
+            if (Array.isArray(currentValue)) {
+                activeFilters[filterType] = currentValue.filter(v => v !== value);
+                if (activeFilters[filterType].length === 0) {
+                    activeFilters[filterType] = null;
+                }
+            } else {
+                activeFilters[filterType] = null;
+            }
+        }
+
+        function buildChip({ cssClass, label, filterKey, value }) {
+            const chip = document.createElement("div");
+            chip.className = `chip ${cssClass}`;
+            chip.innerHTML = `${label} <span data-type="${filterKey}" data-value="${value}">×</span>`;
+            chip.querySelector("span").onclick = () => {
+                clearFilterValue(filterKey, value);
+                updateFilter();
+            };
+            return chip;
+        }
+
+        function sanitizeTooltipContent(text) {
+            return (text || "").replace(/'/g, "&apos;");
+        }
+
+        function positionTooltip(e) {
+            const x = e.clientX + 15;
+            const y = e.clientY + 15;
+            tooltipElement.style.left = `${x}px`;
+            tooltipElement.style.top = `${y}px`;
+        }
+
+        function normalizeValue(value) {
+            if (value === null || value === undefined) return "";
+            return typeof value === "string" ? value : String(value);
+        }
+
+        function computeMatchPositions(text, query) {
+            const source = normalizeValue(text);
+            const needle = normalizeValue(query).trim();
+            if (!needle) return null;
+
+            const haystack = source.toLowerCase();
+            const target = needle.toLowerCase();
+            const startIndex = haystack.indexOf(target);
+
+            if (startIndex === -1) return null;
+
+            const positions = [];
+            for (let i = 0; i < target.length; i++) {
+                positions.push(startIndex + i);
+            }
+            return positions;
+        }
+
+        function fuzzyMatch(query, text) {
+            const positions = computeMatchPositions(text, query);
+            return positions ? positions.length : 0;
+        }
+
+        function fuzzyHighlight(text, query) {
+            const value = normalizeValue(text);
+            const positions = computeMatchPositions(value, query);
+            if (!positions || positions.length === 0) {
+                return value;
+            }
+
+            const lookup = new Set(positions);
+            let highlighted = "";
+
+            for (let i = 0; i < value.length; i++) {
+                const char = value[i];
+                highlighted += lookup.has(i) ? `<span class="hl">${char}</span>` : char;
+            }
+
+            return highlighted;
+        }
+
+        function weightedRowScore(data, query) {
+            const normalizedQuery = normalizeValue(query).trim();
+            if (!normalizedQuery) return 0;
+
+            return Object.keys(data).reduce((score, key) => {
+                const value = normalizeValue(data[key]);
+                if (!value) return score;
+
+                const matchScore = fuzzyMatch(normalizedQuery, value);
+                if (!matchScore) return score;
+
+                const weight = FIELD_WEIGHTS[key] || DEFAULT_WEIGHT;
+                return score + (matchScore * weight);
+            }, 0);
+        }
+
+        // --------------------------------------------------------------
+        //  CHIP RENDERING
+        // --------------------------------------------------------------
+        function renderChips() {
+            chipContainer.innerHTML = "";
+
+            if (activeFilters.attributtyp) {
+                const value = activeFilters.attributtyp;
+                chipContainer.appendChild(buildChip({
+                    cssClass: value.toLowerCase().replace(/\s/g, ''),
+                    label: `Attributtyp: ${value}`,
+                    filterKey: "attributtyp",
+                    value
+                }));
+            }
+
+            if (activeFilters.type) {
+                chipContainer.appendChild(buildChip({
+                    cssClass: "type",
+                    label: `Type: ${activeFilters.type}`,
+                    filterKey: "type",
+                    value: activeFilters.type
+                }));
+            }
+
+            if (activeFilters.publish !== null) {
+                const text = activeFilters.publish ? "Publiziert" : "Nicht publiziert";
+                chipContainer.appendChild(buildChip({
+                    cssClass: "publish",
+                    label: `Publizieren: ${text}`,
+                    filterKey: "publish",
+                    value: activeFilters.publish
+                }));
+            }
+
+            if (activeFilters.sammlung) {
+                chipContainer.appendChild(buildChip({
+                    cssClass: "sammlung",
+                    label: `Sammlung: ${activeFilters.sammlung}`,
+                    filterKey: "sammlung",
+                    value: activeFilters.sammlung
+                }));
+            }
+        }
+
+        // --------------------------------------------------------------
+        //  HEADER FILTER COMPONENTS
+        // --------------------------------------------------------------
+        function attributtypHeaderFilter() {
+            const values = ["Attribut", "Stammattribut", "Thesaurus"].map(value => ({ value, label: value }));
+            return createSelectFilter(values, (value) => {
+                activeFilters.attributtyp = value || null;
+                updateFilter();
+            });
+        }
+
+        function typeHeaderFilter() {
+            const values = getUniqueValues(tableData, "type").map(value => ({ value, label: value }));
+            return createSelectFilter(values, (value) => {
+                activeFilters.type = value || null;
+                updateFilter();
+            });
+        }
+
+        function publishHeaderFilter() {
+            const values = [
+                { value: "true", label: "Publiziert" },
+                { value: "false", label: "Nicht publiziert" }
+            ];
+            return createSelectFilter(values, (value) => {
+                activeFilters.publish = value === "" ? null : value === "true";
+                updateFilter();
+            });
+        }
+
+        function sammlungHeaderFilter() {
+            const values = getUniqueValues(tableData, "sammlung").map(value => ({ value, label: value }));
+            return createSelectFilter(values, (value) => {
+                activeFilters.sammlung = value || null;
+                updateFilter();
+            });
+        }
+
+        // --------------------------------------------------------------
+        //  FORMATTERS
+        // --------------------------------------------------------------
+        function attributtypFormatter(cell) {
+            const value = cell.getValue() || "";
+            const cssClass = value.toLowerCase().replace(/\s/g, '');
+            const highlighted = fuzzyHighlight(value, globalSearchQuery);
+            return `<div class="attributtyp-cell ${cssClass}">${highlighted}</div>`;
+        }
+
+        function idFormatter(cell) {
+            const value = cell.getValue() || "";
+            const highlighted = fuzzyHighlight(value, globalSearchQuery);
+            return `<div class="cell-id" 
+                onmouseenter="showIDTooltip(event, '${value}')" 
+                onmouseleave="hideTooltip()">${highlighted}</div>`;
+        }
+
+        function longTextFormatter(cell) {
+            const value = cell.getValue() || "";
+            const tooltipText = sanitizeTooltipContent(value);
+            const highlighted = fuzzyHighlight(value, globalSearchQuery);
+            return `<div class="cell-longtext" 
+                onmouseenter="showTooltip(event, '${tooltipText}')" 
+                onmouseleave="hideTooltip()">${highlighted}</div>`;
+        }
+
+        function kommentarFormatter(cell) {
+            const value = cell.getValue() || "";
+            const highlighted = fuzzyHighlight(value, globalSearchQuery);
+            return `<div class="cell-kommentar">${highlighted}</div>`;
+        }
+
+        function textFormatter(cell) {
+            const value = cell.getValue() || "";
+            return fuzzyHighlight(value, globalSearchQuery);
+        }
+
+        function publishFormatter(cell) {
+            const value = cell.getValue();
+            return `<span class="publish-icon ${value ? 'true' : 'false'}" title="${value ? 'Publiziert' : 'Nicht publiziert'}">${value ? '🌐' : '🔒'}</span>`;
+        }
+
+        function editFormatter() {
+            return `<button class="edit-btn" title="Edit" aria-label="Edit" onclick="openEditModal(event)">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M20.71 7.04a1 1 0 0 0 0-1.41L18.37 3.29a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>`;
+        }
+
+        // --------------------------------------------------------------
+        //  MODAL FUNCTIONS
+        // --------------------------------------------------------------
+        function setModalFieldValues(data) {
+            modalFields.attributtyp.value = data.attributtyp || "";
+            modalFields.name.value = data.name || "";
+            modalFields.id.value = data.id || "";
+            modalFields.type.value = data.type || "";
+            modalFields.publish.value = data.publish ? "true" : "false";
+            modalFields.infotext.value = data.infotext || "";
+            modalFields.kommentar.value = data.kommentar || "";
+        }
+
+        function getModalFieldValues() {
+            return {
+                attributtyp: modalFields.attributtyp.value,
+                name: modalFields.name.value,
+                id: modalFields.id.value,
+                type: modalFields.type.value,
+                publish: modalFields.publish.value === "true",
+                infotext: modalFields.infotext.value,
+                kommentar: modalFields.kommentar.value
+            };
+        }
+
         function openEditModal(e) {
             e.stopPropagation();
-            const cell = table.searchRows("id", "!=", "")[0]; // fallback
-            const row = e.target.closest('.tabulator-row');
-            if (!row) return;
+            const rowElement = e.target.closest('.tabulator-row');
+            if (!rowElement) return;
 
-            const rowComponent = table.getRow(row);
-            const data = rowComponent.getData();
-            currentEditRow = rowComponent;
-
-            // Populate modal fields
-            document.getElementById("modal-attributtyp").value = data.attributtyp || "";
-            document.getElementById("modal-name").value = data.name || "";
-            document.getElementById("modal-id").value = data.id || "";
-            document.getElementById("modal-type").value = data.type || "";
-            document.getElementById("modal-publish").value = data.publish ? "true" : "false";
-            document.getElementById("modal-infotext").value = data.infotext || "";
-            document.getElementById("modal-kommentar").value = data.kommentar || "";
-
-            document.getElementById("editModal").classList.add("active");
+            currentEditRow = table.getRow(rowElement);
+            setModalFieldValues(currentEditRow.getData());
+            editModal.classList.add("active");
         }
 
         function closeEditModal() {
-            document.getElementById("editModal").classList.remove("active");
+            editModal.classList.remove("active");
             currentEditRow = null;
         }
 
         function saveEdit() {
             if (!currentEditRow) return;
-
-            const updatedData = {
-                attributtyp: document.getElementById("modal-attributtyp").value,
-                name: document.getElementById("modal-name").value,
-                id: document.getElementById("modal-id").value,
-                type: document.getElementById("modal-type").value,
-                publish: document.getElementById("modal-publish").value === "true",
-                infotext: document.getElementById("modal-infotext").value,
-                kommentar: document.getElementById("modal-kommentar").value
-            };
-
-            currentEditRow.update(updatedData);
+            currentEditRow.update(getModalFieldValues());
             closeEditModal();
         }
 
-        document.getElementById("modalCancel").onclick = closeEditModal;
-        document.getElementById("modalSave").onclick = saveEdit;
-
-        // Close modal on overlay click
-        document.getElementById("editModal").onclick = (e) => {
-            if (e.target.id === "editModal") closeEditModal();
+        modalButtons.cancel.onclick = closeEditModal;
+        modalButtons.save.onclick = saveEdit;
+        editModal.onclick = (e) => {
+            if (e.target === editModal) closeEditModal();
         };
 
         // --------------------------------------------------------------
-        // TOOLTIP FUNCTIONS
+        //  TOOLTIP FUNCTIONS
         // --------------------------------------------------------------
         function showTooltip(e, text) {
-            const tooltip = document.getElementById("textTooltip");
-            tooltip.innerHTML = text;
-            tooltip.classList.add("active");
-
-            // Position tooltip near cursor
-            const x = e.clientX + 15;
-            const y = e.clientY + 15;
-            tooltip.style.left = x + "px";
-            tooltip.style.top = y + "px";
+            tooltipElement.innerHTML = text;
+            tooltipElement.classList.add("active");
+            positionTooltip(e);
         }
 
         function showIDTooltip(e, id) {
-            const tooltip = document.getElementById("textTooltip");
-            tooltip.textContent = `ID: ${id}\nSammlung: VS\nObjekte: 4588`;
-            tooltip.classList.add("active");
-
-            const x = e.clientX + 15;
-            const y = e.clientY + 15;
-            tooltip.style.left = x + "px";
-            tooltip.style.top = y + "px";
+            tooltipElement.textContent = `ID: ${id}\nSammlung: VS\nObjekte: 4588`;
+            tooltipElement.classList.add("active");
+            positionTooltip(e);
         }
 
         function hideTooltip() {
-            document.getElementById("textTooltip").classList.remove("active");
+            tooltipElement.classList.remove("active");
         }
 
         // --------------------------------------------------------------
-        // TABULATOR INITIALIZATION (NO SCROLL)
+        //  ROW FORMATTER
+        // --------------------------------------------------------------
+        function formatPublishState(row) {
+            const rowElement = row.getElement();
+            if (!rowElement) return;
+
+            if (row.getData().publish) {
+                rowElement.classList.add('published');
+            } else {
+                rowElement.classList.remove('published');
+            }
+        }
+
+        // --------------------------------------------------------------
+        //  TABULATOR INITIALIZATION (NO SCROLL)
         // --------------------------------------------------------------
         const table = new Tabulator("#attribute-table", {
             layout: "fitColumns",
@@ -825,15 +923,9 @@
             responsiveLayout: "collapse",
             responsiveLayoutCollapseStartOpen: false,
             pagination: true,
-            paginationSize: 10,
-            paginationSizeSelector: [5, 10, 20, 50],
-
-            rowFormatter: function(row){
-                const d = row.getData();
-                if (d.publish) row.getElement().classList.add('published');
-                else row.getElement().classList.remove('published');
-            },
-
+            paginationSize: 100,
+            paginationSizeSelector: [10, 20, 50, 100],
+            rowFormatter: formatPublishState,
             columns: [
                 { formatter: "responsiveCollapse", width: 40, minWidth: 40, hozAlign: "center", resizable: false, headerSort: false, responsive: 0 },
                 {
@@ -845,10 +937,8 @@
                     responsive: 0
                 },
                 { title: "ID", field: "id", formatter: idFormatter, headerFilter: "input", width: 120, responsive: 1 },
-                { title: "Name", field: "name", headerFilter: "input", minWidth: 200, responsive: 0 },
-                
-                
-                 {
+                { title: "Name", field: "name", formatter: textFormatter, headerFilter: "input", minWidth: 200, responsive: 0 },
+                {
                     title: "Public",
                     field: "publish",
                     formatter: publishFormatter,
@@ -856,85 +946,101 @@
                     hozAlign: "center",
                     width: 90,
                     responsive: 3
-                 },
+                },
                 { title: "Infotext", field: "infotext", formatter: longTextFormatter, headerFilter: "input", minWidth: 250, responsive: 10 },
-                { title: "Type", field: "type", headerFilter: typeHeaderFilter, width: 120, responsive: 2 },
-                { title: "in Sammlung", field: "sammlung", headerFilter: "input", minWidth: 80, responsive: 5 },              
+                { title: "Type", field: "type", formatter: textFormatter, headerFilter: typeHeaderFilter, width: 120, responsive: 2 },
+                { title: "in Sammlung", field: "sammlung", formatter: textFormatter, headerFilter: "input", minWidth: 80, responsive: 5 },
                 { title: "in Objekten", field: "anzahl_objekte", width: 70, responsive: 13 },
-                { title: "Geändert am", field: "updated_at", width: 120, responsive: 0 },
-                { title: "Erstellt von", field: "created_by", minWidth: 110, headerSort: false, responsive: 15 },
-                { title: "Erstellt am", field: "created_at", minWidth: 110, headerSort: false, responsive: 15 },
-                { title: "Geändert von", field: "updated_by", minWidth: 110, responsive: 14 },
+                { title: "Geändert am", field: "updated_at", formatter: textFormatter, width: 120, responsive: 0 },
+                { title: "Erstellt von", field: "created_by", formatter: textFormatter, minWidth: 110, headerSort: false, responsive: 15 },
+                { title: "Erstellt am", field: "created_at", formatter: textFormatter, minWidth: 110, headerSort: false, responsive: 15 },
+                { title: "Geändert von", field: "updated_by", formatter: textFormatter, minWidth: 110, responsive: 14 },
                 { title: "Kommentar", field: "kommentar", formatter: kommentarFormatter, headerFilter: "input", minWidth: 250, headerSort: false, responsive: 16 },
                 { title: "", formatter: editFormatter, width: 70, hozAlign: "center", responsive: 0 }
             ]
         });
 
         // --------------------------------------------------------------
-        // APPLY FILTER TO TABULATOR
+        //  FILTER APPLICATION
         // --------------------------------------------------------------
-        function updateFilter() {
-            table.clearFilter(true);
+        function buildFacetFilters() {
+            const filters = [];
 
-            let filters = [];
-
-            // Single-select filter for attributtyp
             if (activeFilters.attributtyp) {
-                filters.push({
-                    field: "attributtyp",
-                    type: "=",
-                    value: activeFilters.attributtyp
-                });
+                filters.push({ field: "attributtyp", type: "=", value: activeFilters.attributtyp });
             }
 
-            // Single-select filter for publish
             if (activeFilters.publish !== null) {
-                filters.push({
-                    field: "publish",
-                    type: "=",
-                    value: activeFilters.publish
-                });
+                filters.push({ field: "publish", type: "=", value: activeFilters.publish });
             }
 
-            // Single-select filter for type
             if (activeFilters.type) {
-                filters.push({
-                    field: "type",
-                    type: "=",
-                    value: activeFilters.type
-                });
+                filters.push({ field: "type", type: "=", value: activeFilters.type });
             }
 
-            // Single-select filter for sammlung
             if (activeFilters.sammlung) {
-                filters.push({
-                    field: "sammlung",
-                    type: "like",
-                    value: activeFilters.sammlung
-                });
+                filters.push({ field: "sammlung", type: "like", value: activeFilters.sammlung });
             }
 
-            table.setFilter(filters);
-            renderChips();
+            return filters;
         }
 
-         // --------------------------------------------------------------
-         // RESET ALL FILTERS
-         // --------------------------------------------------------------
-         document.getElementById("resetFilters").onclick = () => {
-            activeFilters = { attributtyp: null, type: null, publish: null, sammlung: null };
-             updateFilter();
+        function globalSearchFilter(data) {
+            return weightedRowScore(data, globalSearchQuery) > 0;
+        }
 
-             // Clear multi-select and single-select UI, trigger change to refresh header filters
-             document.querySelectorAll(".multi-select").forEach(sel => {
-                 if (sel.multiple) {
-                     sel.querySelectorAll('option').forEach(opt => opt.selected = false);
-                 } else {
-                     sel.value = "";
-                 }
-                 sel.dispatchEvent(new Event('change', { bubbles: true }));
-             });
-         };
+        function applyFilters(clearHeaderFilters = false) {
+            const facetFilters = buildFacetFilters();
+            const hasFacetFilters = facetFilters.length > 0;
+            const hasQuery = Boolean(globalSearchQuery);
+
+            if (!hasFacetFilters && !hasQuery) {
+                table.clearFilter(clearHeaderFilters);
+                renderChips();
+                table.redraw(true);
+                return;
+            }
+
+            if (clearHeaderFilters) {
+                table.clearFilter(true);
+            }
+
+            if (hasQuery) {
+                table.setFilter(globalSearchFilter);
+                facetFilters.forEach(filter => {
+                    table.addFilter(filter.field, filter.type, filter.value);
+                });
+            } else if (hasFacetFilters) {
+                table.setFilter(facetFilters);
+            }
+
+            renderChips();
+            table.redraw(true);
+        }
+
+        function updateFilter() {
+            applyFilters(true);
+        }
+
+        function clearAllFilters() {
+            activeFilters = createDefaultFilters();
+        }
+
+        resetFiltersButton.onclick = () => {
+            clearAllFilters();
+            globalSearchQuery = "";
+            globalSearchInput.value = "";
+            applyFilters(true);
+            resetHeaderFilters();
+        };
+
+        globalSearchInput.addEventListener("input", (event) => {
+            globalSearchQuery = event.target.value.trim();
+            applyFilters(false);
+        });
+
+        // Ensure chips reflect initial state
+        renderChips();
     </script>
 </body>
 
