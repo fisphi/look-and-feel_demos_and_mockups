@@ -110,7 +110,9 @@
         .chip.stammattribut { background: linear-gradient(90deg,#f0fff6,#dff6ea); color:#054d36; }
         .chip.thesaurus { background: linear-gradient(90deg,#f5f4ff,#e4ddff); color:#2a2355; }
         .chip.type { background: linear-gradient(90deg,#e6f5ff,#d6ecff); color:#023a6d; } /* pastel chip variant for Type */
-        .chip.publish { background: linear-gradient(90deg,#f0f7ff,#e6f0ff); color:#0b3a6b; } /* publish chip */
+        .chip.publish { color:#0b3a6b; } /* base publish chip */
+        .chip.publish.publish-true { background: linear-gradient(90deg,#e8fbf0,#d9f5e5); color:#0b7a4b; }
+        .chip.publish.publish-false { background: linear-gradient(90deg,#ffecec,#ffd4d4); color:#8f1b1b; }
         .chip.sammlung { background: linear-gradient(90deg,#fff4e6,#ffe8cc); color:#7c4a00; }
 
         .chip span {
@@ -437,7 +439,7 @@
                 <input type="text" id="modal-type" />
             </div>
             <div class="modal-field">
-                <label>Publizieren</label>
+                <label>Public</label>
                 <select id="modal-publish">
                     <option value="true">Ja</option>
                     <option value="false">Nein</option>
@@ -720,10 +722,10 @@
             }
 
             if (activeFilters.publish !== null) {
-                const text = activeFilters.publish ? "Publiziert" : "Nicht publiziert";
+                const text = activeFilters.publish ? "Yes" : "No";
                 chipContainer.appendChild(buildChip({
-                    cssClass: "publish",
-                    label: `Publizieren: ${text}`,
+                    cssClass: `publish ${activeFilters.publish ? 'publish-true' : 'publish-false'}`,
+                    label: `Public: ${text}`,
                     filterKey: "publish",
                     value: activeFilters.publish
                 }));
