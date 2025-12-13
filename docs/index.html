@@ -1,4 +1,170 @@
-hello world
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Look &amp; Feel Demos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f4f6fb;
+            --panel: #ffffff;
+            --accent: #5c6ac4;
+            --accent-secondary: #7c3aed;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: rgba(15, 23, 42, 0.08);
+        }
 
+        * {
+            box-sizing: border-box;
+        }
 
-<a href="./person-form-lookfeel/index.html">person-form-lookfeel</a>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: linear-gradient(135deg, #fdfbff, var(--bg));
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: min(1100px, 100%);
+            background: var(--panel);
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(15, 23, 42, 0.08);
+            padding: 48px;
+        }
+
+        header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 28px;
+            margin-bottom: 32px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: clamp(2rem, 3vw, 2.6rem);
+            letter-spacing: -0.02em;
+        }
+
+        header p {
+            margin: 0;
+            color: var(--muted);
+            max-width: 480px;
+            line-height: 1.6;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 28px;
+            background: linear-gradient(180deg, #ffffff, #f9f7ff);
+            transition: transform 150ms ease, box-shadow 150ms ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 45px rgba(92, 106, 196, 0.18);
+        }
+
+        .card .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .card h2 {
+            margin: 0;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .card .cta {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--accent-secondary);
+        }
+
+        .card .cta span {
+            transition: transform 150ms ease;
+        }
+
+        .card:hover .cta span {
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 32px 24px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header>
+            <div>
+                <h1>DIVINA – Look &amp; Feel Demos</h1>
+                <p>Interaktive Prototypen für UI-Konzepte rund um Formulareingaben und datengetriebene Tabellen. Wähle eine Demo, um Details zu erkunden.</p>
+            </div>
+        </header>
+
+        <section class="grid">
+            <a class="card" href="./person-form-lookfeel/index.html">
+                <div class="badge">Formular UI/UX</div>
+                <h2>Personendatenformular Demo</h2>
+                <p>Look &amp; Feel eines mehrteiligen Formulars inkl. Validierungen, Layout und Interaktionen auf Basis von Bootstrap 5.3.2 und validation.js.</p>
+                <div class="cta">Demo öffnen <span>→</span></div>
+            </a>
+
+            <a class="card" href="./tabulatorJS-lookfeel/index.html">
+                <div class="badge">Tabellen UI/UX</div>
+                <h2>Attributeverwaltung Demo </h2>
+                <p>Look &amp; Feel für ein modernes Tabellen-Setup mit Facetten, Chips und Edit-Modal auf Basis von Tabulator.js.</p>
+                <div class="cta">Demo öffnen <span>→</span></div>
+            </a>
+        </section>
+    </main>
+</body>
+</html>
