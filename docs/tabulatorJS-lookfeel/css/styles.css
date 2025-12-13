@@ -1,0 +1,380 @@
+        /* NEW: pastel theme */
+        :root{
+            --primary: #C9C1FF;   /* pastel purple */
+            --accent-1: #CFF6E6;  /* pastel mint */
+            --accent-2: #FFDDE0;  /* pastel coral */
+            --muted: #7f8a9b;
+            --bg: #fbfdff;
+        }
+
+        body {
+            font-family: "Inter", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(180deg,#fcfeff,#fbfdff);
+            color: #0f172a;
+        }
+
+        /* Container für zentrierte maximale Breite */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        h2 {
+            font-weight: 700;
+            margin-bottom: 37px;
+            background: linear-gradient(90deg,var(--primary),#BEE7FF);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: -28px;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        #attribute-table {
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(12,18,30,0.035);
+            overflow: hidden;
+            width: 100%; /* volle Breite nutzen */
+        }
+
+        .tabulator { border: none; }
+        .tabulator .tabulator-header { background: rgba(201,193,255,0.06); } /* pastel header tint */
+        .tabulator .tabulator-cell { padding: 8px 10px; vertical-align: middle; }
+
+        .cell-longtext {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 220px; /* slightly reduced */
+            cursor: pointer;
+            color: #0b1220;
+        }
+
+        .cell-id {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            color: #0b1220;
+        }
+
+        .cell-kommentar {
+            white-space: normal;
+            word-wrap: break-word;
+            color: #0b1220;
+            line-height: 1.4;
+        }
+
+        .chip-container {
+            margin-bottom: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start; /* chips links */
+            gap: 8px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 999px;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #07203b;
+            box-shadow: 0 2px 6px rgba(15,23,42,0.02);
+        }
+
+        /* pastel chip variants */
+        .chip.attribut { background: linear-gradient(90deg,#fff8e6,#fff0cc); color:#6a4d00; }
+        .chip.stammattribut { background: linear-gradient(90deg,#f0fff6,#dff6ea); color:#054d36; }
+        .chip.thesaurus { background: linear-gradient(90deg,#f5f4ff,#e4ddff); color:#2a2355; }
+        .chip.type { background: linear-gradient(90deg,#e6f5ff,#d6ecff); color:#023a6d; } /* pastel chip variant for Type */
+        .chip.publish { color:#0b3a6b; } /* base publish chip */
+        .chip.publish.publish-true { background: linear-gradient(90deg,#e8fbf0,#d9f5e5); color:#0b7a4b; }
+        .chip.publish.publish-false { background: linear-gradient(90deg,#ffecec,#ffd4d4); color:#8f1b1b; }
+        .chip.sammlung { background: linear-gradient(90deg,#fff4e6,#ffe8cc); color:#7c4a00; }
+
+        .chip span {
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        .hl {
+            background: yellow;
+            font-weight: bold;
+        }
+
+        .multi-select {
+            width: 100%;
+            height: 32px; /* gleiche Höhe wie text inputs */
+            border-radius: 6px;
+            padding: 4px 6px;
+            font-size: 13px;
+            border: 1px solid rgb(0, 0, 0, 0.5);
+            background: #fff;
+        }
+
+        /* Text input filters: same design as dropdowns */
+        .tabulator-header-filter input[type="text"],
+        .tabulator-header-filter input[type="search"] {
+            width: 100%;
+            height: 32px;
+            border-radius: 6px;
+            padding: 4px 6px;
+            font-size: 13px;
+            border: 1px solid rgba(201,193,255,0.25);
+            background: #fff;
+            color: #0f172a;
+            box-sizing: border-box;
+        }
+        .tabulator-header-filter input:focus {
+            outline: none;
+            border-color: rgba(201,193,255,0.5);
+        }
+
+        /* Attributtyp cell colors */
+        .attributtyp-cell { font-weight: 600; }
+        .attributtyp-cell.attribut { color: #d97706; }           /* orange/amber */
+        .attributtyp-cell.stammattribut { color: #059669; }      /* emerald green */
+        .attributtyp-cell.thesaurus { color: #7c3aed; }          /* violet */
+
+        /* publish icon -> pastel pills */
+        .publish-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 13px;
+        }
+        .publish-icon.true { background: linear-gradient(90deg,#E8FBF0,#DFF6E6); color:#0b7a4b; }
+        .publish-icon.false { background: linear-gradient(90deg,#FFEFEF,#FFDCDC); color:#9b2b2b; }
+
+        /* edit icon pill -> pastel */
+        .edit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 34px;
+            height: 28px;
+            border-radius: 6px;
+            background: transparent;
+            color: #111;               /* schwarze Kontur für Icon */
+            font-size: 0;              /* Text ausblenden, nur SVG sichtbar */
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 6px;
+            transition: background .12s ease;
+        }
+        .edit-btn:hover { background: rgba(0,0,0,0.03); }
+
+        .edit-btn svg {
+            width: 16px;
+            height: 16px;
+            transform: rotate(-20deg); /* schräger Bleistift */
+            stroke: currentColor;
+            stroke-width: 1.6;
+            fill: none;
+        }
+
+        /* Reset button styling */
+        #resetFilters {
+            background: linear-gradient(180deg,#ffffff,#fcfcff);
+            border: 1px solid #ff6b6b; /* red border */
+            color: #9b2b2b;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(2,6,23,0.03);
+            margin-bottom: 0;
+        }
+        #resetFilters:hover {
+            background: linear-gradient(180deg,#fff7f7,#fff0f0);
+            border-color: #e55353;
+            box-shadow: 0 6px 14px rgba(229,83,83,0.08);
+        }
+
+        /* controls row: reset button (left) and chips (right) */
+        .controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        /* responsive: stack controls on small screens */
+        @media (max-width: 520px) {
+            .controls-row { flex-direction: column; align-items: stretch; gap: 8px; }
+            .chip-container { justify-content: flex-start; }
+        }
+
+        /* Modal overlay */
+        #editModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15,23,42,0.4);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        #editModal.active { display: flex; }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 12px 40px rgba(12,18,30,0.15);
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .modal-field {
+            margin-bottom: 16px;
+        }
+        .modal-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #374151;
+        }
+        .modal-field input,
+        .modal-field textarea,
+        .modal-field select {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(201,193,255,0.25);
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .modal-field textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .modal-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        .modal-btn.cancel {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        .modal-btn.save {
+            background: linear-gradient(90deg,var(--primary),#a89fff);
+            color: #fff;
+        }
+
+        /* Tooltip for long text hover */
+        #textTooltip {
+            display: none;
+            position: fixed;
+            background: #fff;
+            border: 1px solid rgba(201,193,255,0.3);
+            border-radius: 8px;
+            padding: 12px 14px;
+            max-width: 400px;
+            box-shadow: 0 8px 24px rgba(12,18,30,0.12);
+            z-index: 10000;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #0f172a;
+            pointer-events: none;
+            white-space: pre-wrap;
+        }
+        #textTooltip.active { display: block; }
+
+        /* Pagination styling */
+        .tabulator-footer {
+            background: rgba(201,193,255,0.03);
+            border-top: 1px solid rgba(201,193,255,0.1);
+            padding: 12px;
+        }
+        .tabulator-page {
+            border: 1px solid rgba(201,193,255,0.2);
+            background: #fff;
+            color: var(--primary);
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin: 0 3px;
+        }
+        .tabulator-page.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .tabulator-page:hover:not(.disabled) {
+            background: rgba(201,193,255,0.1);
+        }
+
+        /* Horizontal collapse layout */
+        .tabulator-responsive-collapse {
+            padding: 12px 16px !important;
+            background: rgba(201,193,255,0.02) !important;
+        }
+        .tabulator-responsive-collapse table {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 16px !important;
+            width: 100% !important;
+        }
+        .tabulator-responsive-collapse tr {
+            display: flex !important;
+            flex-direction: column !important;
+            min-width: 180px !important;
+            flex: 1 1 auto !important;
+        }
+        .tabulator-responsive-collapse td {
+            display: block !important;
+            padding: 4px 0 !important;
+            border: none !important;
+        }
+        .tabulator-responsive-collapse td:first-child {
+            font-weight: 600 !important;
+            color: var(--muted) !important;
+            font-size: 11px !important;
+            text-transform: uppercase !important;
+            margin-bottom: 2px !important;
+        }
+        .tabulator-responsive-collapse td:last-child {
+            font-size: 14px !important;
+            color: #0f172a !important;
+        }
