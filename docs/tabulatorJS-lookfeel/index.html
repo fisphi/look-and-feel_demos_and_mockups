@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tabulator Attribute Demo – Multi-Select Facets + Chips</title>
+
+    <link href="https://unpkg.com/tabulator-tables@6.2.5/dist/css/tabulator.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/tabulator-tables@6.2.5/dist/js/tabulator.min.js"></script>
+
+    <style>
+        /* NEW: pastel theme */
+        :root{
+            --primary: #C9C1FF;   /* pastel purple */
+            --accent-1: #CFF6E6;  /* pastel mint */
+            --accent-2: #FFDDE0;  /* pastel coral */
+            --muted: #7f8a9b;
+            --bg: #fbfdff;
+        }
+
+        body {
+            font-family: "Inter", Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(180deg,#fcfeff,#fbfdff);
+            color: #0f172a;
+        }
+
+        /* Container für zentrierte maximale Breite */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        h2 {
+            font-weight: 700;
+            margin-bottom: 37px;
+            background: linear-gradient(90deg,var(--primary),#BEE7FF);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: -28px;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        #attribute-table {
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(12,18,30,0.035);
+            overflow: hidden;
+            width: 100%; /* volle Breite nutzen */
+        }
+
+        .tabulator { border: none; }
+        .tabulator .tabulator-header { background: rgba(201,193,255,0.06); } /* pastel header tint */
+        .tabulator .tabulator-cell { padding: 8px 10px; vertical-align: middle; }
+
+        .cell-longtext {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 220px; /* slightly reduced */
+            cursor: pointer;
+            color: #0b1220;
+        }
+
+        .cell-id {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            color: #0b1220;
+        }
+
+        .cell-kommentar {
+            white-space: normal;
+            word-wrap: break-word;
+            color: #0b1220;
+            line-height: 1.4;
+        }
+
+        .chip-container {
+            margin-bottom: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start; /* chips links */
+            gap: 8px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 10px;
+            border-radius: 999px;
+            margin-right: 8px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #07203b;
+            box-shadow: 0 2px 6px rgba(15,23,42,0.02);
+        }
+
+        /* pastel chip variants */
+        .chip.attribut { background: linear-gradient(90deg,#fff8e6,#fff0cc); color:#6a4d00; }
+        .chip.stammattribut { background: linear-gradient(90deg,#f0fff6,#dff6ea); color:#054d36; }
+        .chip.thesaurus { background: linear-gradient(90deg,#f5f4ff,#e4ddff); color:#2a2355; }
+        .chip.type { background: linear-gradient(90deg,#e6f5ff,#d6ecff); color:#023a6d; } /* pastel chip variant for Type */
+        .chip.publish { background: linear-gradient(90deg,#f0f7ff,#e6f0ff); color:#0b3a6b; } /* publish chip */
+        .chip.sammlung { background: linear-gradient(90deg,#fff4e6,#ffe8cc); color:#7c4a00; }
+
+        .chip span {
+            margin-left: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        .multi-select {
+            width: 100%;
+            height: 32px; /* gleiche Höhe wie text inputs */
+            border-radius: 6px;
+            padding: 4px 6px;
+            font-size: 13px;
+            border: 1px solid rgba(201,193,255,0.25);
+            background: #fff;
+        }
+
+        /* Text input filters: same design as dropdowns */
+        .tabulator-header-filter input[type="text"],
+        .tabulator-header-filter input[type="search"] {
+            width: 100%;
+            height: 32px;
+            border-radius: 6px;
+            padding: 4px 6px;
+            font-size: 13px;
+            border: 1px solid rgba(201,193,255,0.25);
+            background: #fff;
+            color: #0f172a;
+            box-sizing: border-box;
+        }
+        .tabulator-header-filter input:focus {
+            outline: none;
+            border-color: rgba(201,193,255,0.5);
+        }
+
+        /* Attributtyp cell colors */
+        .attributtyp-cell { font-weight: 600; }
+        .attributtyp-cell.attribut { color: #d97706; }           /* orange/amber */
+        .attributtyp-cell.stammattribut { color: #059669; }      /* emerald green */
+        .attributtyp-cell.thesaurus { color: #7c3aed; }          /* violet */
+
+        /* publish icon -> pastel pills */
+        .publish-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 13px;
+        }
+        .publish-icon.true { background: linear-gradient(90deg,#E8FBF0,#DFF6E6); color:#0b7a4b; }
+        .publish-icon.false { background: linear-gradient(90deg,#FFEFEF,#FFDCDC); color:#9b2b2b; }
+
+        /* edit icon pill -> pastel */
+        .edit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 34px;
+            height: 28px;
+            border-radius: 6px;
+            background: transparent;
+            color: #111;               /* schwarze Kontur für Icon */
+            font-size: 0;              /* Text ausblenden, nur SVG sichtbar */
+            cursor: pointer;
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: 6px;
+            transition: background .12s ease;
+        }
+        .edit-btn:hover { background: rgba(0,0,0,0.03); }
+
+        .edit-btn svg {
+            width: 16px;
+            height: 16px;
+            transform: rotate(-20deg); /* schräger Bleistift */
+            stroke: currentColor;
+            stroke-width: 1.6;
+            fill: none;
+        }
+
+        /* Reset button styling */
+        #resetFilters {
+            background: linear-gradient(180deg,#ffffff,#fcfcff);
+            border: 1px solid #ff6b6b; /* red border */
+            color: #9b2b2b;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(2,6,23,0.03);
+            margin-bottom: 0;
+        }
+        #resetFilters:hover {
+            background: linear-gradient(180deg,#fff7f7,#fff0f0);
+            border-color: #e55353;
+            box-shadow: 0 6px 14px rgba(229,83,83,0.08);
+        }
+
+        /* controls row: reset button (left) and chips (right) */
+        .controls-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        /* responsive: stack controls on small screens */
+        @media (max-width: 520px) {
+            .controls-row { flex-direction: column; align-items: stretch; gap: 8px; }
+            .chip-container { justify-content: flex-start; }
+        }
+
+        /* Modal overlay */
+        #editModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15,23,42,0.4);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+        #editModal.active { display: flex; }
+
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 12px 40px rgba(12,18,30,0.15);
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .modal-field {
+            margin-bottom: 16px;
+        }
+        .modal-field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #374151;
+        }
+        .modal-field input,
+        .modal-field textarea,
+        .modal-field select {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(201,193,255,0.25);
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .modal-field textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .modal-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        .modal-btn.cancel {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        .modal-btn.save {
+            background: linear-gradient(90deg,var(--primary),#a89fff);
+            color: #fff;
+        }
+
+        /* Tooltip for long text hover */
+        #textTooltip {
+            display: none;
+            position: fixed;
+            background: #fff;
+            border: 1px solid rgba(201,193,255,0.3);
+            border-radius: 8px;
+            padding: 12px 14px;
+            max-width: 400px;
+            box-shadow: 0 8px 24px rgba(12,18,30,0.12);
+            z-index: 10000;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #0f172a;
+            pointer-events: none;
+            white-space: pre-wrap;
+        }
+        #textTooltip.active { display: block; }
+
+        /* Pagination styling */
+        .tabulator-footer {
+            background: rgba(201,193,255,0.03);
+            border-top: 1px solid rgba(201,193,255,0.1);
+            padding: 12px;
+        }
+        .tabulator-page {
+            border: 1px solid rgba(201,193,255,0.2);
+            background: #fff;
+            color: var(--primary);
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin: 0 3px;
+        }
+        .tabulator-page.active {
+            background: var(--primary);
+            color: #fff;
+        }
+        .tabulator-page:hover:not(.disabled) {
+            background: rgba(201,193,255,0.1);
+        }
+
+        /* Horizontal collapse layout */
+        .tabulator-responsive-collapse {
+            padding: 12px 16px !important;
+            background: rgba(201,193,255,0.02) !important;
+        }
+        .tabulator-responsive-collapse table {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 16px !important;
+            width: 100% !important;
+        }
+        .tabulator-responsive-collapse tr {
+            display: flex !important;
+            flex-direction: column !important;
+            min-width: 180px !important;
+            flex: 1 1 auto !important;
+        }
+        .tabulator-responsive-collapse td {
+            display: block !important;
+            padding: 4px 0 !important;
+            border: none !important;
+        }
+        .tabulator-responsive-collapse td:first-child {
+            font-weight: 600 !important;
+            color: var(--muted) !important;
+            font-size: 11px !important;
+            text-transform: uppercase !important;
+            margin-bottom: 2px !important;
+        }
+        .tabulator-responsive-collapse td:last-child {
+            font-size: 14px !important;
+            color: #0f172a !important;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h2>Tabulator Attribute Demo – Multi-Select Facetten, Chips & Reset</h2>
+        <p class="subtitle">
+            Interaktive Tabelle mit Facetten-Filtern (Attributtyp, Type, Publizieren), 
+            Chip-basierter Filteranzeige, Responsive Collapse für mobile Ansichten, 
+            Hover-Tooltips für Langtext-Felder, Edit-Modal für Inline-Bearbeitung 
+            und farbcodierten Attributtypen.
+        </p>
+
+        <div class="controls-row">
+            <!-- Facet Chips (links) -->
+            <div id="facet-chips" class="chip-container"></div>
+            <!-- Reset Button (rechts) -->
+            <button id="resetFilters">Reset All Filters</button>
+        </div>
+
+        <!-- Tabelle -->
+        <div id="attribute-table"></div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">Attribut bearbeiten</div>
+            <div class="modal-field">
+                <label>Attributtyp</label>
+                <input type="text" id="modal-attributtyp" readonly />
+            </div>
+            <div class="modal-field">
+                <label>Name</label>
+                <input type="text" id="modal-name" />
+            </div>
+            <div class="modal-field">
+                <label>ID</label>
+                <input type="text" id="modal-id" readonly />
+            </div>
+            <div class="modal-field">
+                <label>Type</label>
+                <input type="text" id="modal-type" />
+            </div>
+            <div class="modal-field">
+                <label>Publizieren</label>
+                <select id="modal-publish">
+                    <option value="true">Ja</option>
+                    <option value="false">Nein</option>
+                </select>
+            </div>
+            <div class="modal-field">
+                <label>Infotext</label>
+                <textarea id="modal-infotext"></textarea>
+            </div>
+            <div class="modal-field">
+                <label>Kommentar</label>
+                <textarea id="modal-kommentar"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" id="modalCancel">Abbrechen</button>
+                <button class="modal-btn save" id="modalSave">Speichern</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip for long text -->
+    <div id="textTooltip"></div>
+
+    <script>
+        // --------------------------------------------------------------
+        //  LOREM
+        // --------------------------------------------------------------
+        const L1 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+        const L2 = "Praesent mauris. Fusce nec tellus sed augue semper porta.";
+        const L3 = "Class aptent taciti sociosqu ad litora torquent per conubia.";
+        const L4 = "Integer nec odio. Praesent libero. Sed cursus ante dapibus.";
+        const L5 = "Duis sagittis ipsum. Fusce nec tellus sed augue semper porta.";
+
+        function loremMix() {
+            const parts = [L1, L2, L3, L4, L5];
+            return parts[Math.floor(Math.random() * parts.length)]
+                + " "
+                + parts[Math.floor(Math.random() * parts.length)];
+        }
+
+        // --------------------------------------------------------------
+        //  SAMPLE DATA (20 ROWS)
+        // --------------------------------------------------------------
+        const tableData = [
+            { attributtyp: "Attribut", name: "Description", id: "ATT-00068", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 4588, created_by: "Admin", created_at: "2023-01-15", updated_by: "Editor", updated_at: "2024-03-20" },
+            { attributtyp: "Attribut", name: "Height", id: "ATT-00065", type: "Metric (4)", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 3201, created_by: "System", created_at: "2022-11-10", updated_by: "Admin", updated_at: "2024-02-14" },
+            { attributtyp: "Attribut", name: "Diameter", id: "ATT-00077", type: "Metric (0)", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 1542, created_by: "Editor", created_at: "2023-05-22", updated_by: "Editor", updated_at: "2024-01-08" },
+            { attributtyp: "Attribut", name: "DNA comment", id: "ATT-00004", type: "Textarea", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 892, created_by: "Admin", created_at: "2023-02-18", updated_by: "System", updated_at: "2024-03-15" },
+            { attributtyp: "Attribut", name: "DNA extraction", id: "ATT-00005", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MY", anzahl_objekte: 1200, created_by: "Admin", created_at: "2023-03-10", updated_by: "Editor", updated_at: "2024-02-20" },
+            { attributtyp: "Attribut", name: "DNA Storage", id: "ATT-00006", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 750, created_by: "System", created_at: "2023-04-05", updated_by: "Admin", updated_at: "2024-01-25" },
+            { attributtyp: "Stammattribut", name: "Inventory History", id: "ATT-00038", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MY, MO, MIN", anzahl_objekte: 4588, created_by: "Admin", created_at: "2023-01-15", updated_by: "Editor", updated_at: "2024-03-20" },
+            { attributtyp: "Attribut", name: "Editor", id: "ATT-00029", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 3201, created_by: "System", created_at: "2022-11-10", updated_by: "Admin", updated_at: "2024-02-14" },
+            { attributtyp: "Attribut", name: "Examination Comment", id: "ATT-00053", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MIN", anzahl_objekte: 1542, created_by: "Editor", created_at: "2023-05-22", updated_by: "Editor", updated_at: "2024-01-08" },
+            { attributtyp: "Attribut", name: "Expedition", id: "ATT-00026", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MIN", anzahl_objekte: 892, created_by: "Admin", created_at: "2023-02-18", updated_by: "System", updated_at: "2024-03-15" },
+            { attributtyp: "Attribut", name: "General Topic", id: "ATT-00033", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 1200, created_by: "Admin", created_at: "2023-03-10", updated_by: "Editor", updated_at: "2024-02-20" },
+            { attributtyp: "Thesaurus", name: "Habitat", id: "ATT-00023", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MY, MO", anzahl_objekte: 750, created_by: "System", created_at: "2023-04-05", updated_by: "Admin", updated_at: "2024-01-25" },
+            { attributtyp: "Attribut", name: "Individuum comment", id: "ATT-00010", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 4588, created_by: "Admin", created_at: "2023-01-15", updated_by: "Editor", updated_at: "2024-03-20" },
+            { attributtyp: "Attribut", name: "Field number", id: "ATT-00007", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS, MIN", anzahl_objekte: 3201, created_by: "System", created_at: "2022-11-10", updated_by: "Admin", updated_at: "2024-02-14" },
+            { attributtyp: "Attribut", name: "Iris", id: "ATT-00058", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 1542, created_by: "Editor", created_at: "2023-05-22", updated_by: "Editor", updated_at: "2024-01-08" },
+            { attributtyp: "Thesaurus", name: "Label printed", id: "ATT-00051", type: "Yes/No", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 892, created_by: "Admin", created_at: "2023-02-18", updated_by: "System", updated_at: "2024-03-15" },
+            { attributtyp: "Stammattribut", name: "Inventorybook origin name", id: "ATT-00011", type: "Text", publish: false, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 1200, created_by: "Admin", created_at: "2023-03-10", updated_by: "Editor", updated_at: "2024-02-20" },
+            { attributtyp: "Attribut", name: "from captivity", id: "ATT-00046", type: "Yes/No", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 750, created_by: "System", created_at: "2023-04-05", updated_by: "Admin", updated_at: "2024-01-25" },
+            { attributtyp: "Thesaurus", name: "Datasource", id: "ATT-00003", type: "Text", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 4588, created_by: "Admin", created_at: "2023-01-15", updated_by: "Editor", updated_at: "2024-03-20" },
+            { attributtyp: "Attribut", name: "Count (male)", id: "ATT-00016", type: "Metric (0)", publish: true, infotext: loremMix(), kommentar: loremMix(), sammlung: "VS", anzahl_objekte: 3201, created_by: "System", created_at: "2022-11-10", updated_by: "Admin", updated_at: "2024-02-14" }
+        ];
+
+        // --------------------------------------------------------------
+        //  GLOBAL FILTER STATE
+        // --------------------------------------------------------------
+        let activeFilters = {
+            attributtyp: null,
+            type: null,
+            publish: null,
+            sammlung: null
+        };
+
+        // --------------------------------------------------------------
+        //  UPDATE FACET CHIPS
+        // --------------------------------------------------------------
+        // Render chips: add type class so chips are colorful
+        function renderChips() {
+            const chipBox = document.getElementById("facet-chips");
+            chipBox.innerHTML = "";
+
+            if (activeFilters.attributtyp) {
+                const val = activeFilters.attributtyp;
+                const chip = document.createElement("div");
+                const cls = val.toLowerCase().replace(/\s/g, '');
+                chip.className = `chip ${cls}`;
+                chip.innerHTML = `Attributtyp: ${val} <span data-type="attributtyp" data-value="${val}">×</span>`;
+                chipBox.appendChild(chip);
+            }
+
+            // Type chip (single-select)
+            if (activeFilters.type) {
+                const chip = document.createElement("div");
+                chip.className = `chip type`;
+                chip.innerHTML = `Type: ${activeFilters.type} <span data-type="type" data-value="${activeFilters.type}">×</span>`;
+                chipBox.appendChild(chip);
+            }
+
+            // Publish chip (single-select true/false)
+            if (activeFilters.publish !== null) {
+                const chip = document.createElement("div");
+                const txt = activeFilters.publish ? "Publiziert" : "Nicht publiziert";
+                chip.className = `chip publish`;
+                chip.innerHTML = `Publizieren: ${txt} <span data-type="publish" data-value="${activeFilters.publish}">×</span>`;
+                chipBox.appendChild(chip);
+            }
+
+            // Sammlung chip
+            if (activeFilters.sammlung) {
+                const chip = document.createElement("div");
+                chip.className = `chip sammlung`;
+                chip.innerHTML = `Sammlung: ${activeFilters.sammlung} <span data-type="sammlung" data-value="${activeFilters.sammlung}">×</span>`;
+                chipBox.appendChild(chip);
+            }
+
+            chipBox.querySelectorAll("span").forEach(x => {
+                x.onclick = () => {
+                    const filterType = x.dataset.type;
+                    const value = x.dataset.value;
+                    if (filterType === 'type') {
+                        activeFilters.type = null;
+                    } else if (filterType === 'publish') {
+                        activeFilters.publish = null;
+                    } else if (filterType === 'attributtyp') {
+                        activeFilters.attributtyp = null;
+                    } else if (filterType === 'sammlung') {
+                        activeFilters.sammlung = null;
+                    } else {
+                        activeFilters[filterType] = activeFilters[filterType].filter(v => v !== value);
+                    }
+                    updateFilter();
+                };
+            });
+        }
+
+        // --------------------------------------------------------------
+        // CUSTOM ATTRIBUTTYP HEADER FILTER (single-select dropdown)
+        // --------------------------------------------------------------
+        function attributtypHeaderFilter(cell) {
+            const select = document.createElement("select");
+            select.className = "multi-select";
+
+            const defaultOpt = document.createElement("option");
+            defaultOpt.value = "";
+            defaultOpt.textContent = "All";
+            select.appendChild(defaultOpt);
+
+            ["Attribut", "Stammattribut", "Thesaurus"].forEach(v => {
+                const opt = document.createElement("option");
+                opt.value = v;
+                opt.textContent = v;
+                select.appendChild(opt);
+            });
+
+            select.onchange = () => {
+                activeFilters.attributtyp = select.value || null;
+                updateFilter();
+            };
+
+            return select;
+        }
+
+        // --------------------------------------------------------------
+        // CUSTOM TYPE HEADER FILTER (single-select dropdown)
+        // --------------------------------------------------------------
+        function typeHeaderFilter(cell) {
+            const select = document.createElement("select");
+            select.className = "multi-select";
+
+            // "All" option
+            let defaultOpt = document.createElement("option");
+            defaultOpt.value = "";
+            defaultOpt.textContent = "All";
+            select.appendChild(defaultOpt);
+
+            // unique type values from data
+            const types = Array.from(new Set(tableData.map(d => d.type))).sort();
+            types.forEach(v => {
+                let opt = document.createElement("option");
+                opt.value = v;
+                opt.textContent = v;
+                select.appendChild(opt);
+            });
+
+            select.onchange = () => {
+                activeFilters.type = select.value || null;
+                updateFilter();
+            };
+
+            return select;
+        }
+
+        // --------------------------------------------------------------
+        // CUSTOM PUBLISH HEADER FILTER (single-select dropdown)
+        // --------------------------------------------------------------
+        function publishHeaderFilter(cell) {
+            const select = document.createElement("select");
+            select.className = "multi-select";
+
+            const defaultOpt = document.createElement("option");
+            defaultOpt.value = "";
+            defaultOpt.textContent = "All";
+            select.appendChild(defaultOpt);
+
+            const optTrue = document.createElement("option");
+            optTrue.value = "true";
+            optTrue.textContent = "Publiziert";
+            select.appendChild(optTrue);
+
+            const optFalse = document.createElement("option");
+            optFalse.value = "false";
+            optFalse.textContent = "Nicht publiziert";
+            select.appendChild(optFalse);
+
+            select.onchange = () => {
+                if (select.value === "") activeFilters.publish = null;
+                else activeFilters.publish = select.value === "true";
+                updateFilter();
+            };
+
+            return select;
+        }
+
+        // --------------------------------------------------------------
+        // CUSTOM SAMMLUNG HEADER FILTER (single-select dropdown)
+        // --------------------------------------------------------------
+        function sammlungHeaderFilter(cell) {
+            const select = document.createElement("select");
+            select.className = "multi-select";
+
+            const defaultOpt = document.createElement("option");
+            defaultOpt.value = "";
+            defaultOpt.textContent = "All";
+            select.appendChild(defaultOpt);
+
+            const sammlungen = Array.from(new Set(tableData.map(d => d.sammlung))).sort();
+            sammlungen.forEach(v => {
+                const opt = document.createElement("option");
+                opt.value = v;
+                opt.textContent = v;
+                select.appendChild(opt);
+            });
+
+            select.onchange = () => {
+                activeFilters.sammlung = select.value || null;
+                updateFilter();
+            };
+
+            return select;
+        }
+
+        // --------------------------------------------------------------
+        // FORMATTER
+        // --------------------------------------------------------------
+        // attributtyp formatter: colored text per type
+        function attributtypFormatter(cell) {
+            const val = cell.getValue() || "";
+            const cls = val.toLowerCase().replace(/\s/g, ''); // attribut, stammattribut, thesaurus
+            return `<div class="attributtyp-cell ${cls}">${val}</div>`;
+        }
+
+        // ID formatter: with hover tooltip showing additional info
+        function idFormatter(cell) {
+            const val = cell.getValue() || "";
+            return `<div class="cell-id" 
+                onmouseenter="showIDTooltip(event, '${val}')" 
+                onmouseleave="hideTooltip()">${val}</div>`;
+        }
+
+        function longTextFormatter(cell) {
+            const v = cell.getValue() || "";
+            return `<div class="cell-longtext" 
+                onmouseenter="showTooltip(event, '${v.replace(/'/g, "&apos;")}')" 
+                onmouseleave="hideTooltip()">${v}</div>`;
+        }
+
+        // kommentar formatter: full text without ellipsis
+        function kommentarFormatter(cell) {
+            const v = cell.getValue() || "";
+            return `<div class="cell-kommentar">${v}</div>`;
+        }
+
+        // publish formatter: centered colored pill
+        function publishFormatter(cell) {
+            const val = cell.getValue();
+            return `<span class="publish-icon ${val ? 'true' : 'false'}" title="${val ? 'Publiziert' : 'Nicht publiziert'}">${val ? '🌐' : '🔒'}</span>`;
+        }
+        // edit formatter: centered icon pill (slanted pencil with black outline)
+        function editFormatter() {
+            return `<button class="edit-btn" title="Edit" aria-label="Edit" onclick="openEditModal(event)">
+		<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+			<path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+			<path d="M20.71 7.04a1 1 0 0 0 0-1.41L18.37 3.29a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+		</svg>
+	</button>`;
+        }
+
+        // --------------------------------------------------------------
+        // MODAL FUNCTIONS
+        // --------------------------------------------------------------
+        let currentEditRow = null;
+
+        function openEditModal(e) {
+            e.stopPropagation();
+            const cell = table.searchRows("id", "!=", "")[0]; // fallback
+            const row = e.target.closest('.tabulator-row');
+            if (!row) return;
+
+            const rowComponent = table.getRow(row);
+            const data = rowComponent.getData();
+            currentEditRow = rowComponent;
+
+            // Populate modal fields
+            document.getElementById("modal-attributtyp").value = data.attributtyp || "";
+            document.getElementById("modal-name").value = data.name || "";
+            document.getElementById("modal-id").value = data.id || "";
+            document.getElementById("modal-type").value = data.type || "";
+            document.getElementById("modal-publish").value = data.publish ? "true" : "false";
+            document.getElementById("modal-infotext").value = data.infotext || "";
+            document.getElementById("modal-kommentar").value = data.kommentar || "";
+
+            document.getElementById("editModal").classList.add("active");
+        }
+
+        function closeEditModal() {
+            document.getElementById("editModal").classList.remove("active");
+            currentEditRow = null;
+        }
+
+        function saveEdit() {
+            if (!currentEditRow) return;
+
+            const updatedData = {
+                attributtyp: document.getElementById("modal-attributtyp").value,
+                name: document.getElementById("modal-name").value,
+                id: document.getElementById("modal-id").value,
+                type: document.getElementById("modal-type").value,
+                publish: document.getElementById("modal-publish").value === "true",
+                infotext: document.getElementById("modal-infotext").value,
+                kommentar: document.getElementById("modal-kommentar").value
+            };
+
+            currentEditRow.update(updatedData);
+            closeEditModal();
+        }
+
+        document.getElementById("modalCancel").onclick = closeEditModal;
+        document.getElementById("modalSave").onclick = saveEdit;
+
+        // Close modal on overlay click
+        document.getElementById("editModal").onclick = (e) => {
+            if (e.target.id === "editModal") closeEditModal();
+        };
+
+        // --------------------------------------------------------------
+        // TOOLTIP FUNCTIONS
+        // --------------------------------------------------------------
+        function showTooltip(e, text) {
+            const tooltip = document.getElementById("textTooltip");
+            tooltip.innerHTML = text;
+            tooltip.classList.add("active");
+
+            // Position tooltip near cursor
+            const x = e.clientX + 15;
+            const y = e.clientY + 15;
+            tooltip.style.left = x + "px";
+            tooltip.style.top = y + "px";
+        }
+
+        function showIDTooltip(e, id) {
+            const tooltip = document.getElementById("textTooltip");
+            tooltip.textContent = `ID: ${id}\nSammlung: VS\nObjekte: 4588`;
+            tooltip.classList.add("active");
+
+            const x = e.clientX + 15;
+            const y = e.clientY + 15;
+            tooltip.style.left = x + "px";
+            tooltip.style.top = y + "px";
+        }
+
+        function hideTooltip() {
+            document.getElementById("textTooltip").classList.remove("active");
+        }
+
+        // --------------------------------------------------------------
+        // TABULATOR INITIALIZATION (NO SCROLL)
+        // --------------------------------------------------------------
+        const table = new Tabulator("#attribute-table", {
+            layout: "fitColumns",
+            data: tableData,
+            responsiveLayout: "collapse",
+            responsiveLayoutCollapseStartOpen: false,
+            pagination: true,
+            paginationSize: 10,
+            paginationSizeSelector: [5, 10, 20, 50],
+
+            rowFormatter: function(row){
+                const d = row.getData();
+                if (d.publish) row.getElement().classList.add('published');
+                else row.getElement().classList.remove('published');
+            },
+
+            columns: [
+                { formatter: "responsiveCollapse", width: 40, minWidth: 40, hozAlign: "center", resizable: false, headerSort: false, responsive: 0 },
+                {
+                    title: "Attributtyp",
+                    field: "attributtyp",
+                    formatter: attributtypFormatter,
+                    headerFilter: attributtypHeaderFilter,
+                    width: 120,
+                    responsive: 0
+                },
+                { title: "ID", field: "id", formatter: idFormatter, headerFilter: "input", width: 120, responsive: 1 },
+                { title: "Name", field: "name", headerFilter: "input", minWidth: 200, responsive: 0 },
+                
+                
+                 {
+                    title: "Public",
+                    field: "publish",
+                    formatter: publishFormatter,
+                    headerFilter: publishHeaderFilter,
+                    hozAlign: "center",
+                    width: 90,
+                    responsive: 3
+                 },
+                { title: "Infotext", field: "infotext", formatter: longTextFormatter, headerFilter: "input", minWidth: 250, responsive: 10 },
+                { title: "Type", field: "type", headerFilter: typeHeaderFilter, width: 120, responsive: 2 },
+                { title: "in Sammlung", field: "sammlung", headerFilter: "input", minWidth: 80, responsive: 5 },              
+                { title: "in Objekten", field: "anzahl_objekte", width: 70, responsive: 13 },
+                { title: "Geändert am", field: "updated_at", width: 120, responsive: 0 },
+                { title: "Erstellt von", field: "created_by", minWidth: 110, headerSort: false, responsive: 15 },
+                { title: "Erstellt am", field: "created_at", minWidth: 110, headerSort: false, responsive: 15 },
+                { title: "Geändert von", field: "updated_by", minWidth: 110, responsive: 14 },
+                { title: "Kommentar", field: "kommentar", formatter: kommentarFormatter, headerFilter: "input", minWidth: 250, headerSort: false, responsive: 16 },
+                { title: "", formatter: editFormatter, width: 70, hozAlign: "center", responsive: 0 }
+            ]
+        });
+
+        // --------------------------------------------------------------
+        // APPLY FILTER TO TABULATOR
+        // --------------------------------------------------------------
+        function updateFilter() {
+            table.clearFilter(true);
+
+            let filters = [];
+
+            // Single-select filter for attributtyp
+            if (activeFilters.attributtyp) {
+                filters.push({
+                    field: "attributtyp",
+                    type: "=",
+                    value: activeFilters.attributtyp
+                });
+            }
+
+            // Single-select filter for publish
+            if (activeFilters.publish !== null) {
+                filters.push({
+                    field: "publish",
+                    type: "=",
+                    value: activeFilters.publish
+                });
+            }
+
+            // Single-select filter for type
+            if (activeFilters.type) {
+                filters.push({
+                    field: "type",
+                    type: "=",
+                    value: activeFilters.type
+                });
+            }
+
+            // Single-select filter for sammlung
+            if (activeFilters.sammlung) {
+                filters.push({
+                    field: "sammlung",
+                    type: "like",
+                    value: activeFilters.sammlung
+                });
+            }
+
+            table.setFilter(filters);
+            renderChips();
+        }
+
+         // --------------------------------------------------------------
+         // RESET ALL FILTERS
+         // --------------------------------------------------------------
+         document.getElementById("resetFilters").onclick = () => {
+            activeFilters = { attributtyp: null, type: null, publish: null, sammlung: null };
+             updateFilter();
+
+             // Clear multi-select and single-select UI, trigger change to refresh header filters
+             document.querySelectorAll(".multi-select").forEach(sel => {
+                 if (sel.multiple) {
+                     sel.querySelectorAll('option').forEach(opt => opt.selected = false);
+                 } else {
+                     sel.value = "";
+                 }
+                 sel.dispatchEvent(new Event('change', { bubbles: true }));
+             });
+         };
+    </script>
+</body>
+
+</html>
