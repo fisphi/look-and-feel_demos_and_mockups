@@ -517,6 +517,29 @@
                 activeFilters = createDefaultFilters();
             }
 
+            function resetAllFiltersAndSearch() {
+                clearAllFilters();
+                globalSearchQuery = "";
+                if (globalSearchInput) {
+                    globalSearchInput.value = "";
+                }
+                applyFilters(true);
+                resetHeaderFilters();
+            }
+
+            function focusGlobalSearchField() {
+                if (!globalSearchInput) return;
+                globalSearchInput.focus({ preventScroll: true });
+                globalSearchInput.select();
+            }
+
+            function isElementInsideTable(element) {
+                if (!element || typeof element.closest !== "function") {
+                    return false;
+                }
+                return Boolean(element.closest("#attribute-table"));
+            }
+
             function getExportableColumns() {
                 return columnDefinitions.filter(column => Boolean(column.field));
             }
@@ -568,13 +591,7 @@
                 triggerCsvDownload(csvContent, filename);
             }
 
-            resetFiltersButton.addEventListener("click", () => {
-                clearAllFilters();
-                globalSearchQuery = "";
-                globalSearchInput.value = "";
-                applyFilters(true);
-                resetHeaderFilters();
-            });
+            resetFiltersButton.addEventListener("click", resetAllFiltersAndSearch);
 
     globalSearchInput.addEventListener("input", (event) => {
         globalSearchQuery = (event.target.value || "").trim();
@@ -596,6 +613,33 @@
     if (downloadCsvAllButton) {
         downloadCsvAllButton.addEventListener("click", () => handleCsvDownload(true));
     }
+
+    document.addEventListener("keydown", (event) => {
+        const key = (event.key || "").toLowerCase();
+        const activeElement = document.activeElement;
+        const hasMeta = event.metaKey;
+
+        const focusGlobalSearchShortcut = !hasMeta && !event.shiftKey && key === "f" && (event.ctrlKey || event.altKey);
+        if (focusGlobalSearchShortcut) {
+            event.preventDefault();
+            focusGlobalSearchField();
+            return;
+        }
+
+        const resetShortcut = !hasMeta && !event.shiftKey && key === "r" && (event.ctrlKey || event.altKey);
+        if (resetShortcut && isElementInsideTable(activeElement)) {
+            event.preventDefault();
+            resetAllFiltersAndSearch();
+            return;
+        }
+
+        const exportShortcut = !hasMeta && key === "s" && event.ctrlKey;
+        if (exportShortcut) {
+            event.preventDefault();
+            const exportAll = event.shiftKey;
+            handleCsvDownload(exportAll);
+        }
+    });
 
             modalButtons.cancel.addEventListener("click", closeEditModal);
             modalButtons.save.addEventListener("click", saveEdit);

@@ -15,13 +15,30 @@
 <body>
     <div class="container">
         <h2>Tabulator-JS Demo: Attribute</h2>
-        <p class="subtitle">
-            Interaktive Tabelle mit Facetten-Filtern, 
-            Chip-basierter Filteranzeige, Responsive Collapse für mobile Ansichten, 
-            Hover-Tooltips für Langtext-Felder, Edit-Modal für Inline-Bearbeitung 
-            und farbcodierten Attributtypen. <br>Zusätzlich sorgen klar strukturierte Fokus-States,
-            Tab-Navigation über alle Aktionen sowie direkte Tastatur-Shortcuts für eine reibungslose Usability.
-        </p>
+        <div class="subtitle">
+            <p>
+                Interaktive Tabelle mit Facetten-Filtern, 
+                Chip-basierter Filteranzeige, Responsive Collapse für mobile Ansichten, 
+                Hover-Tooltips für Langtext-Felder, Edit-Modal für Inline-Bearbeitung 
+                und farbcodierten Attributtypen.<br>Zusätzlich sorgen klar strukturierte Fokus-States,
+                Tab-Navigation über alle Aktionen sowie direkte Tastatur-Shortcuts für eine reibungslose Usability.
+            </p>
+            <details class="info-box" aria-label="Tastatur-Shortcuts" open>
+                <summary>
+                    <span>Tastatur-Shortcuts</span>
+                    <span class="chevron" aria-hidden="true">▾</span>
+                </summary>
+                <ul>
+                    <li><kbd>Tab</kbd> / <kbd>Shift</kbd> + <kbd>Tab</kbd> – durch alle bedienbaren Elemente navigieren</li>
+                    <li><kbd>Enter</kbd> oder <kbd>Leertaste</kbd> auf dem Responsive-Toggle – Details auf- bzw. zuklappen</li>
+                    <li><kbd>Alt</kbd>/<kbd>Ctrl</kbd> + <kbd>F</kbd> – Global Search fokussieren</li>
+                    <li><kbd>Alt</kbd>/<kbd>Ctrl</kbd> + <kbd>R</kbd> – Alle Filter zurücksetzen (bei Tabellenfokus)</li>
+                    <li><kbd>Ctrl</kbd> + <kbd>S</kbd> – Gefilterten CSV-Export starten</li>
+                    <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> – Gesamten CSV-Export starten</li>
+
+                </ul>
+            </details>
+        </div>
 
         <div class="controls-row">
             <!-- Facet Chips (links) -->

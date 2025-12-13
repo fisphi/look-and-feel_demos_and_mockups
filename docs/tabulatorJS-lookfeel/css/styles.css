@@ -25,17 +25,87 @@
         h2 {
             font-weight: 700;
             margin-bottom: 37px;
-            background: linear-gradient(90deg,var(--primary),#BEE7FF);
+            /* background: linear-gradient(90deg,var(--primary),#BEE7FF); */
             -webkit-background-clip: text;
-            color: transparent;
+            color: #0f172a;
         }
 
         .subtitle {
-            font-size: 14px;
+            font-size: 16px;
             color: var(--muted);
             margin-top: -28px;
             margin-bottom: 32px;
             line-height: 1.6;
+        }
+
+        .info-box {
+            margin-top: 16px;
+            background: #ffffff;
+            border: 1px solid rgba(15,23,42,0.08);
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(12,18,30,0.05);
+            overflow: hidden;
+        }
+
+        .info-box summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            padding: 14px 16px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #0f172a;
+            outline: none;
+            list-style: none;
+        }
+
+        .info-box summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .info-box[open] summary {
+            border-bottom: 1px solid rgba(15,23,42,0.08);
+        }
+
+        .info-box summary:focus-visible {
+            box-shadow: 0 0 0 2px rgba(201,193,255,0.6);
+            border-radius: 12px;
+        }
+
+        .info-box .chevron {
+            transition: transform 0.2s ease;
+        }
+
+        .info-box[open] .chevron {
+            transform: rotate(180deg);
+        }
+
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+            display: grid;
+            gap: 6px;
+            padding: 14px 16px 18px;
+        }
+
+        .info-box li {
+            font-size: 14px;
+            color: #1f2937;
+        }
+
+        .info-box kbd {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #edf2ff;
+            border: 1px solid rgba(15,23,42,0.2);
+            font-size: 12px;
+            font-family: "JetBrains Mono", "Courier New", monospace;
+            color: #0f172a;
+            margin: 0 2px;
         }
 
         #attribute-table {
