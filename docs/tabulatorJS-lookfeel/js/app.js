@@ -1,6 +1,7 @@
 (function () {
             const chipContainer = document.getElementById("facet-chips");
             const recordCountsElement = document.getElementById("recordCounts");
+            const themeToggleButton = document.getElementById("themeToggle");
             const resetFiltersButton = document.getElementById("resetFilters");
             const tooltipElement = document.getElementById("textTooltip");
             const editModal = document.getElementById("editModal");
@@ -24,7 +25,9 @@
                 save: document.getElementById("modalSave")
             };
 
-    const tableData = window.tableData || [];
+            const tableData = window.tableData || [];
+            const THEME_STORAGE_KEY = "tabulatorTheme";
+            const MIDNIGHT_THEME_HREF = "https://unpkg.com/tabulator-tables@6.2.5/dist/css/tabulator_midnight.min.css";
 
             const FIELD_WEIGHTS = {
                 name: 5,
@@ -49,6 +52,7 @@
             let currentEditRow = null;
             let table = null;
             let filteredCount = 0;
+            let midnightThemeLink = null;
 
             function updateSelectCheckedState(selectElement) {
                 if (!selectElement) return;
@@ -463,6 +467,7 @@
             table = new Tabulator("#attribute-table", {
                 layout: "fitColumns",
                 data: tableData,
+                theme: "default",
                 responsiveLayout: "collapse",
                 responsiveLayoutCollapseStartOpen: false,
                 pagination: true,
@@ -472,6 +477,9 @@
                 columns: columnDefinitions
             });
             renderRecordCounts();
+            if (document.body.classList.contains("dark-mode")) {
+                syncTabulatorTheme(true);
+            }
 
             function buildFacetFilters() {
                 const filters = [];
@@ -547,6 +555,53 @@
                     label = `${activeCount} von ${totalCount} Datensätzen`;
                 }
                 recordCountsElement.textContent = label;
+            }
+
+            function syncTabulatorTheme(isDark) {
+                if (!table) return;
+                table.setTheme(isDark ? "midnight" : "default");
+            }
+
+            function ensureMidnightStylesheet() {
+                if (midnightThemeLink || document.querySelector('link[data-tabulator-theme="midnight"]')) {
+                    midnightThemeLink = midnightThemeLink || document.querySelector('link[data-tabulator-theme="midnight"]');
+                    return midnightThemeLink;
+                }
+                const link = document.createElement("link");
+                link.rel = "stylesheet";
+                link.href = MIDNIGHT_THEME_HREF;
+                link.dataset.tabulatorTheme = "midnight";
+                link.disabled = true;
+                document.head.appendChild(link);
+                midnightThemeLink = link;
+                return link;
+            }
+
+            function applyThemePreference(theme) {
+                const isDark = theme === "dark";
+                document.body.classList.toggle("dark-mode", isDark);
+                if (themeToggleButton) {
+                    themeToggleButton.textContent = isDark ? "Light Mode" : "Dark Mode";
+                    themeToggleButton.setAttribute("aria-pressed", String(isDark));
+                }
+                if (isDark) {
+                    ensureMidnightStylesheet().disabled = false;
+                } else if (midnightThemeLink || document.querySelector('link[data-tabulator-theme="midnight"]')) {
+                    const link = ensureMidnightStylesheet();
+                    link.disabled = true;
+                }
+                syncTabulatorTheme(isDark);
+            }
+
+            function toggleThemePreference() {
+                const isDark = document.body.classList.contains("dark-mode");
+                const newTheme = isDark ? "light" : "dark";
+                try {
+                    localStorage.setItem(THEME_STORAGE_KEY, newTheme);
+                } catch (error) {
+                    /* ignore storage errors */
+                }
+                applyThemePreference(newTheme);
             }
 
             function clearAllFilters() {
@@ -629,6 +684,10 @@
 
             resetFiltersButton.addEventListener("click", resetAllFiltersAndSearch);
 
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener("click", toggleThemePreference);
+            }
+
     globalSearchInput.addEventListener("input", (event) => {
         globalSearchQuery = (event.target.value || "").trim();
         applyFilters(false);
@@ -649,6 +708,17 @@
     if (downloadCsvAllButton) {
         downloadCsvAllButton.addEventListener("click", () => handleCsvDownload(true));
     }
+
+    let initialTheme = "light";
+    try {
+        const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+        if (storedTheme) {
+            initialTheme = storedTheme;
+        }
+    } catch (error) {
+        /* ignore storage errors */
+    }
+    applyThemePreference(initialTheme);
 
     document.addEventListener("keydown", (event) => {
         const key = (event.key || "").toLowerCase();
