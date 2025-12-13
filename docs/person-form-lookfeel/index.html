@@ -335,6 +335,32 @@ a.btn {
 .json-number { color: #b06a3b; } /* numbers */
 .json-boolean{ color: #b85f6a; } /* booleans */
 .json-null   { color: #7a8590; }  /* null / muted */
+
+.back-to-top {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1050;
+}
+.back-to-top.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+[data-bs-theme="dark"] .back-to-top {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
     </style>
 </head>
 <body>
@@ -470,7 +496,7 @@ a.btn {
                                         <div class="col-12">
                                             <label class="form-label">Anzeigename und Suffixe (automatisch generiert)</label>
                                             <div class="alert alert-sec ondary mb-1" role="alert">
-                                               <strong id="anzeigeNameDisplay" class="fs-5">—</strong> <i><small id="anzeigeNameDates" class="fs-5">—</small></i></div>
+                                               <strong id="anzeigeNameDisplay" class="fs-5">—</strong> <i><small id="anzeigeNameDates" class="text-muted small">—</small></i></div>
                                             </div>
                                             <!-- <div class="alert alert-secondary mb-1" role="alert"></div> -->
                                                 <!-- neue Zeile für Geburt/Tod/Wirkungszeitraum -->
@@ -1406,10 +1432,32 @@ a.btn {
         </div>
     </div>
 
+    <button type="button" id="backToTop" class="btn btn-primary back-to-top" aria-label="Nach oben scrollen">
+        <i class="bi bi-arrow-up"></i>
+    </button>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="autocomplete-data.js"></script>
     <script src="validation.js"></script>
     <script src="theme.js"></script>
     <script src="form.js"></script>
+    <script>
+        (function () {
+            const button = document.getElementById("backToTop");
+            if (!button) return;
+
+            function toggleVisibility() {
+                const shouldShow = window.scrollY > 240;
+                button.classList.toggle("show", shouldShow);
+            }
+
+            button.addEventListener("click", () => {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+
+            window.addEventListener("scroll", toggleVisibility, { passive: true });
+            toggleVisibility();
+        })();
+    </script>
 </body>
 </html>
