@@ -1,5 +1,6 @@
 (function () {
             const chipContainer = document.getElementById("facet-chips");
+            const recordCountsElement = document.getElementById("recordCounts");
             const resetFiltersButton = document.getElementById("resetFilters");
             const tooltipElement = document.getElementById("textTooltip");
             const editModal = document.getElementById("editModal");
@@ -47,6 +48,18 @@
             let globalSearchQuery = "";
             let currentEditRow = null;
             let table = null;
+            let filteredCount = 0;
+
+            function updateSelectCheckedState(selectElement) {
+                if (!selectElement) return;
+                Array.from(selectElement.options).forEach(option => {
+                    if (option.selected) {
+                        option.setAttribute("checked", "checked");
+                    } else {
+                        option.removeAttribute("checked");
+                    }
+                });
+            }
 
             function createSelectFilter(options, onChange) {
                 const select = document.createElement("select");
@@ -64,7 +77,11 @@
                     select.appendChild(opt);
                 });
 
-                select.addEventListener("change", () => onChange(select.value));
+                select.addEventListener("change", () => {
+                    updateSelectCheckedState(select);
+                    onChange(select.value);
+                });
+                updateSelectCheckedState(select);
                 return select;
             }
 
@@ -80,6 +97,7 @@
                 } else {
                     select.value = "";
                 }
+                updateSelectCheckedState(select);
                 select.dispatchEvent(new Event("change", { bubbles: true }));
             }
 
@@ -118,7 +136,7 @@
                     const value = activeFilters.attributtyp;
                     chipContainer.appendChild(buildChip({
                         cssClass: value.toLowerCase().replace(/\s/g, ""),
-                        label: `Attributtyp: ${value}`,
+                        label: `Attributart: ${value}`,
                         filterKey: "attributtyp",
                         value
                     }));
@@ -411,7 +429,7 @@
             const columnDefinitions = [
                 { formatter: "responsiveCollapse", width: 40, minWidth: 40, hozAlign: "center", resizable: false, headerSort: false, responsive: 0 },
                 {
-                    title: "Attributtyp",
+                    title: "Attributart",
                     field: "attributtyp",
                     formatter: attributtypFormatter,
                     headerFilter: attributtypHeaderFilter,
@@ -453,6 +471,7 @@
                 rowFormatter: formatPublishState,
                 columns: columnDefinitions
             });
+            renderRecordCounts();
 
             function buildFacetFilters() {
                 const filters = [];
@@ -488,6 +507,7 @@
                 if (!hasFacetFilters && !hasQuery) {
                     table.clearFilter(clearHeaderFilters);
                     renderChips();
+                    renderRecordCounts();
                     table.redraw(true);
                     return;
                 }
@@ -506,11 +526,27 @@
                 }
 
                 renderChips();
+                renderRecordCounts();
                 table.redraw(true);
             }
 
             function updateFilter() {
                 applyFilters(true);
+            }
+            function renderRecordCounts() {
+                if (!recordCountsElement) return;
+                const totalCount = tableData.length;
+                const activeCount = table ? table.getDataCount("active") : totalCount;
+                filteredCount = activeCount;
+                let label;
+                if (activeCount === totalCount) {
+                    label = `${totalCount} Datensätze`;
+                } else if (activeCount === 0) {
+                    label = "0 Datensätze";
+                } else {
+                    label = `${activeCount} von ${totalCount} Datensätzen`;
+                }
+                recordCountsElement.textContent = label;
             }
 
             function clearAllFilters() {

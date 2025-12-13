@@ -14,6 +14,12 @@
 
 <body>
     <div class="container">
+        <div class="badge-row" aria-label="Demo Status Badges">
+            <span class="badge badge-secondary">look&amp;feel</span>
+            <span class="badge badge-info">mockup</span>
+            <span class="badge badge-warning">demo</span>
+            <span class="badge badge-danger">draft</span>
+        </div>
         <h2>Tabulator-JS Demo: Attribute</h2>
         <div class="subtitle">
             <p>
@@ -21,7 +27,7 @@
                 Chip-basierter Filteranzeige, Responsive Collapse für mobile Ansichten, 
                 Hover-Tooltips für Langtext-Felder, Edit-Modal für Inline-Bearbeitung 
                 und farbcodierten Attributtypen.<br>Zusätzlich sorgen klar strukturierte Fokus-States,
-                Tab-Navigation über alle Aktionen sowie direkte Tastatur-Shortcuts für eine reibungslose Usability.
+                Tab-Navigation über alle Aktionen sowie direkte Tastatur-Shortcuts für eine intuitive Usability.
             </p>
             <details class="info-box" aria-label="Tastatur-Shortcuts">
                 <summary>
@@ -42,7 +48,10 @@
 
         <div class="controls-row">
             <!-- Facet Chips (links) -->
-            <div id="facet-chips" class="chip-container"></div>
+            <div>
+                <div id="recordCounts" class="record-counts" aria-live="polite"></div>
+                <div id="facet-chips" class="chip-container"></div>
+            </div>
             <!-- Reset Button (rechts) -->
             <div class="action-buttons">
                 <button type="button" id="downloadCsvFiltered" title="Lädt eine CSV-Datei mit allen aktuell gesetzten Filtern herunter">
