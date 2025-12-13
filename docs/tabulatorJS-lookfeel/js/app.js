@@ -3,7 +3,8 @@
             const resetFiltersButton = document.getElementById("resetFilters");
             const tooltipElement = document.getElementById("textTooltip");
             const editModal = document.getElementById("editModal");
-            const globalSearchInput = document.getElementById("globalSearch");
+    const globalSearchInput = document.getElementById("globalSearch");
+    const clearGlobalSearchButton = document.getElementById("clearGlobalSearch");
 
             const modalFields = {
                 attributtyp: document.getElementById("modal-attributtyp"),
@@ -497,10 +498,18 @@
                 resetHeaderFilters();
             });
 
-            globalSearchInput.addEventListener("input", (event) => {
-                globalSearchQuery = (event.target.value || "").trim();
-                applyFilters(false);
-            });
+    globalSearchInput.addEventListener("input", (event) => {
+        globalSearchQuery = (event.target.value || "").trim();
+        applyFilters(false);
+    });
+
+    if (clearGlobalSearchButton) {
+        clearGlobalSearchButton.addEventListener("click", () => {
+            globalSearchInput.value = "";
+            globalSearchQuery = "";
+            applyFilters(false);
+        });
+    }
 
             modalButtons.cancel.addEventListener("click", closeEditModal);
             modalButtons.save.addEventListener("click", saveEdit);
