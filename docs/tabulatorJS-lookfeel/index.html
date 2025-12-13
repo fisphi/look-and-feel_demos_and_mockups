@@ -19,14 +19,28 @@
             Interaktive Tabelle mit Facetten-Filtern, 
             Chip-basierter Filteranzeige, Responsive Collapse für mobile Ansichten, 
             Hover-Tooltips für Langtext-Felder, Edit-Modal für Inline-Bearbeitung 
-            und farbcodierten Attributtypen.
+            und farbcodierten Attributtypen. <br>Zusätzlich sorgen klar strukturierte Fokus-States,
+            Tab-Navigation über alle Aktionen sowie direkte Tastatur-Shortcuts für eine reibungslose Usability.
         </p>
 
         <div class="controls-row">
             <!-- Facet Chips (links) -->
             <div id="facet-chips" class="chip-container"></div>
             <!-- Reset Button (rechts) -->
-            <button id="resetFilters">Reset All Filters</button>
+            <div class="action-buttons">
+                <button type="button" id="downloadCsvFiltered" title="Lädt eine CSV-Datei mit allen aktuell gesetzten Filtern herunter">
+                    ⬇️ CSV (gefiltert)
+                </button>
+
+                <button type="button" id="downloadCsvAll" title="Lädt eine CSV-Datei mit allen Datensätzen ohne aktive Filter herunter">
+                    ⬇️ CSV (alle)
+                </button>
+
+                <button type="button" id="resetFilters"
+                    title="Setzt alle gesetzten Filter zurück und zeigt wieder den vollständigen Datenbestand">
+                    ⟲ Filter zurücksetzen
+                </button>
+            </div>
         </div>
 
         <div class="controls-row">

@@ -5,6 +5,8 @@
             const editModal = document.getElementById("editModal");
     const globalSearchInput = document.getElementById("globalSearch");
     const clearGlobalSearchButton = document.getElementById("clearGlobalSearch");
+    const downloadCsvFilteredButton = document.getElementById("downloadCsvFiltered");
+    const downloadCsvAllButton = document.getElementById("downloadCsvAll");
 
             const modalFields = {
                 attributtyp: document.getElementById("modal-attributtyp"),
@@ -373,6 +375,26 @@
                 closeEditModal();
             }
 
+            function handleResponsiveToggleKeydown(event) {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    event.currentTarget.click();
+                }
+            }
+
+            function enhanceResponsiveToggleAccess(rowElement) {
+                if (!rowElement) return;
+                const toggle = rowElement.querySelector(".tabulator-responsive-collapse-toggle");
+                if (!toggle || toggle.dataset.accessibilityEnhanced === "true") {
+                    return;
+                }
+                toggle.setAttribute("tabindex", "0");
+                toggle.setAttribute("role", "button");
+                toggle.setAttribute("aria-label", "Zeile ein- oder ausklappen");
+                toggle.dataset.accessibilityEnhanced = "true";
+                toggle.addEventListener("keydown", handleResponsiveToggleKeydown);
+            }
+
             function formatPublishState(row) {
                 const rowElement = row.getElement();
                 if (!rowElement) return;
@@ -382,7 +404,43 @@
                 } else {
                     rowElement.classList.remove("published");
                 }
+
+                enhanceResponsiveToggleAccess(rowElement);
             }
+
+            const columnDefinitions = [
+                { formatter: "responsiveCollapse", width: 40, minWidth: 40, hozAlign: "center", resizable: false, headerSort: false, responsive: 0 },
+                {
+                    title: "Attributtyp",
+                    field: "attributtyp",
+                    formatter: attributtypFormatter,
+                    headerFilter: attributtypHeaderFilter,
+                    width: 120,
+                    responsive: 0
+                },
+                { title: "ID", field: "id", formatter: idFormatter, headerFilter: "input", width: 100, responsive: 1 },
+                {
+                    title: "Public",
+                    field: "publish",
+                    formatter: publishFormatter,
+                    headerFilter: publishHeaderFilter,
+                    hozAlign: "center",
+                    width: 60,
+                    responsive: 3
+                },
+                { title: "Name", field: "name", formatter: textFormatter, headerFilter: "input", minWidth: 200, responsive: 0 },
+                { title: "Infotext", field: "infotext", formatter: longTextFormatter, headerFilter: "input", minWidth: 250, headerSort: false, responsive: 10 },
+                { title: "Mapping", field: "maps_to", formatter: textFormatter, headerFilter: "input", minWidth: 200, responsive: 5 },
+                { title: "Type", field: "type", formatter: textFormatter, headerFilter: typeHeaderFilter, width: 120, responsive: 2 },
+                { title: "in Sammlung", field: "sammlung", formatter: textFormatter, headerFilter: "input", minWidth: 120, responsive: 5 },
+                { title: "in Objekten", field: "anzahl_objekte", width: 70, responsive: 13 },
+                { title: "Geändert am", field: "updated_at", formatter: textFormatter, width: 110, responsive: 5 },
+                { title: "Geändert von", field: "updated_by", formatter: textFormatter, width: 50, responsive: 15 },
+                { title: "Erstellt am", field: "created_at", formatter: textFormatter, width: 110, responsive: 15 },
+                { title: "Erstellt von", field: "created_by", formatter: textFormatter, width: 50, responsive: 15 },
+                { title: "Kommentar", field: "kommentar", formatter: kommentarFormatter, headerFilter: "input", minWidth: 250, headerSort: false, responsive: 16 },
+                { title: "", formatter: editFormatter, width: 70, hozAlign: "center", responsive: 0 }
+            ];
 
             table = new Tabulator("#attribute-table", {
                 layout: "fitColumns",
@@ -390,43 +448,10 @@
                 responsiveLayout: "collapse",
                 responsiveLayoutCollapseStartOpen: false,
                 pagination: true,
-                paginationSize: 100,
+                paginationSize: 50,
                 paginationSizeSelector: [10, 20, 50, 100],
                 rowFormatter: formatPublishState,
-                columns: [
-                    { formatter: "responsiveCollapse", width: 40, minWidth: 40, hozAlign: "center", resizable: false, headerSort: false, responsive: 0 },
-                    {
-                        title: "Attributtyp",
-                        field: "attributtyp",
-                        formatter: attributtypFormatter,
-                        headerFilter: attributtypHeaderFilter,
-                        width: 120,
-                        responsive: 0
-                    },
-                    { title: "ID", field: "id", formatter: idFormatter, headerFilter: "input", width: 100, responsive: 1 },
-                    {
-                        title: "Public",
-                        field: "publish",
-                        formatter: publishFormatter,
-                        headerFilter: publishHeaderFilter,
-                        hozAlign: "center",
-                        width: 60,
-                        responsive: 3
-                    },
-                    { title: "Name", field: "name", formatter: textFormatter, headerFilter: "input", minWidth: 200, responsive: 0 },
-
-                    { title: "Infotext", field: "infotext", formatter: longTextFormatter, headerFilter: "input", minWidth: 250,  headerSort: false, responsive: 10 },
-                    { title: "Mapping", field: "maps_to", formatter: textFormatter, headerFilter: "input", minWidth: 200, responsive: 5 },
-                    { title: "Type", field: "type", formatter: textFormatter, headerFilter: typeHeaderFilter, width: 120, responsive: 2 },
-                    { title: "in Sammlung", field: "sammlung", formatter: textFormatter, headerFilter: "input", minWidth: 120, responsive: 5 },
-                    { title: "in Objekten", field: "anzahl_objekte", width: 70, responsive: 13 },
-                    { title: "Geändert am", field: "updated_at", formatter: textFormatter, width: 110, responsive: 5 },
-                    { title: "Geändert von", field: "updated_by", formatter: textFormatter, width: 50, responsive: 15 },
-                    { title: "Erstellt am", field: "created_at", formatter: textFormatter, width: 110, responsive: 15 },
-                    { title: "Erstellt von", field: "created_by", formatter: textFormatter, width: 50, responsive: 15 },
-                    { title: "Kommentar", field: "kommentar", formatter: kommentarFormatter, headerFilter: "input", minWidth: 250, headerSort: false, responsive: 16 },
-                    { title: "", formatter: editFormatter, width: 70, hozAlign: "center", responsive: 0 }
-                ]
+                columns: columnDefinitions
             });
 
             function buildFacetFilters() {
@@ -492,6 +517,57 @@
                 activeFilters = createDefaultFilters();
             }
 
+            function getExportableColumns() {
+                return columnDefinitions.filter(column => Boolean(column.field));
+            }
+
+            function collectRowData(includeAll = false) {
+                if (!table) return [];
+                const scope = includeAll ? "all" : "active";
+                let rows = table.getRows(scope) || [];
+                if (includeAll && rows.length === 0) {
+                    rows = table.getRows() || [];
+                }
+                return rows.map(row => row.getData());
+            }
+
+            function escapeCsvValue(value) {
+                if (value === null || value === undefined) {
+                    return "";
+                }
+                return normalizeValue(value).replace(/"/g, '""');
+            }
+
+            function buildCsvContent(rows, columns) {
+                const header = columns.map(col => `"${escapeCsvValue(col.title || col.field)}"`).join(",");
+                const body = rows.map(row => columns.map(col => `"${escapeCsvValue(row[col.field])}"`).join(","));
+                return [header, ...body].join("\r\n");
+            }
+
+            function triggerCsvDownload(csvContent, filename) {
+                const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }
+
+            function handleCsvDownload(includeAll = false) {
+                const rows = collectRowData(includeAll);
+                if (rows.length === 0) {
+                    alert("Keine Datensätze für den Export verfügbar.");
+                    return;
+                }
+                const columns = getExportableColumns();
+                const csvContent = buildCsvContent(rows, columns);
+                const filename = includeAll ? "attribute_export_all.csv" : "attribute_export_filtered.csv";
+                triggerCsvDownload(csvContent, filename);
+            }
+
             resetFiltersButton.addEventListener("click", () => {
                 clearAllFilters();
                 globalSearchQuery = "";
@@ -511,6 +587,14 @@
             globalSearchQuery = "";
             applyFilters(false);
         });
+    }
+
+    if (downloadCsvFilteredButton) {
+        downloadCsvFilteredButton.addEventListener("click", () => handleCsvDownload(false));
+    }
+
+    if (downloadCsvAllButton) {
+        downloadCsvAllButton.addEventListener("click", () => handleCsvDownload(true));
     }
 
             modalButtons.cancel.addEventListener("click", closeEditModal);
