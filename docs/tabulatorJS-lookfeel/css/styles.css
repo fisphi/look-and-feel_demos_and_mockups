@@ -17,9 +17,9 @@
 
         /* Container für zentrierte maximale Breite */
         .container {
-            max-width: 1400px;
+            /* max-width: 1400px; */
             margin: 0 auto;
-            width: 100%;
+            width: 96%;
         }
 
         h2 {
@@ -193,8 +193,8 @@
             font-weight: 700;
             font-size: 13px;
         }
-        .publish-icon.true { background: linear-gradient(90deg,#E8FBF0,#DFF6E6); color:#0b7a4b; }
-        .publish-icon.false { background: linear-gradient(90deg,#FFEFEF,#FFDCDC); color:#9b2b2b; }
+        .publish-icon.true { color:#0b7a4b; }
+        .publish-icon.false { color:#9b2b2b; }
 
         /* edit icon pill -> pastel */
         .edit-btn {
@@ -208,7 +208,7 @@
             color: #111;               /* schwarze Kontur für Icon */
             font-size: 0;              /* Text ausblenden, nur SVG sichtbar */
             cursor: pointer;
-            border: 1px solid rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,1);
             padding: 6px;
             transition: background .12s ease;
         }
@@ -220,7 +220,7 @@
             transform: rotate(-20deg); /* schräger Bleistift */
             stroke: currentColor;
             stroke-width: 1.6;
-            fill: none;
+            fill: lightblue;
         }
 
         /* Reset button styling */

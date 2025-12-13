@@ -415,15 +415,15 @@
                     },
                     { title: "Name", field: "name", formatter: textFormatter, headerFilter: "input", minWidth: 200, responsive: 0 },
 
-                    { title: "Infotext", field: "infotext", formatter: longTextFormatter, headerFilter: "input", minWidth: 180,  headerSort: false, responsive: 10 },
-                    { title: "Mapping", field: "maps_to", formatter: textFormatter, headerFilter: "input", minWidth: 180, responsive: 9 },
+                    { title: "Infotext", field: "infotext", formatter: longTextFormatter, headerFilter: "input", minWidth: 250,  headerSort: false, responsive: 10 },
+                    { title: "Mapping", field: "maps_to", formatter: textFormatter, headerFilter: "input", minWidth: 200, responsive: 5 },
                     { title: "Type", field: "type", formatter: textFormatter, headerFilter: typeHeaderFilter, width: 120, responsive: 2 },
-                    { title: "in Sammlung", field: "sammlung", formatter: textFormatter, headerFilter: "input", minWidth: 80, responsive: 5 },
+                    { title: "in Sammlung", field: "sammlung", formatter: textFormatter, headerFilter: "input", minWidth: 120, responsive: 5 },
                     { title: "in Objekten", field: "anzahl_objekte", width: 70, responsive: 13 },
-                    { title: "Geändert am", field: "updated_at", formatter: textFormatter, width: 120, responsive: 0 },
-                    { title: "Erstellt von", field: "created_by", formatter: textFormatter, minWidth: 110, headerSort: false, responsive: 15 },
-                    { title: "Erstellt am", field: "created_at", formatter: textFormatter, minWidth: 110, headerSort: false, responsive: 15 },
-                    { title: "Geändert von", field: "updated_by", formatter: textFormatter, minWidth: 110, responsive: 15 },
+                    { title: "Geändert am", field: "updated_at", formatter: textFormatter, width: 110, responsive: 5 },
+                    { title: "Geändert von", field: "updated_by", formatter: textFormatter, width: 50, responsive: 15 },
+                    { title: "Erstellt am", field: "created_at", formatter: textFormatter, width: 110, responsive: 15 },
+                    { title: "Erstellt von", field: "created_by", formatter: textFormatter, width: 50, responsive: 15 },
                     { title: "Kommentar", field: "kommentar", formatter: kommentarFormatter, headerFilter: "input", minWidth: 250, headerSort: false, responsive: 16 },
                     { title: "", formatter: editFormatter, width: 70, hozAlign: "center", responsive: 0 }
                 ]
