@@ -117,7 +117,14 @@
 
         .tabulator { border: none; }
         .tabulator .tabulator-header { background: rgba(201,193,255,0.06); } /* pastel header tint */
-        .tabulator .tabulator-cell { padding: 8px 10px; vertical-align: middle; }
+        .tabulator .tabulator-cell {
+            padding: 8px 10px;
+            vertical-align: middle;
+            cursor: default;
+        }
+        .tabulator .tabulator-row {
+            cursor: default;
+        }
 
         .cell-longtext {
             white-space: nowrap;
@@ -229,7 +236,8 @@
 
         /* Text input filters: same design as dropdowns */
         .tabulator-header-filter input[type="text"],
-        .tabulator-header-filter input[type="search"] {
+        .tabulator-header-filter input[type="search"],
+        .tabulator-header-filter select {
             width: 100%;
             height: 32px;
             border-radius: 6px;
@@ -239,10 +247,12 @@
             background: #fff;
             color: #0f172a;
             box-sizing: border-box;
+            cursor: pointer;
         }
-        .tabulator-header-filter input:focus {
-            outline: none;
-            border-color: rgba(201,193,255,0.5);
+        .tabulator-header-filter input:focus,
+        .tabulator-header-filter select:focus,
+        .tabulator-header-filter select:focus-visible {
+            border-color: #000;
         }
 
         /* Attributtyp cell colors */
@@ -283,6 +293,10 @@
             transition: background .12s ease;
         }
         .edit-btn:hover { background: rgba(0,0,0,0.03); }
+        .edit-btn:focus-visible {
+            outline: 2px solid #0ea853;
+            outline-offset: 2px;
+        }
 
         .edit-btn svg {
             width: 16px;
@@ -479,7 +493,7 @@
         }
 
         .tabulator-responsive-collapse-toggle:focus {
-            outline: 2px solid var(--primary);
+            outline: 2px solid #0ea853;
             outline-offset: 2px;
         }
 
