@@ -99,7 +99,7 @@
                             <div class="card">
                                 <div class="card-header bg-primary text-white">
                                     <h3 class="h5 mb-0">Lebensstatus</h3>
-                                    <small class="d-block mt-1 opacity-75">Bitte wählen Sie zuerst, ob die Person lebend oder verstorben ist. Entsprechend werden einige Felder ausgeblendet.</small>
+                                    <small class="d-block mt-1 opacity-75">Ob die Person lebend oder verstorben ist, bestimmt den rechtlichen Rahmen für die Personendatenerfassung. Entsprechend werden einige Felder ausgeblendet. <i>[tbf]</i></small>
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex gap-3">
@@ -141,14 +141,14 @@
                                         <div class="col-12">
                                             <label class="form-label">Anzeigename und Suffixe (automatisch generiert)</label>
                                             <div class="alert alert-sec ondary mb-1" role="alert">
-                                               <strong id="anzeigeNameDisplay" class="fs-5">—</strong> <i><small id="anzeigeNameDates" class="text-muted small">—</small></i></div>
+                                               <strong id="anzeigeNameDisplay" class="fs-5">—</strong> <small id="anzeigeNameDates" class="text-muted small">—</small></div>
                                             </div>
                                             <!-- <div class="alert alert-secondary mb-1" role="alert"></div> -->
                                                 <!-- neue Zeile für Geburt/Tod/Wirkungszeitraum -->
                                                 <!-- <div id="anzeigeNameDates" class="small text-muted mb-2"> </div> -->
                                                  <!-- <strong id="anzeigeNameDates" class="fs-5">—</strong>
                                              </div> -->
-                                            <div class="form-text">Der Anzeigename wird automatisch aus Vorname, Mittelname und Nachname zusammengesetzt. Am Ende erscheint statisch <i>[Sammlung] und falls bekannt davor das [* Geburtsdatum], [† Sterbedatum] oder [(fl.) Wirkungszeitraum]</i>.</div>
+                                            <div class="form-text">Der Anzeigename wird automatisch aus Vorname, Mittelname und Nachname zusammengesetzt. Am Ende erscheint statisch <i>[Sammlung] und falls bekannt davor das [* Geburtsdatum], [† Sterbedatum], [(fl.) Wirkungszeitraum] sowie [Normdatenbank: ID+URL]</i>.</div>
                                         </div>
                                     </div>
                                 
@@ -414,13 +414,13 @@
                                                         </div>
 
                                                         <div class="col-md-6">
-                                                            <label for="zoobank" class="form-label">ZOBODAT</label>
+                                                            <label for="zoobank" class="form-label">ZooBank</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" id="zoobank" name="zoobank"
                                                                        placeholder="UUID/LSID"
                                                                        data-validate="zoobank">
-                                                                <a class="btn btn-outline-secondary" href="https://www.zobodat.at/personen.php?q=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                                    ZOBODAT Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                <a class="btn btn-outline-secondary" href="https://www.zoobank.org/Search?search_term=Hochstetter+Ferdinands" target="_blank" rel="noopener noreferrer">
+                                                                    ZooBank Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
                                                                 </a>
                                                             </div>
                                                             <div class="form-text">Zoologische Namensdatenbank.</div>
@@ -428,13 +428,13 @@
                                                         </div>
 
                                                         <div class="col-md-6">
-                                                            <label for="zobodat" class="form-label">ZOBODAT</label>
+                                                            <label for="zobodat" class="form-label">c</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" id="zobodat" name="zobodat"
                                                                        placeholder="URL"
                                                                        data-validate="url">
                                                                 <a class="btn btn-outline-secondary" href="http://www.zobodat.at/personen.php?id=12345" target="_blank" rel="noopener noreferrer">
-                                                                    ZOBODAT Beispiel <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                    ZOBODAT Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
                                                                 </a>
                                                             </div>
                                                             <div class="form-text">Zoologisch-Botanische Datenbank.</div>
