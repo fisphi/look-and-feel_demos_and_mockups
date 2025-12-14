@@ -2,6 +2,26 @@
 (function() {
     const userRolleRadios = document.querySelectorAll('input[name="userrolle"]');
     const allSections = document.querySelectorAll('.form-section');
+    const navLinkMap = new Map();
+    document.querySelectorAll('#navbar-sections .nav-link').forEach(link => {
+        const target = link.getAttribute('href');
+        if (!target || !target.startsWith('#')) return;
+        navLinkMap.set(target.slice(1), link);
+    });
+
+    function setNavVisibility(sectionId, isVisible) {
+        const link = navLinkMap.get(sectionId);
+        if (!link) return;
+        if (isVisible) {
+            link.classList.remove('d-none');
+            link.removeAttribute('aria-hidden');
+            link.removeAttribute('tabindex');
+        } else {
+            link.classList.add('d-none');
+            link.setAttribute('aria-hidden', 'true');
+            link.setAttribute('tabindex', '-1');
+        }
+    }
     
     function updateRolePermissions() {
         const selectedRole = document.querySelector('input[name="userrolle"]:checked');
@@ -12,12 +32,29 @@
                 if (section.id !== 'userrolle') {
                     section.classList.remove('d-none');
                     section.classList.add('disabled-section');
+                    setNavVisibility(section.id, true);
                 }
             });
             return;
         }
         
         const role = selectedRole.value;
+        
+        if (role === 'user') {
+            allSections.forEach(section => {
+                if (section.id === 'userrolle' || section.id === 'anzeigename') {
+                    section.classList.remove('d-none');
+                    section.classList.add('disabled-section');
+                    setNavVisibility(section.id, true);
+                } else {
+                    section.classList.add('d-none');
+                    section.classList.remove('disabled-section');
+                    setNavVisibility(section.id, false);
+                }
+            });
+            updateFormState();
+            return;
+        }
         
         // Alle Sektionen durchgehen und basierend auf Rolle aktivieren/deaktivieren
         allSections.forEach(section => {
@@ -30,24 +67,27 @@
                 // Keine Einschränkungen - Sektion verfügbar
                 section.classList.remove('disabled-section');
                 section.classList.remove('d-none');
+                setNavVisibility(section.id, true);
                 return;
             }
             
-            const restrictedRoles = restrictions.split(',');
+            const restrictedRoles = restrictions.split(',').filter(Boolean);
+            const isRestricted = restrictedRoles.includes(role);
             
-            if (restrictedRoles.includes(role)) {
-                // Rolle ist eingeschränkt für diese Sektion
+            if (isRestricted) {
                 if (hideWhenRestricted) {
                     section.classList.add('d-none');
                     section.classList.remove('disabled-section');
+                    setNavVisibility(section.id, false);
                 } else {
                     section.classList.remove('d-none');
                     section.classList.add('disabled-section');
+                    setNavVisibility(section.id, true);
                 }
             } else {
-                // Rolle darf diese Sektion bearbeiten
                 section.classList.remove('disabled-section');
                 section.classList.remove('d-none');
+                setNavVisibility(section.id, true);
             }
         });
         
@@ -201,7 +241,8 @@
 
 // Tätigkeiten / Rollen - Repeatable Section
 (function() {
-    let taetigkeitenCounter = 1;
+    const existingEntries = document.querySelectorAll('.taetigkeiten-entry');
+    let taetigkeitenCounter = existingEntries.length || 1;
     
     window.addRolleToEntry = function(button, entryId) {
         const container = document.querySelector(`.rollen-container-${entryId}`);
@@ -294,7 +335,7 @@
     });
     
     // Initialize autocomplete for pre-filled entry
-    document.querySelectorAll('.taetigkeiten-entry').forEach((entry, index) => {
+    existingEntries.forEach((entry) => {
         const institutionInput = entry.querySelector('[data-autocomplete="institutionen"]');
         if (institutionInput) {
             const dropdown = institutionInput.nextElementSibling;
@@ -440,6 +481,13 @@
             ortWrapper.appendChild(ortInput);
             ortWrapper.appendChild(ortDropdown);
             row.appendChild(ortWrapper);
+
+            const mapBtn = document.createElement('button');
+            mapBtn.type = 'button';
+            mapBtn.className = 'btn btn-outline-secondary btn-sm location-map-btn';
+            mapBtn.setAttribute('aria-label', 'Ort in Karte öffnen');
+            mapBtn.innerHTML = '<i class="bi bi-globe"></i>';
+            row.appendChild(mapBtn);
             
             // Von (EDTF)
             const vonInput = document.createElement('input');
@@ -543,6 +591,23 @@
         }
     });
 })();
+
+// Map open helper for Wirkungsorte
+document.addEventListener('click', function(event) {
+    const btn = event.target.closest('.location-map-btn');
+    if (!btn) return;
+    const row = btn.closest('.dynamic-field-row');
+    if (!row) return;
+    const input = row.querySelector('input[name="wirkungsorte[]"]');
+    if (!input) return;
+    const query = (input.value || '').trim();
+    if (!query) {
+        input.focus();
+        return;
+    }
+    const url = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+    window.open(url, '_blank', 'noopener');
+});
 
 // Autocomplete-Funktionalität
 function initAutocomplete(input, dropdown, dataKey) {
