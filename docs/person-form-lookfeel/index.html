@@ -161,8 +161,7 @@
             border-radius: 0.5rem;
             transition: color 0.2s ease, background 0.2s ease;
         }
-        .sidebar .nav-link.active,
-        #backToTop {
+        .sidebar .nav-link.active {
             color: #000;
             background: rgba(143, 188, 230, 0.25);
             padding-left: 0.4rem;
@@ -465,6 +464,13 @@ a.btn {
 .json-boolean{ color: #b85f6a; } /* booleans */
 .json-null   { color: #7a8590; }  /* null / muted */
 
+        #backToTop {
+            color: #000;
+            background: rgba(143, 188, 230, 0.25) !important;
+            padding-left: 0.4rem;
+            margin-top: 2rem;
+            margin-bottom: 4rem;
+        }
 
     </style>
 </head>
@@ -1359,7 +1365,65 @@ a.btn {
                             </div>
                         </section>
 
-                        <!-- 11. IMPORTDATEN (READONLY) -->
+                        <!-- 11. RECORD HISTORY -->
+                        <section id="record_history" class="form-section mb-5">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h3 class="h5 mb-0">Record History</h3>
+                                    <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#recordHistoryInfoModal">
+                                        <i class="bi bi-info-circle"></i> Erklärung
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th>Aktion</th>
+                                                    <th>Beschreibung</th>
+                                                    <th>by username</th>
+                                                    <th>at timestamp</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><span class="badge bg-primary">Imported</span></td>
+                                                    <td>Datensatz via Batch-Import (Birdcollection-Feed) angelegt</td>
+                                                    <td>system.importer</td>
+                                                    <td>2024-05-11 08:15</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-success">Update</span></td>
+                                                    <td>Normdaten aktualisiert (GND + Wikidata)</td>
+                                                    <td>awuelle</td>
+                                                    <td>2024-06-02 14:33</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-warning text-dark">Duplicated</span></td>
+                                                    <td>Datensatz dupliziert für Zweitfassung (VS-Bestand)</td>
+                                                    <td>pfischer</td>
+                                                    <td>2024-07-19 10:02</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-danger">Delete</span></td>
+                                                    <td>Verworfen, da Dublette von ATT-03042</td>
+                                                    <td>db_owner</td>
+                                                    <td>2024-07-20 09:48</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="badge bg-info text-dark">Merged</span></td>
+                                                    <td>Zusammengeführt aus IDX=ATT-03001 und IDZ=ATT-03017</td>
+                                                    <td>k.schmidt</td>
+                                                    <td>2024-08-01 16:21</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 12. IMPORTDATEN (READONLY) -->
                         <section id="import" class="form-section mb-5 disabled-section" data-role-restriction="user" data-hide-when-restricted="true">
                             <div class="card">
                                 <div class="card-header">
@@ -1511,12 +1575,13 @@ a.btn {
                         <a class="nav-link" href="#orte">Orte</a>
                         <a class="nav-link" href="#normdaten">Normdaten</a>
                         <a class="nav-link" href="#kontakt">Kontakt</a>
-                        <a class="nav-link" href="#meta">Anmerkungen und Kommentare</a>
+                        <a class="nav-link" href="#meta">Anmerkungen</a>
                         <a class="nav-link" href="#quellenangaben">Quellenangaben</a>
+                        <a class="nav-link" href="#record_history">Record History</a>
                         <a class="nav-link" href="#import">Importdaten</a>
                     </nav>
-                    <div class="d-grid gap-2 mt-3">
-                        <button type="button" id="backToTop" class="btn btn-outline-secondary w-100 mb-5" aria-label="Nach oben scrollen">
+                    <div class="sidebar-actions d-grid gap-2 mt-auto">
+                        <button type="button" id="backToTop" class="btn btn-outline-secondary w-100 nav-highlight" aria-label="Nach oben scrollen">
                             <i class="bi bi-arrow-up"></i> Back to Top
                         </button>
                         <button id="resetForm" class="btn btn-outline-danger w-100" title="Formular zurücksetzen">
@@ -1525,8 +1590,57 @@ a.btn {
                         <button id="exportJson" class="btn btn-primary w-100">
                             <i class="bi bi-download"></i> JSON exportieren
                         </button>
-
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Record History Info Modal -->
+    <div class="modal fade" id="recordHistoryInfoModal" tabindex="-1" aria-labelledby="recordHistoryInfoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recordHistoryInfoModalLabel">Record History – Erklärung</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="lead text-muted">Datensatzhistorien (Record history) – Aktionen in Bezug auf einen Datensatz</p>
+                    <p>Record history = Änderungsverlauf eines einzelnen Datensatzes im System. Sie zeichnet alle Bearbeitungen am Datensatz nach: wer was wann geändert hat. Fokus liegt auf der digitalen Repräsentation (Versionierung, Audit-Trail, Metadaten-Änderungen).</p>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="card border-primary h-100">
+                                <div class="card-header bg-primary text-white">
+                                    Datensatz-Aktionen
+                                </div>
+                                <div class="card-body">
+                                    <ul class="mb-0">
+                                        <li>Imported – Datensatz importiert ODER Create – Datensatz neu angelegt</li>
+                                        <li>Update – Datensatz geändert</li>
+                                        <li>Delete – Datensatz gelöscht</li>
+                                        <li>Duplicated – Datensatz dupliziert</li>
+                                        <li>Merged – Datensatz zusammengeführt aus Datensätzen IDX und IDZ</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-secondary h-100">
+                                <div class="card-header bg-secondary text-white">
+                                    Metadaten zu Aktionen
+                                </div>
+                                <div class="card-body">
+                                    <ul class="mb-0">
+                                        <li><strong>by username</strong> – welcher Benutzer die Aktion durchgeführt hat</li>
+                                        <li><strong>at timestamp</strong> – Zeitpunkt der Aktion</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
                 </div>
             </div>
         </div>
