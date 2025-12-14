@@ -126,6 +126,16 @@
             color: var(--bs-body-color);
             background-color: var(--bs-body-bg);
         }
+        .form-control.has-value,
+        .form-select.has-value {
+            border-color: #2f9e44 !important;
+            box-shadow: 0 0 0 0.15rem rgba(47, 158, 68, 0.25);
+        }
+        [data-bs-theme="dark"] .form-control.has-value,
+        [data-bs-theme="dark"] .form-select.has-value {
+            border-color: #6fe28f !important;
+            box-shadow: 0 0 0 0.15rem rgba(111, 226, 143, 0.3);
+        }
         
         .card {
             border-color: var(--bs-border-color);
@@ -671,7 +681,12 @@ a.btn {
                                     
                                     <div class="row g-3 row-separator">
                                         <div class="col-md-6">
-                                            <label for="standes_und_amtstitel" class="form-label">Standes- und Amtstitel</label>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <label for="standes_und_amtstitel" class="form-label mb-0">Standes- und Amtstitel</label>
+                                                <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#standesTitelModal">
+                                                    <i class="bi bi-info-circle"></i>
+                                                </button>
+                                            </div>
                                             <div class="autocomplete-wrapper">
                                                 <input type="text" class="form-control autocomplete-input" 
                                                        id="standes_und_amtstitel" name="standes_und_amtstitel"
@@ -680,7 +695,12 @@ a.btn {
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="akademischer_titel" class="form-label">Akademischer Titel</label>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <label for="akademischer_titel" class="form-label mb-0">Akademischer Titel</label>
+                                                <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#akademischeTitelModal">
+                                                    <i class="bi bi-info-circle"></i>
+                                                </button>
+                                            </div>
                                             <div class="autocomplete-wrapper">
                                                 <input type="text" class="form-control autocomplete-input" 
                                                        id="akademischer_titel" name="akademischer_titel"
@@ -886,19 +906,21 @@ a.btn {
                                     <h3 class="h5 mb-0">Normdaten</h3>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row g-3">
-                                        <div class="col-md-6">
+                                    <div class="row g-3 mb-4">
+                                        <div class="col-12">
                                             <label for="orcid" class="form-label">ORCID</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="orcid" name="orcid"
                                                        placeholder="0000-0000-0000-000X oder URL"
                                                        data-validate="orcid">
-                                                <a class="btn btn-outline-secondary" href="https://orcid.org/0000-0002-0752-8735" target="_blank" rel="noopener noreferrer">
-                                                    ORCID <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                <a class="btn btn-outline-secondary"
+                                                   href="https://orcid.org/0000-0002-0752-8735"
+                                                   target="_blank" rel="noopener noreferrer">
+                                                    ORCID öffnen <i class="bi bi-box-arrow-up-right ms-1"></i>
                                                 </a>
                                             </div>
-                                            <div class="form-text">Eindeutige Kennung für Forschende.</div>
                                             <div class="invalid-feedback">Ungültiges ORCID-Format</div>
+                                            <div class="form-text">Eindeutige Kennung für Forschende.</div>
                                         </div>
 
                                         <div class="col-md-6">
@@ -928,7 +950,7 @@ a.btn {
                                             <div class="invalid-feedback">Ungültiges GND-Format</div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-12 col-sm-6">
                                             <label for="wikidata" class="form-label">Wikidata</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="wikidata" name="wikidata"
@@ -942,91 +964,7 @@ a.btn {
                                             <div class="invalid-feedback">Ungültiges Wikidata-Format (Q + Zahl)</div>
                                         </div>
 
-                                        <div class="col-md-6">
-                                            <label for="isni" class="form-label">ISNI</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="isni" name="isni"
-                                                       placeholder="16-stellig"
-                                                       data-validate="isni">
-                                                <a class="btn btn-outline-secondary" href="https://isni.oclc.org/cbs/DB=1.2/SET=1/TTL=1/CMD?ACT=SRCH&IKT=8006&SRT=LST_nd&TRM=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                    ISNI Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                            <div class="form-text">Internationale Standardnummer.</div>
-                                            <div class="invalid-feedback">Ungültiges ISNI-Format (16 Ziffern)</div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label for="lcnaf" class="form-label">LCNAF</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="lcnaf" name="lcnaf"
-                                                       placeholder="n + Zahl"
-                                                       data-validate="lcnaf">
-                                                <a class="btn btn-outline-secondary" href="https://authorities.loc.gov/search-results?searchFields=all&searchType=begins&searchTerm=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                    LCNAF Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                            <div class="form-text">Library of Congress Name Authority File.</div>
-                                            <div class="invalid-feedback">Ungültiges LCNAF-Format (n + Zahl)</div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label for="bnf" class="form-label">BNF</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="bnf" name="bnf"
-                                                       placeholder="cb + Zahl"
-                                                       data-validate="bnf">
-                                                <a class="btn btn-outline-secondary" href="https://catalogue.bnf.fr/rechercher.do?motRecherche=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                    BNF Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                            <div class="form-text">Bibliothèque nationale de France.</div>
-                                            <div class="invalid-feedback">Ungültiges BNF-Format (cb + Zahl)</div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label for="bhl" class="form-label">BHL</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="bhl" name="bhl"
-                                                       placeholder="Zahl oder URL"
-                                                       data-validate="bhl">
-                                                <a class="btn btn-outline-secondary" href="https://www.biodiversitylibrary.org/search?searchTerm=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                    BHL Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                            <div class="form-text">Biodiversity Heritage Library (Author ID).</div>
-                                            <div class="invalid-feedback">Ungültiges BHL-Format</div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label for="zoobank" class="form-label">ZOBODAT</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="zoobank" name="zoobank"
-                                                       placeholder="UUID/LSID"
-                                                       data-validate="zoobank">
-                                                <a class="btn btn-outline-secondary" href="https://www.zobodat.at/personen.php?q=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                    ZOBODAT Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                            <div class="form-text">Zoologische Namensdatenbank.</div>
-                                            <div class="invalid-feedback">Ungültiges ZooBank-Format</div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <label for="zobodat" class="form-label">ZOBODAT</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="zobodat" name="zobodat"
-                                                       placeholder="URL"
-                                                       data-validate="url">
-                                                <a class="btn btn-outline-secondary" href="http://www.zobodat.at/personen.php?id=12345" target="_blank" rel="noopener noreferrer">
-                                                    ZOBODAT Beispiel <i class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                            <div class="form-text">Zoologisch-Botanische Datenbank.</div>
-                                            <div class="invalid-feedback">Ungültige URL</div>
-                                        </div>
-
-                                        <div class="col-md-6">
+                                        <div class="col-12 col-sm-6">
                                             <label for="wikipedia" class="form-label">Wikipedia</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="wikipedia" name="wikipedia"
@@ -1039,33 +977,132 @@ a.btn {
                                             <div class="form-text">Wikipedia-Seite.</div>
                                             <div class="invalid-feedback">Ungültige URL</div>
                                         </div>
+                                    </div>
 
-                                        <div class="col-md-6">
-                                            <label for="ulan" class="form-label">ULAN</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="ulan" name="ulan"
-                                                       placeholder="Zahl oder URL"
-                                                       data-validate="ulan">
-                                                <a class="btn btn-outline-secondary" href="https://www.getty.edu/vow/ULANServlet?english=Y&find=Hochstetter+Ferdinand&role=&page=1&nation=" target="_blank" rel="noopener noreferrer">
-                                                    ULAN Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
-                                            </div>
-                                            <div class="form-text">Getty Union List of Artist Names.</div>
-                                            <div class="invalid-feedback">Ungültiges ULAN-Format</div>
-                                        </div>
+                                    <div class="accordion" id="normdatenAccordion">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="normdatenAccordionHeading">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#normdatenAccordionCollapse" aria-expanded="false" aria-controls="normdatenAccordionCollapse">
+                                                    Weitere Normdatenbanken anzeigen
+                                                </button>
+                                            </h2>
+                                            <div id="normdatenAccordionCollapse" class="accordion-collapse collapse" aria-labelledby="normdatenAccordionHeading" data-bs-parent="#normdatenAccordion">
+                                                <div class="accordion-body">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-6">
+                                                            <label for="isni" class="form-label">ISNI</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="isni" name="isni"
+                                                                       placeholder="16-stellig"
+                                                                       data-validate="isni">
+                                                                <a class="btn btn-outline-secondary" href="https://isni.oclc.org/cbs/DB=1.2/SET=1/TTL=1/CMD?ACT=SRCH&IKT=8006&SRT=LST_nd&TRM=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
+                                                                    ISNI Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div class="form-text">Internationale Standardnummer.</div>
+                                                            <div class="invalid-feedback">Ungültiges ISNI-Format (16 Ziffern)</div>
+                                                        </div>
 
-                                        <div class="col-md-6">
-                                            <label for="ipni" class="form-label">IPNI</label>
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" id="ipni" name="ipni"
-                                                       placeholder="URL"
-                                                       data-validate="url">
-                                                <a class="btn btn-outline-secondary" href="https://www.ipni.org/search?q=Hochstetter%20Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                    IPNI Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
-                                                </a>
+                                                        <div class="col-md-6">
+                                                            <label for="lcnaf" class="form-label">LCNAF</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="lcnaf" name="lcnaf"
+                                                                       placeholder="n + Zahl"
+                                                                       data-validate="lcnaf">
+                                                                <a class="btn btn-outline-secondary" href="https://authorities.loc.gov/search-results?searchFields=all&searchType=begins&searchTerm=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
+                                                                    LCNAF Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div class="form-text">Library of Congress Name Authority File.</div>
+                                                            <div class="invalid-feedback">Ungültiges LCNAF-Format (n + Zahl)</div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <label for="bnf" class="form-label">BNF</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="bnf" name="bnf"
+                                                                       placeholder="cb + Zahl"
+                                                                       data-validate="bnf">
+                                                                <a class="btn btn-outline-secondary" href="https://catalogue.bnf.fr/rechercher.do?motRecherche=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
+                                                                    BNF Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div class="form-text">Bibliothèque nationale de France.</div>
+                                                            <div class="invalid-feedback">Ungültiges BNF-Format (cb + Zahl)</div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <label for="bhl" class="form-label">BHL</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="bhl" name="bhl"
+                                                                       placeholder="Zahl oder URL"
+                                                                       data-validate="bhl">
+                                                                <a class="btn btn-outline-secondary" href="https://www.biodiversitylibrary.org/search?searchTerm=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
+                                                                    BHL Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div class="form-text">Biodiversity Heritage Library (Author ID).</div>
+                                                            <div class="invalid-feedback">Ungültiges BHL-Format</div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <label for="zoobank" class="form-label">ZOBODAT</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="zoobank" name="zoobank"
+                                                                       placeholder="UUID/LSID"
+                                                                       data-validate="zoobank">
+                                                                <a class="btn btn-outline-secondary" href="https://www.zobodat.at/personen.php?q=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
+                                                                    ZOBODAT Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div class="form-text">Zoologische Namensdatenbank.</div>
+                                                            <div class="invalid-feedback">Ungültiges ZooBank-Format</div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <label for="zobodat" class="form-label">ZOBODAT</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="zobodat" name="zobodat"
+                                                                       placeholder="URL"
+                                                                       data-validate="url">
+                                                                <a class="btn btn-outline-secondary" href="http://www.zobodat.at/personen.php?id=12345" target="_blank" rel="noopener noreferrer">
+                                                                    ZOBODAT Beispiel <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div class="form-text">Zoologisch-Botanische Datenbank.</div>
+                                                            <div class="invalid-feedback">Ungültige URL</div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <label for="ulan" class="form-label">ULAN</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="ulan" name="ulan"
+                                                                       placeholder="Zahl oder URL"
+                                                                       data-validate="ulan">
+                                                                <a class="btn btn-outline-secondary" href="https://www.getty.edu/vow/ULANServlet?english=Y&find=Hochstetter+Ferdinand&role=&page=1&nation=" target="_blank" rel="noopener noreferrer">
+                                                                    ULAN Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div class="form-text">Getty Union List of Artist Names.</div>
+                                                            <div class="invalid-feedback">Ungültiges ULAN-Format</div>
+                                                        </div>
+
+                                                        <div class="col-md-6">
+                                                            <label for="ipni" class="form-label">IPNI</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="ipni" name="ipni"
+                                                                       placeholder="URL"
+                                                                       data-validate="url">
+                                                                <a class="btn btn-outline-secondary" href="https://www.ipni.org/search?q=Hochstetter%20Ferdinand" target="_blank" rel="noopener noreferrer">
+                                                                    IPNI Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                </a>
+                                                            </div>
+                                                            <div class="form-text">IPNI (International Plant Names Index).</div>
+                                                            <div class="invalid-feedback">Ungültige URL</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-text">IPNI (International Plant Names Index).</div>
-                                            <div class="invalid-feedback">Ungültige URL</div>
                                         </div>
                                     </div>
                                 </div>
@@ -1591,6 +1628,66 @@ a.btn {
                             <i class="bi bi-download"></i> JSON exportieren
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Standes- und Amtstitel Modal -->
+    <div class="modal fade" id="standesTitelModal" tabindex="-1" aria-labelledby="standesTitelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="standesTitelModalLabel">Standes- und Amtstitel – Auswahl</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small">Auswahlliste für den Autocomplete im Feld „Standes- und Amtstitel“.</p>
+                    <ul class="list-unstyled mb-0">
+                        <li>Freiherr</li>
+                        <li>Freifrau</li>
+                        <li>Hofrat</li>
+                        <li>Ritter</li>
+                        <li>von</li>
+                        <li>zu</li>
+                        <li>Graf</li>
+                        <li>Gräfin</li>
+                        <li>Baron</li>
+                        <li>Baronin</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Akademischer Titel Modal -->
+    <div class="modal fade" id="akademischeTitelModal" tabindex="-1" aria-labelledby="akademischeTitelModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="akademischeTitelModalLabel">Akademische Titel – Auswahl</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small">Auswahlliste für den Autocomplete im Feld „Akademischer Titel“.</p>
+                    <ul class="list-unstyled mb-0">
+                        <li>Dr.</li>
+                        <li>Prof.</li>
+                        <li>Univ.-Prof.</li>
+                        <li>Mag.</li>
+                        <li>Dipl.-Ing.</li>
+                        <li>Dr. phil.</li>
+                        <li>Dr. rer. nat.</li>
+                        <li>PhD</li>
+                        <li>MSc</li>
+                        <li>BSc</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
                 </div>
             </div>
         </div>

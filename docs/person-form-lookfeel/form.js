@@ -647,6 +647,25 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Highlight inputs/selects with values
+(function() {
+    const selector = '.form-control, .form-select';
+
+    function updateHighlight(el) {
+        if (!el || !el.matches(selector)) return;
+        const value = (el.value || '').trim();
+        el.classList.toggle('has-value', value.length > 0);
+    }
+
+    function initValueHighlights() {
+        document.querySelectorAll(selector).forEach(updateHighlight);
+        document.addEventListener('input', (event) => updateHighlight(event.target), true);
+        document.addEventListener('change', (event) => updateHighlight(event.target), true);
+    }
+
+    document.addEventListener('DOMContentLoaded', initValueHighlights);
+})();
+
 // JSON-Export
 document.getElementById('exportJson').addEventListener('click', function() {
     if (!validateForm()) {
