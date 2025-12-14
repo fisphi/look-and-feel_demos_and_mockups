@@ -4,7 +4,7 @@ const autocompleteData = {
         'Abt',
         'Äbtissin',
         'Baron',
-        'Baronin'
+        'Baronin',
         'Diakon',
         'Domdechant',
         'Domherr',
