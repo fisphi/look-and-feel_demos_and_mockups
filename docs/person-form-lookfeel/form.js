@@ -4,15 +4,15 @@
     const allSections = document.querySelectorAll('.form-section');
     const navLinkMap = new Map();
     document.querySelectorAll('#navbar-sections .nav-link').forEach(link => {
-        const target = link.getAttribute('href');
-        if (!target || !target.startsWith('#')) return;
-        navLinkMap.set(target.slice(1), link);
+        const href = link.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
+        navLinkMap.set(href.slice(1), link);
     });
 
-    function setNavVisibility(sectionId, isVisible) {
+    function setNavVisibility(sectionId, visible) {
         const link = navLinkMap.get(sectionId);
         if (!link) return;
-        if (isVisible) {
+        if (visible) {
             link.classList.remove('d-none');
             link.removeAttribute('aria-hidden');
             link.removeAttribute('tabindex');
@@ -39,22 +39,25 @@
         }
         
         const role = selectedRole.value;
-        
+
+        // Record-Viewer: nur Anzeigename sehen
         if (role === 'user') {
             allSections.forEach(section => {
                 if (section.id === 'userrolle' || section.id === 'anzeigename') {
                     section.classList.remove('d-none');
-                    section.classList.add('disabled-section');
-                    setNavVisibility(section.id, true);
+                    section.classList.remove('disabled-section');
+                    setNavVisibility(section.id, section.id === 'anzeigename');
                 } else {
                     section.classList.add('d-none');
                     section.classList.remove('disabled-section');
                     setNavVisibility(section.id, false);
                 }
             });
-            updateFormState();
             return;
         }
+        
+        // Für andere Rollen: alle Navigationspunkte sichtbar
+        allSections.forEach(section => setNavVisibility(section.id, true));
         
         // Alle Sektionen durchgehen und basierend auf Rolle aktivieren/deaktivieren
         allSections.forEach(section => {
@@ -67,27 +70,24 @@
                 // Keine Einschränkungen - Sektion verfügbar
                 section.classList.remove('disabled-section');
                 section.classList.remove('d-none');
-                setNavVisibility(section.id, true);
                 return;
             }
             
-            const restrictedRoles = restrictions.split(',').filter(Boolean);
-            const isRestricted = restrictedRoles.includes(role);
+            const restrictedRoles = restrictions.split(',');
             
-            if (isRestricted) {
+            if (restrictedRoles.includes(role)) {
+                // Rolle ist eingeschränkt für diese Sektion
                 if (hideWhenRestricted) {
                     section.classList.add('d-none');
                     section.classList.remove('disabled-section');
-                    setNavVisibility(section.id, false);
                 } else {
                     section.classList.remove('d-none');
                     section.classList.add('disabled-section');
-                    setNavVisibility(section.id, true);
                 }
             } else {
+                // Rolle darf diese Sektion bearbeiten
                 section.classList.remove('disabled-section');
                 section.classList.remove('d-none');
-                setNavVisibility(section.id, true);
             }
         });
         
@@ -392,25 +392,21 @@
     }
     
     function updateKontaktFields() {
-        const selectedStatus = document.querySelector('input[name="lebensstatus"]:checked');
         const selectedRole = document.querySelector('input[name="userrolle"]:checked');
-        const status = selectedStatus ? selectedStatus.value : null;
         const role = selectedRole ? selectedRole.value : null;
-        const einwilligung = einwilligungCheckbox.checked;
+        const einwilligung = !!(einwilligungCheckbox && einwilligungCheckbox.checked);
         
+        if (!kontaktFields) return;
         const kontaktInputs = kontaktFields.querySelectorAll('input, textarea');
         
-        // Kontaktfelder nur aktiv wenn: lebend + einwilligung + (Rolle erlaubt Kontakt)
+        // Kontaktfelder nur aktiv wenn: Einwilligung + Rolle erlaubt Kontakt
         const roleAllowsContact = role === 'kurator' || role === 'kustode';
         
-        if (status === 'lebend' && einwilligung && roleAllowsContact) {
+        if (einwilligung && roleAllowsContact) {
             kontaktInputs.forEach(input => input.disabled = false);
         } else {
             kontaktInputs.forEach(input => {
                 input.disabled = true;
-                if (status !== 'lebend') {
-                    input.value = '';
-                }
             });
         }
     }
@@ -481,13 +477,6 @@
             ortWrapper.appendChild(ortInput);
             ortWrapper.appendChild(ortDropdown);
             row.appendChild(ortWrapper);
-
-            const mapBtn = document.createElement('button');
-            mapBtn.type = 'button';
-            mapBtn.className = 'btn btn-outline-secondary btn-sm location-map-btn';
-            mapBtn.setAttribute('aria-label', 'Ort in Karte öffnen');
-            mapBtn.innerHTML = '<i class="bi bi-globe"></i>';
-            row.appendChild(mapBtn);
             
             // Von (EDTF)
             const vonInput = document.createElement('input');
@@ -591,23 +580,6 @@
         }
     });
 })();
-
-// Map open helper for Wirkungsorte
-document.addEventListener('click', function(event) {
-    const btn = event.target.closest('.location-map-btn');
-    if (!btn) return;
-    const row = btn.closest('.dynamic-field-row');
-    if (!row) return;
-    const input = row.querySelector('input[name="wirkungsorte[]"]');
-    if (!input) return;
-    const query = (input.value || '').trim();
-    if (!query) {
-        input.focus();
-        return;
-    }
-    const url = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
-    window.open(url, '_blank', 'noopener');
-});
 
 // Autocomplete-Funktionalität
 function initAutocomplete(input, dropdown, dataKey) {

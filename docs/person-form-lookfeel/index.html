@@ -95,7 +95,7 @@
                         </section>
 
                         <!-- 1. LEBENSSTATUS (GATE) -->
-                        <section id="lebensstatus" class="form-section mb-5 disabled-section" data-role-restriction="kustode,wissenschaftler,user">
+                        <section id="lebensstatus" class="form-section mb-5 disabled-section" data-role-restriction="wissenschaftler,user">
                             <div class="card">
                                 <div class="card-header bg-primary text-white">
                                     <h3 class="h5 mb-0">Lebensstatus</h3>
@@ -156,7 +156,7 @@
                         </section>
 
                         <!-- 3. IDENTITÄT -->
-                        <section id="identitaet" class="form-section mb-5 disabled-section" data-role-restriction="kustode,wissenschaftler,user">
+                        <section id="identitaet" class="form-section mb-5 disabled-section" data-role-restriction="wissenschaftler,user">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="h5 mb-0">Identität</h3>
@@ -551,500 +551,135 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="h5 mb-0">Tätigkeiten / Rollen</h3>
+                                    <small class="text-muted">
+                                        Timeline der wichtigsten Stationen <br>
+                                        <i><code>[tbd: Merge into Wirkungsorte (same, same like Wirkungsorte)]</code></i>
+                                    </small>
                                 </div>
                                 <div class="card-body">
-                                    <div id="taetigkeiten-container">
-                                        <!-- Tätigkeit 1 (Pre-filled) -->
-                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h6 class="mb-0">Tätigkeit #1</h6>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                                    <i class="bi bi-trash"></i> Entfernen
-                                                </button>
-                                            </div>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Beruf / Funktion</label>
-                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Kurator">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Institution</label>
-                                                    <div class="autocomplete-wrapper">
-                                                        <input type="text" class="form-control autocomplete-input" 
-                                                               name="institution[]"
-                                                               data-autocomplete="institutionen"
-                                                               value="Naturhistorisches Museum Wien">
-                                                        <div class="autocomplete-dropdown"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Abteilung</label>
-                                                    <input type="text" class="form-control" name="abteilung[]" value="Zoologie">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Zeitraum</label>
-                                                    <input type="text" class="form-control" name="zeitraum[]"
-                                                           placeholder="z.B. 1990-2000" value="2010-2024">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Rollen</label>
-                                                    <div class="rollen-container-1">
-                                                        <div class="dynamic-field-row">
-                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                <input type="text" class="form-control autocomplete-input" 
-                                                                       name="rollen_1[]"
-                                                                       data-autocomplete="rollen"
-                                                                       value="Sammler">
-                                                                <div class="autocomplete-dropdown"></div>
-                                                            </div>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 1)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                        <!-- Tätigkeit 2 -->
-                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                           	                    <h6 class="mb-0">Tätigkeit #2</h6>
-                           	                    <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                                    <i class="bi bi-trash"></i> Entfernen
-                                                </button>
-                                            </div>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Beruf / Funktion</label>
-                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Geologische Aufnahmen">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Institution</label>
-                                                    <div class="autocomplete-wrapper">
-                                                        <input type="text" class="form-control autocomplete-input" 
-                                                               name="institution[]"
-                                                               data-autocomplete="institutionen"
-                                                               value="k.k. Geologische Reichsanstalt">
-                                                        <div class="autocomplete-dropdown"></div>
+                                    <div class="timeline-list">
+                                        <div class="card mb-3 shadow-sm">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <span class="badge bg-primary me-2">2010–2024</span>
+                                                        <strong>Kurator</strong>
+                                                        <div class="text-muted small">Naturhistorisches Museum Wien · Zoologie</div>
                                                     </div>
+                                                    <span class="badge bg-secondary text-dark">Sammler</span>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Abteilung</label>
-                                                    <input type="text" class="form-control" name="abteilung[]" value="Feldaufnahmen Böhmischer Wald">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Zeitraum</label>
-                                                    <input type="text" class="form-control" name="zeitraum[]" value="1853–1856">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Rollen</label>
-                                                    <div class="rollen-container-2">
-                                                        <div class="dynamic-field-row">
-                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                <input type="text" class="form-control autocomplete-input" 
-                                                                       name="rollen_2[]"
-                                                                       data-autocomplete="rollen"
-                                                                       value="Feldgeologe">
-                                                                <div class="autocomplete-dropdown"></div>
-                                                            </div>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 2)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
-                                                </div>
+                                                <p class="mb-0 small text-muted">Modernisierung der Sammlungssysteme, Koordination der digitalen Erfassung.</p>
                                             </div>
                                         </div>
-
-                                        <!-- Tätigkeit 3 -->
-                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h6 class="mb-0">Tätigkeit #3</h6>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                                    <i class="bi bi-trash"></i> Entfernen
-                                                </button>
-                                            </div>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Beruf / Funktion</label>
-                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Geologische Arbeiten">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Institution</label>
-                                                    <div class="autocomplete-wrapper">
-                                                        <input type="text" class="form-control autocomplete-input" 
-                                                               name="institution[]"
-                                                               data-autocomplete="institutionen"
-                                                               value="k.k. Geologische Reichsanstalt">
-                                                        <div class="autocomplete-dropdown"></div>
+                                        <div class="card mb-3 shadow-sm">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <span class="badge bg-primary me-2">1853–1856</span>
+                                                        <strong>Geologische Aufnahmen</strong>
+                                                        <div class="text-muted small">k.k. Geologische Reichsanstalt · Böhmischer Wald</div>
                                                     </div>
+                                                    <span class="badge bg-warning text-dark">Feldgeologe</span>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Abteilung</label>
-                                                    <input type="text" class="form-control" name="abteilung[]" value="Fichtelgebirge &amp; Karlsbader Gebirge">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Zeitraum</label>
-                                                    <input type="text" class="form-control" name="zeitraum[]" value="1853–1856">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Rollen</label>
-                                                    <div class="rollen-container-3">
-                                                        <div class="dynamic-field-row">
-                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                <input type="text" class="form-control autocomplete-input" 
-                                                                       name="rollen_3[]"
-                                                                       data-autocomplete="rollen"
-                                                                       value="Petrologe">
-                                                                <div class="autocomplete-dropdown"></div>
-                                                            </div>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 3)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
-                                                </div>
+                                                <p class="mb-0 small text-muted">Detailkartierung der Grenzregion, Fokus auf stratigraphische Profile.</p>
                                             </div>
                                         </div>
-
-                                        <!-- Tätigkeit 4 -->
-                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h6 class="mb-0">Tätigkeit #4</h6>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                                    <i class="bi bi-trash"></i> Entfernen
-                                                </button>
-                                            </div>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Beruf / Funktion</label>
-                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Wissenschaftlicher Geologe">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Institution</label>
-                                                    <div class="autocomplete-wrapper">
-                                                        <input type="text" class="form-control autocomplete-input" 
-                                                               name="institution[]"
-                                                               data-autocomplete="institutionen"
-                                                               value="Novara-Expedition">
-                                                        <div class="autocomplete-dropdown"></div>
+                                        <div class="card mb-3 shadow-sm">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <span class="badge bg-primary me-2">1853–1856</span>
+                                                        <strong>Geologische Arbeiten</strong>
+                                                        <div class="text-muted small">k.k. Geologische Reichsanstalt · Fichtelgebirge &amp; Karlsbader Gebirge</div>
                                                     </div>
+                                                    <span class="badge bg-warning text-dark">Petrologe</span>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Abteilung</label>
-                                                    <input type="text" class="form-control" name="abteilung[]" value="Weltweite Reise">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Zeitraum</label>
-                                                    <input type="text" class="form-control" name="zeitraum[]" value="1857–1859">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Rollen</label>
-                                                    <div class="rollen-container-4">
-                                                        <div class="dynamic-field-row">
-                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                <input type="text" class="form-control autocomplete-input" 
-                                                                       name="rollen_4[]"
-                                                                       data-autocomplete="rollen"
-                                                                       value="Expeditionsgeologe">
-                                                                <div class="autocomplete-dropdown"></div>
-                                                            </div>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 4)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
-                                                </div>
+                                                <p class="mb-0 small text-muted">Analyse vulkanischer Gesteine und Ableitung regionaler Lagerstättenmodelle.</p>
                                             </div>
                                         </div>
-
-                                        <!-- Tätigkeit 5 -->
-                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h6 class="mb-0">Tätigkeit #5</h6>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                                    <i class="bi bi-trash"></i> Entfernen
-                                                </button>
-                                            </div>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Beruf / Funktion</label>
-                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Geologische Feldforschung">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Institution</label>
-                                                    <div class="autocomplete-wrapper">
-                                                        <input type="text" class="form-control autocomplete-input" 
-                                                               name="institution[]"
-                                                               data-autocomplete="institutionen"
-                                                               value="Neuseeland-Feldmission">
-                                                        <div class="autocomplete-dropdown"></div>
+                                        <div class="card mb-3 shadow-sm">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <span class="badge bg-primary me-2">1857–1859</span>
+                                                        <strong>Wissenschaftlicher Geologe</strong>
+                                                        <div class="text-muted small">Novara-Expedition · Weltweite Reise</div>
                                                     </div>
+                                                    <span class="badge bg-success text-dark">Expeditionsgeologe</span>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Abteilung</label>
-                                                    <input type="text" class="form-control" name="abteilung[]" value="Auckland / Nordinsel / Südinsel">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Zeitraum</label>
-                                                    <input type="text" class="form-control" name="zeitraum[]" value="1858-12 – 1859-12">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Rollen</label>
-                                                    <div class="rollen-container-5">
-                                                        <div class="dynamic-field-row">
-                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                <input type="text" class="form-control autocomplete-input" 
-                                                                       name="rollen_5[]"
-                                                                       data-autocomplete="rollen"
-                                                                       value="Feldforscher">
-                                                                <div class="autocomplete-dropdown"></div>
-                                                            </div>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 5)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
-                                                </div>
+                                                <p class="mb-0 small text-muted">Globale Sammlung von Vergleichsmaterial für die kaiserliche Sammlung.</p>
                                             </div>
                                         </div>
-
-                                        <!-- Tätigkeit 6 -->
-                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h6 class="mb-0">Tätigkeit #6</h6>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                                    <i class="bi bi-trash"></i> Entfernen
-                                                </button>
-                                            </div>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Beruf / Funktion</label>
-                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Professor für Mineralogie und Geologie">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Institution</label>
-                                                    <div class="autocomplete-wrapper">
-                                                        <input type="text" class="form-control autocomplete-input" 
-                                                               name="institution[]"
-                                                               data-autocomplete="institutionen"
-                                                               value="Polytechnisches Institut Wien">
-                                                        <div class="autocomplete-dropdown"></div>
+                                        <div class="card mb-3 shadow-sm">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <span class="badge bg-primary me-2">1858–1859</span>
+                                                        <strong>Geologische Feldforschung</strong>
+                                                        <div class="text-muted small">Neuseeland-Feldmission · Auckland / Nord- &amp; Südinsel</div>
                                                     </div>
+                                                    <span class="badge bg-success text-dark">Feldforscher</span>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Abteilung</label>
-                                                    <input type="text" class="form-control" name="abteilung[]" value="Lehrstuhl Mineralogie &amp; Geologie">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Zeitraum</label>
-                                                    <input type="text" class="form-control" name="zeitraum[]" value="1860–1874">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Rollen</label>
-                                                    <div class="rollen-container-6">
-                                                        <div class="dynamic-field-row">
-                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                <input type="text" class="form-control autocomplete-input" 
-                                                                       name="rollen_6[]"
-                                                                       data-autocomplete="rollen"
-                                                                       value="Professor">
-                                                                <div class="autocomplete-dropdown"></div>
-                                                            </div>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 6)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
-                                                </div>
+                                                <p class="mb-0 small text-muted">Kartierung vulkanischer Aktivitätszonen und Dokumentation traditioneller Ortsnamen.</p>
                                             </div>
                                         </div>
-
-                                        <!-- Tätigkeit 7 -->
-                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h6 class="mb-0">Tätigkeit #7</h6>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                                    <i class="bi bi-trash"></i> Entfernen
-                                                </button>
-                                            </div>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Beruf / Funktion</label>
-                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Rektor">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Institution</label>
-                                                    <div class="autocomplete-wrapper">
-                                                        <input type="text" class="form-control autocomplete-input" 
-                                                               name="institution[]"
-                                                               data-autocomplete="institutionen"
-                                                               value="Polytechnisches Institut Wien">
-                                                        <div class="autocomplete-dropdown"></div>
+                                        <div class="card mb-3 shadow-sm">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <span class="badge bg-primary me-2">1860–1874</span>
+                                                        <strong>Professor für Mineralogie &amp; Geologie</strong>
+                                                        <div class="text-muted small">Polytechnisches Institut Wien · Lehrstuhl</div>
                                                     </div>
+                                                    <span class="badge bg-secondary text-dark">Professor</span>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Abteilung</label>
-                                                    <input type="text" class="form-control" name="abteilung[]" value="Direktion &amp; Verwaltung">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Zeitraum</label>
-                                                    <input type="text" class="form-control" name="zeitraum[]" value="1874–1875">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Rollen</label>
-                                                    <div class="rollen-container-7">
-                                                        <div class="dynamic-field-row">
-                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                <input type="text" class="form-control autocomplete-input" 
-                                                                       name="rollen_7[]"
-                                                                       data-autocomplete="rollen"
-                                                                       value="Rektor">
-                                                                <div class="autocomplete-dropdown"></div>
-                                                            </div>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 7)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
-                                                </div>
+                                                <p class="mb-0 small text-muted">Aufbau des ersten praxisorientierten Curriculums für Lagerstättenkunde.</p>
                                             </div>
                                         </div>
-
-                                        <!-- Tätigkeit 8 -->
-                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h6 class="mb-0">Tätigkeit #8</h6>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                                    <i class="bi bi-trash"></i> Entfernen
-                                                </button>
-                                            </div>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Beruf / Funktion</label>
-                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Präsident &amp; Tutor Geowissenschaften">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Institution</label>
-                                                    <div class="autocomplete-wrapper">
-                                                        <input type="text" class="form-control autocomplete-input" 
-                                                               name="institution[]"
-                                                               data-autocomplete="institutionen"
-                                                               value="Österreichische Geographische Gesellschaft">
-                                                        <div class="autocomplete-dropdown"></div>
+                                        <div class="card mb-3 shadow-sm">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <span class="badge bg-primary me-2">1874–1875</span>
+                                                        <strong>Rektor</strong>
+                                                        <div class="text-muted small">Polytechnisches Institut Wien · Direktion &amp; Verwaltung</div>
                                                     </div>
+                                                    <span class="badge bg-dark text-white">Rektor</span>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Abteilung</label>
-                                                    <input type="text" class="form-control" name="abteilung[]" value="Mentoring &amp; Lehre">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Zeitraum</label>
-                                                    <input type="text" class="form-control" name="zeitraum[]" value="1866–1882">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Rollen</label>
-                                                    <div class="rollen-container-8">
-                                                        <div class="dynamic-field-row">
-                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                <input type="text" class="form-control autocomplete-input" 
-                                                                       name="rollen_8[]"
-                                                                       data-autocomplete="rollen"
-                                                                       value="Mentor">
-                                                                <div class="autocomplete-dropdown"></div>
-                                                            </div>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 8)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
-                                                </div>
+                                                <p class="mb-0 small text-muted">Reform der Studienordnung und Einführung eines Laborjournals für Studierende.</p>
                                             </div>
                                         </div>
-
-                                        <!-- Tätigkeit 9 -->
-                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h6 class="mb-0">Tätigkeit #9</h6>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled>
-                                                    <i class="bi bi-trash"></i> Entfernen
-                                                </button>
-                                            </div>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Beruf / Funktion</label>
-                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Intendant / Direktor">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Institution</label>
-                                                    <div class="autocomplete-wrapper">
-                                                        <input type="text" class="form-control autocomplete-input" 
-                                                               name="institution[]"
-                                                               data-autocomplete="institutionen"
-                                                               value="Naturhistorisches Museum Wien">
-                                                        <div class="autocomplete-dropdown"></div>
+                                        <div class="card mb-3 shadow-sm">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <span class="badge bg-primary me-2">1866–1882</span>
+                                                        <strong>Präsident &amp; Tutor</strong>
+                                                        <div class="text-muted small">Österreichische Geographische Gesellschaft · Mentoring &amp; Lehre</div>
                                                     </div>
+                                                    <span class="badge bg-info text-dark">Mentor</span>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Abteilung</label>
-                                                    <input type="text" class="form-control" name="abteilung[]" value="Museumsleitung">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Zeitraum</label>
-                                                    <input type="text" class="form-control" name="zeitraum[]" value="1876–1884">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Rollen</label>
-                                                    <div class="rollen-container-9">
-                                                        <div class="dynamic-field-row">
-                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                <input type="text" class="form-control autocomplete-input" 
-                                                                       name="rollen_9[]"
-                                                                       data-autocomplete="rollen"
-                                                                       value="Direktor">
-                                                                <div class="autocomplete-dropdown"></div>
-                                                            </div>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 9)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
-                                                </div>
+                                                <p class="mb-0 small text-muted">Betreuung junger Geograf*innen und Entwicklung von Feldforschungsleitfäden.</p>
                                             </div>
                                         </div>
+                                        <div class="card mb-3 shadow-sm">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                                    <div>
+                                                        <span class="badge bg-primary me-2">1876–1884</span>
+                                                        <strong>Intendant / Direktor</strong>
+                                                        <div class="text-muted small">Naturhistorisches Museum Wien · Museumsleitung</div>
+                                                    </div>
+                                                    <span class="badge bg-danger text-white">Direktor</span>
+                                                </div>
+                                                <p class="mb-0 small text-muted">Planung des Museumsneubaus und Umsetzung der ersten Dauerausstellung zur Geologie.</p>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="wirkungsorte">
+                                            <i class="bi bi-plus-circle"></i> Tätigkeit / Rolle hinzufügen
+                                        </button>
                                     </div>
-                                    
-                                    <button type="button" class="btn btn-outline-primary" id="addTaetigkeitBtn">
-                                        <i class="bi bi-plus-circle"></i> Weitere Tätigkeit hinzufügen
-                                    </button>
                                 </div>
                             </div>
                         </section>
@@ -1054,121 +689,133 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="h5 mb-0">Wirkungsorte</h3>
+                                    <small class="text-muted">
+                                        Wirkungsorte der wichtigsten Lebensstationen <br>
+                                        <i><code>[tbd: Merge into Tätigkeiten / Rollen (same, same like Tätigkeiten / Rollen)]</code></i>
+                                    </small>
                                 </div>
                                 <div class="card-body">
-                                    <label class="form-label">Wirkungsorte</label>
                                     <div id="wirkungsorte-container">
                                         <div class="dynamic-field-row">
                                             <div class="autocomplete-wrapper" style="flex: 2;">
-                                                <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" value="Böhmischer Wald" data-autocomplete="wirkungsorte">
+                                                <strong>"Böhmischer Wald"</strong>
+                                                <button type="button" class="btn btn-link btn-sm p-0 ms-2" data-autocomplete-info="wirkungsorte" aria-label="Informationen zur Autocomplete-Funktion für Wirkungsorte">
+                                                    <a href="https://www.openstreetmap.org/search?query=Böhmischer+Wald"</"><i class="bi bi-globe"></i></a>
                                                 <div class="autocomplete-dropdown"></div>
                                             </div>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm location-map-btn" aria-label="Ort in Karte öffnen">
-                                                <i class="bi bi-globe"></i>
-                                            </button>
-                                            <input type="text" class="form-control" name="wirkungsorte_von[]" value="1853" placeholder="Von (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <input type="text" class="form-control" name="wirkungsorte_bis[]" value="1856" placeholder="Bis (EDTF)" data-validate="edtf" style="flex: 1;">
+                                            from: "1853" toedit"1856"
                                             <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
+                                           <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>                                                
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </div>
                                         <div class="dynamic-field-row">
                                             <div class="autocomplete-wrapper" style="flex: 2;">
-                                                <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" value="Fichtelgebirge &amp; Karlsbader Gebirge" data-autocomplete="wirkungsorte">
+                                                <strong>"Fichtelgebirge &amp; Karlsbader Gebirge"</strong>
+                                                <button type="button" class="btn btn-link btn-sm p-0 ms-2" data-autocomplete-info="wirkungsorte" aria-label="Informationen zur Autocomplete-Funktion für Wirkungsorte">
+                                                    <a href="https://www.openstreetmap.org/search?query=Fichtelgerge &amp; "><i class="bi bi-globe"></i></a>
                                                 <div class="autocomplete-dropdown"></div>
                                             </div>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm location-map-btn" aria-label="Ort in Karte öffnen">
-                                                <i class="bi bi-globe"></i>
+                                            from: "1853" to: "1856"
+                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-pencil"></i>
                                             </button>
-                                            <input type="text" class="form-control" name="wirkungsorte_von[]" value="1853" placeholder="Von (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <input type="text" class="form-control" name="wirkungsorte_bis[]" value="1856" placeholder="Bis (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
+                                           <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
                                                 <i class="bi bi-trash"></i>
-                                            </button>
+                                            </button>                                            
                                         </div>
                                         <div class="dynamic-field-row">
                                             <div class="autocomplete-wrapper" style="flex: 2;">
-                                                <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" value="Novara-Expedition" data-autocomplete="wirkungsorte">
+                                                <strong>"World (Novara-Expedition)"</strong>
+                                                <button type="button" class="btn btn-link btn-sm p-0 ms-2" data-autocomplete-info="wirkungsorte" aria-label="Informationen zur Autocomplete-Funktion für Wirkungsorte">
+                                                    <a href="https://www.openstreetmap.org/search?query=World"</"><i class="bi bi-globe"></i></a>
                                                 <div class="autocomplete-dropdown"></div>
                                             </div>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm location-map-btn" aria-label="Ort in Karte öffnen">
-                                                <i class="bi bi-globe"></i>
+                                            from: "1857" to: "1859"
+                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-pencil"></i>
                                             </button>
-                                            <input type="text" class="form-control" name="wirkungsorte_von[]" value="1857" placeholder="Von (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <input type="text" class="form-control" name="wirkungsorte_bis[]" value="1859" placeholder="Bis (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
+                                           <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
                                                 <i class="bi bi-trash"></i>
-                                            </button>
+                                            </button>                                            
                                         </div>
                                         <div class="dynamic-field-row">
                                             <div class="autocomplete-wrapper" style="flex: 2;">
-                                                <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" value="Neuseeland" data-autocomplete="wirkungsorte">
+                                                <strong>"Neuseeland"</strong>
+                                                <button type="button" class="btn btn-link btn-sm p-0 ms-2" data-autocomplete-info="wirkungsorte" aria-label="Informationen zur Autocomplete-Funktion für Wirkungsorte">
+                                                    <a href="https://www.openstreetmap.org/search?query=Neuseeld"</strong"><i class="bi bi-globe"></i></a>
                                                 <div class="autocomplete-dropdown"></div>
                                             </div>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm location-map-btn" aria-label="Ort in Karte öffnen">
-                                                <i class="bi bi-globe"></i>
+                                            from: "1858-12" to: "1859-12" 
+                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-pencil"></i>
                                             </button>
-                                            <input type="text" class="form-control" name="wirkungsorte_von[]" value="1858-12" placeholder="Von (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <input type="text" class="form-control" name="wirkungsorte_bis[]" value="1859-12" placeholder="Bis (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
+                                           <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
                                                 <i class="bi bi-trash"></i>
-                                            </button>
+                                            </button>                                            
                                         </div>
                                         <div class="dynamic-field-row">
                                             <div class="autocomplete-wrapper" style="flex: 2;">
-                                                <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" value="Wien, Österreich" data-autocomplete="wirkungsorte">
-                                                <div class="autocomplete-dropdown"></div>
+                                                <strong>"Wien, Österreich"</strong>
+                                                <button type="button" class="btn btn-link btn-sm p-0 ms-2" data-autocomplete-info="wirkungsorte" aria-label="Informationen zur Autocomplete-Funktion für Wirkungsorte">
+                                                    <a href="https://www.openstreetmap.org/search?query=Wien+Österreich"><i class="bi bi-globe"></i></a>
+                                                
                                             </div>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm location-map-btn" aria-label="Ort in Karte öffnen">
-                                                <i class="bi bi-globe"></i>
+                                            from: "1860" to: "1874"
+                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-pencil"></i>
                                             </button>
-                                            <input type="text" class="form-control" name="wirkungsorte_von[]" value="1860" placeholder="Von (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <input type="text" class="form-control" name="wirkungsorte_bis[]" value="1874" placeholder="Bis (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
+                                           <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
                                                 <i class="bi bi-trash"></i>
-                                            </button>
+                                            </button>                                            
                                         </div>
                                         <div class="dynamic-field-row">
                                             <div class="autocomplete-wrapper" style="flex: 2;">
-                                                <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" value="Wien, Österreich" data-autocomplete="wirkungsorte">
-                                                <div class="autocomplete-dropdown"></div>
+                                                <strong>"Wien, Österreich"</strong>
+                                                <button type="button" class="btn btn-link btn-sm p-0 ms-2" data-autocomplete-info="wirkungsorte" aria-label="Informationen zur Autocomplete-Funktion für Wirkungsorte">
+                                                    <a href="https://www.openstreetmap.org/search?query=Wien+Österreich"><i class="bi bi-globe"></i></a>
+                                                
                                             </div>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm location-map-btn" aria-label="Ort in Karte öffnen">
-                                                <i class="bi bi-globe"></i>
+                                            from: "1874" to: "1875"
+                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-pencil"></i>
                                             </button>
-                                            <input type="text" class="form-control" name="wirkungsorte_von[]" value="1874" placeholder="Von (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <input type="text" class="form-control" name="wirkungsorte_bis[]" value="1875" placeholder="Bis (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
+                                           <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
                                                 <i class="bi bi-trash"></i>
-                                            </button>
+                                            </button>                                            
                                         </div>
                                         <div class="dynamic-field-row">
                                             <div class="autocomplete-wrapper" style="flex: 2;">
-                                                <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" value="Wien, Österreich" data-autocomplete="wirkungsorte">
-                                                <div class="autocomplete-dropdown"></div>
+                                                <strong>"Wien, Österreich"</strong>
+                                                <button type="button" class="btn btn-link btn-sm p-0 ms-2" data-autocomplete-info="wirkungsorte" aria-label="Informationen zur Autocomplete-Funktion für Wirkungsorte">
+                                                    <a href="https://www.openstreetmap.org/search?query=Wien+Österreich"><i class="bi bi-globe"></i></a>
+                                                
                                             </div>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm location-map-btn" aria-label="Ort in Karte öffnen">
-                                                <i class="bi bi-globe"></i>
+                                            from: "1866" to: "1882"
+                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-pencil"></i>
                                             </button>
-                                            <input type="text" class="form-control" name="wirkungsorte_von[]" value="1866" placeholder="Von (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <input type="text" class="form-control" name="wirkungsorte_bis[]" value="1882" placeholder="Bis (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
+                                           <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
                                                 <i class="bi bi-trash"></i>
-                                            </button>
+                                            </button>                                            
                                         </div>
                                         <div class="dynamic-field-row">
                                             <div class="autocomplete-wrapper" style="flex: 2;">
-                                                <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" value="Wien, Österreich" data-autocomplete="wirkungsorte">
-                                                <div class="autocomplete-dropdown"></div>
+                                                <strong>"Wien, Österreich"</strong>
+                                                <button type="button" class="btn btn-link btn-sm p-0 ms-2" data-autocomplete-info="wirkungsorte"
+                                                    aria-label="Informationen zur Autocomplete-Funktion für Wirkungsorte">
+                                                    <a href="https://www.openstreetmap.org/search?query=Wien+Österreich"><i class="bi bi-globe"></i></a>
+                                            
                                             </div>
-                                            <button type="button" class="btn btn-outline-secondary btn-sm location-map-btn" aria-label="Ort in Karte öffnen">
-                                                <i class="bi bi-globe"></i>
+                                            from: "1876" to: "1884"
+                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-pencil"></i>
                                             </button>
-                                            <input type="text" class="form-control" name="wirkungsorte_von[]" value="1876" placeholder="Von (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <input type="text" class="form-control" name="wirkungsorte_bis[]" value="1884" placeholder="Bis (EDTF)" data-validate="edtf" style="flex: 1;">
-                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
+                                           <button type="button" class="btn btn-outline-danger btn-sm" onclick="this.closest('.dynamic-field-row').remove()">
                                                 <i class="bi bi-trash"></i>
-                                            </button>
+                                            </button>                                            
                                         </div>
                                     </div>
                                     <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="wirkungsorte">
@@ -1472,7 +1119,7 @@
                         </section>
 
                         <!-- 11. RECORD HISTORY -->
-                        <section id="record_history" class="form-section mb-5 disabled-section" data-role-restriction="kurator,kustode,wissenschaftler" data-hide-when-restricted="true">
+                        <section id="record_history" class="form-section mb-5">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h3 class="h5 mb-0">Record History</h3>
