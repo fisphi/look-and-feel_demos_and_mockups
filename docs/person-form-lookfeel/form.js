@@ -119,6 +119,8 @@
 
     const anzeigeNameDisplay = document.getElementById('anzeigeNameDisplay');
     const anzeigeNameDates = document.getElementById('anzeigeNameDates');
+    const sidebarAnzeigename = document.getElementById('sidebarAnzeigename');
+    const sidebarAnzeigenameMeta = document.getElementById('sidebarAnzeigenameMeta');
     const collectionSuffix = ' [VS]';
     const normdatenFields = [
         {
@@ -199,6 +201,9 @@
         }).filter(Boolean);
 
         anzeigeNameDisplay.textContent = displayNameBase;
+        if (sidebarAnzeigename) {
+            sidebarAnzeigename.textContent = displayNameBase;
+        }
 
         const metaParts = [];
         if (datePieces.length) {
@@ -208,7 +213,11 @@
         if (normdatenSuffixes.length) {
             metaParts.push(...normdatenSuffixes);
         }
-        anzeigeNameDates.innerHTML = metaParts.join(' · ');
+        const metaHtml = metaParts.join(' · ');
+        anzeigeNameDates.innerHTML = metaHtml;
+        if (sidebarAnzeigenameMeta) {
+            sidebarAnzeigenameMeta.innerHTML = metaHtml;
+        }
     }
 
     // attach listeners if elements exist
