@@ -817,9 +817,22 @@ document.getElementById('exportJson').addEventListener('click', function() {
     // Einfache Felder
     const inputs = form.querySelectorAll('input:not([type="radio"]):not([type="checkbox"]):not([name*="[]"]), textarea, select');
     inputs.forEach(input => {
-        if (!input.disabled && input.name && input.value) {
-            formData[input.name] = input.value;
+        if (input.disabled || !input.name) return;
+        const rawValue = input.value;
+        if (!rawValue) return;
+
+        if (input.name === 'import_quelldaten') {
+            const trimmed = rawValue.trim();
+            if (!trimmed) return;
+            try {
+                formData[input.name] = JSON.parse(trimmed);
+            } catch (error) {
+                formData[input.name] = trimmed;
+            }
+            return;
         }
+
+        formData[input.name] = rawValue;
     });
     
     // Radio-Buttons
