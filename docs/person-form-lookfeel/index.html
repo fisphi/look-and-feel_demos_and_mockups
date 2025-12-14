@@ -503,7 +503,7 @@ a.btn {
                             <span class="badge rounded-pill bg-warning text-dark me-1 small py-1 px-2">demo</span>
                             <span class="badge rounded-pill bg-danger text-white me-1 small py-1 px-2">draft</span>
                         </div>
-                        Formular zur Erfassung von personenbezogenen Daten
+                        Demo-Formular zur Erfassung von personenbezogenen Daten
                     </h4>
                     <p class="lead text-muted mb-4"><strong>Hinweis:</strong> Dies ist ein <i>look&feel</i> Mockup zur Demonstration von Eingabefeldern, Interaktionslogik und Funktionalitäten füŕ die Erfassung von per&shy;sonen&shy;bezogenen Daten. <br/>Dieses Formular ist nur für die praxisnahe Evaluierung gedacht!<br/><b>Status: <i>Draft</i></b></p>
 
@@ -743,163 +743,7 @@ a.btn {
                             </div>
                         </section>
 
-                        <!-- 4. LEBENSDATEN -->
-                        <section id="lebensdaten" class="form-section mb-5 disabled-section" data-role-restriction="user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="h5 mb-0">Lebensdaten</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row g-3 row-separator">
-                                        <div class="col-md-6">
-                                            <label for="geburtsdatum" class="form-label">Geburtsdatum (EDTF)</label>
-                                            <input type="text" class="form-control" id="geburtsdatum" name="geburtsdatum" value="1829-04-30" 
-                                                   placeholder=""
-                                                   data-validate="edtf">
-                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
-                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="geburtsort" class="form-label">Geburtsort</label>
-                                            <input type="text" class="form-control" id="geburtsort" name="geburtsort">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row g-3 row-separator">
-                                        <div class="col-md-6">
-                                            <label for="sterbedatum" class="form-label">Sterbedatum (EDTF)</label>
-                                            <input type="text" class="form-control" id="sterbedatum" name="sterbedatum"  value="1884-07-18" 
-                                                   placeholder=""
-                                                   data-validate="edtf">
-                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
-                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="sterbeort" class="form-label">Sterbeort</label>
-                                            <input type="text" class="form-control" id="sterbeort" name="sterbeort">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row g-3 row-separator">
-                                        <div class="col-md-6">
-                                            <label for="wirkungszeitraum_von" class="form-label">Wirkungszeitraum von (EDTF)</label>
-                                            <input type="text" class="form-control" id="wirkungszeitraum_von" name="wirkungszeitraum_von"
-                                                   placeholder=""
-                                                   data-validate="edtf">
-                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
-                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="wirkungszeitraum_bis" class="form-label">Wirkungszeitraum bis (EDTF)</label>
-                                            <input type="text" class="form-control" id="wirkungszeitraum_bis" name="wirkungszeitraum_bis"
-                                                   placeholder=""
-                                                   data-validate="edtf">
-                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
-                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row g-3">
-                                        <div class="col-12">
-                                            <label class="form-label">Datum ohne Kontext (EDTF)</label>
-                                            <div id="datum-ohne-kontext-container"></div>
-                                            <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="datumOhneKontext">
-                                                <i class="bi bi-plus-circle"></i> Datum hinzufügen
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- 5. TÄTIGKEITEN / ROLLEN -->
-                        <section id="taetigkeiten" class="form-section mb-5 disabled-section" data-role-restriction="user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="h5 mb-0">Tätigkeiten / Rollen</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div id="taetigkeiten-container">
-                                        <!-- Tätigkeit 1 (Pre-filled) -->
-                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h6 class="mb-0">Tätigkeit #1</h6>
-                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled onclick="this.closest('.taetigkeiten-entry').remove()">
-                                                    <i class="bi bi-trash"></i> Entfernen
-                                                </button>
-                                            </div>
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Beruf / Funktion</label>
-                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Kurator">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Institution</label>
-                                                    <div class="autocomplete-wrapper">
-                                                        <input type="text" class="form-control autocomplete-input" 
-                                                               name="institution[]"
-                                                               data-autocomplete="institutionen"
-                                                               value="Naturhistorisches Museum Wien">
-                                                        <div class="autocomplete-dropdown"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Abteilung</label>
-                                                    <input type="text" class="form-control" name="abteilung[]" value="Zoologie">
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <label class="form-label">Zeitraum</label>
-                                                    <input type="text" class="form-control" name="zeitraum[]"
-                                                           placeholder="z.B. 1990-2000" value="2010-2024">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label class="form-label">Rollen</label>
-                                                    <div class="rollen-container-1">
-                                                        <div class="dynamic-field-row">
-                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                <input type="text" class="form-control autocomplete-input" 
-                                                                       name="rollen_1[]"
-                                                                       data-autocomplete="rollen"
-                                                                       value="Sammler">
-                                                                <div class="autocomplete-dropdown"></div>
-                                                            </div>
-                                                            <button type="button" class="btn btn-outline-danger btn-sm">
-                                                                <i class="bi bi-trash"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 1)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <button type="button" class="btn btn-outline-primary" id="addTaetigkeitBtn">
-                                        <i class="bi bi-plus-circle"></i> Weitere Tätigkeit hinzufügen
-                                    </button>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- 6. ORTE -->
-                        <section id="orte" class="form-section mb-5 disabled-section" data-role-restriction="user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="h5 mb-0">Orte</h3>
-                                </div>
-                                <div class="card-body">
-                                    <label class="form-label">Wirkungsorte</label>
-                                    <div id="wirkungsorte-container"></div>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="wirkungsorte">
-                                        <i class="bi bi-plus-circle"></i> Wirkungsort hinzufügen
-                                    </button>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- 7. NORMDATEN -->
+                        <!-- 4. NORMDATEN -->
                         <section id="normdaten" class="form-section mb-5 disabled-section" data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
@@ -1109,6 +953,162 @@ a.btn {
                             </div>
                         </section>
 
+                        <!-- 5. LEBENSDATEN -->
+                        <section id="lebensdaten" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Lebensdaten</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3 row-separator">
+                                        <div class="col-md-6">
+                                            <label for="geburtsdatum" class="form-label">Geburtsdatum (EDTF)</label>
+                                            <input type="text" class="form-control" id="geburtsdatum" name="geburtsdatum" value="1829-04-30" 
+                                                   placeholder=""
+                                                   data-validate="edtf">
+                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
+                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="geburtsort" class="form-label">Geburtsort</label>
+                                            <input type="text" class="form-control" id="geburtsort" name="geburtsort">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-3 row-separator">
+                                        <div class="col-md-6">
+                                            <label for="sterbedatum" class="form-label">Sterbedatum (EDTF)</label>
+                                            <input type="text" class="form-control" id="sterbedatum" name="sterbedatum"  value="1884-07-18" 
+                                                   placeholder=""
+                                                   data-validate="edtf">
+                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
+                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="sterbeort" class="form-label">Sterbeort</label>
+                                            <input type="text" class="form-control" id="sterbeort" name="sterbeort">
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-3 row-separator">
+                                        <div class="col-md-6">
+                                            <label for="wirkungszeitraum_von" class="form-label">Wirkungszeitraum von (EDTF)</label>
+                                            <input type="text" class="form-control" id="wirkungszeitraum_von" name="wirkungszeitraum_von"
+                                                   placeholder=""
+                                                   data-validate="edtf">
+                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
+                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="wirkungszeitraum_bis" class="form-label">Wirkungszeitraum bis (EDTF)</label>
+                                            <input type="text" class="form-control" id="wirkungszeitraum_bis" name="wirkungszeitraum_bis"
+                                                   placeholder=""
+                                                   data-validate="edtf">
+                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
+                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <label class="form-label">Datum ohne Kontext (EDTF)</label>
+                                            <div id="datum-ohne-kontext-container"></div>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="datumOhneKontext">
+                                                <i class="bi bi-plus-circle"></i> Datum hinzufügen
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 6. TÄTIGKEITEN / ROLLEN -->
+                        <section id="taetigkeiten" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Tätigkeiten / Rollen</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div id="taetigkeiten-container">
+                                        <!-- Tätigkeit 1 (Pre-filled) -->
+                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h6 class="mb-0">Tätigkeit #1</h6>
+                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled onclick="this.closest('.taetigkeiten-entry').remove()">
+                                                    <i class="bi bi-trash"></i> Entfernen
+                                                </button>
+                                            </div>
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Beruf / Funktion</label>
+                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Kurator">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Institution</label>
+                                                    <div class="autocomplete-wrapper">
+                                                        <input type="text" class="form-control autocomplete-input" 
+                                                               name="institution[]"
+                                                               data-autocomplete="institutionen"
+                                                               value="Naturhistorisches Museum Wien">
+                                                        <div class="autocomplete-dropdown"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Abteilung</label>
+                                                    <input type="text" class="form-control" name="abteilung[]" value="Zoologie">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Zeitraum</label>
+                                                    <input type="text" class="form-control" name="zeitraum[]"
+                                                           placeholder="z.B. 1990-2000" value="2010-2024">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Rollen</label>
+                                                    <div class="rollen-container-1">
+                                                        <div class="dynamic-field-row">
+                                                            <div class="autocomplete-wrapper flex-grow-1">
+                                                                <input type="text" class="form-control autocomplete-input" 
+                                                                       name="rollen_1[]"
+                                                                       data-autocomplete="rollen"
+                                                                       value="Sammler">
+                                                                <div class="autocomplete-dropdown"></div>
+                                                            </div>
+                                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 1)">
+                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-outline-primary" id="addTaetigkeitBtn">
+                                        <i class="bi bi-plus-circle"></i> Weitere Tätigkeit hinzufügen
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 7. ORTE -->
+                        <section id="orte" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="h5 mb-0">Orte</h3>
+                                </div>
+                                <div class="card-body">
+                                    <label class="form-label">Wirkungsorte</label>
+                                    <div id="wirkungsorte-container"></div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="wirkungsorte">
+                                        <i class="bi bi-plus-circle"></i> Wirkungsort hinzufügen
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
                         <!-- 8. KONTAKT (SENSITIV) -->
                         <section id="kontakt" class="form-section mb-5" data-role-restriction="wissenschaftler,user">
                             <div class="card">
@@ -1158,7 +1158,7 @@ a.btn {
                             </div>
                         </section>
 
-                        <!-- 10. QUELLENANGABEN -->
+                        <!-- 9. QUELLENANGABEN -->
                         <section id="quellenangaben" class="form-section mb-5 disabled-section" data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
@@ -1244,7 +1244,7 @@ a.btn {
                             </div>
                         </section>
 
-                        <!-- 9. ANMERKUNGEN UND KOMMENTARE -->
+                        <!-- 10. ANMERKUNGEN UND KOMMENTARE -->
                         <section id="meta" class="form-section mb-5 disabled-section" data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
@@ -1607,10 +1607,10 @@ a.btn {
                         <a class="nav-link" href="#lebensstatus">Lebensstatus</a>
                         <a class="nav-link" href="#anzeigename">Anzeigename</a>
                         <a class="nav-link" href="#identitaet">Identität</a>
+                        <a class="nav-link" href="#normdaten">Normdaten</a>
                         <a class="nav-link" href="#lebensdaten">Lebensdaten</a>
                         <a class="nav-link" href="#taetigkeiten">Tätigkeiten / Rollen</a>
                         <a class="nav-link" href="#orte">Orte</a>
-                        <a class="nav-link" href="#normdaten">Normdaten</a>
                         <a class="nav-link" href="#kontakt">Kontakt</a>
                         <a class="nav-link" href="#meta">Anmerkungen</a>
                         <a class="nav-link" href="#quellenangaben">Quellenangaben</a>
