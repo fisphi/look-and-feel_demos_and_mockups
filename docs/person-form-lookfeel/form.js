@@ -10,6 +10,7 @@
             // Keine Rolle gewählt - alle Sektionen außer User-Rolle deaktivieren
             allSections.forEach(section => {
                 if (section.id !== 'userrolle') {
+                    section.classList.remove('d-none');
                     section.classList.add('disabled-section');
                 }
             });
@@ -23,10 +24,12 @@
             if (section.id === 'userrolle') return; // User-Rolle selbst immer aktiv
             
             const restrictions = section.dataset.roleRestriction;
+            const hideWhenRestricted = section.dataset.hideWhenRestricted === 'true';
             
             if (!restrictions) {
                 // Keine Einschränkungen - Sektion verfügbar
                 section.classList.remove('disabled-section');
+                section.classList.remove('d-none');
                 return;
             }
             
@@ -34,10 +37,17 @@
             
             if (restrictedRoles.includes(role)) {
                 // Rolle ist eingeschränkt für diese Sektion
-                section.classList.add('disabled-section');
+                if (hideWhenRestricted) {
+                    section.classList.add('d-none');
+                    section.classList.remove('disabled-section');
+                } else {
+                    section.classList.remove('d-none');
+                    section.classList.add('disabled-section');
+                }
             } else {
                 // Rolle darf diese Sektion bearbeiten
                 section.classList.remove('disabled-section');
+                section.classList.remove('d-none');
             }
         });
         
@@ -79,7 +89,51 @@
 
     const anzeigeNameDisplay = document.getElementById('anzeigeNameDisplay');
     const anzeigeNameDates = document.getElementById('anzeigeNameDates');
-    const collectionSuffix = ' [Birdcollection]';
+    const collectionSuffix = ' [VS]';
+    const normdatenFields = [
+        {
+            id: 'gnd',
+            label: 'GND',
+            formatter: (value) => {
+                const safeValue = escapeHtml(value);
+                const encodedValue = encodeURIComponent(value.trim());
+                const url = `https://explore.gnd.network/gnd/${encodedValue}`;
+                return `[GND: <a href="${url}" target="_blank" rel="noopener noreferrer">${safeValue}</a>]`;
+            }
+        },
+        { id: 'viaf', label: 'VIAF' },
+        {
+            id: 'orcid',
+            label: 'ORCID',
+            formatter: (value) => {
+                const trimmedValue = value.trim();
+                const isUrl = /^https?:\/\//i.test(trimmedValue);
+                const orcidId = isUrl ? trimmedValue.replace(/^https?:\/\/orcid\.org\//i, '') : trimmedValue;
+                const safeId = escapeHtml(orcidId);
+                const url = isUrl ? trimmedValue : `https://orcid.org/${encodeURIComponent(orcidId)}`;
+                return `[ORCID: <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${safeId}</a>]`;
+            }
+        },
+        { id: 'wikidata', label: 'Wikidata' },
+        { id: 'isni', label: 'ISNI' },
+        { id: 'lcnaf', label: 'LCNAF' },
+        { id: 'bnf', label: 'BNF' },
+        { id: 'bhl', label: 'BHL' },
+        { id: 'zoobank', label: 'ZooBank' },
+        { id: 'zobodat', label: 'ZOBODAT' },
+        { id: 'wikipedia', label: 'Wikipedia' },
+        { id: 'ulan', label: 'ULAN' },
+        { id: 'ipni', label: 'IPNI' }
+    ];
+
+    function escapeHtml(str) {
+        return str
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
 
     function updateAnzeigename() {
         const vorname = (vornameInput && vornameInput.value || '').trim();
@@ -103,12 +157,41 @@
             else if (v) datePieces.push('[fl. ab ' + v + ']');
             else datePieces.push('[fl. bis ' + b + ']');
         }
-        anzeigeNameDisplay.textContent = displayNameBase ;
-        anzeigeNameDates.textContent =  datePieces.join(' · ') + ' · ' + collectionSuffix;
+        const normdatenSuffixes = normdatenFields.map(field => {
+            const input = document.getElementById(field.id);
+            if (!input) return null;
+            const value = (input.value || '').trim();
+            if (!value) return null;
+            if (typeof field.formatter === 'function') {
+                return field.formatter(value);
+            }
+            return `[${field.label}: ${escapeHtml(value)}]`;
+        }).filter(Boolean);
+
+        anzeigeNameDisplay.textContent = displayNameBase;
+
+        const metaParts = [];
+        if (datePieces.length) {
+            metaParts.push(datePieces.map(escapeHtml).join(' · '));
+        }
+        metaParts.push(escapeHtml(collectionSuffix.trim()));
+        if (normdatenSuffixes.length) {
+            metaParts.push(...normdatenSuffixes);
+        }
+        anzeigeNameDates.innerHTML = metaParts.join(' · ');
     }
 
     // attach listeners if elements exist
-    [vornameInput, mittelnameInput, nachnameInput, geburtsInput, sterbeInput, wirkVonInput, wirkBisInput].forEach(el => {
+    [
+        vornameInput,
+        mittelnameInput,
+        nachnameInput,
+        geburtsInput,
+        sterbeInput,
+        wirkVonInput,
+        wirkBisInput,
+        ...normdatenFields.map(field => document.getElementById(field.id)).filter(Boolean)
+    ].forEach(el => {
         if (el) el.addEventListener('input', updateAnzeigename);
     });
 

@@ -24,10 +24,89 @@
             --bs-secondary-bg: #f6f8fb;       /* very pale background for disabled inputs */
             --bs-body-bg: #ffffff;
         }
+
+        /* Pastel overrides for Bootstrap background utility classes */
+        .bg-primary {
+            background-color: var(--bs-primary) !important;
+            color: #0f172a !important;
+        }
+        .bg-secondary {
+            background-color: #dfe7f3 !important;
+            color: #0f172a !important;
+        }
+        .bg-success {
+            background-color: var(--bs-success) !important;
+            color: #0f172a !important;
+        }
+        .bg-danger {
+            background-color: var(--bs-danger) !important;
+            color: #3f0b15 !important;
+        }
+        .bg-warning {
+            background-color: #f6d7a8 !important;
+            color: #7c4a00 !important;
+        }
+        .bg-info {
+            background-color: #b5e4ef !important;
+            color: #053b52 !important;
+        }
+        .bg-light {
+            background-color: #f9fbff !important;
+            color: #0f172a !important;
+        }
+        .bg-dark {
+            background-color: #3a3f58 !important;
+            color: #f5f7ff !important;
+        }
+
+        /* Pastel overrides for Bootstrap alert classes */
+        .alert-primary {
+            color: #1f2a44;
+            background-color: rgba(143, 188, 230, 0.25);
+            border-color: rgba(143, 188, 230, 0.4);
+        }
+        .alert-secondary {
+            color: #283040;
+            background-color: rgba(223, 231, 243, 0.6);
+            border-color: rgba(223, 231, 243, 0.8);
+        }
+        .alert-success {
+            color: #1f352a;
+            background-color: rgba(168, 213, 183, 0.25);
+            border-color: rgba(168, 213, 183, 0.5);
+        }
+        .alert-danger {
+            color: #4a1a1d;
+            background-color: rgba(231, 168, 176, 0.2);
+            border-color: rgba(231, 168, 176, 0.4);
+        }
+        .alert-warning {
+            color: #543308;
+            background-color: rgba(246, 215, 168, 0.3);
+            border-color: rgba(246, 215, 168, 0.55);
+        }
+        .alert-info {
+            color: #083041;
+            background-color: rgba(181, 228, 239, 0.25);
+            border-color: rgba(181, 228, 239, 0.45);
+        }
+        .alert-light {
+            color: #1f2937;
+            background-color: rgba(249, 251, 255, 0.8);
+            border-color: rgba(249, 251, 255, 1);
+        }
+        .alert-dark {
+            color: #f5f7ff;
+            background-color: rgba(58, 63, 88, 0.75);
+            border-color: rgba(58, 63, 88, 0.9);
+        }
+        [data-bs-theme="dark"] .alert {
+            color: #ffffff;
+        }
         
         [data-bs-theme="dark"] {
             --bs-border-color: #51606a;
-            --bs-body-color: #e8eef2;
+            --bs-body-color: #ffffff;
 
             --bs-primary: #6fa0c9;
             --bs-primary-bg-subtle: rgba(111,160,201,0.08);
@@ -52,6 +131,11 @@
             border-color: var(--bs-border-color);
             background-color: var(--bs-body-bg);
         }
+        [data-bs-theme="dark"] .card-header,
+        [data-bs-theme="dark"] .card-header h3,
+        [data-bs-theme="dark"] .card-header small {
+            color: #ffffff !important;
+        }
         
         .table {
             --bs-table-border-color: var(--bs-border-color);
@@ -64,12 +148,57 @@
             top: 20px;
             max-height: calc(100vh - 40px);
             overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar nav {
+            flex: 1;
+        }
+        .sidebar .nav-link {
+            color: var(--bs-body-color);
+            font-weight: 500;
+            padding: 0.35rem 0;
+            border-radius: 0.5rem;
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+        .sidebar .nav-link.active,
+        #backToTop {
+            color: #000;
+            background: rgba(143, 188, 230, 0.25);
+            padding-left: 0.4rem;
+        }
+        [data-bs-theme="dark"] .sidebar .nav-link.active,
+        [data-bs-theme="dark"] #backToTop {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .sidebar-actions {
+            margin-top: auto;
         }
         .form-section {
             scroll-margin-top: 20px;
+            position: relative;
         }
-        .disabled-section {
-            pointer-events: none;
+        .disabled-section::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(1px);
+            pointer-events: all;
+            cursor: not-allowed;
+            z-index: 5;
+        }
+        .disabled-section input,
+        .disabled-section select,
+        .disabled-section textarea,
+        .disabled-section button,
+        .disabled-section .section-toggle {
+            cursor: not-allowed !important;
+        }
+        [data-bs-theme="dark"] .disabled-section::after {
+            background: rgba(0, 0, 0, 0.35);
         }
         .disabled-section .card-header {
             opacity: 1;
@@ -95,13 +224,13 @@
             opacity: 0.6;
         }
         
-        [data-bs-theme="dark"] label:has(+ input:disabled),
-        [data-bs-theme="dark"] label:has(+ .input-group input:disabled),
-        [data-bs-theme="dark"] label:has(+ .autocomplete-wrapper input:disabled),
-        [data-bs-theme="dark"] label:has(+ select:disabled),
-        [data-bs-theme="dark"] label:has(+ textarea:disabled) {
-            color: #aaa !important;
-        }
+[data-bs-theme="dark"] label:has(+ input:disabled),
+[data-bs-theme="dark"] label:has(+ .input-group input:disabled),
+[data-bs-theme="dark"] label:has(+ .autocomplete-wrapper input:disabled),
+[data-bs-theme="dark"] label:has(+ select:disabled),
+[data-bs-theme="dark"] label:has(+ textarea:disabled) {
+    color: #ffffff !important;
+}
         
         .disabled-section .form-control:disabled,
         .disabled-section .form-select:disabled,
@@ -336,31 +465,7 @@ a.btn {
 .json-boolean{ color: #b85f6a; } /* booleans */
 .json-null   { color: #7a8590; }  /* null / muted */
 
-.back-to-top {
-    position: fixed;
-    right: 24px;
-    bottom: 24px;
-    width: 52px;
-    height: 52px;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(8px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    z-index: 1050;
-}
-.back-to-top.show {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0);
-}
-[data-bs-theme="dark"] .back-to-top {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
-}
+
     </style>
 </head>
 <body>
@@ -486,7 +591,7 @@ a.btn {
                         </section>
 
                         <!-- 2. ANZEIGENAME -->
-                        <section id="anzeigename" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                        <section id="anzeigename" class="form-section mb-5 disabled-section">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="h5 mb-0">Anzeigename</h3>
@@ -1255,7 +1360,7 @@ a.btn {
                         </section>
 
                         <!-- 11. IMPORTDATEN (READONLY) -->
-                        <section id="import" class="form-section mb-5">
+                        <section id="import" class="form-section mb-5 disabled-section" data-role-restriction="user" data-hide-when-restricted="true">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="h5 mb-0">Importdaten (Readonly)</h3>
@@ -1411,27 +1516,76 @@ a.btn {
                         <a class="nav-link" href="#import">Importdaten</a>
                     </nav>
                     <div class="d-grid gap-2 mt-3">
+                        <button type="button" id="backToTop" class="btn btn-outline-secondary w-100 mb-5" aria-label="Nach oben scrollen">
+                            <i class="bi bi-arrow-up"></i> Back to Top
+                        </button>
                         <button id="resetForm" class="btn btn-outline-danger w-100" title="Formular zurücksetzen">
                             <i class="bi bi-arrow-counterclockwise"></i> Formular zurücksetzen
                         </button>
                         <button id="exportJson" class="btn btn-primary w-100">
                             <i class="bi bi-download"></i> JSON exportieren
                         </button>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <button type="button" id="backToTop" class="btn btn-primary back-to-top" aria-label="Nach oben scrollen">
-        <i class="bi bi-arrow-up"></i>
-    </button>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="autocomplete-data.js"></script>
     <script src="validation.js"></script>
     <script src="theme.js"></script>
     <script src="form.js"></script>
+    <script>
+        (function () {
+            const navLinks = Array.from(document.querySelectorAll("#navbar-sections .nav-link"));
+            if (!navLinks.length) return;
+
+            const sectionLinkMap = new Map();
+            navLinks.forEach(link => {
+                const id = link.getAttribute("href")?.replace("#", "");
+                if (!id) return;
+                const section = document.getElementById(id);
+                if (section) {
+                    sectionLinkMap.set(section, link);
+                }
+            });
+
+            const sections = Array.from(sectionLinkMap.keys());
+            if (!sections.length) {
+                navLinks[0].classList.add("active");
+                return;
+            }
+
+            const clearActive = () => navLinks.forEach(link => link.classList.remove("active"));
+            const activate = (section) => {
+                const link = sectionLinkMap.get(section);
+                if (!link) return;
+                clearActive();
+                link.classList.add("active");
+            };
+
+            if (!("IntersectionObserver" in window)) {
+                activate(sections[0]);
+                return;
+            }
+
+            const observer = new IntersectionObserver(
+                entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            activate(entry.target);
+                        }
+                    });
+                },
+                { rootMargin: "-35% 0px -45% 0px", threshold: 0.25 }
+            );
+
+            sections.forEach(section => observer.observe(section));
+            activate(sections[0]);
+        })();
+    </script>
     <script>
         (function () {
             const sourceField = document.getElementById("import_quelldaten");
