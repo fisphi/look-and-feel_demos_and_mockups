@@ -348,6 +348,77 @@
     });
 })();
 
+// Wirkungsorte – dynamische Karten
+(function() {
+    const container = document.getElementById('wirkungsorte-container');
+    const addButton = document.getElementById('addWirkungsortBtn');
+    if (!container || !addButton) return;
+
+    function createWirkungsortCard() {
+        const card = document.createElement('div');
+        card.className = 'wirkungsort-item card shadow-sm mb-3';
+        card.innerHTML = `
+            <div class="card-body">
+                <div class="row g-2 align-items-end">
+                    <div class="col-12 col-lg-4">
+                        <label class="form-label small mb-1">Wirkungsort</label>
+                        <div class="autocomplete-wrapper">
+                            <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" placeholder="Ort / Region" data-autocomplete="wirkungsorte">
+                            <div class="autocomplete-dropdown"></div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <label class="form-label small mb-1">Von (EDTF)</label>
+                        <input type="text" class="form-control" name="wirkungsorte_von[]" placeholder="YYYY" data-validate="edtf">
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <label class="form-label small mb-1">Bis (EDTF)</label>
+                        <input type="text" class="form-control" name="wirkungsorte_bis[]" placeholder="YYYY" data-validate="edtf">
+                    </div>
+                    <div class="col-auto ms-auto">
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-wirkungsort" aria-label="Wirkungsort entfernen">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row g-2 mt-2">
+                    <div class="col-12 col-md-6">
+                        <label class="form-label small mb-1">Institution</label>
+                        <input type="text" class="form-control" name="wirkungsorte_institution[]" placeholder="Institution / Einrichtung">
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="form-label small mb-1">Rolle / Funktion</label>
+                        <input type="text" class="form-control" name="wirkungsorte_rolle[]" placeholder="z.B. Expeditionsleiter">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <label class="form-label small mb-1">Beschreibung / Kontext</label>
+                        <textarea class="form-control" name="wirkungsorte_beschreibung[]" rows="2" placeholder="Kurzbeschreibung zum Wirkungsort"></textarea>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const ortInput = card.querySelector('.autocomplete-input');
+        const dropdown = card.querySelector('.autocomplete-dropdown');
+        if (ortInput && dropdown) {
+            initAutocomplete(ortInput, dropdown, 'wirkungsorte');
+        }
+
+        const removeBtn = card.querySelector('.remove-wirkungsort');
+        if (removeBtn) {
+            removeBtn.addEventListener('click', () => card.remove());
+        }
+
+        return card;
+    }
+
+    addButton.addEventListener('click', () => {
+        container.appendChild(createWirkungsortCard());
+    });
+})();
+
 // Gate-Logik für Lebensstatus
 (function() {
     const lebensstatusRadios = document.querySelectorAll('input[name="lebensstatus"]');
@@ -433,13 +504,6 @@
             placeholder: 'Rolle',
             autocomplete: 'rollen'
         },
-        wirkungsorte: {
-            container: 'wirkungsorte-container',
-            name: 'wirkungsorte',
-            placeholder: 'Wirkungsort',
-            autocomplete: 'wirkungsorte',
-            withDates: true
-        },
         datumOhneKontext: {
             container: 'datum-ohne-kontext-container',
             name: 'datum_ohne_kontext',
@@ -496,6 +560,38 @@
             
             // Initialize autocomplete
             initAutocomplete(ortInput, ortDropdown, config.autocomplete);
+            
+            if (Array.isArray(config.extraFields)) {
+                config.extraFields.forEach(extra => {
+                    const fieldWrapper = document.createElement('div');
+                    fieldWrapper.className = 'd-flex flex-column flex-grow-1';
+                    fieldWrapper.style.minWidth = '180px';
+                    fieldWrapper.style.gap = '0.25rem';
+                    
+                    if (extra.label) {
+                        const label = document.createElement('label');
+                        label.className = 'form-label small mb-0';
+                        label.textContent = extra.label;
+                        fieldWrapper.appendChild(label);
+                    }
+
+                    let inputEl;
+                    if (extra.type === 'textarea') {
+                        inputEl = document.createElement('textarea');
+                        inputEl.rows = extra.rows || 3;
+                    } else {
+                        inputEl = document.createElement('input');
+                        inputEl.type = extra.type || 'text';
+                    }
+                    inputEl.className = 'form-control';
+                    inputEl.name = `${config.name}_${extra.name || 'extra'}[]`;
+                    if (extra.placeholder) {
+                        inputEl.placeholder = extra.placeholder;
+                    }
+                    fieldWrapper.appendChild(inputEl);
+                    row.appendChild(fieldWrapper);
+                });
+            }
             
         } else if (config.autocomplete) {
             const wrapper = document.createElement('div');
