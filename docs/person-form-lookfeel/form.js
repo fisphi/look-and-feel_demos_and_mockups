@@ -40,19 +40,22 @@
         
         const role = selectedRole.value;
 
-        // Record-Viewer: nur Anzeigename sehen
+        const viewerVisibleSections = new Set(['userrolle', 'anzeigename', 'quellenangaben', 'meta']);
+
+        // Record-Viewer: nur Anzeigename & Anmerkungen sehen
         if (role === 'user') {
             allSections.forEach(section => {
-                if (section.id === 'userrolle' || section.id === 'anzeigename') {
+                if (viewerVisibleSections.has(section.id)) {
                     section.classList.remove('d-none');
                     section.classList.remove('disabled-section');
-                    setNavVisibility(section.id, section.id === 'anzeigename');
+                    setNavVisibility(section.id, section.id !== 'userrolle');
                 } else {
                     section.classList.add('d-none');
                     section.classList.remove('disabled-section');
                     setNavVisibility(section.id, false);
                 }
             });
+            document.dispatchEvent(new Event('person-role-changed'));
             return;
         }
         
@@ -90,22 +93,9 @@
                 section.classList.remove('d-none');
             }
         });
-        
-        // Spezialfall: normale User - nur Kommentarfunktion
-        if (role === 'user') {
-            // Alle Formularfelder deaktivieren, aber Kommentar-Buttons aktiv lassen
-            const commentButtons = document.querySelectorAll('.btn-sm.btn-outline-secondary');
-            commentButtons.forEach(btn => {
-                if (btn.textContent.includes('Kommentar abgeben')) {
-                    btn.disabled = false;
-                    btn.style.pointerEvents = 'auto';
-                    btn.style.opacity = '1';
-                }
-            });
-        }
-        
-        // Lebensstatus-Gate weiterhin anwenden
-        updateFormState();
+
+        // anderen Komponenten mitteilen, dass Rolle gewechselt hat
+        document.dispatchEvent(new Event('person-role-changed'));
     }
     
     // Event-Listener für User-Rolle
@@ -278,13 +268,15 @@
         initAutocomplete(input, dropdown, 'rollen');
     };
     
-    document.getElementById('addTaetigkeitBtn').addEventListener('click', function() {
-        taetigkeitenCounter++;
-        const container = document.getElementById('taetigkeiten-container');
-        
-        const entry = document.createElement('div');
-        entry.className = 'taetigkeiten-entry border rounded p-3 mb-3';
-        entry.innerHTML = `
+    const addTaetigkeitButton = document.getElementById('addTaetigkeitBtn');
+    if (addTaetigkeitButton) {
+        addTaetigkeitButton.addEventListener('click', function() {
+            taetigkeitenCounter++;
+            const container = document.getElementById('taetigkeiten-container');
+            
+            const entry = document.createElement('div');
+            entry.className = 'taetigkeiten-entry border rounded p-3 mb-3';
+            entry.innerHTML = `
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h6 class="mb-0">Tätigkeit #${taetigkeitenCounter}</h6>
                 <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.taetigkeiten-entry').remove()">
@@ -322,17 +314,18 @@
                 </div>
             </div>
         `;
-        
-        container.appendChild(entry);
-        
-        // Initialize autocomplete for institution field
-        const institutionInput = entry.querySelector('[data-autocomplete="institutionen"]');
-        const institutionDropdown = institutionInput.nextElementSibling;
-        initAutocomplete(institutionInput, institutionDropdown, 'institutionen');
-        
-        // Add initial role field
-        addRolleToEntry(entry.querySelector('.btn-outline-primary'), taetigkeitenCounter);
-    });
+            
+            container.appendChild(entry);
+            
+            // Initialize autocomplete for institution field
+            const institutionInput = entry.querySelector('[data-autocomplete="institutionen"]');
+            const institutionDropdown = institutionInput.nextElementSibling;
+            initAutocomplete(institutionInput, institutionDropdown, 'institutionen');
+            
+            // Add initial role field
+            addRolleToEntry(entry.querySelector('.btn-outline-primary'), taetigkeitenCounter);
+        });
+    }
     
     // Initialize autocomplete for pre-filled entry
     existingEntries.forEach((entry) => {
@@ -361,6 +354,7 @@
     const sections = document.querySelectorAll('.form-section.disabled-section');
     const einwilligungCheckbox = document.getElementById('einwilligung');
     const kontaktFields = document.getElementById('kontakt-fields');
+    const kontaktFieldIds = ['email', 'telefon', 'mobil', 'fax', 'adresse_roh'];
     const sterbedatum = document.getElementById('sterbedatum');
     const sterbeort = document.getElementById('sterbeort');
     
@@ -397,18 +391,16 @@
         const einwilligung = !!(einwilligungCheckbox && einwilligungCheckbox.checked);
         
         if (!kontaktFields) return;
-        const kontaktInputs = kontaktFields.querySelectorAll('input, textarea');
-        
-        // Kontaktfelder nur aktiv wenn: Einwilligung + Rolle erlaubt Kontakt
-        const roleAllowsContact = role === 'kurator' || role === 'kustode';
-        
-        if (einwilligung && roleAllowsContact) {
-            kontaktInputs.forEach(input => input.disabled = false);
-        } else {
-            kontaktInputs.forEach(input => {
-                input.disabled = true;
-            });
-        }
+
+        const kontaktInputs = kontaktFieldIds
+            .map(id => document.getElementById(id))
+            .filter(Boolean);
+
+        const disableKontakt = !einwilligung || !(role === 'kurator' || role === 'kustode');
+
+        kontaktInputs.forEach(input => {
+            input.disabled = disableKontakt;
+        });
     }
     
     // Event-Listener
@@ -416,7 +408,11 @@
         radio.addEventListener('change', updateFormState);
     });
     
-    einwilligungCheckbox.addEventListener('change', updateKontaktFields);
+    if (einwilligungCheckbox) {
+        einwilligungCheckbox.addEventListener('change', updateKontaktFields);
+    }
+    
+    document.addEventListener('person-role-changed', updateKontaktFields);
     
     // Initial state
     updateFormState();
