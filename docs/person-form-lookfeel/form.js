@@ -142,8 +142,8 @@
                 const isUrl = /^https?:\/\//i.test(trimmedValue);
                 const orcidId = isUrl ? trimmedValue.replace(/^https?:\/\/orcid\.org\//i, '') : trimmedValue;
                 const safeId = escapeHtml(orcidId);
-                const url = isUrl ? trimmedValue : `https://orcid.org/${encodeURIComponent(orcidId)}`;
-                return `[ORCID: <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${safeId}</a>]`;
+                const url = isUrl ? trimmedValue : 'https://orcid.org/${encodeURIComponent(orcidId)}';
+                return '[ORCID: <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${safeId}</a>]';
             }
         },
         { id: 'wikidata', label: 'Wikidata' },
