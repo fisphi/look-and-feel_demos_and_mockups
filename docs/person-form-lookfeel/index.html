@@ -1025,79 +1025,171 @@
                                     <h3 class="h5 mb-0">Quellenangaben</h3>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th style="width: 55%;">Quellenangabe</th>
-                                                    <th style="width: 25%;">Erfasst von</th>
-                                                    <th style="width: 20%;">Datum</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                
-                                                <tr>
-                                                    <td>Archiv des Naturhistorischen Museums, Personalakte Nr. 5678/1920</td>
-                                                    <td>
-                                                        <strong>Kati Schmidt</strong>
-                                                        <br>
-                                                        <span class="badge bg-warning text-dark">DB Owner</span>
-                                                    </td>
-                                                    <td>
-                                                        <small class="text-muted">15.01.2024<br>14:30</small>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Österreichisches Staatsarchiv, Bestand Naturhistorisches Museum, Karton 42</td>
-                                                    <td>
-                                                        <strong>Anna Wüller</strong>
-                                                        <br>
-                                                        <span class="badge bg-primary">Record Owner</span>
-                                                    </td>
-                                                    <td>
-                                                        <small class="text-muted">12.01.2024<br>10:15</small>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Bibliothek des Naturhistorischen Museums, Katalog 1812-1842, S. 21</td>
-                                                    <td>
-                                                        <strong>Oliver Mayer</strong>
-                                                        <br>
-                                                        <span class="badge bg-primary">Record Owner</span>
-                                                    </td>
-                                                    <td>
-                                                        <small class="text-muted">08.01.2024<br>09:00</small>
-                                                    </td>
-                                                </tr>
+                                    <div class="source-list d-flex flex-column gap-3">
+                                        <article class="card border-start border-3 border-primary source-entry" data-source-type="Publikation">
+                                            <div class="card-body">
+                                                <div class="d-flex flex-wrap justify-content-between gap-3">
+                                                    <div>
+                                                        <span class="badge bg-light text-dark border me-2">Quellentyp: Publikation</span>
+                                                        <span class="badge bg-light text-dark border">Bezug: Biografie</span>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <div class="fw-semibold">Oliver Mayer <span class="badge bg-primary ms-1">Record Owner</span></div>
+                                                        <small class="text-muted">Erfasst am 08.01.2024, 09:00</small>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <div class="text-uppercase text-muted small fw-semibold">Titel / Kurzbezeichnung</div>
+                                                    <p class="mb-2">Bibliothek des Naturhistorischen Museums, Katalog 1812-1842, S. 21</p>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <div class="text-uppercase text-muted small fw-semibold">Zitation / Referenz</div>
+                                                    <p class="mb-2">Bibliothek NHMW (1843): Katalog der Sammlung, Band 2, Wien: Hof- und Staatsdruckerei, S. 21.</p>
+                                                </div>
+                                                <div>
+                                                    <div class="text-uppercase text-muted small fw-semibold">Zitierte Aussage / Notiz</div>
+                                                    <p class="mb-0">Belegt Aufenthaltsort Wien 1842 und bestätigt die Rolle als „Adjunkt“ in der Sammlung.</p>
+                                                </div>
+                                            </div>
+                                        </article>
 
-                                                <tr>
-                                                    <td>Tiroler Landesarchiv, Nachlass Johann Müller, Sign. NL-JM-1885</td>
-                                                    <td>
-                                                        <strong>Michaela Berger</strong>
-                                                        <br>
-                                                        <span class="badge bg-primary">Record Owner</span>
-                                                    </td>
-                                                    <td>
-                                                        <small class="text-muted">10.01.2024<br>15:20</small>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Bibliothek des Naturhistorischen Museums, Katalog 1852-1862, S. 234</td>
-                                                    <td>
-                                                        <strong>Martin Weber</strong>
-                                                        <br>
-                                                        <span class="badge bg-primary">Record Owner</span>
-                                                    </td>
-                                                    <td>
-                                                        <small class="text-muted">08.01.2024<br>09:00</small>
-                                                    </td>
-                                                </tr>
+                                        <article class="card border-start border-3 border-secondary source-entry" data-source-type="Archivdokument">
+                                            <div class="card-body">
+                                                <div class="d-flex flex-wrap justify-content-between gap-3">
+                                                    <div>
+                                                        <span class="badge bg-light text-dark border me-2">Quellentyp: Archivdokument</span>
+                                                        <span class="badge bg-light text-dark border">Bezug: Lebensdaten</span>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <div class="fw-semibold">Kati Schmidt <span class="badge bg-warning text-dark ms-1">DB Owner</span></div>
+                                                        <small class="text-muted">Erfasst am 15.01.2024, 14:30</small>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <div class="text-uppercase text-muted small fw-semibold">Titel / Kurzbezeichnung</div>
+                                                    <p class="mb-2">Archiv des Naturhistorischen Museums, Personalakte Nr. 5678/1920</p>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <div class="text-uppercase text-muted small fw-semibold">Zitation / Referenz</div>
+                                                    <p class="mb-2">NHMW Archiv, Personalabteilung, Bestand „Mitarbeiter:innen 1900–1930“, Signatur 5678/1920.</p>
+                                                </div>
+                                                <div>
+                                                    <div class="text-uppercase text-muted small fw-semibold">Zitierte Aussage / Notiz</div>
+                                                    <p class="mb-0">Geburts- und Sterbedaten werden bestätigt, enthält zusätzliche Hinweise auf den Eintrittsvertrag.</p>
+                                                </div>
+                                            </div>
+                                        </article>
 
-                                            </tbody>
-                                        </table>
+                                        <article class="card border-start border-3 border-info source-entry" data-source-type="Interne Zotero-Sammlung (NHMW)">
+                                            <div class="card-body">
+                                                <div class="d-flex flex-wrap justify-content-between gap-3">
+                                                    <div>
+                                                        <span class="badge bg-light text-dark border me-2">Quellentyp: Interne Zotero-Sammlung (NHMW)</span>
+                                                        <span class="badge bg-light text-dark border">Bezug: Wirkungsort</span>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <div class="fw-semibold">Michaela Berger <span class="badge bg-primary ms-1">Record Owner</span></div>
+                                                        <small class="text-muted">Erfasst am 10.01.2024, 15:20</small>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <div class="text-uppercase text-muted small fw-semibold">Titel / Kurzbezeichnung</div>
+                                                    <p class="mb-2">Tiroler Landesarchiv, Nachlass Johann Müller, Sign. NL-JM-1885</p>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <div class="text-uppercase text-muted small fw-semibold">Zitation / Referenz</div>
+                                                    <p class="mb-2">TLA, Nachlass Johann Müller, Karton 12, Schriftstück 8, Innsbruck 1885.</p>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="text-uppercase text-muted small fw-semibold">Zitierte Aussage / Notiz</div>
+                                                    <p class="mb-0">Bestätigt Tätigkeitszeitraum Innsbruck 1883–1886; enthält Korrespondenz mit Museumsleitung.</p>
+                                                </div>
+                                                <div class="border rounded-3 p-3 bg-light" aria-live="polite">
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <i class="bi bi-collection me-2 text-info"></i>
+                                                        <strong class="text-uppercase small text-muted">Zotero-Angaben</strong>
+                                                    </div>
+                                                    <div class="row g-3">
+                                                        <div class="col-md-4">
+                                                            <div class="small text-muted">Item Key</div>
+                                                            <div class="fw-semibold">AB12CD34</div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="small text-muted">Sammlung</div>
+                                                            <div class="fw-semibold">NHMW – Personenarchiv</div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="small text-muted">Jahr</div>
+                                                            <div class="fw-semibold">1885</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-3 mt-1">
+                                                        <div class="col-md-6">
+                                                            <div class="small text-muted">Titel</div>
+                                                            <div class="fw-semibold">Korrespondenz J. Müller</div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="small text-muted">Autor:in</div>
+                                                            <div class="fw-semibold">J. Müller</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <div class="small text-muted">DOI / URL</div>
+                                                        <a href="https://zotero.nhmw.example/item/AB12CD34" target="_blank" rel="noopener" class="fw-semibold text-decoration-none">https://zotero.nhmw.example/item/AB12CD34</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+
+                                        <article class="card border-start border-3 border-warning source-entry" data-source-type="Normdatei / Authority">
+                                            <div class="card-body">
+                                                <div class="d-flex flex-wrap justify-content-between gap-3">
+                                                    <div>
+                                                        <span class="badge bg-light text-dark border me-2">Quellentyp: Normdatei / Authority</span>
+                                                        <span class="badge bg-light text-dark border">Bezug: Namensform</span>
+                                                    </div>
+                                                    <div class="text-end">
+                                                        <div class="fw-semibold">Anna Wüller <span class="badge bg-primary ms-1">Record Owner</span></div>
+                                                        <small class="text-muted">Erfasst am 12.01.2024, 10:15</small>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3">
+                                                    <div class="text-uppercase text-muted small fw-semibold">Titel / Kurzbezeichnung</div>
+                                                    <p class="mb-2">Österreichisches Staatsarchiv, Bestand Naturhistorisches Museum, Karton 42</p>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <div class="text-uppercase text-muted small fw-semibold">Zitation / Referenz</div>
+                                                    <p class="mb-2">ÖStA, HHStA, Bestand Naturhistorisches Museum, Karton 42, Blatt 12.</p>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <div class="text-uppercase text-muted small fw-semibold">Zitierte Aussage / Notiz</div>
+                                                    <p class="mb-0">Nennung alternativer Namensform „Johann Nepomuk Müller“ (amtliche Schreibweise).</p>
+                                                </div>
+                                                <div class="border rounded-3 p-3 bg-light">
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <i class="bi bi-diagram-3 me-2 text-warning"></i>
+                                                        <strong class="text-uppercase small text-muted">Normdatei</strong>
+                                                    </div>
+                                                    <div class="row g-3">
+                                                        <div class="col-md-4">
+                                                            <div class="small text-muted">Normsystem</div>
+                                                            <div class="fw-semibold">GND</div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="small text-muted">Norm-ID</div>
+                                                            <div class="fw-semibold">118540238</div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="small text-muted">URL</div>
+                                                            <a href="https://d-nb.info/gnd/118540238" target="_blank" rel="noopener" class="fw-semibold text-decoration-none">https://d-nb.info/gnd/118540238</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
                                     </div>
                                     
-                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2">
+                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#sourceModal">
                                         <i class="bi bi-plus-circle"></i> Neue Quellenangabe hinzufügen
                                     </button>
                                 </div>
@@ -1161,7 +1253,7 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" data-bs-toggle="modal" data-bs-target="#commentModal">
                                                     <i class="bi bi-chat-dots"></i> Kommentar abgeben
                                                 </button>
                                             </div>
@@ -1193,8 +1285,8 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2">
-                                                    <i class="bi bi-chat-dots"> Kommentar abgeben</i>
+                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" data-bs-toggle="modal" data-bs-target="#commentModal">
+                                                    <i class="bi bi-chat-dots"></i> Kommentar abgeben
                                                 </button>
                                             </div>
                                         </div>
@@ -1247,14 +1339,14 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2">
+                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" data-bs-toggle="modal" data-bs-target="#commentModal">
                                                     <i class="bi bi-chat-dots"></i> Kommentar abgeben
                                                 </button>
                                             </div>
                                         </div>
 
                                         <!-- Button zum Hinzufügen neuer Anmerkungen -->
-                                        <button type="button" class="btn btn-sm btn-outline-primary">
+                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#newNoteModal">
                                             <i class="bi bi-plus-circle"></i> Neue Anmerkung hinzufügen
                                         </button>
                                     </div>
@@ -1494,6 +1586,171 @@
                             <i class="bi bi-download"></i> JSON exportieren
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Kommentar Modal -->
+    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="commentModalLabel">Kommentar hinzufügen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="commentModalTextarea" class="form-label">Ihre Nachricht</label>
+                    <textarea id="commentModalTextarea" class="form-control" rows="4" placeholder="Kurze Notiz eingeben ..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Speichern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Neue Anmerkung Modal -->
+    <div class="modal fade" id="newNoteModal" tabindex="-1" aria-labelledby="newNoteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newNoteModalLabel">Neue Anmerkung hinzufügen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="newNoteTextarea" class="form-label">Beschreibung</label>
+                    <textarea id="newNoteTextarea" class="form-control" rows="5" placeholder="Neue Anmerkung verfassen ..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Speichern</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quellenangabe Modal -->
+    <div class="modal fade" id="sourceModal" tabindex="-1" aria-labelledby="sourceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sourceModalLabel">Quellenangabe</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="sourceModalForm">
+                        <div class="mb-3">
+                            <label for="sourceType" class="form-label">Quellentyp <span class="text-danger">*</span></label>
+                            <select class="form-select" id="sourceType" name="sourceType" required>
+                                <option value="" selected disabled>Bitte auswählen</option>
+                                <option>Publikation</option>
+                                <option>Archivdokument</option>
+                                <option>Online-Ressource</option>
+                                <option>Normdatei / Authority</option>
+                                <option>Interne Zotero-Sammlung (NHMW)</option>
+                                <option>Interne Quelle</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="sourceRelation" class="form-label">Bezug zur Person <span class="text-danger">*</span></label>
+                            <select class="form-select" id="sourceRelation" name="sourceRelation" required>
+                                <option value="" selected disabled>Bitte auswählen</option>
+                                <option>Biografie</option>
+                                <option>Lebensdaten</option>
+                                <option>Wirkungsort</option>
+                                <option>Rolle / Funktion</option>
+                                <option>Namensform</option>
+                                <option>Sonstiges</option>
+                            </select>
+                        </div>
+
+                        <div class="border rounded-3 p-3 mb-4">
+                            <h6 class="mb-3">Allgemeine Angaben</h6>
+                            <div class="mb-3">
+                                <label for="sourceTitle" class="form-label">Titel / Kurzbezeichnung</label>
+                                <input type="text" class="form-control" id="sourceTitle" name="sourceTitle" placeholder="z. B. Briefwechsel NHMW / Person">
+                            </div>
+                            <div class="mb-3">
+                                <label for="sourceCitation" class="form-label">Zitation / Referenz</label>
+                                <textarea class="form-control" id="sourceCitation" name="sourceCitation" rows="3" placeholder="Standardisierte Zitationsangabe einfügen"></textarea>
+                            </div>
+                            <div class="mb-0">
+                                <label for="sourceNote" class="form-label">Zitierte Aussage / Notiz (optional)</label>
+                                <textarea class="form-control" id="sourceNote" name="sourceNote" rows="3" placeholder="Relevante Aussage oder Kontext notieren"></textarea>
+                            </div>
+                        </div>
+
+                        <div id="zoteroSection" class="border border-info rounded-3 p-3 mb-4 d-none">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="bi bi-collection me-2 text-info"></i>
+                                <h6 class="mb-0">Zotero-Angaben</h6>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="zoteroKey" class="form-label">Zotero Item Key <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="zoteroKey" name="zoteroKey" placeholder="z. B. AB12CD34">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="zoteroCollection" class="form-label">Zotero Sammlung / Library</label>
+                                    <input type="text" class="form-control" id="zoteroCollection" name="zoteroCollection" placeholder="NHMW – Personenarchiv">
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-1">
+                                <div class="col-md-6">
+                                    <label for="zoteroTitle" class="form-label">Titel</label>
+                                    <input type="text" class="form-control" id="zoteroTitle" value="NHMW Manuskript 42" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="zoteroAuthor" class="form-label">Autor:in</label>
+                                    <input type="text" class="form-control" id="zoteroAuthor" value="M. Berger" readonly>
+                                </div>
+                            </div>
+                            <div class="row g-3 mt-1">
+                                <div class="col-md-4">
+                                    <label for="zoteroYear" class="form-label">Jahr</label>
+                                    <input type="text" class="form-control" id="zoteroYear" value="1885" readonly>
+                                </div>
+                                <div class="col-md-8">
+                                    <label for="zoteroUrl" class="form-label">DOI / URL</label>
+                                    <input type="text" class="form-control" id="zoteroUrl" value="https://zotero.nhmw.example/item/AB12CD34" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="normSection" class="border border-warning rounded-3 p-3 mb-2 d-none">
+                            <div class="d-flex align-items-center mb-3">
+                                <i class="bi bi-diagram-3 me-2 text-warning"></i>
+                                <h6 class="mb-0">Normdatei-Angaben</h6>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="normSystem" class="form-label">Normsystem</label>
+                                    <select class="form-select" id="normSystem" name="normSystem">
+                                        <option value="" selected disabled>Bitte auswählen</option>
+                                        <option>GND</option>
+                                        <option>Wikidata</option>
+                                        <option>VIAF</option>
+                                        <option>ORCID</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="normId" class="form-label">Norm-ID</label>
+                                    <input type="text" class="form-control" id="normId" name="normId" placeholder="z. B. 118540238">
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <label for="normUrl" class="form-label">URL</label>
+                                <input type="text" class="form-control" id="normUrl" name="normUrl" placeholder="https://d-nb.info/gnd/118540238">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="sourceModalSave">Save</button>
                 </div>
             </div>
         </div>
@@ -1928,6 +2185,68 @@
 
             window.addEventListener("scroll", toggleVisibility, { passive: true });
             toggleVisibility();
+        })();
+    </script>
+    <script>
+        (function () {
+            const sourceModal = document.getElementById("sourceModal");
+            const form = document.getElementById("sourceModalForm");
+            const sourceTypeSelect = document.getElementById("sourceType");
+            const zoteroSection = document.getElementById("zoteroSection");
+            const normSection = document.getElementById("normSection");
+            const zoteroKeyInput = document.getElementById("zoteroKey");
+            const saveButton = document.getElementById("sourceModalSave");
+
+            if (!sourceModal || !form || !sourceTypeSelect || !saveButton) {
+                return;
+            }
+
+            function toggleConditionalSections() {
+                const value = sourceTypeSelect.value;
+                const isZotero = value === "Interne Zotero-Sammlung (NHMW)";
+                const isNorm = value === "Normdatei / Authority";
+                if (zoteroSection) {
+                    zoteroSection.classList.toggle("d-none", !isZotero);
+                }
+                if (normSection) {
+                    normSection.classList.toggle("d-none", !isNorm);
+                }
+                if (zoteroKeyInput) {
+                    zoteroKeyInput.required = isZotero;
+                }
+            }
+
+            function resetForm() {
+                form.reset();
+                if (zoteroSection) zoteroSection.classList.add("d-none");
+                if (normSection) normSection.classList.add("d-none");
+                if (zoteroKeyInput) zoteroKeyInput.required = false;
+            }
+
+            sourceTypeSelect.addEventListener("change", toggleConditionalSections);
+
+            sourceModal.addEventListener("shown.bs.modal", () => {
+                toggleConditionalSections();
+                sourceTypeSelect.focus();
+            });
+
+            sourceModal.addEventListener("hidden.bs.modal", resetForm);
+
+            saveButton.addEventListener("click", () => {
+                if (typeof form.reportValidity === "function" && !form.reportValidity()) {
+                    return;
+                }
+                const formData = new FormData(form);
+                const payload = {};
+                formData.forEach((value, key) => {
+                    payload[key] = value;
+                });
+                console.log("Quellenangabe (dummy) gespeichert:", payload);
+                const modalInstance = bootstrap.Modal.getInstance(sourceModal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+            });
         })();
     </script>
 </body>
