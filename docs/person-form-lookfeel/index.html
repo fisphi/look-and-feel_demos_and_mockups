@@ -800,7 +800,7 @@
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex flex-wrap align-items-center gap-2">
                                                             <strong class="location-name">Novara-Expedition (weltweit)</strong>
-                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="https://www.openstreetmap.org/search?query=novara%20expedition" target="_blank" rel="noopener noreferrer">
+                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="https://www.openstreetmap.org/search?query=world" target="_blank" rel="noopener noreferrer">
                                                                 <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
                                                             </a>
                                                             <span class="badge bg-success text-dark">Expedition</span>
@@ -1317,34 +1317,29 @@
                                                 <tr>
                                                     <th>Aktion</th>
                                                     <th>Beschreibung</th>
-                                                    <th>created_by</th>
-                                                    <th>created_at</th>
+                                                    <th>created_by_at</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
                                                     <td><span class="badge bg-primary">Imported</span></td>
                                                     <td>Datensatz via Batch-Import (Birdcollection-Feed) angelegt</td>
-                                                    <td>system.importer</td>
-                                                    <td>2024-05-11 08:15</td>
+                                                    <td>system.importer<br><span class="created-timestamp" data-tooltip="2024-05-11 08:15" tabindex="0" aria-label="Erstellt am 2024-05-11 08:15">2024051108:15</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-success">Update</span></td>
                                                     <td>Normdaten aktualisiert (GND + Wikidata)</td>
-                                                    <td>awuelle</td>
-                                                    <td>2024-06-02 14:33</td>
+                                                    <td>awuelle<br><span class="created-timestamp" data-tooltip="2024-06-02 14:33" tabindex="0" aria-label="Erstellt am 2024-06-02 14:33">2024060214:33</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-warning text-dark">Duplicated</span></td>
                                                     <td>Datensatz dupliziert für Zweitfassung (VS-Bestand)</td>
-                                                    <td>pfischer</td>
-                                                    <td>2024-07-19 10:02</td>
+                                                    <td>pfischer<br><span class="created-timestamp" data-tooltip="2024-07-19 10:02" tabindex="0" aria-label="Erstellt am 2024-07-19 10:02">2024071910:02</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-danger">Delete</span></td>
                                                     <td>Verworfen, da Dublette von ATT-03042</td>
-                                                    <td>db_owner</td>
-                                                    <td>2024-07-20 09:48</td>
+                                                    <td>db_owner<br><span class="created-timestamp" data-tooltip="2024-07-20 09:48" tabindex="0" aria-label="Erstellt am 2024-07-20 09:48">2024072009:48</span></td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-info text-dark">Merged</span></td>
@@ -1355,8 +1350,7 @@
  
                                                         </ul> 
                                                     </td>
-                                                    <td>k.schmidt</td>
-                                                    <td>2024-08-01 16:21</td>
+                                                    <td>k.schmidt<br><span class="created-timestamp" data-tooltip="2024-08-01 16:21" tabindex="0" aria-label="Erstellt am 2024-08-01 16:21">2024080116:21</span></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1573,7 +1567,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <label for="newNoteTextarea" class="form-label">Beschreibung</label>
+                    <label for="newNoteTextarea" class="form-label">Anmerkung</label>
                     <textarea id="newNoteTextarea" class="form-control" rows="5" placeholder="Neue Anmerkung verfassen ..."></textarea>
                 </div>
                 <div class="modal-footer">
