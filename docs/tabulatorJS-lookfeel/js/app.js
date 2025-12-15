@@ -559,7 +559,15 @@
 
             function syncTabulatorTheme(isDark) {
                 if (!table) return;
-                table.setTheme(isDark ? "midnight" : "default");
+                if (typeof table.setTheme === "function") {
+                    table.setTheme(isDark ? "midnight" : "default");
+                } else {
+                    // Tabulator 6.x dropped setTheme, so rely on CSS toggle only
+                    const tableElement = table.element || table.getElement && table.getElement();
+                    if (tableElement) {
+                        tableElement.dataset.theme = isDark ? "midnight" : "default";
+                    }
+                }
             }
 
             function ensureMidnightStylesheet() {
