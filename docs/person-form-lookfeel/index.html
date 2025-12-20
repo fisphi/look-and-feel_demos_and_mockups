@@ -6,6 +6,11 @@
     <title>DIVINA look&feel DEMO: Personendatenverwaltung </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="styles.css">
     <script>
   window.markerConfig = {
@@ -286,7 +291,7 @@
                                 <div class="card-body">
                                     <div class="row g-3 mb-4">
                                         <div class="col-12">
-                                            <label for="orcid" class="form-label">ORCID</label>
+                                            <label for="orcid" class="form-label strong">ORCID</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="orcid" name="orcid"
                                                        placeholder="0000-0000-0000-000X oder URL"
@@ -298,11 +303,11 @@
                                                 </a>
                                             </div>
                                             <div class="invalid-feedback">Ungültiges ORCID-Format</div>
-                                            <div class="form-text">Eindeutige Kennung für Forschende.</div>
+                                            <div class="form-text">Die Angabe der ORCID ist freiwillig und erfolgt auf Grundlage einer Einwilligung gemäß Datenschutz-Grundverordnung (DSGVO), <a href="https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:02016R0679-20160504#art_6" title="(1) Die Verarbeitung ist nur rechtmäßig, wenn mindestens eine der nachstehenden Bedingungen erfüllt ist: a) Die betroffene Person hat ihre Einwilligung zu der Verarbeitung der sie betreffenden personenbezogenen Daten für einen oder mehrere bestimmte Zwecke gegeben;" target="_blank" rel="noopener noreferrer">Artikel 6 Absatz 1 lit. a</a>.</div>
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="viaf" class="form-label">VIAF</label>
+                                            <label for="viaf" class="form-label strong">VIAF</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="viaf" name="viaf"
                                                        placeholder="Zahl oder URL"
@@ -316,7 +321,7 @@
                                         </div>
 
                                         <div class="col-md-6">
-                                            <label for="gnd" class="form-label">GND</label>
+                                            <label for="gnd" class="form-label strong">GND</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="gnd" name="gnd" value="119338467"
                                                        placeholder="Zahl oder URL"
@@ -329,7 +334,7 @@
                                         </div>
 
                                         <div class="col-12 col-sm-6">
-                                            <label for="wikidata" class="form-label">Wikidata</label>
+                                            <label for="wikidata" class="form-label strong">Wikidata</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="wikidata" name="wikidata"
                                                        placeholder="Q + Zahl"
@@ -343,7 +348,7 @@
                                         </div>
 
                                         <div class="col-12 col-sm-6">
-                                            <label for="wikipedia" class="form-label">Wikipedia</label>
+                                            <label for="wikipedia" class="form-label strong">Wikipedia</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="wikipedia" name="wikipedia"
                                                        placeholder="URL"
@@ -990,7 +995,10 @@
                                         <input class="form-check-input" type="checkbox" id="einwilligung" name="einwilligung">
                                         <label class="form-check-label" for="einwilligung">
                                             <strong>Einwilligung liegt vor</strong>
-                                        </label>
+                                        </label><br/>    
+                                        Diese Eingaben erfolgen nur bei einer Einwilligung gemäß Datenschutz-Grundverordnung (DSGVO), <a href="https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:02016R0679-20160504#art_6"
+                                            title="(1) Die Verarbeitung ist nur rechtmäßig, wenn mindestens eine der nachstehenden Bedingungen erfüllt ist: a) Die betroffene Person hat ihre Einwilligung zu der Verarbeitung der sie betreffenden personenbezogenen Daten für einen oder mehrere bestimmte Zwecke gegeben;"
+                                            target="_blank" rel="noopener noreferrer">Artikel 6 Absatz 1 lit. a</a>
                                     </div>
                                     <div id="kontakt-fields">
                                         <div class="row g-3">
