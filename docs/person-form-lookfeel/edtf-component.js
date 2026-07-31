@@ -224,10 +224,10 @@ class EdtfDateInput {
         this.host.innerHTML = `
             <div class="edtf-compact-view border rounded p-3">
                 ${heading}
-                <div class="row g-3 align-items-start edtf-summary">
+                <div class="row g-3 align-items-start edtf-summary compact-value-grid">
                     <div class="col-12 col-md" data-empty-state>Unbekannt</div>
-                    <div class="col-12 col-md-3 d-none edtf-summary-value" data-value-state>
-                        <div class="form-label d-flex align-items-center gap-1">
+                    <div class="col-12 col-md-3 d-none edtf-summary-value compact-value-primary" data-value-state>
+                        <div class="form-label compact-value-label d-flex align-items-center gap-1">
                             <span>EDTF-Datum</span>
                             <button type="button" class="btn btn-link btn-sm p-0 edtf-info-action"
                                 data-bs-toggle="modal" data-bs-target="#edtfInfoModal"
@@ -237,11 +237,11 @@ class EdtfDateInput {
                         </div>
                         <code data-summary-value></code>
                     </div>
-                    <div class="col-12 col-md d-none edtf-summary-interpretation" data-value-state>
-                        <div class="form-label">Interpretation</div>
+                    <div class="col-12 col-md d-none edtf-summary-interpretation compact-value-detail" data-value-state>
+                        <div class="form-label compact-value-label">Interpretation</div>
                         <code data-summary-interpretation></code>
                     </div>
-                    <div class="col-12 col-md-auto ms-md-auto" data-action-column>
+                    <div class="col-12 col-md-auto ms-md-auto compact-value-action" data-action-column>
                         <button type="button" class="btn btn-sm btn-outline-primary edtf-date-action"
                             data-edtf-action data-bs-toggle="modal" data-bs-target="#${this.id}-modal"></button>
                     </div>
@@ -452,12 +452,14 @@ class EdtfDateList {
     }
 
     render() {
-        this.host.className = 'edtf-date-list';
+        this.host.className = 'edtf-date-list repeatable-entry-list';
         this.host.innerHTML = `
-            <h4 class="life-data-section-title">${this.label}</h4>
-            ${this.description ? `<p class="small text-body-secondary mt-2 mb-3">${this.description}</p>` : ''}
-            <div class="text-body-secondary mb-3" data-list-empty>Noch keine weiteren Datumsangaben erfasst.</div>
-            <div class="d-grid gap-3 mb-3" data-list-entries></div>
+            <h4 class="form-subsection-title">${this.label}</h4>
+            <div class="form-empty-state mt-3 mb-3" data-list-empty>
+                <div class="form-empty-state-title">Noch keine weiteren Datumsangaben erfasst.</div>
+                ${this.description ? `<div class="form-empty-state-description mt-1">${this.description}</div>` : ''}
+            </div>
+            <div class="d-grid gap-3 mb-3 repeatable-entry-items" data-list-entries></div>
             <button type="button" class="btn btn-sm btn-outline-primary" data-list-add
                 aria-label="${this.itemLabel} hinzufügen">
                 <i class="bi bi-plus-circle me-1" aria-hidden="true"></i><span data-list-add-label>Datum hinzufügen</span>
@@ -472,7 +474,7 @@ class EdtfDateList {
     createEntry(value, isNew) {
         const entryId = `${this.id}-entry-${++componentCounter}`;
         const wrapper = document.createElement('div');
-        wrapper.className = 'edtf-date-list-entry';
+        wrapper.className = 'edtf-date-list-entry repeatable-entry';
         wrapper.id = entryId;
         wrapper.dataset.edtfEntryId = entryId;
         const componentHost = document.createElement('div');

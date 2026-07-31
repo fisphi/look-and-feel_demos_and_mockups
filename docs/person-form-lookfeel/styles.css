@@ -369,68 +369,119 @@ label:has(+ textarea:disabled) {
     margin-bottom: 0;
 }
 
-/* Kompakte, rahmenlose Unterabschnitte der Lebensdaten. */
-.life-data-main-title {
+/* Wiederverwendbare Hierarchie für Formularabschnitte und fachliche Gruppen. */
+.form-section-title {
     font-weight: 600;
 }
 
-.life-data-section-title {
+.form-layout-container {
+    container-type: inline-size;
+}
+
+.form-subsection-stack {
+    display: grid;
+}
+
+.form-subsection + .form-subsection {
+    border-top: 1px solid var(--bs-border-color);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+}
+
+.form-subsection-title {
     color: var(--bs-emphasis-color);
     font-size: 1.125rem;
     font-weight: 600;
     line-height: 1.3;
     margin: 0;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid var(--bs-border-color);
 }
 
-.life-data-section .edtf-compact-view {
+.form-subsection .edtf-compact-view {
     border: 0 !important;
     padding: 0 !important;
 }
 
-.life-data-section .edtf-summary {
+.form-subsection .compact-value-grid {
     display: grid;
     grid-template-areas: "value interpretation action";
-    grid-template-columns: minmax(8rem, 25%) minmax(0, 1fr) auto;
+    grid-template-columns: minmax(11.25rem, 13.75rem) minmax(12rem, 28rem) 2.75rem;
+    max-width: 47rem;
 }
 
-.life-data-section .edtf-summary > [class*="col-"] {
+.form-subsection .compact-value-grid > [class*="col-"] {
     width: auto;
 }
 
-.life-data-section .edtf-summary [data-empty-state] {
+.form-subsection .compact-value-grid [data-empty-state] {
     grid-area: value;
 }
 
-.life-data-section .edtf-summary-value {
+.form-subsection .compact-value-primary {
     grid-area: value;
 }
 
-.life-data-section .edtf-summary-interpretation {
+.form-subsection .compact-value-detail {
     grid-area: interpretation;
 }
 
-.life-data-section .edtf-summary [data-action-column] {
+.form-subsection .compact-value-action {
     grid-area: action;
     margin-left: 0 !important;
 }
 
-.life-data-place {
+.compact-value-label {
+    color: var(--bs-secondary-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.compact-value-grid code {
+    color: var(--bs-body-color);
+    font-size: 0.9375rem;
+}
+
+.form-control-comfortable {
     min-height: 3rem;
 }
 
-.life-data-section .edtf-date-list-entry + .edtf-date-list-entry {
+.form-empty-state {
+    color: var(--bs-secondary-color);
+    font-size: 0.875rem;
+}
+
+.form-empty-state-title {
+    color: var(--bs-body-color);
+    font-weight: 500;
+}
+
+.repeatable-entry + .repeatable-entry {
     border-top: 1px solid var(--bs-border-color);
     padding-top: 1rem;
 }
 
 @media (max-width: 575.98px) {
-    .life-data-section .edtf-summary {
+    .form-subsection .compact-value-grid {
         grid-template-areas:
             "value action"
             "interpretation action";
         grid-template-columns: minmax(0, 1fr) auto;
+    }
+}
+
+@container (min-width: 62rem) {
+    .form-subsection-stack {
+        column-gap: 2rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .form-subsection-stack > .form-subsection:nth-child(2) {
+        border-top: 0;
+        margin-top: 0;
+        padding-top: 0;
+    }
+
+    .form-subsection-stack > .form-subsection:nth-child(n + 3) {
+        grid-column: 1 / -1;
     }
 }
 

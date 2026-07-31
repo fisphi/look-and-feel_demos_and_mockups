@@ -604,42 +604,40 @@
                             data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0 life-data-main-title">Lebensdaten</h3>
+                                    <h3 class="h5 mb-0 form-section-title">Lebensdaten</h3>
                                 </div>
-                                <div class="card-body">
-                                    <div class="d-grid gap-4 life-data-sections">
-                                        <section class="life-data-section" aria-labelledby="birth-data-title">
-                                            <h4 id="birth-data-title" class="life-data-section-title">Geburt</h4>
+                                <div class="card-body form-layout-container">
+                                    <div class="form-subsection-stack">
+                                        <section class="form-subsection" aria-labelledby="birth-data-title">
+                                            <h4 id="birth-data-title" class="form-subsection-title">Geburt</h4>
                                             <div class="mt-3">
-                                                <div class="form-label">Geburtsdatum</div>
                                                 <div data-edtf-date data-label="Geburtsdatum"
                                                     data-input-id="geburtsdatum" data-hide-heading="true"></div>
                                             </div>
                                             <input type="hidden" id="geburtsdatum" name="geburtsdatum"
                                                 value="1829-04-30">
                                             <div class="mt-3">
-                                                <label for="geburtsort" class="form-label">Geburtsort</label>
-                                                <input type="text" class="form-control life-data-place" id="geburtsort"
+                                                <label for="geburtsort" class="form-label compact-value-label">Geburtsort</label>
+                                                <input type="text" class="form-control form-control-comfortable" id="geburtsort"
                                                     name="geburtsort" placeholder="Geburtsort eingeben oder auswählen">
                                             </div>
                                         </section>
 
-                                        <section class="life-data-section" aria-labelledby="death-data-title">
-                                            <h4 id="death-data-title" class="life-data-section-title">Tod</h4>
+                                        <section class="form-subsection" aria-labelledby="death-data-title">
+                                            <h4 id="death-data-title" class="form-subsection-title">Tod</h4>
                                             <div class="mt-3">
-                                                <div class="form-label">Sterbedatum</div>
                                                 <div data-edtf-date data-label="Sterbedatum" data-input-id="sterbedatum"
                                                     data-hide-heading="true"></div>
                                             </div>
                                             <input type="hidden" id="sterbedatum" name="sterbedatum" value="1884-07-18">
                                             <div class="mt-3">
-                                                <label for="sterbeort" class="form-label">Sterbeort</label>
-                                                <input type="text" class="form-control life-data-place" id="sterbeort"
+                                                <label for="sterbeort" class="form-label compact-value-label">Sterbeort</label>
+                                                <input type="text" class="form-control form-control-comfortable" id="sterbeort"
                                                     name="sterbeort" placeholder="Sterbeort eingeben oder auswählen">
                                             </div>
                                         </section>
 
-                                        <section class="life-data-section" aria-label="Weitere Lebensdaten">
+                                        <section class="form-subsection" aria-label="Weitere Lebensdaten">
                                             <div id="datum-ohne-kontext-container" data-edtf-date-list
                                                 data-label="Weitere Lebensdaten" data-item-label="Datum ohne Kontext"
                                                 data-description="Datumsangaben, die keinem konkreten Lebensereignis zugeordnet werden können."
