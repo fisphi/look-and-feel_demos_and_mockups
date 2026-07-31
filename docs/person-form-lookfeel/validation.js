@@ -1,6 +1,5 @@
 // Validierungs-Regeln und Regex-Patterns
 const validationRules = {
-    edtf: /^\d{4}(-\d{2}(-\d{2})?)?$/,
     email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     telefon: /^[\d\s\+\-\(\)]+$/,
     url: /^https?:\/\/.+/,
@@ -18,7 +17,7 @@ const validationRules = {
 
 // Validierungs-Nachrichten
 const validationMessages = {
-    edtf: 'Ungültiges EDTF-Format. Verwenden Sie YYYY, YYYY-MM oder YYYY-MM-DD',
+    edtf: 'Ungültiger EDTF-Level-1-Datumswert',
     email: 'Ungültige E-Mail-Adresse',
     telefon: 'Ungültige Telefonnummer. Nur Ziffern, +, -, (, ) und Leerzeichen erlaubt',
     url: 'Ungültige URL. Muss mit http:// oder https:// beginnen',
@@ -46,7 +45,9 @@ function validateField(input) {
     }
 
     const pattern = validationRules[validationType];
-    const isValid = pattern.test(value);
+    const isValid = validationType === 'edtf'
+        ? !!window.EDTFForm?.parseLevelOne(value).valid
+        : !!pattern?.test(value);
 
     if (isValid) {
         input.classList.remove('is-invalid');
@@ -90,6 +91,10 @@ function validateForm() {
         return true;
     }
     let isValid = true;
+
+    if (window.EDTFForm && !window.EDTFForm.validateAll()) {
+        isValid = false;
+    }
     
     // Lebensstatus prüfen
     const lebensstatusChecked = document.querySelector('input[name="lebensstatus"]:checked');

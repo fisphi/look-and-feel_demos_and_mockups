@@ -220,8 +220,6 @@
     const nachnameInput = document.getElementById('nachname');
     const geburtsInput = document.getElementById('geburtsdatum');
     const sterbeInput = document.getElementById('sterbedatum');
-    const wirkVonInput = document.getElementById('wirkungszeitraum_von');
-    const wirkBisInput = document.getElementById('wirkungszeitraum_bis');
 
     const anzeigeNameDisplay = document.getElementById('anzeigeNameDisplay');
     const anzeigeNameDates = document.getElementById('anzeigeNameDates');
@@ -284,17 +282,12 @@
         // Dates
         const geb = (geburtsInput && geburtsInput.value || '').trim();
         const sterb = (sterbeInput && sterbeInput.value || '').trim();
-        const v = (wirkVonInput && wirkVonInput.value || '').trim();
-        const b = (wirkBisInput && wirkBisInput.value || '').trim();
+        const wirkungszeitraum = (document.querySelector('input[name="zeitraum[]"]')?.value || '').trim();
 
         const datePieces = [];
         if (geb) datePieces.push('[* ' + geb + ']');
         if (sterb) datePieces.push('[† ' + sterb + ']');
-        if (v || b) {
-            if (v && b) datePieces.push('[fl. ' + v + '–' + b + ']');
-            else if (v) datePieces.push('[fl. ab ' + v + ']');
-            else datePieces.push('[fl. bis ' + b + ']');
-        }
+        if (wirkungszeitraum) datePieces.push('[fl. ' + wirkungszeitraum + ']');
         const normdatenSuffixes = normdatenFields.map(field => {
             const input = document.getElementById(field.id);
             if (!input) return null;
@@ -333,8 +326,6 @@
         nachnameInput,
         geburtsInput,
         sterbeInput,
-        wirkVonInput,
-        wirkBisInput,
         ...normdatenFields.map(field => document.getElementById(field.id)).filter(Boolean)
     ].forEach(el => {
         if (el) el.addEventListener('input', updateAnzeigename);
@@ -400,7 +391,7 @@
             </div>
             <div class="row g-3">
                 <div class="col-md-6">
-                    <label class="form-label">Beruf / Funktion</label>
+                    <label class="form-label">Bezeichnung der Tätigkeit</label>
                     <input type="text" class="form-control" name="beruf_funktion[]">
                 </div>
                 <div class="col-md-6">
@@ -416,9 +407,9 @@
                     <label class="form-label">Abteilung</label>
                     <input type="text" class="form-control" name="abteilung[]">
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label">Zeitraum</label>
-                    <input type="text" class="form-control" name="zeitraum[]" placeholder="z.B. 1990-2000">
+                <div class="col-12">
+                    <div data-edtf-interval></div>
+                    <input type="hidden" name="zeitraum[]">
                 </div>
                 <div class="col-12">
                     <label class="form-label">Rollen</label>
@@ -431,6 +422,7 @@
         `;
             
             container.appendChild(entry);
+            document.dispatchEvent(new CustomEvent('edtf-entry-added', { detail: entry }));
             
             // Initialize autocomplete for institution field
             const institutionInput = entry.querySelector('[data-autocomplete="institutionen"]');
@@ -556,12 +548,11 @@
             geschlechtInputs.forEach(i => { i.disabled = false; });
         }
         
-        // Sterbedaten-Logik
+        // Sterbedaten-Logik. Der Wert wird niemals stillschweigend gelöscht;
+        // Bestätigung und Bereinigung übernimmt die EDTF-Komponente.
         if (status === 'lebend') {
             sterbedatum.disabled = true;
             sterbeort.disabled = true;
-            sterbedatum.value = '';
-            sterbeort.value = '';
         } else {
             sterbedatum.disabled = false;
             sterbeort.disabled = false;
@@ -910,14 +901,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('DOMContentLoaded', initValueHighlights);
 })();
 
-// JSON-Export
-document.getElementById('exportJson').addEventListener('click', function() {
-    if (document.querySelector('input[name="userrolle"]:checked')?.value === 'user') return;
-    if (!validateForm()) {
-        alert('Bitte korrigieren Sie die Fehler im Formular.');
-        return;
-    }
-    
+// JSON-Modell und Export
+function collectPersonFormData() {
     const formData = {};
     const form = document.getElementById('personForm');
     
@@ -962,7 +947,8 @@ document.getElementById('exportJson').addEventListener('click', function() {
     const dynamicFields = {
         namensvarianten: [],
         rollen: [],
-        wirkungsorte: []
+        wirkungsorte: [],
+        zeitraum: []
     };
     
     Object.keys(dynamicFields).forEach(fieldName => {
@@ -976,6 +962,20 @@ document.getElementById('exportJson').addEventListener('click', function() {
             formData[fieldName] = dynamicFields[fieldName];
         }
     });
+
+    return formData;
+}
+
+window.collectPersonFormData = collectPersonFormData;
+
+document.getElementById('exportJson').addEventListener('click', function() {
+    if (document.querySelector('input[name="userrolle"]:checked')?.value === 'user') return;
+    if (!validateForm()) {
+        alert('Bitte korrigieren Sie die Fehler im Formular.');
+        return;
+    }
+
+    const formData = collectPersonFormData();
     
     // JSON erstellen und herunterladen
     const json = JSON.stringify(formData, null, 2);

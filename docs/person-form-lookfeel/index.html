@@ -10,15 +10,21 @@
     <link rel="icon" type="image/svg+xml" href="../favicon.svg">
     <link rel="shortcut icon" href="../favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
-    <link rel="manifest" href="../site.webmanifest">
     <link rel="stylesheet" href="styles.css">
     <script>
+  if (window.location.protocol !== 'file:') {
+    const manifest = document.createElement('link');
+    manifest.rel = 'manifest';
+    manifest.href = '../site.webmanifest';
+    document.head.appendChild(manifest);
+
   window.markerConfig = {
     project: '6941654826619e44019e3f1d', 
     source: 'snippet'
   };
 
   !function(e,r,a){if(!e.__Marker){e.__Marker={};var t=[],n={__cs:t};["show","hide","isVisible","capture","cancelCapture","unload","reload","isExtensionInstalled","setReporter","clearReporter","setCustomData","on","off"].forEach(function(e){n[e]=function(){var r=Array.prototype.slice.call(arguments);r.unshift(e),t.push(r)}}),e.Marker=n;var s=r.createElement("script");s.async=1,s.src="https://edge.marker.io/latest/shim.js";var i=r.getElementsByTagName("script")[0];i.parentNode.insertBefore(s,i)}}(window,document);
+  }
 </script>
 </head>
 <body>
@@ -500,13 +506,9 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-3 row-separator">
-                                        <div class="col-md-6">
-                                            <label for="geburtsdatum" class="form-label">Geburtsdatum (EDTF)</label>
-                                            <input type="text" class="form-control" id="geburtsdatum" name="geburtsdatum" value="1829-04-30" 
-                                                   placeholder=""
-                                                   data-validate="edtf">
-                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
-                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
+                                        <div class="col-12">
+                                            <div data-edtf-date data-label="Geburtsdatum" data-input-id="geburtsdatum"></div>
+                                            <input type="hidden" id="geburtsdatum" name="geburtsdatum" value="1829-04-30">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="geburtsort" class="form-label">Geburtsort</label>
@@ -515,36 +517,13 @@
                                     </div>
                                     
                                     <div class="row g-3 row-separator">
-                                        <div class="col-md-6">
-                                            <label for="sterbedatum" class="form-label">Sterbedatum (EDTF)</label>
-                                            <input type="text" class="form-control" id="sterbedatum" name="sterbedatum"  value="1884-07-18" 
-                                                   placeholder=""
-                                                   data-validate="edtf">
-                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
-                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
+                                        <div class="col-12">
+                                            <div data-edtf-date data-label="Sterbedatum" data-input-id="sterbedatum"></div>
+                                            <input type="hidden" id="sterbedatum" name="sterbedatum" value="1884-07-18">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="sterbeort" class="form-label">Sterbeort</label>
                                             <input type="text" class="form-control" id="sterbeort" name="sterbeort">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row g-3 row-separator">
-                                        <div class="col-md-6">
-                                            <label for="wirkungszeitraum_von" class="form-label">Wirkungszeitraum von (EDTF)</label>
-                                            <input type="text" class="form-control" id="wirkungszeitraum_von" name="wirkungszeitraum_von"
-                                                   placeholder=""
-                                                   data-validate="edtf">
-                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
-                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="wirkungszeitraum_bis" class="form-label">Wirkungszeitraum bis (EDTF)</label>
-                                            <input type="text" class="form-control" id="wirkungszeitraum_bis" name="wirkungszeitraum_bis"
-                                                   placeholder=""
-                                                   data-validate="edtf">
-                                            <div class="form-text">Format: YYYY oder YYYY-MM oder YYYY-MM-DD</div>
-                                            <div class="invalid-feedback">Ungültiges EDTF-Format</div>
                                         </div>
                                     </div>
                                     
@@ -686,14 +665,14 @@
                                                                         <div class="taetigkeiten-entry border rounded p-3 mb-3">
                                                                             <div class="d-flex justify-content-between align-items-center mb-3">
                                                                                 <h6 class="mb-0">Tätigkeit #1</h6>
-                                                                                <button type="button" class="btn btn-sm btn-outline-danger" disabled
+                                                                                <button type="button" class="btn btn-sm btn-outline-danger"
                                                                                     onclick="this.closest('.taetigkeiten-entry').remove()">
                                                                                     <i class="bi bi-trash"></i> Entfernen
                                                                                 </button>
                                                                             </div>
                                                                             <div class="row g-3">
                                                                                 <div class="col-md-6">
-                                                                                    <label class="form-label">Beruf / Funktion</label>
+                                                                                    <label class="form-label">Bezeichnung der Tätigkeit</label>
                                                                                     <input type="text" class="form-control" name="beruf_funktion[]" value="Kurator">
                                                                                 </div>
                                                                                 <div class="col-md-6">
@@ -708,10 +687,9 @@
                                                                                     <label class="form-label">Abteilung</label>
                                                                                     <input type="text" class="form-control" name="abteilung[]" value="Zoologie">
                                                                                 </div>
-                                                                                <div class="col-md-6">
-                                                                                    <label class="form-label">Zeitraum</label>
-                                                                                    <input type="text" class="form-control" name="zeitraum[]" placeholder="z.B. 1990-2000"
-                                                                                        value="1857–1859">
+                                                                                <div class="col-12">
+                                                                                    <div data-edtf-interval></div>
+                                                                                    <input type="hidden" name="zeitraum[]" value="1857/1859">
                                                                                 </div>
                                                                                 <div class="col-12">
                                                                                     <label class="form-label">Rollen</label>
@@ -736,7 +714,7 @@
                                                                     </div>
                                                                 
                                                                     <button type="button" class="btn btn-outline-primary" id="addTaetigkeitBtn">
-                                                                        <i class="bi bi-plus-circle"></i> Weitere Tätigkeit hinzufügen
+                                                                        <i class="bi bi-plus-circle"></i> Tätigkeitszeitraum hinzufügen
                                                                     </button>
                             </div>
                         </section>
@@ -1958,6 +1936,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="edtf-component.js"></script>
     <script src="autocomplete-data.js"></script>
     <script src="validation.js"></script>
     <script src="theme.js"></script>
