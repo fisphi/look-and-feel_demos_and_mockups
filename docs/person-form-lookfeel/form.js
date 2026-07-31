@@ -461,26 +461,22 @@
     const addButton = document.getElementById('addWirkungsortBtn');
     if (!container || !addButton) return;
 
-    function createWirkungsortCard() {
+    let wirkungsortCounter = 0;
+
+    function createWirkungsortCard(initial = {}) {
+        const entryId = `wirkungsort-${++wirkungsortCounter}`;
         const card = document.createElement('div');
         card.className = 'wirkungsort-item card shadow-sm mb-3';
+        card.dataset.wirkungsortId = entryId;
         card.innerHTML = `
             <div class="card-body">
                 <div class="row g-2 align-items-end">
-                    <div class="col-12 col-lg-4">
+                    <div class="col-12 col-lg">
                         <label class="form-label small mb-1">Wirkungsort</label>
                         <div class="autocomplete-wrapper">
                             <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" placeholder="Ort / Region" data-autocomplete="wirkungsorte">
                             <div class="autocomplete-dropdown"></div>
                         </div>
-                    </div>
-                    <div class="col-6 col-lg-2">
-                        <label class="form-label small mb-1">Von (EDTF)</label>
-                        <input type="text" class="form-control" name="wirkungsorte_von[]" placeholder="YYYY" data-validate="edtf">
-                    </div>
-                    <div class="col-6 col-lg-2">
-                        <label class="form-label small mb-1">Bis (EDTF)</label>
-                        <input type="text" class="form-control" name="wirkungsorte_bis[]" placeholder="YYYY" data-validate="edtf">
                     </div>
                     <div class="col-auto ms-auto">
                         <button type="button" class="btn btn-outline-danger btn-sm remove-wirkungsort" aria-label="Wirkungsort entfernen">
@@ -488,6 +484,10 @@
                         </button>
                     </div>
                 </div>
+                <div class="mt-3" data-edtf-wirkungsort-interval></div>
+                <input type="hidden" name="wirkungsorte_von[]">
+                <input type="hidden" name="wirkungsorte_bis[]">
+                <input type="hidden" name="wirkungsorte_zeitraum[]">
                 <div class="row g-2 mt-2">
                     <div class="col-12 col-md-6">
                         <label class="form-label small mb-1">Institution</label>
@@ -507,6 +507,14 @@
             </div>
         `;
 
+        card.querySelector('input[name="wirkungsorte[]"]').value = initial.ort || '';
+        card.querySelector('input[name="wirkungsorte_von[]"]').value = initial.von || '';
+        card.querySelector('input[name="wirkungsorte_bis[]"]').value = initial.bis || '';
+        card.querySelector('input[name="wirkungsorte_zeitraum[]"]').value = initial.zeitraum || '';
+        card.querySelector('input[name="wirkungsorte_institution[]"]').value = initial.institution || '';
+        card.querySelector('input[name="wirkungsorte_rolle[]"]').value = initial.rolle || '';
+        card.querySelector('textarea[name="wirkungsorte_beschreibung[]"]').value = initial.beschreibung || '';
+
         const ortInput = card.querySelector('.autocomplete-input');
         const dropdown = card.querySelector('.autocomplete-dropdown');
         if (ortInput && dropdown) {
@@ -522,7 +530,11 @@
     }
 
     addButton.addEventListener('click', () => {
-        container.appendChild(createWirkungsortCard());
+        const card = createWirkungsortCard();
+        container.appendChild(card);
+        document.dispatchEvent(new CustomEvent('edtf-wirkungsort-added', {
+            detail: card.querySelector('[data-edtf-wirkungsort-interval]')
+        }));
     });
 })();
 
@@ -609,13 +621,6 @@
             name: 'rollen',
             placeholder: 'Rolle',
             autocomplete: 'rollen'
-        },
-        datumOhneKontext: {
-            container: 'datum-ohne-kontext-container',
-            name: 'datum_ohne_kontext',
-            placeholder: 'YYYY oder YYYY-MM oder YYYY-MM-DD',
-            autocomplete: null,
-            validate: 'edtf'
         }
     };
     
@@ -624,82 +629,7 @@
         row.className = 'dynamic-field-row';
         row.dataset.index = index;
         
-        if (config.withDates) {
-            // Wirkungsort with date fields
-            const ortWrapper = document.createElement('div');
-            ortWrapper.className = 'autocomplete-wrapper';
-            ortWrapper.style.flex = '2';
-            
-            const ortInput = document.createElement('input');
-            ortInput.type = 'text';
-            ortInput.className = 'form-control autocomplete-input';
-            ortInput.name = `${config.name}[]`;
-            ortInput.placeholder = config.placeholder;
-            ortInput.dataset.autocomplete = config.autocomplete;
-            
-            const ortDropdown = document.createElement('div');
-            ortDropdown.className = 'autocomplete-dropdown';
-            
-            ortWrapper.appendChild(ortInput);
-            ortWrapper.appendChild(ortDropdown);
-            row.appendChild(ortWrapper);
-            
-            // Von (EDTF)
-            const vonInput = document.createElement('input');
-            vonInput.type = 'text';
-            vonInput.className = 'form-control';
-            vonInput.name = `${config.name}_von[]`;
-            vonInput.placeholder = 'Von (EDTF)';
-            vonInput.dataset.validate = 'edtf';
-            vonInput.style.flex = '1';
-            row.appendChild(vonInput);
-            
-            // Bis (EDTF)
-            const bisInput = document.createElement('input');
-            bisInput.type = 'text';
-            bisInput.className = 'form-control';
-            bisInput.name = `${config.name}_bis[]`;
-            bisInput.placeholder = 'Bis (EDTF)';
-            bisInput.dataset.validate = 'edtf';
-            bisInput.style.flex = '1';
-            row.appendChild(bisInput);
-            
-            // Initialize autocomplete
-            initAutocomplete(ortInput, ortDropdown, config.autocomplete);
-            
-            if (Array.isArray(config.extraFields)) {
-                config.extraFields.forEach(extra => {
-                    const fieldWrapper = document.createElement('div');
-                    fieldWrapper.className = 'd-flex flex-column flex-grow-1';
-                    fieldWrapper.style.minWidth = '180px';
-                    fieldWrapper.style.gap = '0.25rem';
-                    
-                    if (extra.label) {
-                        const label = document.createElement('label');
-                        label.className = 'form-label small mb-0';
-                        label.textContent = extra.label;
-                        fieldWrapper.appendChild(label);
-                    }
-
-                    let inputEl;
-                    if (extra.type === 'textarea') {
-                        inputEl = document.createElement('textarea');
-                        inputEl.rows = extra.rows || 3;
-                    } else {
-                        inputEl = document.createElement('input');
-                        inputEl.type = extra.type || 'text';
-                    }
-                    inputEl.className = 'form-control';
-                    inputEl.name = `${config.name}_${extra.name || 'extra'}[]`;
-                    if (extra.placeholder) {
-                        inputEl.placeholder = extra.placeholder;
-                    }
-                    fieldWrapper.appendChild(inputEl);
-                    row.appendChild(fieldWrapper);
-                });
-            }
-            
-        } else if (config.autocomplete) {
+        if (config.autocomplete) {
             const wrapper = document.createElement('div');
             wrapper.className = 'autocomplete-wrapper flex-grow-1';
             
@@ -771,7 +701,7 @@
         });
     });
     
-    // Initial je ein Feld hinzufügen (außer namensvarianten - bereits vorgefüllt)
+    // Initial je ein Feld hinzufügen (außer bereits vorgefüllten Typen)
     Object.keys(dynamicFieldsConfig).forEach(fieldType => {
         if (fieldType !== 'namensvarianten' && fieldType !== 'rollen') {
             addDynamicField(fieldType);
@@ -948,11 +878,18 @@ function collectPersonFormData() {
         namensvarianten: [],
         rollen: [],
         wirkungsorte: [],
-        zeitraum: []
+        wirkungsorte_von: [],
+        wirkungsorte_bis: [],
+        wirkungsorte_zeitraum: [],
+        wirkungsorte_institution: [],
+        wirkungsorte_rolle: [],
+        wirkungsorte_beschreibung: [],
+        zeitraum: [],
+        datum_ohne_kontext: []
     };
     
     Object.keys(dynamicFields).forEach(fieldName => {
-        const inputs = form.querySelectorAll(`input[name="${fieldName}[]"]`);
+        const inputs = form.querySelectorAll(`input[name="${fieldName}[]"], textarea[name="${fieldName}[]"]`);
         inputs.forEach(input => {
             if (!input.disabled && input.value.trim()) {
                 dynamicFields[fieldName].push(input.value.trim());
@@ -1029,10 +966,11 @@ function attachResetButton() {
 		});
 
 		// Remove dynamic rows / containers
-		['namensvarianten-container','taetigkeiten-container','wirkungsorte-container','datum-ohne-kontext-container'].forEach(id => {
+		['namensvarianten-container','taetigkeiten-container','wirkungsorte-container'].forEach(id => {
 			const c = document.getElementById(id);
 			if (c) c.innerHTML = '';
 		});
+		window.EDTFForm?.resetDateLists?.();
 
 		// Reset Anzeige-Namen UI
 		const anzeigeNameDisplay = document.getElementById('anzeigeNameDisplay');

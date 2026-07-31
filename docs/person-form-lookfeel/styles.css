@@ -239,12 +239,23 @@ label:has(+ textarea:disabled) {
     opacity: 0.7;
 }
 
-.edtf-component {
-    background: var(--bs-tertiary-bg);
-}
-
 .edtf-component .edtf-output {
     font-family: var(--bs-font-monospace);
+}
+
+.edtf-summary code {
+    color: inherit;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.edtf-edit-action {
+    align-items: center;
+    display: inline-flex;
+    height: 2.25rem;
+    justify-content: center;
+    padding: 0;
+    width: 2.25rem;
 }
 
 .dynamic-field-row {
@@ -356,6 +367,71 @@ label:has(+ textarea:disabled) {
     border-bottom: none;
     padding-bottom: 0;
     margin-bottom: 0;
+}
+
+/* Kompakte, rahmenlose Unterabschnitte der Lebensdaten. */
+.life-data-main-title {
+    font-weight: 600;
+}
+
+.life-data-section-title {
+    color: var(--bs-emphasis-color);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--bs-border-color);
+}
+
+.life-data-section .edtf-compact-view {
+    border: 0 !important;
+    padding: 0 !important;
+}
+
+.life-data-section .edtf-summary {
+    display: grid;
+    grid-template-areas: "value interpretation action";
+    grid-template-columns: minmax(8rem, 25%) minmax(0, 1fr) auto;
+}
+
+.life-data-section .edtf-summary > [class*="col-"] {
+    width: auto;
+}
+
+.life-data-section .edtf-summary [data-empty-state] {
+    grid-area: value;
+}
+
+.life-data-section .edtf-summary-value {
+    grid-area: value;
+}
+
+.life-data-section .edtf-summary-interpretation {
+    grid-area: interpretation;
+}
+
+.life-data-section .edtf-summary [data-action-column] {
+    grid-area: action;
+    margin-left: 0 !important;
+}
+
+.life-data-place {
+    min-height: 3rem;
+}
+
+.life-data-section .edtf-date-list-entry + .edtf-date-list-entry {
+    border-top: 1px solid var(--bs-border-color);
+    padding-top: 1rem;
+}
+
+@media (max-width: 575.98px) {
+    .life-data-section .edtf-summary {
+        grid-template-areas:
+            "value action"
+            "interpretation action";
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
 }
 
 /* -- add: smooth button styling (pastel / soft) -- */

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de" data-bs-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,45 +13,51 @@
     <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
     <link rel="stylesheet" href="styles.css">
     <script>
-  if (window.location.protocol !== 'file:') {
-    const manifest = document.createElement('link');
-    manifest.rel = 'manifest';
-    manifest.href = '../site.webmanifest';
-    document.head.appendChild(manifest);
+        if (window.location.protocol !== 'file:') {
+            const manifest = document.createElement('link');
+            manifest.rel = 'manifest';
+            manifest.href = '../site.webmanifest';
+            document.head.appendChild(manifest);
 
-  window.markerConfig = {
-    project: '6941654826619e44019e3f1d', 
-    source: 'snippet'
-  };
+            window.markerConfig = {
+                project: '6941654826619e44019e3f1d',
+                source: 'snippet'
+            };
 
-  !function(e,r,a){if(!e.__Marker){e.__Marker={};var t=[],n={__cs:t};["show","hide","isVisible","capture","cancelCapture","unload","reload","isExtensionInstalled","setReporter","clearReporter","setCustomData","on","off"].forEach(function(e){n[e]=function(){var r=Array.prototype.slice.call(arguments);r.unshift(e),t.push(r)}}),e.Marker=n;var s=r.createElement("script");s.async=1,s.src="https://edge.marker.io/latest/shim.js";var i=r.getElementsByTagName("script")[0];i.parentNode.insertBefore(s,i)}}(window,document);
-  }
-</script>
+            !function (e, r, a) { if (!e.__Marker) { e.__Marker = {}; var t = [], n = { __cs: t };["show", "hide", "isVisible", "capture", "cancelCapture", "unload", "reload", "isExtensionInstalled", "setReporter", "clearReporter", "setCustomData", "on", "off"].forEach(function (e) { n[e] = function () { var r = Array.prototype.slice.call(arguments); r.unshift(e), t.push(r) } }), e.Marker = n; var s = r.createElement("script"); s.async = 1, s.src = "https://edge.marker.io/latest/shim.js"; var i = r.getElementsByTagName("script")[0]; i.parentNode.insertBefore(s, i) } }(window, document);
+        }
+    </script>
 </head>
+
 <body>
     <div class="container-fluid py-4">
 
         <div class="row justify-content-center">
             <!-- Main Form -->
             <div class="col-md-9 col-lg-8 col-xl-7 order-md-1" style="max-width: 800px;">
-        <div class="mb-3">
-            <a href="../index.html" class="btn btn-outline-secondary rounded-pill px-3 py-1">
-                ← Back to Demos
-            </a>
-        </div>
+                <div class="mb-3">
+                    <a href="../index.html" class="btn btn-outline-secondary rounded-pill px-3 py-1">
+                        ← Back to Demos
+                    </a>
+                </div>
                 <div data-bs-spy="scroll" data-bs-target="#navbar-sections" data-bs-smooth-scroll="true">
                     <h4 class="mb-4">
                         <div class="mb-4">
-                            <span class="badge rounded-pill bg-secondary text-white me-1 small py-1 px-2">look&amp;feel</span>
+                            <span
+                                class="badge rounded-pill bg-secondary text-white me-1 small py-1 px-2">look&amp;feel</span>
                             <span class="badge rounded-pill bg-info text-white me-1 small py-1 px-2">mockup</span>
                             <span class="badge rounded-pill bg-warning text-dark me-1 small py-1 px-2">demo</span>
                             <span class="badge rounded-pill bg-danger text-white me-1 small py-1 px-2">draft</span>
                         </div>
                         Demo-Formular zur Erfassung von personenbezogenen Daten
                     </h4>
-                    <p class="lead text-muted mb-2">Dies ist ein <i>look&feel</i> Mockup zur Demonstration von Eingabefeldern, Interaktionslogik und Funktionalitäten füŕ die Erfassung von per&shy;sonen&shy;bezogenen Daten.</p>
-                    <p class="lead text-muted mb-2">Alle dargestellten Inhalte, Namen und Angaben dienen ausschließlich der Veranschaulichung und sind keine echten Daten.</p>
-                    <p class="lead text-muted mb-4">Dieses Formular ist nur für die praxisnahe Evaluierung gedacht!<br/></p>
+                    <p class="lead text-muted mb-2">Dies ist ein <i>look&feel</i> Mockup zur Demonstration von
+                        Eingabefeldern, Interaktionslogik und Funktionalitäten füŕ die Erfassung von
+                        per&shy;sonen&shy;bezogenen Daten.</p>
+                    <p class="lead text-muted mb-2">Alle dargestellten Inhalte, Namen und Angaben dienen ausschließlich
+                        der Veranschaulichung und sind keine echten Daten.</p>
+                    <p class="lead text-muted mb-4">Dieses Formular ist nur für die praxisnahe Evaluierung
+                        gedacht!<br /></p>
 
                     <form id="personForm" novalidate>
 
@@ -59,55 +66,70 @@
                             <div class="card border-primary">
                                 <div class="card-header bg-primary text-white">
                                     <h3 class="h5 mb-0">
-                                         User-Rolle wählen
-                                        <small class="d-block mt-1 opacity-75">Wählen Sie als erstes eine User-Rolle:</small>
+                                        User-Rolle wählen
+                                        <small class="d-block mt-1 opacity-75">Wählen Sie als erstes eine
+                                            User-Rolle:</small>
                                     </h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="alert alert-info mb-3" role="alert">
                                         <i class="bi bi-shield-lock-fill me-2"></i>
-                                        <strong>Wichtig:</strong> Ihre Rolle bestimmt, welche Bereiche Sie bearbeiten können.
+                                        <strong>Wichtig:</strong> Ihre Rolle bestimmt, welche Bereiche Sie bearbeiten
+                                        können.
                                     </div>
                                     <div class="row g-3">
                                         <div class="col-12">
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="userrolle" id="rolle_kurator" value="kurator" checked>
+                                                <input class="form-check-input" type="radio" name="userrolle"
+                                                    id="rolle_kurator" value="kurator" checked>
                                                 <label class="form-check-label" for="rolle_kurator">
-                                                    <strong>DB-Owner (Superadmin z.B: Kurator der PersonenDatenBank)</strong>
+                                                    <strong>DB-Owner (Superadmin z.B: Kurator der
+                                                        PersonenDatenBank)</strong>
                                                     <br>
-                                                    <small class="text-muted">Volle Bearbeitungsrechte für alle Sektionen</small>
+                                                    <small class="text-muted">Volle Bearbeitungsrechte für alle
+                                                        Sektionen</small>
                                                 </label>
                                             </div>
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="userrolle" id="rolle_kustode" value="kustode">
+                                                <input class="form-check-input" type="radio" name="userrolle"
+                                                    id="rolle_kustode" value="kustode">
                                                 <label class="form-check-label" for="rolle_kustode">
-                                                    <strong>Record-Owner (Sammlungsspezifische Admins z.B: Kustode / Kustodin der sammlungsspezifischen Personeneinträge)</strong>
+                                                    <strong>Record-Owner (Sammlungsspezifische Admins z.B: Kustode /
+                                                        Kustodin der sammlungsspezifischen Personeneinträge)</strong>
                                                     <br>
-                                                    <small class="text-muted">Lebensstatus und Identität sind schreibgeschützt</small>
+                                                    <small class="text-muted">Lebensstatus und Identität sind
+                                                        schreibgeschützt</small>
                                                 </label>
                                             </div>
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="userrolle" id="rolle_wissenschaftler" value="wissenschaftler">
+                                                <input class="form-check-input" type="radio" name="userrolle"
+                                                    id="rolle_wissenschaftler" value="wissenschaftler">
                                                 <label class="form-check-label" for="rolle_wissenschaftler">
-                                                    <strong>Record-Editor (Sammlungsspezifische wissenschaftliche Mitarbeiter)</strong>
+                                                    <strong>Record-Editor (Sammlungsspezifische wissenschaftliche
+                                                        Mitarbeiter)</strong>
                                                     <br>
-                                                    <small class="text-muted">Lebensstatus, Identität und Kontakt sind schreibgeschützt</small>
+                                                    <small class="text-muted">Lebensstatus, Identität und Kontakt sind
+                                                        schreibgeschützt</small>
                                                 </label>
                                             </div>
                                             <div class="form-check mb-3">
-                                                <input class="form-check-input" type="radio" name="userrolle" id="rolle_user" value="user">
+                                                <input class="form-check-input" type="radio" name="userrolle"
+                                                    id="rolle_user" value="user">
                                                 <label class="form-check-label" for="rolle_user">
-                                                    <strong>Record-Viewer (Sammlungsspezifische Mitarbeiter, read-only)</strong>
+                                                    <strong>Record-Viewer (Sammlungsspezifische Mitarbeiter,
+                                                        read-only)</strong>
                                                     <br>
-                                                    <small class="text-muted">Freigegebene Daten und vorhandene Kommentare nur lesen</small>
+                                                    <small class="text-muted">Freigegebene Daten und vorhandene
+                                                        Kommentare nur lesen</small>
                                                 </label>
                                             </div>
-                                            
+
                                             <hr class="my-3">
-                                            
+
                                             <div class="alert alert-success mb-0" role="alert">
                                                 <i class="bi bi-shield-lock-fill me-2"></i>
-                                                <strong>Draft</strong> Rollen- und Berechtigungsdefinitionen sind ein erste Überlegung <i>[tbd]</i>
+                                                <strong>Draft</strong> Rollen- und Berechtigungsdefinitionen sind ein
+                                                erste Überlegung <i>[tbd]</i>
                                             </div>
                                         </div>
                                     </div>
@@ -116,37 +138,44 @@
                         </section>
 
                         <!-- 1. LEBENSSTATUS (GATE) -->
-                        <section id="lebensstatus" class="form-section mb-5 disabled-section" data-role-restriction="wissenschaftler,user">
+                        <section id="lebensstatus" class="form-section mb-5 disabled-section"
+                            data-role-restriction="wissenschaftler,user">
                             <div class="card">
                                 <div class="card-header bg-primary text-white">
                                     <h3 class="h5 mb-0">Lebensstatus</h3>
-                                    <small class="d-block mt-1 opacity-75">Ob die Person lebend oder verstorben ist, bestimmt den rechtlichen Rahmen für die Personendatenerfassung. Entsprechend werden einige Felder ausgeblendet. <i>[tbf]</i></small>
+                                    <small class="d-block mt-1 opacity-75">Ob die Person lebend oder verstorben ist,
+                                        bestimmt den rechtlichen Rahmen für die Personendatenerfassung. Entsprechend
+                                        werden einige Felder ausgeblendet. <i>[tbf]</i></small>
                                 </div>
                                 <div class="card-body">
                                     <div class="d-flex gap-3">
                                         <div class="lebensstatus-option">
-                                            <input class="form-check-input" type="radio" name="lebensstatus" id="lebend" value="lebend">
+                                            <input class="form-check-input" type="radio" name="lebensstatus" id="lebend"
+                                                value="lebend">
                                             <label class="form-check-label" for="lebend">
                                                 <i class="bi bi-person-check fs-4 d-block mb-2"></i>
                                                 Lebend
                                             </label>
                                         </div>
                                         <div class="lebensstatus-option">
-                                            <input class="form-check-input" type="radio" name="lebensstatus" id="verstorben" value="verstorben" checked>
+                                            <input class="form-check-input" type="radio" name="lebensstatus"
+                                                id="verstorben" value="verstorben" checked>
                                             <label class="form-check-label" for="verstorben">
                                                 <i class="bi bi-person-x fs-4 d-block mb-2"></i>
                                                 Verstorben
                                             </label>
                                         </div>
                                         <div class="lebensstatus-option">
-                                            <input class="form-check-input" type="radio" name="lebensstatus" id="unbekannt" value="unbekannt">
+                                            <input class="form-check-input" type="radio" name="lebensstatus"
+                                                id="unbekannt" value="unbekannt">
                                             <label class="form-check-label" for="unbekannt">
                                                 <i class="bi bi-question-circle fs-4 d-block mb-2"></i>
                                                 Unbekannt
                                             </label>
                                         </div>
                                     </div>
-                                    <div class="invalid-feedback d-block" id="lebensstatusError" style="display:none!important"></div>
+                                    <div class="invalid-feedback d-block" id="lebensstatusError"
+                                        style="display:none!important"></div>
                                 </div>
                             </div>
                         </section>
@@ -160,24 +189,31 @@
                                 <div class="card-body">
                                     <div class="row g-3">
                                         <div class="col-12">
-                                            <label class="form-label">Anzeigename und Suffixe (automatisch generiert)</label>
+                                            <label class="form-label">Anzeigename und Suffixe (automatisch
+                                                generiert)</label>
                                             <div class="alert alert-sec ondary mb-1" role="alert">
-                                               <strong id="anzeigeNameDisplay" class="fs-5">—</strong> <small id="anzeigeNameDates" class="text-muted small">—</small></div>
+                                                <strong id="anzeigeNameDisplay" class="fs-5">—</strong> <small
+                                                    id="anzeigeNameDates" class="text-muted small">—</small>
                                             </div>
-                                            <!-- <div class="alert alert-secondary mb-1" role="alert"></div> -->
-                                                <!-- neue Zeile für Geburt/Tod/Wirkungszeitraum -->
-                                                <!-- <div id="anzeigeNameDates" class="small text-muted mb-2"> </div> -->
-                                                 <!-- <strong id="anzeigeNameDates" class="fs-5">—</strong>
-                                             </div> -->
-                                            <div class="form-text">Der Anzeigename wird automatisch aus Vorname, Mittelname und Nachname zusammengesetzt. Am Ende erscheint statisch <i>[Sammlung] und falls bekannt davor das [* Geburtsdatum], [† Sterbedatum], [(fl.) Wirkungszeitraum] sowie [Normdatenbank: ID+URL]</i>.</div>
                                         </div>
+                                        <!-- <div class="alert alert-secondary mb-1" role="alert"></div> -->
+                                        <!-- neue Zeile für Geburt/Tod/Wirkungszeitraum -->
+                                        <!-- <div id="anzeigeNameDates" class="small text-muted mb-2"> </div> -->
+                                        <!-- <strong id="anzeigeNameDates" class="fs-5">—</strong>
+                                             </div> -->
+                                        <div class="form-text">Der Anzeigename wird automatisch aus Vorname, Mittelname
+                                            und Nachname zusammengesetzt. Am Ende erscheint statisch <i>[Sammlung] und
+                                                falls bekannt davor das [* Geburtsdatum], [† Sterbedatum], [(fl.)
+                                                Wirkungszeitraum] sowie [Normdatenbank: ID+URL]</i>.</div>
                                     </div>
-                                
+                                </div>
+
                             </div>
                         </section>
 
                         <!-- 3. IDENTITÄT -->
-                        <section id="identitaet" class="form-section mb-5 disabled-section" data-role-restriction="wissenschaftler,user">
+                        <section id="identitaet" class="form-section mb-5 disabled-section"
+                            data-role-restriction="wissenschaftler,user">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="h5 mb-0">Identität</h3>
@@ -186,100 +222,117 @@
                                     <div class="row g-3 row-separator">
                                         <div class="col-md-4">
                                             <label for="vorname" class="form-label">Vorname</label>
-                                            <input type="text" class="form-control" id="vorname" value="Ferdinand" name="vorname">
+                                            <input type="text" class="form-control" id="vorname" value="Ferdinand"
+                                                name="vorname">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="mittelname" class="form-label">Mittelname</label>
-                                            <input type="text" class="form-control" id="mittelname"  name="mittelname">
+                                            <input type="text" class="form-control" id="mittelname" name="mittelname">
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="nachname" class="form-label">Nachname <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="nachname" value="Hochstetter" name="nachname" required>
+                                            <label for="nachname" class="form-label">Nachname <span
+                                                    class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="nachname" value="Hochstetter"
+                                                name="nachname" required>
                                             <div class="invalid-feedback">Nachname ist erforderlich</div>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="namenskuerzel" class="form-label">Namenskürzel</label>
-                                            <input type="text" class="form-control" id="namenskuerzel" name="namenskuerzel">
+                                            <input type="text" class="form-control" id="namenskuerzel"
+                                                name="namenskuerzel">
                                         </div>
                                         <div class="col-md-8">
                                             <label class="form-label">Geschlecht</label>
                                             <div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="geschlecht" id="geschlecht_w" value="w">
+                                                    <input class="form-check-input" type="radio" name="geschlecht"
+                                                        id="geschlecht_w" value="w">
                                                     <label class="form-check-label" for="geschlecht_w">Weiblich</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="geschlecht" id="geschlecht_m" value="m" checked>
+                                                    <input class="form-check-input" type="radio" name="geschlecht"
+                                                        id="geschlecht_m" value="m" checked>
                                                     <label class="form-check-label" for="geschlecht_m">Männlich</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="geschlecht" id="geschlecht_div" value="div">
+                                                    <input class="form-check-input" type="radio" name="geschlecht"
+                                                        id="geschlecht_div" value="div">
                                                     <label class="form-check-label" for="geschlecht_div">Divers</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="geschlecht" id="geschlecht_unbekannt" value="unbekannt">
-                                                    <label class="form-check-label" for="geschlecht_unbekannt">Unbekannt</label>
+                                                    <input class="form-check-input" type="radio" name="geschlecht"
+                                                        id="geschlecht_unbekannt" value="unbekannt">
+                                                    <label class="form-check-label"
+                                                        for="geschlecht_unbekannt">Unbekannt</label>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row g-3 row-separator">
                                         <div class="col-md-6">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <label for="standes_und_amtstitel" class="form-label mb-0">Standes- und Amtstitel</label>
-                                                <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#standesTitelModal">
+                                                <label for="standes_und_amtstitel" class="form-label mb-0">Standes- und
+                                                    Amtstitel</label>
+                                                <button type="button" class="btn btn-sm btn-outline-info"
+                                                    data-bs-toggle="modal" data-bs-target="#standesTitelModal">
                                                     <i class="bi bi-info-circle"></i>
                                                 </button>
                                             </div>
                                             <div class="autocomplete-wrapper">
-                                                <input type="text" class="form-control autocomplete-input" 
-                                                       id="standes_und_amtstitel" name="standes_und_amtstitel"
-                                                       data-autocomplete="standesTitel">
+                                                <input type="text" class="form-control autocomplete-input"
+                                                    id="standes_und_amtstitel" name="standes_und_amtstitel"
+                                                    data-autocomplete="standesTitel">
                                                 <div class="autocomplete-dropdown"></div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <label for="akademischer_titel" class="form-label mb-0">Akademischer Titel</label>
-                                                <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#akademischeTitelModal">
+                                                <label for="akademischer_titel" class="form-label mb-0">Akademischer
+                                                    Titel</label>
+                                                <button type="button" class="btn btn-sm btn-outline-info"
+                                                    data-bs-toggle="modal" data-bs-target="#akademischeTitelModal">
                                                     <i class="bi bi-info-circle"></i>
                                                 </button>
                                             </div>
                                             <div class="autocomplete-wrapper">
-                                                <input type="text" class="form-control autocomplete-input" 
-                                                       id="akademischer_titel" name="akademischer_titel"
-                                                       data-autocomplete="akademischeTitel">
+                                                <input type="text" class="form-control autocomplete-input"
+                                                    id="akademischer_titel" name="akademischer_titel"
+                                                    data-autocomplete="akademischeTitel">
                                                 <div class="autocomplete-dropdown"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row g-3">
                                         <div class="col-12">
                                             <label class="form-label">Namensvarianten</label>
                                             <div id="namensvarianten-container">
                                                 <!-- Pre-filled entries -->
                                                 <div class="dynamic-field-row">
-                                                    <input type="text" class="form-control flex-grow-1" name="namensvarianten[]" value="Ferdinand von Hochstetter">
+                                                    <input type="text" class="form-control flex-grow-1"
+                                                        name="namensvarianten[]" value="Ferdinand von Hochstetter">
                                                     <button type="button" class="btn btn-outline-danger btn-sm">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
                                                 </div>
                                                 <div class="dynamic-field-row">
-                                                    <input type="text" class="form-control flex-grow-1" name="namensvarianten[]" value="F. Hochstetter">
+                                                    <input type="text" class="form-control flex-grow-1"
+                                                        name="namensvarianten[]" value="F. Hochstetter">
                                                     <button type="button" class="btn btn-outline-danger btn-sm">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
                                                 </div>
                                                 <div class="dynamic-field-row">
-                                                    <input type="text" class="form-control flex-grow-1" name="namensvarianten[]" value="Ferdl Hochstetter">
+                                                    <input type="text" class="form-control flex-grow-1"
+                                                        name="namensvarianten[]" value="Ferdl Hochstetter">
                                                     <button type="button" class="btn btn-outline-danger btn-sm">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="namensvarianten">
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                                data-dynamic-add="namensvarianten">
                                                 <i class="bi bi-plus-circle"></i> Namensvariante hinzufügen
                                             </button>
                                         </div>
@@ -300,25 +353,31 @@
                                             <label for="orcid" class="form-label strong">ORCID</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="orcid" name="orcid"
-                                                       placeholder="0000-0000-0000-000X oder URL"
-                                                       data-validate="orcid">
+                                                    placeholder="0000-0000-0000-000X oder URL" data-validate="orcid">
                                                 <a class="btn btn-outline-secondary"
-                                                   href="https://orcid.org/0000-0002-0752-8735"
-                                                   target="_blank" rel="noopener noreferrer">
+                                                    href="https://orcid.org/0000-0002-0752-8735" target="_blank"
+                                                    rel="noopener noreferrer">
                                                     ORCID Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
                                                 </a>
                                             </div>
                                             <div class="invalid-feedback">Ungültiges ORCID-Format</div>
-                                            <div class="form-text">Die Angabe der ORCID ist freiwillig und erfolgt auf Grundlage einer Einwilligung gemäß Datenschutz-Grundverordnung (DSGVO), <a href="https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:02016R0679-20160504#art_6" title="(1) Die Verarbeitung ist nur rechtmäßig, wenn mindestens eine der nachstehenden Bedingungen erfüllt ist: a) Die betroffene Person hat ihre Einwilligung zu der Verarbeitung der sie betreffenden personenbezogenen Daten für einen oder mehrere bestimmte Zwecke gegeben;" target="_blank" rel="noopener noreferrer">Artikel 6 Absatz 1 lit. a</a>.</div>
+                                            <div class="form-text">Die Angabe der ORCID ist freiwillig und erfolgt auf
+                                                Grundlage einer Einwilligung gemäß Datenschutz-Grundverordnung (DSGVO),
+                                                <a href="https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:02016R0679-20160504#art_6"
+                                                    title="(1) Die Verarbeitung ist nur rechtmäßig, wenn mindestens eine der nachstehenden Bedingungen erfüllt ist: a) Die betroffene Person hat ihre Einwilligung zu der Verarbeitung der sie betreffenden personenbezogenen Daten für einen oder mehrere bestimmte Zwecke gegeben;"
+                                                    target="_blank" rel="noopener noreferrer">Artikel 6 Absatz 1 lit.
+                                                    a</a>.
+                                            </div>
                                         </div>
 
                                         <div class="col-md-6">
                                             <label for="viaf" class="form-label strong">VIAF</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="viaf" name="viaf"
-                                                       placeholder="Zahl oder URL"
-                                                       data-validate="viaf">
-                                                <a class="btn btn-outline-secondary" href="https://viaf.org/en/viaf/search?field=local%2Cnames&index=VIAF&searchTerms=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
+                                                    placeholder="Zahl oder URL" data-validate="viaf">
+                                                <a class="btn btn-outline-secondary"
+                                                    href="https://viaf.org/en/viaf/search?field=local%2Cnames&index=VIAF&searchTerms=Hochstetter+Ferdinand"
+                                                    target="_blank" rel="noopener noreferrer">
                                                     VIAF Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
                                                 </a>
                                             </div>
@@ -329,10 +388,12 @@
                                         <div class="col-md-6">
                                             <label for="gnd" class="form-label strong">GND</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" id="gnd" name="gnd" value="119338467"
-                                                       placeholder="Zahl oder URL"
-                                                       data-validate="gnd">
-                                                <a class="btn btn-success text-white" href="https://explore.gnd.network/gnd/119338467" target="_blank" rel="noopener noreferrer">GND Eintrag<i class="bi bi-box-arrow-right ms-1"></i>
+                                                <input type="text" class="form-control" id="gnd" name="gnd"
+                                                    value="119338467" placeholder="Zahl oder URL" data-validate="gnd">
+                                                <a class="btn btn-success text-white"
+                                                    href="https://explore.gnd.network/gnd/119338467" target="_blank"
+                                                    rel="noopener noreferrer">GND Eintrag<i
+                                                        class="bi bi-box-arrow-right ms-1"></i>
                                                 </a>
                                             </div>
                                             <div class="form-text">Gemeinsame Normdatei (GND).</div>
@@ -343,9 +404,10 @@
                                             <label for="wikidata" class="form-label strong">Wikidata</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="wikidata" name="wikidata"
-                                                       placeholder="Q + Zahl"
-                                                       data-validate="wikidata">
-                                                <a class="btn btn-outline-secondary" href="https://www.wikidata.org/w/index.php?search=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
+                                                    placeholder="Q + Zahl" data-validate="wikidata">
+                                                <a class="btn btn-outline-secondary"
+                                                    href="https://www.wikidata.org/w/index.php?search=Hochstetter+Ferdinand"
+                                                    target="_blank" rel="noopener noreferrer">
                                                     Wikidata Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
                                                 </a>
                                             </div>
@@ -357,9 +419,10 @@
                                             <label for="wikipedia" class="form-label strong">Wikipedia</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="wikipedia" name="wikipedia"
-                                                       placeholder="URL"
-                                                       data-validate="url">
-                                                <a class="btn btn-outline-secondary" href="https://de.wikipedia.org/w/index.php?search=hochstetter+Ferdinand&title=Spezial%3ASuche&ns0=1" target="_blank" rel="noopener noreferrer">
+                                                    placeholder="URL" data-validate="url">
+                                                <a class="btn btn-outline-secondary"
+                                                    href="https://de.wikipedia.org/w/index.php?search=hochstetter+Ferdinand&title=Spezial%3ASuche&ns0=1"
+                                                    target="_blank" rel="noopener noreferrer">
                                                     Wikipedia Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
                                                 </a>
                                             </div>
@@ -371,122 +434,160 @@
                                     <div class="accordion" id="normdatenAccordion">
                                         <div class="accordion-item">
                                             <h2 class="accordion-header" id="normdatenAccordionHeading">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#normdatenAccordionCollapse" aria-expanded="false" aria-controls="normdatenAccordionCollapse">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#normdatenAccordionCollapse" aria-expanded="false"
+                                                    aria-controls="normdatenAccordionCollapse">
                                                     Weitere Normdatenbanken anzeigen
                                                 </button>
                                             </h2>
-                                            <div id="normdatenAccordionCollapse" class="accordion-collapse collapse" aria-labelledby="normdatenAccordionHeading" data-bs-parent="#normdatenAccordion">
+                                            <div id="normdatenAccordionCollapse" class="accordion-collapse collapse"
+                                                aria-labelledby="normdatenAccordionHeading"
+                                                data-bs-parent="#normdatenAccordion">
                                                 <div class="accordion-body">
                                                     <div class="row g-3">
                                                         <div class="col-md-6">
                                                             <label for="isni" class="form-label">ISNI</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="isni" name="isni"
-                                                                       placeholder="16-stellig"
-                                                                       data-validate="isni">
-                                                                <a class="btn btn-outline-secondary" href="https://isni.oclc.org/cbs/DB=1.2/SET=1/TTL=1/CMD?ACT=SRCH&IKT=8006&SRT=LST_nd&TRM=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                                    ISNI Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                <input type="text" class="form-control" id="isni"
+                                                                    name="isni" placeholder="16-stellig"
+                                                                    data-validate="isni">
+                                                                <a class="btn btn-outline-secondary"
+                                                                    href="https://isni.oclc.org/cbs/DB=1.2/SET=1/TTL=1/CMD?ACT=SRCH&IKT=8006&SRT=LST_nd&TRM=Hochstetter+Ferdinand"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    ISNI Suche <i
+                                                                        class="bi bi-box-arrow-up-right ms-1"></i>
                                                                 </a>
                                                             </div>
                                                             <div class="form-text">Internationale Standardnummer.</div>
-                                                            <div class="invalid-feedback">Ungültiges ISNI-Format (16 Ziffern)</div>
+                                                            <div class="invalid-feedback">Ungültiges ISNI-Format (16
+                                                                Ziffern)</div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <label for="lcnaf" class="form-label">LCNAF</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="lcnaf" name="lcnaf"
-                                                                       placeholder="n + Zahl"
-                                                                       data-validate="lcnaf">
-                                                                <a class="btn btn-outline-secondary" href="https://authorities.loc.gov/search-results?searchFields=all&searchType=begins&searchTerm=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                                    LCNAF Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                <input type="text" class="form-control" id="lcnaf"
+                                                                    name="lcnaf" placeholder="n + Zahl"
+                                                                    data-validate="lcnaf">
+                                                                <a class="btn btn-outline-secondary"
+                                                                    href="https://authorities.loc.gov/search-results?searchFields=all&searchType=begins&searchTerm=Hochstetter+Ferdinand"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    LCNAF Suche <i
+                                                                        class="bi bi-box-arrow-up-right ms-1"></i>
                                                                 </a>
                                                             </div>
-                                                            <div class="form-text">Library of Congress Name Authority File.</div>
-                                                            <div class="invalid-feedback">Ungültiges LCNAF-Format (n + Zahl)</div>
+                                                            <div class="form-text">Library of Congress Name Authority
+                                                                File.</div>
+                                                            <div class="invalid-feedback">Ungültiges LCNAF-Format (n +
+                                                                Zahl)</div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <label for="bnf" class="form-label">BNF</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="bnf" name="bnf"
-                                                                       placeholder="cb + Zahl"
-                                                                       data-validate="bnf">
-                                                                <a class="btn btn-outline-secondary" href="https://catalogue.bnf.fr/rechercher.do?motRecherche=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                                    BNF Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                <input type="text" class="form-control" id="bnf"
+                                                                    name="bnf" placeholder="cb + Zahl"
+                                                                    data-validate="bnf">
+                                                                <a class="btn btn-outline-secondary"
+                                                                    href="https://catalogue.bnf.fr/rechercher.do?motRecherche=Hochstetter+Ferdinand"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    BNF Suche <i
+                                                                        class="bi bi-box-arrow-up-right ms-1"></i>
                                                                 </a>
                                                             </div>
-                                                            <div class="form-text">Bibliothèque nationale de France.</div>
-                                                            <div class="invalid-feedback">Ungültiges BNF-Format (cb + Zahl)</div>
+                                                            <div class="form-text">Bibliothèque nationale de France.
+                                                            </div>
+                                                            <div class="invalid-feedback">Ungültiges BNF-Format (cb +
+                                                                Zahl)</div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <label for="bhl" class="form-label">BHL</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="bhl" name="bhl"
-                                                                       placeholder="Zahl oder URL"
-                                                                       data-validate="bhl">
-                                                                <a class="btn btn-outline-secondary" href="https://www.biodiversitylibrary.org/search?searchTerm=Hochstetter+Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                                    BHL Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                <input type="text" class="form-control" id="bhl"
+                                                                    name="bhl" placeholder="Zahl oder URL"
+                                                                    data-validate="bhl">
+                                                                <a class="btn btn-outline-secondary"
+                                                                    href="https://www.biodiversitylibrary.org/search?searchTerm=Hochstetter+Ferdinand"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    BHL Suche <i
+                                                                        class="bi bi-box-arrow-up-right ms-1"></i>
                                                                 </a>
                                                             </div>
-                                                            <div class="form-text">Biodiversity Heritage Library (Author ID).</div>
+                                                            <div class="form-text">Biodiversity Heritage Library (Author
+                                                                ID).</div>
                                                             <div class="invalid-feedback">Ungültiges BHL-Format</div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <label for="zoobank" class="form-label">ZooBank</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="zoobank" name="zoobank"
-                                                                       placeholder="UUID/LSID"
-                                                                       data-validate="zoobank">
-                                                                <a class="btn btn-outline-secondary" href="https://www.zoobank.org/Search?search_term=Hochstetter+Ferdinands" target="_blank" rel="noopener noreferrer">
-                                                                    ZooBank Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                <input type="text" class="form-control" id="zoobank"
+                                                                    name="zoobank" placeholder="UUID/LSID"
+                                                                    data-validate="zoobank">
+                                                                <a class="btn btn-outline-secondary"
+                                                                    href="https://www.zoobank.org/Search?search_term=Hochstetter+Ferdinands"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    ZooBank Suche <i
+                                                                        class="bi bi-box-arrow-up-right ms-1"></i>
                                                                 </a>
                                                             </div>
                                                             <div class="form-text">Zoologische Namensdatenbank.</div>
-                                                            <div class="invalid-feedback">Ungültiges ZooBank-Format</div>
+                                                            <div class="invalid-feedback">Ungültiges ZooBank-Format
+                                                            </div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <label for="zobodat" class="form-label">ZOBODAT</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="zobodat" name="zobodat"
-                                                                       placeholder="URL"
-                                                                       data-validate="url">
-                                                                <a class="btn btn-outline-secondary" href="https://www.zobodat.at/personen.php?q=+&as_p%5B0%5D%5Bi%5D=forename&as_p%5B0%5D%5Bqt%5D=contains&as_p%5B0%5D%5Bv%5D=Ferdinand&as_p%5B1%5D%5Bi%5D=surname&as_p%5B1%5D%5Bqt%5D=contains&as_p%5B1%5D%5Bv%5D=Hochstetter&as_p%5B2%5D%5Bi%5D=" target="_blank" rel="noopener noreferrer">
-                                                                    ZOBODAT Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                <input type="text" class="form-control" id="zobodat"
+                                                                    name="zobodat" placeholder="URL"
+                                                                    data-validate="url">
+                                                                <a class="btn btn-outline-secondary"
+                                                                    href="https://www.zobodat.at/personen.php?q=+&as_p%5B0%5D%5Bi%5D=forename&as_p%5B0%5D%5Bqt%5D=contains&as_p%5B0%5D%5Bv%5D=Ferdinand&as_p%5B1%5D%5Bi%5D=surname&as_p%5B1%5D%5Bqt%5D=contains&as_p%5B1%5D%5Bv%5D=Hochstetter&as_p%5B2%5D%5Bi%5D="
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    ZOBODAT Suche <i
+                                                                        class="bi bi-box-arrow-up-right ms-1"></i>
                                                                 </a>
                                                             </div>
-                                                            <div class="form-text">Zoologisch-Botanische Datenbank.</div>
+                                                            <div class="form-text">Zoologisch-Botanische Datenbank.
+                                                            </div>
                                                             <div class="invalid-feedback">Ungültige URL</div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <label for="ulan" class="form-label">ULAN</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="ulan" name="ulan"
-                                                                       placeholder="Zahl oder URL"
-                                                                       data-validate="ulan">
-                                                                <a class="btn btn-outline-secondary" href="https://www.getty.edu/vow/ULANServlet?english=Y&find=Hochstetter+Ferdinand&role=&page=1&nation=" target="_blank" rel="noopener noreferrer">
-                                                                    ULAN Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                <input type="text" class="form-control" id="ulan"
+                                                                    name="ulan" placeholder="Zahl oder URL"
+                                                                    data-validate="ulan">
+                                                                <a class="btn btn-outline-secondary"
+                                                                    href="https://www.getty.edu/vow/ULANServlet?english=Y&find=Hochstetter+Ferdinand&role=&page=1&nation="
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    ULAN Suche <i
+                                                                        class="bi bi-box-arrow-up-right ms-1"></i>
                                                                 </a>
                                                             </div>
-                                                            <div class="form-text">Getty Union List of Artist Names.</div>
+                                                            <div class="form-text">Getty Union List of Artist Names.
+                                                            </div>
                                                             <div class="invalid-feedback">Ungültiges ULAN-Format</div>
                                                         </div>
 
                                                         <div class="col-md-6">
                                                             <label for="ipni" class="form-label">IPNI</label>
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="ipni" name="ipni"
-                                                                       placeholder="URL"
-                                                                       data-validate="url">
-                                                                <a class="btn btn-outline-secondary" href="https://www.ipni.org/search?q=Hochstetter%20Ferdinand" target="_blank" rel="noopener noreferrer">
-                                                                    IPNI Suche <i class="bi bi-box-arrow-up-right ms-1"></i>
+                                                                <input type="text" class="form-control" id="ipni"
+                                                                    name="ipni" placeholder="URL" data-validate="url">
+                                                                <a class="btn btn-outline-secondary"
+                                                                    href="https://www.ipni.org/search?q=Hochstetter%20Ferdinand"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    IPNI Suche <i
+                                                                        class="bi bi-box-arrow-up-right ms-1"></i>
                                                                 </a>
                                                             </div>
-                                                            <div class="form-text">IPNI (International Plant Names Index).</div>
+                                                            <div class="form-text">IPNI (International Plant Names
+                                                                Index).</div>
                                                             <div class="invalid-feedback">Ungültige URL</div>
                                                         </div>
                                                     </div>
@@ -499,49 +600,59 @@
                         </section>
 
                         <!-- 5. LEBENSDATEN -->
-                        <section id="lebensdaten" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                        <section id="lebensdaten" class="form-section mb-5 disabled-section"
+                            data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0">Lebensdaten</h3>
+                                    <h3 class="h5 mb-0 life-data-main-title">Lebensdaten</h3>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row g-3 row-separator">
-                                        <div class="col-12">
-                                            <div data-edtf-date data-label="Geburtsdatum" data-input-id="geburtsdatum"></div>
-                                            <input type="hidden" id="geburtsdatum" name="geburtsdatum" value="1829-04-30">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="geburtsort" class="form-label">Geburtsort</label>
-                                            <input type="text" class="form-control" id="geburtsort" name="geburtsort">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row g-3 row-separator">
-                                        <div class="col-12">
-                                            <div data-edtf-date data-label="Sterbedatum" data-input-id="sterbedatum"></div>
+                                    <div class="d-grid gap-4 life-data-sections">
+                                        <section class="life-data-section" aria-labelledby="birth-data-title">
+                                            <h4 id="birth-data-title" class="life-data-section-title">Geburt</h4>
+                                            <div class="mt-3">
+                                                <div class="form-label">Geburtsdatum</div>
+                                                <div data-edtf-date data-label="Geburtsdatum"
+                                                    data-input-id="geburtsdatum" data-hide-heading="true"></div>
+                                            </div>
+                                            <input type="hidden" id="geburtsdatum" name="geburtsdatum"
+                                                value="1829-04-30">
+                                            <div class="mt-3">
+                                                <label for="geburtsort" class="form-label">Geburtsort</label>
+                                                <input type="text" class="form-control life-data-place" id="geburtsort"
+                                                    name="geburtsort" placeholder="Geburtsort eingeben oder auswählen">
+                                            </div>
+                                        </section>
+
+                                        <section class="life-data-section" aria-labelledby="death-data-title">
+                                            <h4 id="death-data-title" class="life-data-section-title">Tod</h4>
+                                            <div class="mt-3">
+                                                <div class="form-label">Sterbedatum</div>
+                                                <div data-edtf-date data-label="Sterbedatum" data-input-id="sterbedatum"
+                                                    data-hide-heading="true"></div>
+                                            </div>
                                             <input type="hidden" id="sterbedatum" name="sterbedatum" value="1884-07-18">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="sterbeort" class="form-label">Sterbeort</label>
-                                            <input type="text" class="form-control" id="sterbeort" name="sterbeort">
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row g-3">
-                                        <div class="col-12">
-                                            <label class="form-label">Datum ohne Kontext (EDTF)</label>
-                                            <div id="datum-ohne-kontext-container"></div>
-                                            <button type="button" class="btn btn-sm btn-outline-primary" data-dynamic-add="datumOhneKontext">
-                                                <i class="bi bi-plus-circle"></i> Datum hinzufügen
-                                            </button>
-                                        </div>
+                                            <div class="mt-3">
+                                                <label for="sterbeort" class="form-label">Sterbeort</label>
+                                                <input type="text" class="form-control life-data-place" id="sterbeort"
+                                                    name="sterbeort" placeholder="Sterbeort eingeben oder auswählen">
+                                            </div>
+                                        </section>
+
+                                        <section class="life-data-section" aria-label="Weitere Lebensdaten">
+                                            <div id="datum-ohne-kontext-container" data-edtf-date-list
+                                                data-label="Weitere Lebensdaten" data-item-label="Datum ohne Kontext"
+                                                data-description="Datumsangaben, die keinem konkreten Lebensereignis zugeordnet werden können."
+                                                data-name="datum_ohne_kontext"></div>
+                                        </section>
                                     </div>
                                 </div>
                             </div>
                         </section>
 
                         <!-- 6. TÄTIGKEITEN / ROLLEN -->
-                        <section id="taetigkeiten" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                        <section id="taetigkeiten" class="form-section mb-5 disabled-section"
+                            data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="h5 mb-0">Tätigkeiten / Rollen</h3>
@@ -559,11 +670,13 @@
                                                     <div>
                                                         <span class="badge bg-primary me-2">1853–1856</span>
                                                         <strong>Geologische Aufnahmen</strong>
-                                                        <div class="text-muted small">k.k. Geologische Reichsanstalt · Böhmischer Wald</div>
+                                                        <div class="text-muted small">k.k. Geologische Reichsanstalt ·
+                                                            Böhmischer Wald</div>
                                                     </div>
                                                     <span class="badge bg-warning text-dark">Feldgeologe</span>
                                                 </div>
-                                                <p class="mb-0 small text-muted">Detailkartierung der Grenzregion, Fokus auf stratigraphische Profile.</p>
+                                                <p class="mb-0 small text-muted">Detailkartierung der Grenzregion, Fokus
+                                                    auf stratigraphische Profile.</p>
                                             </div>
                                         </div>
                                         <div class="card mb-3 shadow-sm">
@@ -572,11 +685,13 @@
                                                     <div>
                                                         <span class="badge bg-primary me-2">1853–1856</span>
                                                         <strong>Geologische Arbeiten</strong>
-                                                        <div class="text-muted small">k.k. Geologische Reichsanstalt · Fichtelgebirge &amp; Karlsbader Gebirge</div>
+                                                        <div class="text-muted small">k.k. Geologische Reichsanstalt ·
+                                                            Fichtelgebirge &amp; Karlsbader Gebirge</div>
                                                     </div>
                                                     <span class="badge bg-warning text-dark">Petrologe</span>
                                                 </div>
-                                                <p class="mb-0 small text-muted">Analyse vulkanischer Gesteine und Ableitung regionaler Lagerstättenmodelle.</p>
+                                                <p class="mb-0 small text-muted">Analyse vulkanischer Gesteine und
+                                                    Ableitung regionaler Lagerstättenmodelle.</p>
                                             </div>
                                         </div>
                                         <div class="card mb-3 shadow-sm">
@@ -585,11 +700,13 @@
                                                     <div>
                                                         <span class="badge bg-primary me-2">1857–1859</span>
                                                         <strong>Wissenschaftlicher Geologe</strong>
-                                                        <div class="text-muted small">Novara-Expedition · Weltweite Reise</div>
+                                                        <div class="text-muted small">Novara-Expedition · Weltweite
+                                                            Reise</div>
                                                     </div>
                                                     <span class="badge bg-success text-dark">Expeditionsgeologe</span>
                                                 </div>
-                                                <p class="mb-0 small text-muted">Globale Sammlung von Vergleichsmaterial für die kaiserliche Sammlung.</p>
+                                                <p class="mb-0 small text-muted">Globale Sammlung von Vergleichsmaterial
+                                                    für die kaiserliche Sammlung.</p>
                                             </div>
                                         </div>
                                         <div class="card mb-3 shadow-sm">
@@ -598,11 +715,13 @@
                                                     <div>
                                                         <span class="badge bg-primary me-2">1858–1859</span>
                                                         <strong>Geologische Feldforschung</strong>
-                                                        <div class="text-muted small">Neuseeland-Feldmission · Auckland / Nord- &amp; Südinsel</div>
+                                                        <div class="text-muted small">Neuseeland-Feldmission · Auckland
+                                                            / Nord- &amp; Südinsel</div>
                                                     </div>
                                                     <span class="badge bg-success text-dark">Feldforscher</span>
                                                 </div>
-                                                <p class="mb-0 small text-muted">Kartierung vulkanischer Aktivitätszonen und Dokumentation traditioneller Ortsnamen.</p>
+                                                <p class="mb-0 small text-muted">Kartierung vulkanischer Aktivitätszonen
+                                                    und Dokumentation traditioneller Ortsnamen.</p>
                                             </div>
                                         </div>
                                         <div class="card mb-3 shadow-sm">
@@ -611,11 +730,13 @@
                                                     <div>
                                                         <span class="badge bg-primary me-2">1860–1874</span>
                                                         <strong>Professor für Mineralogie &amp; Geologie</strong>
-                                                        <div class="text-muted small">Polytechnisches Institut Wien · Lehrstuhl</div>
+                                                        <div class="text-muted small">Polytechnisches Institut Wien ·
+                                                            Lehrstuhl</div>
                                                     </div>
                                                     <span class="badge bg-secondary text-dark">Professor</span>
                                                 </div>
-                                                <p class="mb-0 small text-muted">Aufbau des ersten praxisorientierten Curriculums für Lagerstättenkunde.</p>
+                                                <p class="mb-0 small text-muted">Aufbau des ersten praxisorientierten
+                                                    Curriculums für Lagerstättenkunde.</p>
                                             </div>
                                         </div>
                                         <div class="card mb-3 shadow-sm">
@@ -624,11 +745,13 @@
                                                     <div>
                                                         <span class="badge bg-primary me-2">1874–1875</span>
                                                         <strong>Rektor</strong>
-                                                        <div class="text-muted small">Polytechnisches Institut Wien · Direktion &amp; Verwaltung</div>
+                                                        <div class="text-muted small">Polytechnisches Institut Wien ·
+                                                            Direktion &amp; Verwaltung</div>
                                                     </div>
                                                     <span class="badge bg-dark text-white">Rektor</span>
                                                 </div>
-                                                <p class="mb-0 small text-muted">Reform der Studienordnung und Einführung eines Laborjournals für Studierende.</p>
+                                                <p class="mb-0 small text-muted">Reform der Studienordnung und
+                                                    Einführung eines Laborjournals für Studierende.</p>
                                             </div>
                                         </div>
                                         <div class="card mb-3 shadow-sm">
@@ -637,11 +760,13 @@
                                                     <div>
                                                         <span class="badge bg-primary me-2">1866–1882</span>
                                                         <strong>Präsident &amp; Tutor</strong>
-                                                        <div class="text-muted small">Österreichische Geographische Gesellschaft · Mentoring &amp; Lehre</div>
+                                                        <div class="text-muted small">Österreichische Geographische
+                                                            Gesellschaft · Mentoring &amp; Lehre</div>
                                                     </div>
                                                     <span class="badge bg-info text-dark">Mentor</span>
                                                 </div>
-                                                <p class="mb-0 small text-muted">Betreuung junger Geograf*innen und Entwicklung von Feldforschungsleitfäden.</p>
+                                                <p class="mb-0 small text-muted">Betreuung junger Geograf*innen und
+                                                    Entwicklung von Feldforschungsleitfäden.</p>
                                             </div>
                                         </div>
                                         <div class="card mb-3 shadow-sm">
@@ -650,73 +775,81 @@
                                                     <div>
                                                         <span class="badge bg-primary me-2">1876–1884</span>
                                                         <strong>Intendant / Direktor</strong>
-                                                        <div class="text-muted small">Naturhistorisches Museum Wien · Museumsleitung</div>
+                                                        <div class="text-muted small">Naturhistorisches Museum Wien ·
+                                                            Museumsleitung</div>
                                                     </div>
                                                     <span class="badge bg-danger text-white">Direktor</span>
                                                 </div>
-                                                <p class="mb-0 small text-muted">Planung des Museumsneubaus und Umsetzung der ersten Dauerausstellung zur Geologie.</p>
+                                                <p class="mb-0 small text-muted">Planung des Museumsneubaus und
+                                                    Umsetzung der ersten Dauerausstellung zur Geologie.</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                                                <div class="card-body">
-                                                                    <div id="taetigkeiten-container">
-                                                                        <!-- Tätigkeit 1 (Pre-filled) -->
-                                                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
-                                                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                                <h6 class="mb-0">Tätigkeit #1</h6>
-                                                                                <button type="button" class="btn btn-sm btn-outline-danger"
-                                                                                    onclick="this.closest('.taetigkeiten-entry').remove()">
-                                                                                    <i class="bi bi-trash"></i> Entfernen
-                                                                                </button>
-                                                                            </div>
-                                                                            <div class="row g-3">
-                                                                                <div class="col-md-6">
-                                                                                    <label class="form-label">Bezeichnung der Tätigkeit</label>
-                                                                                    <input type="text" class="form-control" name="beruf_funktion[]" value="Kurator">
-                                                                                </div>
-                                                                                <div class="col-md-6">
-                                                                                    <label class="form-label">Institution</label>
-                                                                                    <div class="autocomplete-wrapper">
-                                                                                        <input type="text" class="form-control autocomplete-input" name="institution[]"
-                                                                                            data-autocomplete="institutionen" value="Naturhistorisches Museum Wien">
-                                                                                        <div class="autocomplete-dropdown"></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-6">
-                                                                                    <label class="form-label">Abteilung</label>
-                                                                                    <input type="text" class="form-control" name="abteilung[]" value="Zoologie">
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <div data-edtf-interval></div>
-                                                                                    <input type="hidden" name="zeitraum[]" value="1857/1859">
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <label class="form-label">Rollen</label>
-                                                                                    <div class="rollen-container-1">
-                                                                                        <div class="dynamic-field-row">
-                                                                                            <div class="autocomplete-wrapper flex-grow-1">
-                                                                                                <input type="text" class="form-control autocomplete-input" name="rollen_1[]"
-                                                                                                    data-autocomplete="rollen" value="Sammler">
-                                                                                                <div class="autocomplete-dropdown"></div>
-                                                                                            </div>
-                                                                                            <button type="button" class="btn btn-outline-danger btn-sm">
-                                                                                                <i class="bi bi-trash"></i>
-                                                                                            </button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, 1)">
-                                                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                
-                                                                    <button type="button" class="btn btn-outline-primary" id="addTaetigkeitBtn">
-                                                                        <i class="bi bi-plus-circle"></i> Tätigkeitszeitraum hinzufügen
-                                                                    </button>
-                            </div>
+                                <div class="card-body">
+                                    <div id="taetigkeiten-container">
+                                        <!-- Tätigkeit 1 (Pre-filled) -->
+                                        <div class="taetigkeiten-entry border rounded p-3 mb-3">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h6 class="mb-0">Tätigkeit #1</h6>
+                                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                                    onclick="this.closest('.taetigkeiten-entry').remove()">
+                                                    <i class="bi bi-trash"></i> Entfernen
+                                                </button>
+                                            </div>
+                                            <div class="row g-3">
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Bezeichnung der Tätigkeit</label>
+                                                    <input type="text" class="form-control" name="beruf_funktion[]"
+                                                        value="Kurator">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Institution</label>
+                                                    <div class="autocomplete-wrapper">
+                                                        <input type="text" class="form-control autocomplete-input"
+                                                            name="institution[]" data-autocomplete="institutionen"
+                                                            value="Naturhistorisches Museum Wien">
+                                                        <div class="autocomplete-dropdown"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label class="form-label">Abteilung</label>
+                                                    <input type="text" class="form-control" name="abteilung[]"
+                                                        value="Zoologie">
+                                                </div>
+                                                <div class="col-12">
+                                                    <div data-edtf-interval></div>
+                                                    <input type="hidden" name="zeitraum[]" value="1857/1859">
+                                                </div>
+                                                <div class="col-12">
+                                                    <label class="form-label">Rollen</label>
+                                                    <div class="rollen-container-1">
+                                                        <div class="dynamic-field-row">
+                                                            <div class="autocomplete-wrapper flex-grow-1">
+                                                                <input type="text"
+                                                                    class="form-control autocomplete-input"
+                                                                    name="rollen_1[]" data-autocomplete="rollen"
+                                                                    value="Sammler">
+                                                                <div class="autocomplete-dropdown"></div>
+                                                            </div>
+                                                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                                                <i class="bi bi-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                                        onclick="addRolleToEntry(this, 1)">
+                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-outline-primary" id="addTaetigkeitBtn">
+                                        <i class="bi bi-plus-circle"></i> Tätigkeitszeitraum hinzufügen
+                                    </button>
+                                </div>
                         </section>
 
                         <!-- 7. ORTE -->
@@ -737,21 +870,28 @@
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex flex-wrap align-items-center gap-2">
                                                             <strong class="location-name">Böhmischer Wald</strong>
-                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="https://www.openstreetmap.org/search?query=B%C3%B6hmischer%20Wald" target="_blank" rel="noopener noreferrer">
-                                                                <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
+                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill"
+                                                                href="https://www.openstreetmap.org/search?query=B%C3%B6hmischer%20Wald"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                <i class="bi bi-globe"></i><span
+                                                                    class="ms-1">Karte</span>
                                                             </a>
-                                                            <span class="badge bg-secondary text-dark">Station · Böhmen</span>
+                                                            <span class="badge bg-secondary text-dark">Station ·
+                                                                Böhmen</span>
                                                         </div>
                                                         <div class="wirkungsort-meta mt-2">
                                                             <span class="badge bg-primary text-dark">1853 – 1856</span>
-                                                            <span class="text-muted small">k.k. Geologische Reichsanstalt · Detailkartierung</span>
+                                                            <span class="text-muted small">k.k. Geologische
+                                                                Reichsanstalt · Detailkartierung</span>
                                                         </div>
                                                     </div>
                                                     <div class="wirkungsort-actions d-flex gap-2">
-                                                        <button type="button" class="btn btn-outline-primary btn-sm" aria-label="Böhmischer Wald bearbeiten">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                                            aria-label="Böhmischer Wald bearbeiten">
                                                             <i class="bi bi-pencil"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" aria-label="Böhmischer Wald entfernen">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                            aria-label="Böhmischer Wald entfernen">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </div>
@@ -764,22 +904,30 @@
                                                 <div class="d-flex flex-wrap align-items-start gap-3">
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex flex-wrap align-items-center gap-2">
-                                                            <strong class="location-name">Fichtelgebirge &amp; Karlsbader Gebirge</strong>
-                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="https://www.openstreetmap.org/search?query=Fichtelgebirge" target="_blank" rel="noopener noreferrer">
-                                                                <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
+                                                            <strong class="location-name">Fichtelgebirge &amp;
+                                                                Karlsbader Gebirge</strong>
+                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill"
+                                                                href="https://www.openstreetmap.org/search?query=Fichtelgebirge"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                <i class="bi bi-globe"></i><span
+                                                                    class="ms-1">Karte</span>
                                                             </a>
-                                                            <span class="badge bg-secondary text-dark">Gesteinsanalyse</span>
+                                                            <span
+                                                                class="badge bg-secondary text-dark">Gesteinsanalyse</span>
                                                         </div>
                                                         <div class="wirkungsort-meta mt-2">
                                                             <span class="badge bg-primary text-dark">1853 – 1856</span>
-                                                            <span class="text-muted small">Fichtel- &amp; Karlsbader Gebirge · Petrologische Profile</span>
+                                                            <span class="text-muted small">Fichtel- &amp; Karlsbader
+                                                                Gebirge · Petrologische Profile</span>
                                                         </div>
                                                     </div>
                                                     <div class="wirkungsort-actions d-flex gap-2">
-                                                        <button type="button" class="btn btn-outline-primary btn-sm" aria-label="Fichtelgebirge bearbeiten">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                                            aria-label="Fichtelgebirge bearbeiten">
                                                             <i class="bi bi-pencil"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" aria-label="Fichtelgebirge entfernen">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                            aria-label="Fichtelgebirge entfernen">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </div>
@@ -792,22 +940,29 @@
                                                 <div class="d-flex flex-wrap align-items-start gap-3">
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex flex-wrap align-items-center gap-2">
-                                                            <strong class="location-name">Novara-Expedition (weltweit)</strong>
-                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="https://www.openstreetmap.org/search?query=world" target="_blank" rel="noopener noreferrer">
-                                                                <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
+                                                            <strong class="location-name">Novara-Expedition
+                                                                (weltweit)</strong>
+                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill"
+                                                                href="https://www.openstreetmap.org/search?query=world"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                <i class="bi bi-globe"></i><span
+                                                                    class="ms-1">Karte</span>
                                                             </a>
                                                             <span class="badge bg-success text-dark">Expedition</span>
                                                         </div>
                                                         <div class="wirkungsort-meta mt-2">
                                                             <span class="badge bg-primary text-dark">1857 – 1859</span>
-                                                            <span class="text-muted small">Kaiserliche Weltumsegelung · Vergleichsmaterial</span>
+                                                            <span class="text-muted small">Kaiserliche Weltumsegelung ·
+                                                                Vergleichsmaterial</span>
                                                         </div>
                                                     </div>
                                                     <div class="wirkungsort-actions d-flex gap-2">
-                                                        <button type="button" class="btn btn-outline-primary btn-sm" aria-label="Novara-Expedition bearbeiten">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                                            aria-label="Novara-Expedition bearbeiten">
                                                             <i class="bi bi-pencil"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" aria-label="Novara-Expedition entfernen">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                            aria-label="Novara-Expedition entfernen">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </div>
@@ -820,22 +975,31 @@
                                                 <div class="d-flex flex-wrap align-items-start gap-3">
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex flex-wrap align-items-center gap-2">
-                                                            <strong class="location-name">Neuseeland · Auckland / Nord- &amp; Südinsel</strong>
-                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="https://www.openstreetmap.org/search?query=Neuseeland" target="_blank" rel="noopener noreferrer">
-                                                                <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
+                                                            <strong class="location-name">Neuseeland · Auckland / Nord-
+                                                                &amp; Südinsel</strong>
+                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill"
+                                                                href="https://www.openstreetmap.org/search?query=Neuseeland"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                <i class="bi bi-globe"></i><span
+                                                                    class="ms-1">Karte</span>
                                                             </a>
-                                                            <span class="badge bg-success text-dark">Feldforschung</span>
+                                                            <span
+                                                                class="badge bg-success text-dark">Feldforschung</span>
                                                         </div>
                                                         <div class="wirkungsort-meta mt-2">
-                                                            <span class="badge bg-primary text-dark">1858-12 – 1859-12</span>
-                                                            <span class="text-muted small">Kartierung vulkanischer Aktivitätszonen</span>
+                                                            <span class="badge bg-primary text-dark">1858-12 –
+                                                                1859-12</span>
+                                                            <span class="text-muted small">Kartierung vulkanischer
+                                                                Aktivitätszonen</span>
                                                         </div>
                                                     </div>
                                                     <div class="wirkungsort-actions d-flex gap-2">
-                                                        <button type="button" class="btn btn-outline-primary btn-sm" aria-label="Neuseeland bearbeiten">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                                            aria-label="Neuseeland bearbeiten">
                                                             <i class="bi bi-pencil"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" aria-label="Neuseeland entfernen">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                            aria-label="Neuseeland entfernen">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </div>
@@ -849,21 +1013,28 @@
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex flex-wrap align-items-center gap-2">
                                                             <strong class="location-name">Wien, Österreich</strong>
-                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich" target="_blank" rel="noopener noreferrer">
-                                                                <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
+                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill"
+                                                                href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                <i class="bi bi-globe"></i><span
+                                                                    class="ms-1">Karte</span>
                                                             </a>
-                                                            <span class="badge bg-warning text-dark">Polytechnisches Institut</span>
+                                                            <span class="badge bg-warning text-dark">Polytechnisches
+                                                                Institut</span>
                                                         </div>
                                                         <div class="wirkungsort-meta mt-2">
                                                             <span class="badge bg-primary text-dark">1860 – 1874</span>
-                                                            <span class="text-muted small">Professor für Mineralogie &amp; Geologie</span>
+                                                            <span class="text-muted small">Professor für Mineralogie
+                                                                &amp; Geologie</span>
                                                         </div>
                                                     </div>
                                                     <div class="wirkungsort-actions d-flex gap-2">
-                                                        <button type="button" class="btn btn-outline-primary btn-sm" aria-label="Wien 1860 bearbeiten">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                                            aria-label="Wien 1860 bearbeiten">
                                                             <i class="bi bi-pencil"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" aria-label="Wien 1860 entfernen">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                            aria-label="Wien 1860 entfernen">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </div>
@@ -877,21 +1048,27 @@
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex flex-wrap align-items-center gap-2">
                                                             <strong class="location-name">Wien, Österreich</strong>
-                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich" target="_blank" rel="noopener noreferrer">
-                                                                <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
+                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill"
+                                                                href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                <i class="bi bi-globe"></i><span
+                                                                    class="ms-1">Karte</span>
                                                             </a>
                                                             <span class="badge bg-dark text-white">Rektorat</span>
                                                         </div>
                                                         <div class="wirkungsort-meta mt-2">
                                                             <span class="badge bg-primary text-dark">1874 – 1875</span>
-                                                            <span class="text-muted small">Polytechnisches Institut · Verwaltung</span>
+                                                            <span class="text-muted small">Polytechnisches Institut ·
+                                                                Verwaltung</span>
                                                         </div>
                                                     </div>
                                                     <div class="wirkungsort-actions d-flex gap-2">
-                                                        <button type="button" class="btn btn-outline-primary btn-sm" aria-label="Wien 1874 bearbeiten">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                                            aria-label="Wien 1874 bearbeiten">
                                                             <i class="bi bi-pencil"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" aria-label="Wien 1874 entfernen">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                            aria-label="Wien 1874 entfernen">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </div>
@@ -905,21 +1082,27 @@
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex flex-wrap align-items-center gap-2">
                                                             <strong class="location-name">Wien, Österreich</strong>
-                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich" target="_blank" rel="noopener noreferrer">
-                                                                <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
+                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill"
+                                                                href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                <i class="bi bi-globe"></i><span
+                                                                    class="ms-1">Karte</span>
                                                             </a>
                                                             <span class="badge bg-info text-dark">Mentoring</span>
                                                         </div>
                                                         <div class="wirkungsort-meta mt-2">
                                                             <span class="badge bg-primary text-dark">1866 – 1882</span>
-                                                            <span class="text-muted small">Österreichische Geographische Gesellschaft</span>
+                                                            <span class="text-muted small">Österreichische Geographische
+                                                                Gesellschaft</span>
                                                         </div>
                                                     </div>
                                                     <div class="wirkungsort-actions d-flex gap-2">
-                                                        <button type="button" class="btn btn-outline-primary btn-sm" aria-label="Wien 1866 bearbeiten">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                                            aria-label="Wien 1866 bearbeiten">
                                                             <i class="bi bi-pencil"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" aria-label="Wien 1866 entfernen">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                            aria-label="Wien 1866 entfernen">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </div>
@@ -933,21 +1116,28 @@
                                                     <div class="flex-grow-1">
                                                         <div class="d-flex flex-wrap align-items-center gap-2">
                                                             <strong class="location-name">Wien, Österreich</strong>
-                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill" href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich" target="_blank" rel="noopener noreferrer">
-                                                                <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
+                                                            <a class="btn btn-sm btn-outline-secondary rounded-pill"
+                                                                href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                <i class="bi bi-globe"></i><span
+                                                                    class="ms-1">Karte</span>
                                                             </a>
-                                                            <span class="badge bg-danger text-white">Museumsleitung</span>
+                                                            <span
+                                                                class="badge bg-danger text-white">Museumsleitung</span>
                                                         </div>
                                                         <div class="wirkungsort-meta mt-2">
                                                             <span class="badge bg-primary text-dark">1876 – 1884</span>
-                                                            <span class="text-muted small">Naturhistorisches Museum Wien · Intendanz</span>
+                                                            <span class="text-muted small">Naturhistorisches Museum Wien
+                                                                · Intendanz</span>
                                                         </div>
                                                     </div>
                                                     <div class="wirkungsort-actions d-flex gap-2">
-                                                        <button type="button" class="btn btn-outline-primary btn-sm" aria-label="Wien 1876 bearbeiten">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                                            aria-label="Wien 1876 bearbeiten">
                                                             <i class="bi bi-pencil"></i>
                                                         </button>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm" aria-label="Wien 1876 entfernen">
+                                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                                            aria-label="Wien 1876 entfernen">
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </div>
@@ -970,11 +1160,14 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" id="einwilligung" name="einwilligung">
+                                        <input class="form-check-input" type="checkbox" id="einwilligung"
+                                            name="einwilligung">
                                         <label class="form-check-label" for="einwilligung">
                                             <strong>Einwilligung liegt vor</strong>
-                                        </label><br/>    
-                                        Diese Eingaben erfolgen nur bei einer Einwilligung gemäß Datenschutz-Grundverordnung (DSGVO), <a href="https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:02016R0679-20160504#art_6"
+                                        </label><br />
+                                        Diese Eingaben erfolgen nur bei einer Einwilligung gemäß
+                                        Datenschutz-Grundverordnung (DSGVO), <a
+                                            href="https://eur-lex.europa.eu/legal-content/DE/TXT/?uri=CELEX:02016R0679-20160504#art_6"
                                             title="(1) Die Verarbeitung ist nur rechtmäßig, wenn mindestens eine der nachstehenden Bedingungen erfüllt ist: a) Die betroffene Person hat ihre Einwilligung zu der Verarbeitung der sie betreffenden personenbezogenen Daten für einen oder mehrere bestimmte Zwecke gegeben;"
                                             target="_blank" rel="noopener noreferrer">Artikel 6 Absatz 1 lit. a</a>
                                     </div>
@@ -983,30 +1176,31 @@
                                             <div class="col-md-6">
                                                 <label for="email" class="form-label">E-Mail</label>
                                                 <input type="email" class="form-control" id="email" name="email"
-                                                       data-validate="email">
+                                                    data-validate="email">
                                                 <div class="invalid-feedback">Ungültige E-Mail-Adresse</div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="telefon" class="form-label">Telefon</label>
                                                 <input type="tel" class="form-control" id="telefon" name="telefon"
-                                                       data-validate="telefon">
+                                                    data-validate="telefon">
                                                 <div class="invalid-feedback">Ungültige Telefonnummer</div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="mobil" class="form-label">Mobil</label>
                                                 <input type="tel" class="form-control" id="mobil" name="mobil"
-                                                       data-validate="telefon">
+                                                    data-validate="telefon">
                                                 <div class="invalid-feedback">Ungültige Mobilnummer</div>
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="fax" class="form-label">Fax</label>
                                                 <input type="tel" class="form-control" id="fax" name="fax"
-                                                       data-validate="telefon">
+                                                    data-validate="telefon">
                                                 <div class="invalid-feedback">Ungültige Faxnummer</div>
                                             </div>
                                             <div class="col-12">
                                                 <label for="adresse_roh" class="form-label">Adresse</label>
-                                                <textarea class="form-control" id="adresse_roh" name="adresse_roh" rows="3"></textarea>
+                                                <textarea class="form-control" id="adresse_roh" name="adresse_roh"
+                                                    rows="3"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -1015,31 +1209,39 @@
                         </section>
 
                         <!-- 9. QUELLENANGABEN -->
-                        <section id="quellenangaben" class="form-section mb-5 disabled-section" data-role-restriction="user">
+                        <section id="quellenangaben" class="form-section mb-5 disabled-section"
+                            data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="h5 mb-0">Quellenangaben</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="source-list d-flex flex-column gap-3">
-                                        <article class="card border-start border-3 border-primary source-entry" data-source-type="Publikation">
+                                        <article class="card border-start border-3 border-primary source-entry"
+                                            data-source-type="Publikation">
                                             <div class="card-body">
                                                 <div class="d-flex flex-wrap justify-content-between gap-3">
                                                     <div>
-                                                        <span class="badge bg-light text-dark border me-2">Quellentyp: Publikation</span>
-                                                        <span class="badge bg-light text-dark border">Bezug: Biografie</span>
+                                                        <span class="badge bg-light text-dark border me-2">Quellentyp:
+                                                            Publikation</span>
+                                                        <span class="badge bg-light text-dark border">Bezug:
+                                                            Biografie</span>
                                                     </div>
                                                     <div class="text-end">
-                                                        <div class="fw-semibold">Oliver Mayer <span class="badge bg-primary ms-1">Record Owner</span></div>
+                                                        <div class="fw-semibold">Oliver Mayer <span
+                                                                class="badge bg-primary ms-1">Record Owner</span></div>
                                                     </div>
                                                 </div>
                                                 <dl class="source-detail-list mt-3">
                                                     <dt>Titel/Kurzbezeichnung</dt>
-                                                    <dd>Bibliothek des Naturhistorischen Museums, Katalog 1812-1842, S. 21</dd>
+                                                    <dd>Bibliothek des Naturhistorischen Museums, Katalog 1812-1842, S.
+                                                        21</dd>
                                                     <dt>Zitation/Referenz</dt>
-                                                    <dd>Bibliothek NHMW (1843): Katalog der Sammlung, Band 2, Wien: Hof- und Staatsdruckerei, S. 21.</dd>
+                                                    <dd>Bibliothek NHMW (1843): Katalog der Sammlung, Band 2, Wien: Hof-
+                                                        und Staatsdruckerei, S. 21.</dd>
                                                     <dt>zitierte Aussage/Notiz</dt>
-                                                    <dd>Belegt Aufenthaltsort Wien 1842 und bestätigt die Rolle als „Adjunkt“ in der Sammlung.</dd>
+                                                    <dd>Belegt Aufenthaltsort Wien 1842 und bestätigt die Rolle als
+                                                        „Adjunkt“ in der Sammlung.</dd>
                                                 </dl>
                                                 <div class="text-end mt-3">
                                                     <small class="text-muted">Erfasst am 08.01.2024, 09:00</small>
@@ -1047,24 +1249,32 @@
                                             </div>
                                         </article>
 
-                                        <article class="card border-start border-3 border-secondary source-entry" data-source-type="Archivdokument">
+                                        <article class="card border-start border-3 border-secondary source-entry"
+                                            data-source-type="Archivdokument">
                                             <div class="card-body">
                                                 <div class="d-flex flex-wrap justify-content-between gap-3">
                                                     <div>
-                                                        <span class="badge bg-light text-dark border me-2">Quellentyp: Archivdokument</span>
-                                                        <span class="badge bg-light text-dark border">Bezug: Lebensdaten</span>
+                                                        <span class="badge bg-light text-dark border me-2">Quellentyp:
+                                                            Archivdokument</span>
+                                                        <span class="badge bg-light text-dark border">Bezug:
+                                                            Lebensdaten</span>
                                                     </div>
                                                     <div class="text-end">
-                                                        <div class="fw-semibold">Kati Schmidt <span class="badge bg-warning text-dark ms-1">DB Owner</span></div>
+                                                        <div class="fw-semibold">Kati Schmidt <span
+                                                                class="badge bg-warning text-dark ms-1">DB Owner</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <dl class="source-detail-list mt-3">
                                                     <dt>Titel/Kurzbezeichnung</dt>
-                                                    <dd>Archiv des Naturhistorischen Museums, Personalakte Nr. 5678/1920</dd>
+                                                    <dd>Archiv des Naturhistorischen Museums, Personalakte Nr. 5678/1920
+                                                    </dd>
                                                     <dt>Zitation/Referenz</dt>
-                                                    <dd>NHMW Archiv, Personalabteilung, Bestand „Mitarbeiter:innen 1900–1930“, Signatur 5678/1920.</dd>
+                                                    <dd>NHMW Archiv, Personalabteilung, Bestand „Mitarbeiter:innen
+                                                        1900–1930“, Signatur 5678/1920.</dd>
                                                     <dt>zitierte Aussage/Notiz</dt>
-                                                    <dd>Geburts- und Sterbedaten werden bestätigt, enthält zusätzliche Hinweise auf den Eintrittsvertrag.</dd>
+                                                    <dd>Geburts- und Sterbedaten werden bestätigt, enthält zusätzliche
+                                                        Hinweise auf den Eintrittsvertrag.</dd>
                                                 </dl>
                                                 <div class="text-end mt-3">
                                                     <small class="text-muted">Erfasst am 15.01.2024, 14:30</small>
@@ -1072,29 +1282,37 @@
                                             </div>
                                         </article>
 
-                                        <article class="card border-start border-3 border-info source-entry" data-source-type="Interne Zotero-Sammlung (NHMW)">
+                                        <article class="card border-start border-3 border-info source-entry"
+                                            data-source-type="Interne Zotero-Sammlung (NHMW)">
                                             <div class="card-body">
                                                 <div class="d-flex flex-wrap justify-content-between gap-3">
                                                     <div>
-                                                        <span class="badge bg-light text-dark border me-2">Quellentyp: Interne Zotero-Sammlung (NHMW)</span>
-                                                        <span class="badge bg-light text-dark border">Bezug: Wirkungsort</span>
+                                                        <span class="badge bg-light text-dark border me-2">Quellentyp:
+                                                            Interne Zotero-Sammlung (NHMW)</span>
+                                                        <span class="badge bg-light text-dark border">Bezug:
+                                                            Wirkungsort</span>
                                                     </div>
                                                     <div class="text-end">
-                                                        <div class="fw-semibold">Michaela Berger <span class="badge bg-primary ms-1">Record Owner</span></div>
+                                                        <div class="fw-semibold">Michaela Berger <span
+                                                                class="badge bg-primary ms-1">Record Owner</span></div>
                                                     </div>
                                                 </div>
                                                 <dl class="source-detail-list mt-3 mb-3">
                                                     <dt>Titel/Kurzbezeichnung</dt>
-                                                    <dd>Tiroler Landesarchiv, Nachlass Johann Müller, Sign. NL-JM-1885</dd>
+                                                    <dd>Tiroler Landesarchiv, Nachlass Johann Müller, Sign. NL-JM-1885
+                                                    </dd>
                                                     <dt>Zitation/Referenz</dt>
-                                                    <dd>TLA, Nachlass Johann Müller, Karton 12, Schriftstück 8, Innsbruck 1885.</dd>
+                                                    <dd>TLA, Nachlass Johann Müller, Karton 12, Schriftstück 8,
+                                                        Innsbruck 1885.</dd>
                                                     <dt>zitierte Aussage/Notiz</dt>
-                                                    <dd>Bestätigt Tätigkeitszeitraum Innsbruck 1883–1886; enthält Korrespondenz mit Museumsleitung.</dd>
+                                                    <dd>Bestätigt Tätigkeitszeitraum Innsbruck 1883–1886; enthält
+                                                        Korrespondenz mit Museumsleitung.</dd>
                                                 </dl>
                                                 <div class="border rounded-3 p-3 bg-light" aria-live="polite">
                                                     <div class="d-flex align-items-center mb-2">
                                                         <i class="bi bi-collection me-2 text-info"></i>
-                                                        <strong class="text-uppercase small text-muted">Zotero-Angaben</strong>
+                                                        <strong
+                                                            class="text-uppercase small text-muted">Zotero-Angaben</strong>
                                                     </div>
                                                     <div class="row g-3">
                                                         <div class="col-md-4">
@@ -1113,7 +1331,8 @@
                                                     <div class="row g-3 mt-1">
                                                         <div class="col-md-6">
                                                             <div class="small text-muted">Titel</div>
-                                                            <div class="fw-semibold">Korrespondenz J. Müller "Brief an Dr. Siegfried Müller" Nr.33</div>
+                                                            <div class="fw-semibold">Korrespondenz J. Müller "Brief an
+                                                                Dr. Siegfried Müller" Nr.33</div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="small text-muted">Autor:in</div>
@@ -1122,7 +1341,9 @@
                                                     </div>
                                                     <div class="mt-2">
                                                         <div class="small text-muted">DOI / URL</div>
-                                                        <a href="https://zotero.nhmw.example/item/AB12CD34" target="_blank" rel="noopener" class="fw-semibold text-decoration-none">https://zotero.nhmw.example/item/AB12CD34</a>
+                                                        <a href="https://zotero.nhmw.example/item/AB12CD34"
+                                                            target="_blank" rel="noopener"
+                                                            class="fw-semibold text-decoration-none">https://zotero.nhmw.example/item/AB12CD34</a>
                                                     </div>
                                                 </div>
                                                 <div class="text-end mt-3">
@@ -1132,8 +1353,9 @@
                                         </article>
 
                                     </div>
-                                    
-                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#sourceModal">
+
+                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2"
+                                        data-bs-toggle="modal" data-bs-target="#sourceModal">
                                         <i class="bi bi-plus-circle"></i> Neue Quellenangabe hinzufügen
                                     </button>
                                 </div>
@@ -1150,15 +1372,17 @@
                                     <div class="alert alert-info d-flex align-items-start mb-3" role="alert">
                                         <i class="bi bi-chat-left-text-fill me-2 fs-5"></i>
                                         <div>
-                                            <strong>Hinweis:</strong> In diesem Bereich können Sie zusätzliche Informationen zur Person dokumentieren. 
-                                            Nutzen Sie die Anmerkungen für ausführliche Notizen, den Kommentar für diesbezügliche kurze Hinweise.
+                                            <strong>Hinweis:</strong> In diesem Bereich können Sie zusätzliche
+                                            Informationen zur Person dokumentieren.
+                                            Nutzen Sie die Anmerkungen für ausführliche Notizen, den Kommentar für
+                                            diesbezügliche kurze Hinweise.
                                         </div>
                                     </div>
 
                                     <!-- Dummy Anmerkungen mit Kommentaren -->
                                     <div class="mb-4">
                                         <h6 class="mb-3">Bisherige Anmerkungen</h6>
-                                        
+
                                         <!-- Anmerkung 1 -->
                                         <div class="card mb-3">
                                             <div class="card-body">
@@ -1169,34 +1393,40 @@
                                                     </div>
                                                     <small class="text-muted">15.01.2024, 14:30</small>
                                                 </div>
-                                                <p class="mb-2">Die Geburtsdaten müssen noch verifiziert werden. Laut Archivunterlagen könnte das Geburtsjahr 1829 statt 1884 sein.</p>
-                                                
+                                                <p class="mb-2">Die Geburtsdaten müssen noch verifiziert werden. Laut
+                                                    Archivunterlagen könnte das Geburtsjahr 1829 statt 1884 sein.</p>
+
                                                 <!-- Kommentare zur Anmerkung 1 -->
                                                 <div class="ms-4 mt-3 border-start border-3 border-secondary ps-3">
                                                     <div class="mb-3">
-                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-start mb-1">
                                                             <div>
                                                                 <strong>Eduard Schill</strong>
                                                                 <span class="badge bg-primary ms-2">Record Owner</span>
                                                             </div>
                                                             <small class="text-muted">15.01.2024, 16:45</small>
                                                         </div>
-                                                        <p class="mb-0 small">Ich habe die Originalquelle geprüft - 1885 ist korrekt. Bitte aktualisieren.</p>
+                                                        <p class="mb-0 small">Ich habe die Originalquelle geprüft - 1885
+                                                            ist korrekt. Bitte aktualisieren.</p>
                                                     </div>
-                                                    
+
                                                     <div class="mb-3">
-                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-start mb-1">
                                                             <div>
                                                                 <strong>Martin Weber</strong>
                                                                 <span class="badge bg-primary ms-2">Record Owner</span>
                                                             </div>
                                                             <small class="text-muted">16.01.2024, 09:15</small>
                                                         </div>
-                                                        <p class="mb-0 small">Danke für die Klärung! Ich werde das Datum entsprechend anpassen.</p>
+                                                        <p class="mb-0 small">Danke für die Klärung! Ich werde das Datum
+                                                            entsprechend anpassen.</p>
                                                     </div>
                                                 </div>
-                                                
-                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" data-bs-toggle="modal" data-bs-target="#commentModal">
+
+                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#commentModal">
                                                     <i class="bi bi-chat-dots"></i> Kommentar abgeben
                                                 </button>
                                             </div>
@@ -1212,12 +1442,14 @@
                                                     </div>
                                                     <small class="text-muted">12.01.2024, 11:20</small>
                                                 </div>
-                                                <p class="mb-2">ORCID-Nummer wurde von der Person selbst bestätigt. Alle Publikationen sind korrekt zugeordnet.</p>
-                                                
+                                                <p class="mb-2">ORCID-Nummer wurde von der Person selbst bestätigt. Alle
+                                                    Publikationen sind korrekt zugeordnet.</p>
+
                                                 <!-- Kommentare zur Anmerkung 2 -->
                                                 <div class="ms-4 mt-3 border-start border-3 border-secondary ps-3">
                                                     <div class="mb-3">
-                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-start mb-1">
                                                             <div>
                                                                 <strong>Martin Weber</strong>
                                                                 <span class="badge bg-primary ms-2">Record Owner</span>
@@ -1227,8 +1459,9 @@
                                                         <p class="mb-0 small">Sehr gut, danke für die Bestätigung!</p>
                                                     </div>
                                                 </div>
-                                                
-                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" data-bs-toggle="modal" data-bs-target="#commentModal">
+
+                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#commentModal">
                                                     <i class="bi bi-chat-dots"></i> Kommentar abgeben
                                                 </button>
                                             </div>
@@ -1244,52 +1477,65 @@
                                                     </div>
                                                     <small class="text-muted">10.01.2024, 10:05</small>
                                                 </div>
-                                                <p class="mb-2">Bei der Recherche habe ich weitere Wirkungsorte gefunden: Graz (1920-1925) und Innsbruck (1925-1930). Soll ich diese ergänzen?</p>
-                                                
+                                                <p class="mb-2">Bei der Recherche habe ich weitere Wirkungsorte
+                                                    gefunden: Graz (1920-1925) und Innsbruck (1925-1930). Soll ich diese
+                                                    ergänzen?</p>
+
                                                 <!-- Kommentare zur Anmerkung 3 -->
                                                 <div class="ms-4 mt-3 border-start border-3 border-secondary ps-3">
                                                     <div class="mb-3">
-                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-start mb-1">
                                                             <div>
                                                                 <strong>Kati Schmidt</strong>
-                                                                <span class="badge bg-warning text-dark ms-2">DB Owner</span>
+                                                                <span class="badge bg-warning text-dark ms-2">DB
+                                                                    Owner</span>
                                                             </div>
                                                             <small class="text-muted">10.01.2024, 11:30</small>
                                                         </div>
-                                                        <p class="mb-0 small">Ja bitte, aber füge auch die Quellen hinzu.</p>
+                                                        <p class="mb-0 small">Ja bitte, aber füge auch die Quellen
+                                                            hinzu.</p>
                                                     </div>
-                                                    
+
                                                     <div class="mb-3">
-                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-start mb-1">
                                                             <div>
                                                                 <strong>Miachela Berger</strong>
                                                                 <span class="badge bg-primary ms-2">Record Owner</span>
                                                             </div>
                                                             <small class="text-muted">10.01.2024, 15:20</small>
                                                         </div>
-                                                        <p class="mb-0 small">Erledigt! Quellen: Universitätsarchiv Graz, Personalakte Nr. 1234 und Tiroler Landesarchiv, Bestand XY.</p>
+                                                        <p class="mb-0 small">Erledigt! Quellen: Universitätsarchiv
+                                                            Graz, Personalakte Nr. 1234 und Tiroler Landesarchiv,
+                                                            Bestand XY.</p>
                                                     </div>
 
                                                     <div class="mb-3">
-                                                        <div class="d-flex justify-content-between align-items-start mb-1">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-start mb-1">
                                                             <div>
                                                                 <strong>Kati Schmidt</strong>
-                                                                <span class="badge bg-warning text-dark ms-2">DB Owner</span>
+                                                                <span class="badge bg-warning text-dark ms-2">DB
+                                                                    Owner</span>
                                                             </div>
                                                             <small class="text-muted">11.01.2024, 08:45</small>
                                                         </div>
-                                                        <p class="mb-0 small">Hervorragende Arbeit! Die Zeiträume passen auch zu den bekannten Publikationen.</p>
+                                                        <p class="mb-0 small">Hervorragende Arbeit! Die Zeiträume passen
+                                                            auch zu den bekannten Publikationen.</p>
                                                     </div>
                                                 </div>
-                                                
-                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" data-bs-toggle="modal" data-bs-target="#commentModal">
+
+                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2"
+                                                    data-bs-toggle="modal" data-bs-target="#commentModal">
                                                     <i class="bi bi-chat-dots"></i> Kommentar abgeben
                                                 </button>
                                             </div>
                                         </div>
 
                                         <!-- Button zum Hinzufügen neuer Anmerkungen -->
-                                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#newNoteModal">
+                                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                            data-bs-toggle="modal" data-bs-target="#newNoteModal">
                                             <i class="bi bi-plus-circle"></i> Neue Anmerkung hinzufügen
                                         </button>
                                     </div>
@@ -1302,7 +1548,8 @@
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
                                     <h3 class="h5 mb-0">Record History</h3>
-                                    <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#recordHistoryInfoModal">
+                                    <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
+                                        data-bs-target="#recordHistoryInfoModal">
                                         <i class="bi bi-info-circle"></i> Erklärung
                                     </button>
                                 </div>
@@ -1320,56 +1567,91 @@
                                                 <tr>
                                                     <td><span class="badge bg-primary">Imported</span></td>
                                                     <td>Datensatz via Batch-Import (Birdcollection-Feed) angelegt</td>
-                                                    <td>system.importer<br><span class="created-timestamp" data-tooltip="2024-05-11 08:15" tabindex="0" aria-label="Erstellt am 2024-05-11 08:15">2024051108:15</span></td>
+                                                    <td>system.importer<br><span class="created-timestamp"
+                                                            data-tooltip="2024-05-11 08:15" tabindex="0"
+                                                            aria-label="Erstellt am 2024-05-11 08:15">2024051108:15</span>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-info text-dark">Merged</span></td>
                                                     <td>Zusammengeführt aus:
                                                         <ul>
-                                                            <li><a href="#NHMW-PA-ET-FH-yyyymmdd-yyyymmdd">NHMW-PA-VS-FH-yyyymmdd-yyyymmdd_0</a></li>
-                                                                <ul>
-                                                                    <li><a href="#NHMW-PA-ET-FH-yyyymmdd-yyyymmdd">NHMW-PA-VS-FH-yyyymmdd-yyyymmdd_1</a></li>
-                                                                    <li><a href="#NHMW-PA-ET-FH-yyyymmdd-yyyymmdd">NHMW-PA-VS-FH-yyyymmdd-yyyymmdd_2</a></li>
-                                                                </ul>
+                                                            <li><a
+                                                                    href="#NHMW-PA-ET-FH-yyyymmdd-yyyymmdd">NHMW-PA-VS-FH-yyyymmdd-yyyymmdd_0</a>
+                                                            </li>
+                                                            <ul>
+                                                                <li><a
+                                                                        href="#NHMW-PA-ET-FH-yyyymmdd-yyyymmdd">NHMW-PA-VS-FH-yyyymmdd-yyyymmdd_1</a>
+                                                                </li>
+                                                                <li><a
+                                                                        href="#NHMW-PA-ET-FH-yyyymmdd-yyyymmdd">NHMW-PA-VS-FH-yyyymmdd-yyyymmdd_2</a>
+                                                                </li>
+                                                            </ul>
                                                             </li>
                                                         </ul>
                                                     </td>
-                                                    <td>m.berg<br><span class="created-timestamp" data-tooltip="2024-05-111 16:21" tabindex="0"
-                                                            aria-label="Erstellt am 2024-08-01 16:21">2024051116:21</span></td>
+                                                    <td>m.berg<br><span class="created-timestamp"
+                                                            data-tooltip="2024-05-111 16:21" tabindex="0"
+                                                            aria-label="Erstellt am 2024-08-01 16:21">2024051116:21</span>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-success">Update</span></td>
                                                     <td>Normdaten aktualisiert (GND + Wikidata)</td>
-                                                    <td>awuelle<br><span class="created-timestamp" data-tooltip="2024-06-02 14:33" tabindex="0" aria-label="Erstellt am 2024-06-02 14:33">2024060214:33</span></td>
+                                                    <td>awuelle<br><span class="created-timestamp"
+                                                            data-tooltip="2024-06-02 14:33" tabindex="0"
+                                                            aria-label="Erstellt am 2024-06-02 14:33">2024060214:33</span>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-warning text-dark">Duplicated</span></td>
                                                     <td>Datensatz dupliziert für Zweitfassung (VS-Bestand)</td>
-                                                    <td>pfischer<br><span class="created-timestamp" data-tooltip="2024-07-19 10:02" tabindex="0" aria-label="Erstellt am 2024-07-19 10:02">2024071910:02</span></td>
+                                                    <td>pfischer<br><span class="created-timestamp"
+                                                            data-tooltip="2024-07-19 10:02" tabindex="0"
+                                                            aria-label="Erstellt am 2024-07-19 10:02">2024071910:02</span>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-danger">Delete</span></td>
                                                     <td>Verworfen, da Dublette von ATT-03042</td>
-                                                    <td>db_owner<br><span class="created-timestamp" data-tooltip="2024-07-20 09:48" tabindex="0" aria-label="Erstellt am 2024-07-20 09:48">2024072009:48</span></td>
+                                                    <td>db_owner<br><span class="created-timestamp"
+                                                            data-tooltip="2024-07-20 09:48" tabindex="0"
+                                                            aria-label="Erstellt am 2024-07-20 09:48">2024072009:48</span>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td><span class="badge bg-info text-dark">Merged</span></td>
-                                                    <td>Zusammengeführt aus: 
+                                                    <td>Zusammengeführt aus:
                                                         <ul>
-                                                            <li><a href="#NHMW-PA-MO-FH-18290420-yyyymmdd">NHMW-PA-MO-FH-18290420-yyyymmdd_0</a></li>
+                                                            <li><a
+                                                                    href="#NHMW-PA-MO-FH-18290420-yyyymmdd">NHMW-PA-MO-FH-18290420-yyyymmdd_0</a>
+                                                            </li>
                                                             <ul>
-                                                                <li><a href="#NHMW-PA-VS-FH-yyyymmdd-yyyymmdd">NHMW-PA-MO-FH-yyyymmdd-yyyymmdd_1</a></li>
-                                                                <li><a href="#NHMW-PA-ET-FH-yyyymmdd-yyyymmdd">NHMW-PA-MO-FH-yyyymmdd-yyyymmdd_2</a></li>
+                                                                <li><a
+                                                                        href="#NHMW-PA-VS-FH-yyyymmdd-yyyymmdd">NHMW-PA-MO-FH-yyyymmdd-yyyymmdd_1</a>
+                                                                </li>
+                                                                <li><a
+                                                                        href="#NHMW-PA-ET-FH-yyyymmdd-yyyymmdd">NHMW-PA-MO-FH-yyyymmdd-yyyymmdd_2</a>
+                                                                </li>
                                                             </ul>
-                                                            <li><a href="#NHMW-PA-MY-FH-yyyymmdd-18840708">NHMW-PA-MY-FH-yyyymmdd-18840708</a></li>
+                                                            <li><a
+                                                                    href="#NHMW-PA-MY-FH-yyyymmdd-18840708">NHMW-PA-MY-FH-yyyymmdd-18840708</a>
+                                                            </li>
                                                             <ul>
-                                                                <li><a href="#NHMW-PA-VS-FH-yyyymmdd-yyyymmdd">NHMW-PA-ET-FH-yyyymmdd-yyyymmdd</a></li>
-                                                                <li><a href="#NHMW-PA-ET-FH-yyyymmdd-yyyymmdd">NHMW-PA-VS-FH-yyyymmdd-yyyymmdd_0</a></li>
+                                                                <li><a
+                                                                        href="#NHMW-PA-VS-FH-yyyymmdd-yyyymmdd">NHMW-PA-ET-FH-yyyymmdd-yyyymmdd</a>
+                                                                </li>
+                                                                <li><a
+                                                                        href="#NHMW-PA-ET-FH-yyyymmdd-yyyymmdd">NHMW-PA-VS-FH-yyyymmdd-yyyymmdd_0</a>
+                                                                </li>
                                                             </ul>
                                                             </li>
                                                         </ul>
                                                     </td>
-                                                    <td>k.schmidt<br><span class="created-timestamp" data-tooltip="2024-08-01 16:21" tabindex="0" aria-label="Erstellt am 2024-08-01 16:21">2024080116:21</span></td>
+                                                    <td>k.schmidt<br><span class="created-timestamp"
+                                                            data-tooltip="2024-08-01 16:21" tabindex="0"
+                                                            aria-label="Erstellt am 2024-08-01 16:21">2024080116:21</span>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1379,7 +1661,8 @@
                         </section>
 
                         <!-- 12. IMPORTDATEN (READONLY) -->
-                        <section id="import" class="form-section mb-5 disabled-section" data-role-restriction="user" data-hide-when-restricted="true">
+                        <section id="import" class="form-section mb-5 disabled-section" data-role-restriction="user"
+                            data-hide-when-restricted="true">
                             <div class="card">
                                 <div class="card-header">
                                     <h3 class="h5 mb-0">Importdaten (Readonly)</h3>
@@ -1388,19 +1671,24 @@
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <label for="import_quelle" class="form-label">Import-Quelle</label>
-                                            <input type="text" class="form-control" id="import_quelle" name="import_quelle" value="Birdcollection" readonly disabled>
+                                            <input type="text" class="form-control" id="import_quelle"
+                                                name="import_quelle" value="Birdcollection" readonly disabled>
                                         </div>
                                         <div class="col-md-6">
                                             <label for="import_datum" class="form-label">Import-Datum</label>
-                                            <input type="text" class="form-control" id="import_datum" name="import_datum"  value="2026-01-01 09:33:11" readonly disabled>
+                                            <input type="text" class="form-control" id="import_datum"
+                                                name="import_datum" value="2026-01-01 09:33:11" readonly disabled>
                                         </div>
                                         <div class="col-md-12">
                                             <label for="import_quelldaten" class="form-label">Import-Quelldaten</label>
-                                            <button id="copyJson" type="button" class="btn btn-sm btn-outline-primary">Kopieren</button>
-                                            <button id="rawToggle" type="button" class="btn btn-sm btn-outline-secondary">Raw</button>
+                                            <button id="copyJson" type="button"
+                                                class="btn btn-sm btn-outline-primary">Kopieren</button>
+                                            <button id="rawToggle" type="button"
+                                                class="btn btn-sm btn-outline-secondary">Raw</button>
                                             <br>
                                             <!-- original textarea (hidden) kept for copy/export -->
-                                            <textarea id="import_quelldaten" name="import_quelldaten" class="d-none" aria-hidden="true">
+                                            <textarea id="import_quelldaten" name="import_quelldaten" class="d-none"
+                                                aria-hidden="true">
                                                 {
                                                     "person_id": "550e8400-e29b-41d4-a716-446655440000",
                                                     "identitaet": {
@@ -1499,8 +1787,10 @@
                                                     }
                                                 }
                                             </textarea>
-                                            <pre id="import_quelldaten_pre" class="json-pre" role="region" aria-label="Import Quelldaten (JSON-LD)"></pre>
-                                            <textarea id="import_quelldaten_raw" class="d-none form-control" rows="20" readonly aria-hidden="true"></textarea>
+                                            <pre id="import_quelldaten_pre" class="json-pre" role="region"
+                                                aria-label="Import Quelldaten (JSON-LD)"></pre>
+                                            <textarea id="import_quelldaten_raw" class="d-none form-control" rows="20"
+                                                readonly aria-hidden="true"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -1542,7 +1832,8 @@
                         <a class="nav-link" href="#import">Importdaten</a>
                     </nav>
                     <div class="sidebar-actions d-grid gap-2 mt-auto">
-                        <button type="button" id="backToTop" class="btn btn-outline-secondary w-100 nav-highlight" aria-label="Nach oben scrollen">
+                        <button type="button" id="backToTop" class="btn btn-outline-secondary w-100 nav-highlight"
+                            aria-label="Nach oben scrollen">
                             <i class="bi bi-arrow-up"></i> Back to Top
                         </button>
                         <button id="resetForm" class="btn btn-outline-danger w-100" title="Formular zurücksetzen">
@@ -1567,7 +1858,8 @@
                 </div>
                 <div class="modal-body">
                     <label for="commentModalTextarea" class="form-label">Ihre Nachricht</label>
-                    <textarea id="commentModalTextarea" class="form-control" rows="4" placeholder="Kurze Notiz eingeben ..."></textarea>
+                    <textarea id="commentModalTextarea" class="form-control" rows="4"
+                        placeholder="Kurze Notiz eingeben ..."></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
@@ -1587,7 +1879,8 @@
                 </div>
                 <div class="modal-body">
                     <label for="newNoteTextarea" class="form-label">Anmerkung</label>
-                    <textarea id="newNoteTextarea" class="form-control" rows="5" placeholder="Neue Anmerkung verfassen ..."></textarea>
+                    <textarea id="newNoteTextarea" class="form-control" rows="5"
+                        placeholder="Neue Anmerkung verfassen ..."></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Abbrechen</button>
@@ -1608,7 +1901,8 @@
                 <div class="modal-body">
                     <form id="sourceModalForm">
                         <div class="mb-3">
-                            <label for="sourceType" class="form-label">Quellentyp <span class="text-danger">*</span></label>
+                            <label for="sourceType" class="form-label">Quellentyp <span
+                                    class="text-danger">*</span></label>
                             <select class="form-select" id="sourceType" name="sourceType" required>
                                 <option value="" selected disabled>Bitte auswählen</option>
                                 <option>Publikation</option>
@@ -1620,7 +1914,8 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="sourceRelation" class="form-label">Bezug zur Person <span class="text-danger">*</span></label>
+                            <label for="sourceRelation" class="form-label">Bezug zur Person <span
+                                    class="text-danger">*</span></label>
                             <select class="form-select" id="sourceRelation" name="sourceRelation" required>
                                 <option value="" selected disabled>Bitte auswählen</option>
                                 <option>Biografie</option>
@@ -1636,15 +1931,18 @@
                             <h6 class="mb-3">Allgemeine Angaben</h6>
                             <div class="mb-3">
                                 <label for="sourceTitle" class="form-label">Titel/Kurzbezeichnung</label>
-                                <input type="text" class="form-control" id="sourceTitle" name="sourceTitle" placeholder="z. B. Briefwechsel NHMW / Person">
+                                <input type="text" class="form-control" id="sourceTitle" name="sourceTitle"
+                                    placeholder="z. B. Briefwechsel NHMW / Person">
                             </div>
                             <div class="mb-3">
                                 <label for="sourceCitation" class="form-label">Zitation/Referenz</label>
-                                <textarea class="form-control" id="sourceCitation" name="sourceCitation" rows="3" placeholder="Standardisierte Zitationsangabe einfügen"></textarea>
+                                <textarea class="form-control" id="sourceCitation" name="sourceCitation" rows="3"
+                                    placeholder="Standardisierte Zitationsangabe einfügen"></textarea>
                             </div>
                             <div class="mb-0">
                                 <label for="sourceNote" class="form-label">zitierte Aussage/Notiz (optional)</label>
-                                <textarea class="form-control" id="sourceNote" name="sourceNote" rows="3" placeholder="Relevante Aussage oder Kontext notieren"></textarea>
+                                <textarea class="form-control" id="sourceNote" name="sourceNote" rows="3"
+                                    placeholder="Relevante Aussage oder Kontext notieren"></textarea>
                             </div>
                         </div>
 
@@ -1655,22 +1953,27 @@
                             </div>
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label for="zoteroKey" class="form-label">Zotero Item Key <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="zoteroKey" name="zoteroKey" placeholder="z. B. AB12CD34">
+                                    <label for="zoteroKey" class="form-label">Zotero Item Key <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="zoteroKey" name="zoteroKey"
+                                        placeholder="z. B. AB12CD34">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="zoteroCollection" class="form-label">Zotero Sammlung / Library</label>
-                                    <input type="text" class="form-control" id="zoteroCollection" name="zoteroCollection" placeholder="NHMW – Personenarchiv">
+                                    <input type="text" class="form-control" id="zoteroCollection"
+                                        name="zoteroCollection" placeholder="NHMW – Personenarchiv">
                                 </div>
                             </div>
                             <div class="row g-3 mt-1">
                                 <div class="col-md-6">
                                     <label for="zoteroTitle" class="form-label">Titel</label>
-                                    <input type="text" class="form-control" id="zoteroTitle" value="NHMW Manuskript 42" readonly>
+                                    <input type="text" class="form-control" id="zoteroTitle" value="NHMW Manuskript 42"
+                                        readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="zoteroAuthor" class="form-label">Autor:in</label>
-                                    <input type="text" class="form-control" id="zoteroAuthor" value="M. Berger" readonly>
+                                    <input type="text" class="form-control" id="zoteroAuthor" value="M. Berger"
+                                        readonly>
                                 </div>
                             </div>
                             <div class="row g-3 mt-1">
@@ -1680,7 +1983,8 @@
                                 </div>
                                 <div class="col-md-8">
                                     <label for="zoteroUrl" class="form-label">DOI / URL</label>
-                                    <input type="text" class="form-control" id="zoteroUrl" value="https://zotero.nhmw.example/item/AB12CD34" readonly>
+                                    <input type="text" class="form-control" id="zoteroUrl"
+                                        value="https://zotero.nhmw.example/item/AB12CD34" readonly>
                                 </div>
                             </div>
                         </div>
@@ -1696,7 +2000,8 @@
     </div>
 
     <!-- Standes- und Amtstitel Modal -->
-    <div class="modal fade" id="standesTitelModal" tabindex="-1" aria-labelledby="standesTitelModalLabel" aria-hidden="true">
+    <div class="modal fade" id="standesTitelModal" tabindex="-1" aria-labelledby="standesTitelModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1789,7 +2094,8 @@
     </div>
 
     <!-- Akademischer Titel Modal -->
-    <div class="modal fade" id="akademischeTitelModal" tabindex="-1" aria-labelledby="akademischeTitelModalLabel" aria-hidden="true">
+    <div class="modal fade" id="akademischeTitelModal" tabindex="-1" aria-labelledby="akademischeTitelModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1886,7 +2192,8 @@
     </div>
 
     <!-- Record History Info Modal -->
-    <div class="modal fade" id="recordHistoryInfoModal" tabindex="-1" aria-labelledby="recordHistoryInfoModalLabel" aria-hidden="true">
+    <div class="modal fade" id="recordHistoryInfoModal" tabindex="-1" aria-labelledby="recordHistoryInfoModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1894,8 +2201,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="lead text-muted">Datensatzhistorien (Record history) – Aktionen in Bezug auf einen Datensatz</p>
-                    <p>Record history = Änderungsverlauf eines einzelnen Datensatzes im System. Sie zeichnet alle Bearbeitungen am Datensatz nach: wer was wann geändert hat. Fokus liegt auf der digitalen Repräsentation (Versionierung, Audit-Trail, Metadaten-Änderungen).</p>
+                    <p class="lead text-muted">Datensatzhistorien (Record history) – Aktionen in Bezug auf einen
+                        Datensatz</p>
+                    <p>Record history = Änderungsverlauf eines einzelnen Datensatzes im System. Sie zeichnet alle
+                        Bearbeitungen am Datensatz nach: wer was wann geändert hat. Fokus liegt auf der digitalen
+                        Repräsentation (Versionierung, Audit-Trail, Metadaten-Änderungen).</p>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="card border-primary h-100">
@@ -1920,7 +2230,8 @@
                                 </div>
                                 <div class="card-body">
                                     <ul class="mb-0">
-                                        <li><strong>by username</strong> – welcher Benutzer die Aktion durchgeführt hat</li>
+                                        <li><strong>by username</strong> – welcher Benutzer die Aktion durchgeführt hat
+                                        </li>
                                         <li><strong>at timestamp</strong> – Zeitpunkt der Aktion</li>
                                     </ul>
                                 </div>
@@ -2186,8 +2497,9 @@
             });
         })();
 
-        
+
     </script>
 
 </body>
+
 </html>
