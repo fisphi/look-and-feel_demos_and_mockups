@@ -84,6 +84,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Formular-Validierung
 function validateForm() {
+    // Viewer führen keine schreibende Aktion aus; verborgene/read-only Daten sind
+    // daher weder Pflichtfelder noch Gegenstand der Formularvalidierung.
+    if (document.querySelector('input[name="userrolle"]:checked')?.value === 'user') {
+        return true;
+    }
     let isValid = true;
     
     // Lebensstatus prüfen

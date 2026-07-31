@@ -22,9 +22,116 @@
             link.setAttribute('tabindex', '-1');
         }
     }
+
+    const viewerVisibleSections = new Set(['anzeigename', 'meta']);
+    const viewerLivingSections = new Set(['identitaet', 'quellenangaben']);
+    const viewerAllowedIdentityFields = new Set(['vorname', 'nachname']);
+    const viewerWriteTargets = [
+        '#meta [data-bs-target="#commentModal"]',
+        '#meta [data-bs-target="#newNoteModal"]',
+        '#quellenangaben [data-bs-target="#sourceModal"]'
+    ].join(',');
+
+    function setViewerDisabled(control, disabled) {
+        if (disabled) {
+            if (!control.hasAttribute('data-viewer-was-disabled')) {
+                control.setAttribute('data-viewer-was-disabled', control.disabled ? 'true' : 'false');
+            }
+            control.disabled = true;
+            return;
+        }
+        if (control.hasAttribute('data-viewer-was-disabled')) {
+            control.disabled = control.getAttribute('data-viewer-was-disabled') === 'true';
+            control.removeAttribute('data-viewer-was-disabled');
+        }
+    }
+
+    function setViewerSectionState(section, visible) {
+        section.classList.toggle('d-none', !visible);
+        section.toggleAttribute('hidden', !visible);
+        if ('inert' in section) section.inert = !visible;
+        section.querySelectorAll('input, select, textarea, button').forEach(control => {
+            setViewerDisabled(control, true);
+        });
+        setNavVisibility(section.id, visible);
+    }
+
+    function restoreViewerState() {
+        allSections.forEach(section => {
+            section.removeAttribute('hidden');
+            if ('inert' in section) section.inert = false;
+            section.querySelectorAll('[data-viewer-was-disabled]').forEach(control => {
+                setViewerDisabled(control, false);
+            });
+        });
+        document.querySelectorAll('[data-viewer-hidden]').forEach(element => {
+            element.classList.remove('d-none');
+            element.removeAttribute('hidden');
+            element.removeAttribute('data-viewer-hidden');
+        });
+        document.querySelectorAll('[data-viewer-action-hidden]').forEach(element => {
+            element.classList.remove('d-none');
+            element.removeAttribute('hidden');
+            element.removeAttribute('data-viewer-action-hidden');
+        });
+        document.querySelectorAll('[data-viewer-was-disabled]').forEach(control => {
+            setViewerDisabled(control, false);
+        });
+        ['commentModal', 'newNoteModal', 'sourceModal'].forEach(id => {
+            const modal = document.getElementById(id);
+            if (modal) modal.removeAttribute('inert');
+        });
+    }
+
+    function applyViewerPermissions() {
+        const living = document.querySelector('input[name="lebensstatus"]:checked')?.value === 'lebend';
+
+        allSections.forEach(section => {
+            if (section.id === 'userrolle') return;
+            const visible = viewerVisibleSections.has(section.id)
+                || (living && viewerLivingSections.has(section.id));
+            setViewerSectionState(section, visible);
+        });
+
+        const identity = document.getElementById('identitaet');
+        if (identity && living) {
+            identity.querySelectorAll('.card-body > .row > [class*="col-"]').forEach(fieldGroup => {
+                const input = fieldGroup.querySelector('input, select, textarea');
+                const allowed = input && viewerAllowedIdentityFields.has(input.id);
+                if (!allowed) {
+                    fieldGroup.classList.add('d-none');
+                    fieldGroup.hidden = true;
+                    fieldGroup.setAttribute('data-viewer-hidden', 'true');
+                }
+            });
+        }
+
+        document.querySelectorAll(viewerWriteTargets).forEach(action => {
+            action.classList.add('d-none');
+            action.hidden = true;
+            action.setAttribute('data-viewer-action-hidden', 'true');
+            setViewerDisabled(action, true);
+        });
+        ['commentModal', 'newNoteModal', 'sourceModal'].forEach(id => {
+            const modal = document.getElementById(id);
+            if (modal) modal.setAttribute('inert', '');
+        });
+
+        document.querySelectorAll('.sidebar-actions').forEach(actions => {
+            actions.querySelectorAll('#resetForm, #exportJson').forEach(action => {
+                action.classList.add('d-none');
+                action.hidden = true;
+                action.setAttribute('data-viewer-action-hidden', 'true');
+                setViewerDisabled(action, true);
+            });
+        });
+        document.dispatchEvent(new Event('person-role-changed'));
+    }
     
     function updateRolePermissions() {
         const selectedRole = document.querySelector('input[name="userrolle"]:checked');
+
+        restoreViewerState();
         
         if (!selectedRole) {
             // Keine Rolle gewählt - alle Sektionen außer User-Rolle deaktivieren
@@ -40,22 +147,9 @@
         
         const role = selectedRole.value;
 
-        const viewerVisibleSections = new Set(['userrolle', 'anzeigename', 'quellenangaben', 'meta']);
-
-        // Record-Viewer: nur Anzeigename & Anmerkungen sehen
+        // Record-Viewer: ausschließlich explizit freigegebene Daten, immer read-only.
         if (role === 'user') {
-            allSections.forEach(section => {
-                if (viewerVisibleSections.has(section.id)) {
-                    section.classList.remove('d-none');
-                    section.classList.remove('disabled-section');
-                    setNavVisibility(section.id, section.id !== 'userrolle');
-                } else {
-                    section.classList.add('d-none');
-                    section.classList.remove('disabled-section');
-                    setNavVisibility(section.id, false);
-                }
-            });
-            document.dispatchEvent(new Event('person-role-changed'));
+            applyViewerPermissions();
             return;
         }
         
@@ -101,6 +195,18 @@
     // Event-Listener für User-Rolle
     userRolleRadios.forEach(radio => {
         radio.addEventListener('change', updateRolePermissions);
+    });
+    document.querySelectorAll('input[name="lebensstatus"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (document.querySelector('input[name="userrolle"]:checked')?.value === 'user') {
+                // Nach den allgemeinen Lebensstatus-Gates erneut als letzte,
+                // restriktivste Berechtigungsschicht anwenden.
+                queueMicrotask(() => {
+                    restoreViewerState();
+                    applyViewerPermissions();
+                });
+            }
+        });
     });
     
     // Initial state
@@ -806,6 +912,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // JSON-Export
 document.getElementById('exportJson').addEventListener('click', function() {
+    if (document.querySelector('input[name="userrolle"]:checked')?.value === 'user') return;
     if (!validateForm()) {
         alert('Bitte korrigieren Sie die Fehler im Formular.');
         return;
@@ -899,6 +1006,7 @@ function attachResetButton() {
 	const btn = document.getElementById('resetForm');
 	if (!btn) return;
 	btn.addEventListener('click', function () {
+		if (document.querySelector('input[name="userrolle"]:checked')?.value === 'user') return;
 		const confirmed = window.confirm('Formular wirklich zurücksetzen? Alle ungespeicherten Änderungen gehen verloren.');
 		if (!confirmed) return;
 

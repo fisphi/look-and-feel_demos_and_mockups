@@ -65,7 +65,7 @@
                                     <div class="row g-3">
                                         <div class="col-12">
                                             <div class="form-check mb-2">
-                                                <input class="form-check-input" type="radio" name="userrolle" id="rolle_kurator" value="kurator">
+                                                <input class="form-check-input" type="radio" name="userrolle" id="rolle_kurator" value="kurator" checked>
                                                 <label class="form-check-label" for="rolle_kurator">
                                                     <strong>DB-Owner (Superadmin z.B: Kurator der PersonenDatenBank)</strong>
                                                     <br>
@@ -93,7 +93,7 @@
                                                 <label class="form-check-label" for="rolle_user">
                                                     <strong>Record-Viewer (Sammlungsspezifische Mitarbeiter, read-only)</strong>
                                                     <br>
-                                                    <small class="text-muted">Nur Kommentare abgeben möglich</small>
+                                                    <small class="text-muted">Freigegebene Daten und vorhandene Kommentare nur lesen</small>
                                                 </label>
                                             </div>
                                             
@@ -2188,6 +2188,9 @@
             sourceModal.addEventListener("hidden.bs.modal", resetForm);
 
             saveButton.addEventListener("click", () => {
+                if (document.querySelector('input[name="userrolle"]:checked')?.value === 'user') {
+                    return;
+                }
                 if (typeof form.reportValidity === "function" && !form.reportValidity()) {
                     return;
                 }
