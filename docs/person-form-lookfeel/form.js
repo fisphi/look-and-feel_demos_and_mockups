@@ -1,3 +1,22 @@
+function bindNamedRemoveButton(button, input, itemLabel) {
+    if (!button) return;
+
+    const updateName = () => {
+        const value = (input?.value || '').trim();
+        const reference = value ? ` „${value}“` : '';
+        button.setAttribute('aria-label', `${itemLabel}${reference} entfernen`);
+    };
+
+    button.querySelector('.bi')?.setAttribute('aria-hidden', 'true');
+    updateName();
+
+    if (input && !button.dataset.a11yNameBound) {
+        button.dataset.a11yNameBound = 'true';
+        input.addEventListener('input', updateName);
+        input.addEventListener('change', updateName);
+    }
+}
+
 // User-Rolle Gate-Logik
 (function() {
     const userRolleRadios = document.querySelectorAll('input[name="userrolle"]');
@@ -246,8 +265,8 @@
                 const isUrl = /^https?:\/\//i.test(trimmedValue);
                 const orcidId = isUrl ? trimmedValue.replace(/^https?:\/\/orcid\.org\//i, '') : trimmedValue;
                 const safeId = escapeHtml(orcidId);
-                const url = isUrl ? trimmedValue : 'https://orcid.org/${encodeURIComponent(orcidId)}';
-                return '[ORCID: <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${safeId}</a>]';
+                const url = isUrl ? trimmedValue : `https://orcid.org/${encodeURIComponent(orcidId)}`;
+                return `[ORCID: <a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${safeId}</a>]`;
             }
         },
         { id: 'wikidata', label: 'Wikidata' },
@@ -363,8 +382,9 @@
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'btn btn-outline-danger btn-sm';
-        removeBtn.innerHTML = '<i class="bi bi-trash"></i>';
+        removeBtn.innerHTML = '<i class="bi bi-trash" aria-hidden="true"></i>';
         removeBtn.onclick = () => rolleRow.remove();
+        bindNamedRemoveButton(removeBtn, input, 'Rolle');
         
         rolleRow.appendChild(wrapper);
         rolleRow.appendChild(removeBtn);
@@ -450,7 +470,9 @@
         
         // Add remove functionality to pre-filled role buttons
         entry.querySelectorAll('.dynamic-field-row button').forEach(btn => {
+            const input = btn.closest('.dynamic-field-row')?.querySelector('input');
             btn.onclick = () => btn.closest('.dynamic-field-row').remove();
+            bindNamedRemoveButton(btn, input, 'Rolle');
         });
     });
 })();
@@ -479,8 +501,8 @@
                         </div>
                     </div>
                     <div class="col-auto ms-auto">
-                        <button type="button" class="btn btn-outline-danger btn-sm remove-wirkungsort" aria-label="Wirkungsort entfernen">
-                            <i class="bi bi-trash"></i>
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-wirkungsort">
+                            <i class="bi bi-trash" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
@@ -524,6 +546,7 @@
         const removeBtn = card.querySelector('.remove-wirkungsort');
         if (removeBtn) {
             removeBtn.addEventListener('click', () => card.remove());
+            bindNamedRemoveButton(removeBtn, ortInput, 'Wirkungsort');
         }
 
         return card;
@@ -628,12 +651,13 @@
         const row = document.createElement('div');
         row.className = 'dynamic-field-row';
         row.dataset.index = index;
+        let input;
         
         if (config.autocomplete) {
             const wrapper = document.createElement('div');
             wrapper.className = 'autocomplete-wrapper flex-grow-1';
             
-            const input = document.createElement('input');
+            input = document.createElement('input');
             input.type = 'text';
             input.className = 'form-control autocomplete-input';
             input.name = `${config.name}[]`;
@@ -654,7 +678,7 @@
             // Autocomplete initialisieren
             initAutocomplete(input, dropdown, config.autocomplete);
         } else {
-            const input = document.createElement('input');
+            input = document.createElement('input');
             input.type = 'text';
             input.className = 'form-control flex-grow-1';
             input.name = `${config.name}[]`;
@@ -670,8 +694,9 @@
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'btn btn-outline-danger btn-sm';
-        removeBtn.innerHTML = '<i class="bi bi-trash"></i>';
+        removeBtn.innerHTML = '<i class="bi bi-trash" aria-hidden="true"></i>';
         removeBtn.onclick = () => row.remove();
+        bindNamedRemoveButton(removeBtn, input, config.name === 'namensvarianten' ? 'Namensvariante' : 'Rolle');
         
         row.appendChild(removeBtn);
         
@@ -696,9 +721,11 @@
     
     // Add remove functionality to pre-filled entries
     document.querySelectorAll('.dynamic-field-row button').forEach(button => {
-        button.addEventListener('click', function() {
-            this.closest('.dynamic-field-row').remove();
-        });
+        const row = button.closest('.dynamic-field-row');
+        const input = row?.querySelector('input');
+        const itemLabel = input?.name.startsWith('namensvarianten') ? 'Namensvariante' : 'Rolle';
+        button.onclick = () => row?.remove();
+        bindNamedRemoveButton(button, input, itemLabel);
     });
     
     // Initial je ein Feld hinzufügen (außer bereits vorgefüllten Typen)
@@ -738,6 +765,7 @@ function initAutocomplete(input, dropdown, dataKey) {
             
             div.addEventListener('click', () => {
                 input.value = item;
+                input.dispatchEvent(new Event('input', { bubbles: true }));
                 dropdown.classList.remove('show');
                 input.focus();
             });
@@ -947,52 +975,10 @@ function attachResetButton() {
 		const confirmed = window.confirm('Formular wirklich zurücksetzen? Alle ungespeicherten Änderungen gehen verloren.');
 		if (!confirmed) return;
 
-		const form = document.getElementById('personForm');
-		if (!form) return;
-
-		// Clear basic inputs/selects/textareas and uncheck radios/checkboxes
-		form.querySelectorAll('input, textarea, select').forEach(el => {
-			const tag = el.tagName.toLowerCase();
-			const type = el.type;
-			if (type === 'checkbox' || type === 'radio') {
-				el.checked = false;
-			} else if (tag === 'select') {
-				try { el.selectedIndex = -1; } catch(e) { el.value = ''; }
-			} else {
-				el.value = '';
-			}
-			el.removeAttribute('disabled');
-			el.classList.remove('is-invalid');
-		});
-
-		// Remove dynamic rows / containers
-		['namensvarianten-container','taetigkeiten-container','wirkungsorte-container'].forEach(id => {
-			const c = document.getElementById(id);
-			if (c) c.innerHTML = '';
-		});
-		window.EDTFForm?.resetDateLists?.();
-
-		// Reset Anzeige-Namen UI
-		const anzeigeNameDisplay = document.getElementById('anzeigeNameDisplay');
-		const anzeigeNameDates = document.getElementById('anzeigeNameDates');
-		if (anzeigeNameDisplay) anzeigeNameDisplay.textContent = '—';
-		if (anzeigeNameDates) anzeigeNameDates.textContent = '—';
-
-		// Ensure gates update: dispatch change events for role/status/consent so listeners re-evaluate
-		document.querySelectorAll('input[name="userrolle"]').forEach(r => r.dispatchEvent(new Event('change', { bubbles: true })));
-		document.querySelectorAll('input[name="lebensstatus"]').forEach(r => r.dispatchEvent(new Event('change', { bubbles: true })));
-		const consent = document.getElementById('einwilligung');
-		if (consent) consent.dispatchEvent(new Event('change', { bubbles: true }));
-
-		// Re-init autocomplete bindings for any empty inputs still present
-		document.querySelectorAll('.autocomplete-input').forEach(input => {
-			const dropdown = input.nextElementSibling;
-			const key = input.dataset.autocomplete;
-			if (key && dropdown && dropdown.classList.contains('autocomplete-dropdown')) {
-				// re-init only if dropdown empty
-				if (!dropdown.children.length) initAutocomplete(input, dropdown, key);
-			}
-		});
+		// Die statische Demo definiert ihren Ausgangszustand im Initial-Markup.
+		// Ein vollständiges Neuladen stellt daher Daten, EDTF-Komponenten, Gates
+		// und alle Listener in genau dieser einen Reihenfolge wieder her.
+		window.location.reload();
 	});
 }
 

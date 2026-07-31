@@ -56,17 +56,17 @@ Phase 0.
 | Bereich | Gesamt | Bestanden | Fehlgeschlagen | Teilweise getestet | Blockiert | Nicht getestet |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | Umgebung und Ausgangszustand | 3 | 2 | 0 | 0 | 0 | 1 |
-| Rollen und Viewer | 11 | 0 | 0 | 10 | 0 | 1 |
-| Rollen- und Lebensstatuswechsel | 5 | 0 | 0 | 2 | 0 | 3 |
-| EDTF | 10 | 0 | 1 | 7 | 0 | 2 |
+| Rollen und Viewer | 11 | 8 | 1 | 2 | 0 | 0 |
+| Rollen- und Lebensstatuswechsel | 5 | 2 | 0 | 3 | 0 | 0 |
+| EDTF | 10 | 1 | 0 | 7 | 0 | 2 |
 | Dynamische Listen | 8 | 0 | 0 | 2 | 0 | 6 |
-| Validierung | 8 | 0 | 0 | 5 | 0 | 3 |
-| Export und Reset | 7 | 0 | 1 | 4 | 0 | 2 |
+| Validierung | 8 | 1 | 0 | 4 | 0 | 3 |
+| Export und Reset | 7 | 3 | 0 | 3 | 0 | 1 |
 | Theme und Darstellung | 5 | 1 | 0 | 1 | 0 | 3 |
 | Tastatur und Fokus | 8 | 0 | 0 | 3 | 0 | 5 |
 | Responsive und Abhängigkeiten | 7 | 2 | 1 | 2 | 0 | 2 |
-| Phase-1-Befunde | 8 | 0 | 4 | 3 | 0 | 1 |
-| **Gesamt** | **80** | **5** | **7** | **39** | **0** | **29** |
+| Phase-1-Befunde | 8 | 7 | 0 | 1 | 0 | 0 |
+| **Gesamt** | **80** | **27** | **2** | **28** | **0** | **23** |
 
 ### Nachweis- und Umgebungsregister
 
@@ -78,6 +78,7 @@ im Feld „Tatsächliches Ergebnis“ sind zugleich der konkrete Nachweis:
 - **Quellcodeprüfung 31.07.2026:** Fundstellen in `index.html`, `form.js`, `validation.js`, `styles.css` und `edtf-component.js`.
 - **Parserprüfung 31.07.2026:** `window.EDTFForm.parseLevelOne()` in Chromium.
 - **Kontrastberechnung 31.07.2026:** WCAG-Relativluminanzformel über die im Stylesheet definierten, opaken Hexfarben.
+- **Phase-1-Regression 01.08.2026:** Chromium 150.0.7871.181 (Headless über DevTools) gegen lokalen HTTP-Server `http://127.0.0.1:8766`; Cache deaktiviert. Geprüft wurden alle zwölf Rollen-/Lebensstatuskombinationen, Viewer, Alert, ORCID, dynamische Icon-Buttons, Kontrast, Reset, Validierung und tatsächlicher JSON-Export. Die Hardware-Tastatureingabe lässt sich in dieser Headless-DevTools-Sitzung nicht auslösen; Fokus, Tabindex und Accessibility-Tree wurden dennoch geprüft.
 
 Ist ein Ablauf nur mit „Quellcodeprüfung“, „Parserprüfung“ oder einem
 Teil-Smoketest belegt, ist sein Status zwingend **Teilweise getestet**. Nicht
@@ -121,32 +122,32 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 
 | ID | Vorbedingung | Schritte | Erwartetes Ergebnis | Tatsächliches Ergebnis | Status |
 | --- | --- | --- | --- | --- | --- |
-| ROLE-01 | Neu geladen, DB-Owner. | 1. Sichtbare Abschnittslinks zählen. 2. Bearbeitungs- und Sidebar-Aktionen prüfen. 3. Export und Reset auslösen, Dialog/Download ggf. abbrechen. | Alle 13 Abschnitte und Aktionen sind verfügbar. | **Methode/Nachweis:** Chromium-Smoke. Alle 13 Abschnitte sowie Export/Reset waren sichtbar. Ausführung von Download und Reset war nicht Teil dieses Falls; siehe DATA-01/DATA-06. | Teilweise getestet |
-| ROLE-02 | Neu geladen. | 1. Record-Owner wählen. 2. Lebensstatus, Identität, Export und Reset prüfen. 3. Zu DB-Owner zurückwechseln. | Soll gemäß sichtbarer Rollenbeschreibung: alle Abschnitte sichtbar; `lebensstatus` und `identitaet` schreibgeschützt; Export und Reset sichtbar. Der bestehende Ist-Zustand kann diesem Soll widersprechen. | **Methode/Nachweis:** Chromium-Smoke/Audit. Alle Abschnitte, Export und Reset waren sichtbar; die beiden genannten Bereiche waren nicht deaktiviert. Validierungs- und Aktionsfolgen wurden nicht vollständig ausgeführt. | Teilweise getestet |
-| ROLE-03 | Neu geladen. | 1. Record-Editor wählen. 2. Lebensstatus, Identität und Kontakt bedienen. 3. Übrige Abschnitte bedienen. | Lebensstatus, Identität und Kontakt sind deaktiviert; übrige Bereiche verfügbar. | **Methode/Nachweis:** Chromium-Smoke. Genau diese drei Abschnitte hatten `disabled-section`; direkte Bearbeitungsversuche und Exportfolge offen. | Teilweise getestet |
-| ROLE-04 | Neu geladen. | 1. Record-Viewer wählen. 2. Sidebar, globale Aktionen und Abschnittslinks prüfen. 3. Vorherige Rolle wiederherstellen. | Nur freigegebene Viewer-Bereiche; Reset und Export verborgen/deaktiviert; keine veralteten Controls. | **Methode/Nachweis:** Chromium-Smoke. Reset/Export verborgen; Rückwechsel Owner geprüft. Vollständiger Sidebar-/Tabulatorlauf offen. | Teilweise getestet |
-| ROLE-05 | Jede Rolle nacheinander gewählt. | 1. Nach jedem Wechsel Tabulator drücken. 2. Deaktivierte/verborgene Bereiche prüfen. | Verborgene Controls sind nicht fokussierbar; disabled Controls können nicht schreiben. | Nur Viewer- und EDTF-Aktionen automatisiert geprüft. Vollständiger Tab-Lauf offen. | Nicht getestet |
+| ROLE-01 | Neu geladen, DB-Owner. | 1. Sichtbare Abschnittslinks zählen. 2. Bearbeitungs- und Sidebar-Aktionen prüfen. 3. Export und Reset auslösen, Dialog/Download ggf. abbrechen. | Alle 13 Abschnitte und Aktionen sind verfügbar. | **Baseline:** Chromium-Smoke: 13 Abschnitte sowie Export/Reset sichtbar. **Phase 1, 01.08.2026:** Chromium 150/DevTools: alle 13 Abschnitte und Navigationslinks sichtbar; tatsächlicher JSON-Export und Reset separat erfolgreich ausgeführt (DATA-01/DATA-06). | Bestanden |
+| ROLE-02 | Neu geladen. | 1. Record-Owner wählen. 2. Lebensstatus, Identität, Export und Reset prüfen. 3. Zu DB-Owner zurückwechseln. | Soll gemäß sichtbarer Rollenbeschreibung: alle Abschnitte sichtbar; `lebensstatus` und `identitaet` schreibgeschützt; Export und Reset sichtbar. Der bestehende Ist-Zustand kann diesem Soll widersprechen. | **Baseline:** Chromium-Smoke/Audit: alle Abschnitte, Export und Reset sichtbar; die beiden genannten Bereiche nicht deaktiviert. **Phase 1, 01.08.2026:** in allen drei Lebensstatus bestätigt: alle Bereiche sowie Export/Reset sichtbar, `lebensstatus` und `identitaet` weiterhin nicht deaktiviert. Kein Phase-1-Fix, da nicht als Phase-1-Befund beauftragt. | Fehlgeschlagen |
+| ROLE-03 | Neu geladen. | 1. Record-Editor wählen. 2. Lebensstatus, Identität und Kontakt bedienen. 3. Übrige Abschnitte bedienen. | Lebensstatus, Identität und Kontakt sind deaktiviert; übrige Bereiche verfügbar. | **Baseline:** Chromium-Smoke: genau diese drei Abschnitte mit `disabled-section`. **Phase 1, 01.08.2026:** für verstorben, lebend und unbekannt erneut bestätigt; alle übrigen 10 Abschnitte und Export/Reset bleiben verfügbar. | Bestanden |
+| ROLE-04 | Neu geladen. | 1. Record-Viewer wählen. 2. Sidebar, globale Aktionen und Abschnittslinks prüfen. 3. Vorherige Rolle wiederherstellen. | Nur freigegebene Viewer-Bereiche; Reset und Export verborgen/deaktiviert; keine veralteten Controls. | **Baseline:** Chromium-Smoke: Reset/Export verborgen. **Phase 1, 01.08.2026:** Viewer-Navigation und globale Aktionen für alle Lebensstatus geprüft; nur freigegebene Links sichtbar, Reset/Export jeweils `hidden` und `disabled`. | Bestanden |
+| ROLE-05 | Jede Rolle nacheinander gewählt. | 1. Nach jedem Wechsel Tabulator drücken. 2. Deaktivierte/verborgene Bereiche prüfen. | Verborgene Controls sind nicht fokussierbar; disabled Controls können nicht schreiben. | **Phase 1, 01.08.2026:** alle zwölf Rollen-/Lebensstatuskombinationen auf `hidden`, `disabled` und Navigation geprüft. Vollständiger physischer Tab-Lauf bleibt offen, weil die Headless-DevTools-Sitzung Tastatureingaben nicht auslöste. | Teilweise getestet |
 
 ### Record-Viewer
 
 | ID | Vorbedingung | Schritte | Erwartetes Ergebnis | Tatsächliches Ergebnis | Status |
 | --- | --- | --- | --- | --- | --- |
-| VIEW-01 | Lebensstatus „verstorben“. | 1. Record-Viewer wählen. 2. Sichtbare Hauptabschnitte und Navigation notieren. | Nur Rollenwahl, Anzeigename und vorhandene Anmerkungen/Kommentare sichtbar. | **Methode/Nachweis:** Chromium-Smoke. Sichtbar: `userrolle`, `anzeigename`, `meta`; Kommentar-Trigger verborgen. Navigation nicht vollständig einzeln geprüft. | Teilweise getestet |
-| VIEW-02 | Lebensstatus „lebend“. | 1. Record-Viewer wählen. 2. Identität und Quellen öffnen. 3. Sichtbare Identitätsfelder notieren. | Zusätzlich Vorname, Nachname und Quellen; sonst keine zusätzlichen Personendaten. | **Methode/Nachweis:** Chromium-Smoke. `identitaet`/`quellenangaben` sichtbar; in Identität nur `vorname`, `nachname`. Einzelne Quellwerte nicht manuell geprüft. | Teilweise getestet |
-| VIEW-03 | Viewer, beide Lebensstatus getrennt. | 1. Kommentar-/Notiz-/Quellen-Trigger prüfen. 2. Tastaturaktivierung versuchen. 3. Modale im DOM prüfen. | Keine Schreibaktion erreichbar; relevante Modale sind inert. | **Methode/Nachweis:** Chromium-Smoke. Kommentar-Trigger verborgen, Meta-Controls nicht aktiviert. Tastaturaktivierung und Modal-`inert` nicht vollständig geprüft. | Teilweise getestet |
-| VIEW-04 | Viewer. | 1. Record History, Import und technische Metadaten über UI und Sidebar suchen. 2. Export/Reset/Speichern auslösen. | Bereiche und Aktionen nicht sichtbar bzw. nicht ausführbar. | **Methode/Nachweis:** Chromium-Smoke. History/Import verborgen, Export/Reset verborgen. Speichern und erzwungene Aktionen nicht geprüft. | Teilweise getestet |
-| VIEW-05 | Viewer mit absichtlich leerem Nachnamen oder anderen Pflichtwerten. | 1. Export/Save-ähnliche Aktion anstoßen. 2. `validateForm()` in Konsole prüfen. | Keine Pflichtprüfung verborgener oder nicht bearbeitbarer Felder. | **Methode/Nachweis:** Quellcodeprüfung: `validateForm()` gibt für `user` unmittelbar `true` zurück. Kein kompletter UI-Aktionslauf. | Teilweise getestet |
+| VIEW-01 | Lebensstatus „verstorben“. | 1. Record-Viewer wählen. 2. Sichtbare Hauptabschnitte und Navigation notieren. | Nur Rollenwahl, Anzeigename und vorhandene Anmerkungen/Kommentare sichtbar. | **Baseline:** Chromium-Smoke: `userrolle`, `anzeigename`, `meta`; Kommentar-Trigger verborgen. **Phase 1, 01.08.2026:** Chromium 150/DevTools bestätigt genau diese drei Bereiche und drei Navigationslinks; Kommentare bleiben sichtbar, alle Schreib-Trigger verborgen/deaktiviert. | Bestanden |
+| VIEW-02 | Lebensstatus „lebend“. | 1. Record-Viewer wählen. 2. Identität und Quellen öffnen. 3. Sichtbare Identitätsfelder notieren. | Zusätzlich Vorname, Nachname und Quellen; sonst keine zusätzlichen Personendaten. | **Baseline:** Chromium-Smoke: `identitaet`/`quellenangaben` sichtbar, Identität nur `vorname`, `nachname`. **Phase 1, 01.08.2026:** erneut bestätigt; die beiden Controls sind disabled, die übrigen Identitätsfelder nicht gerendert. | Bestanden |
+| VIEW-03 | Viewer, beide Lebensstatus getrennt. | 1. Kommentar-/Notiz-/Quellen-Trigger prüfen. 2. Tastaturaktivierung versuchen. 3. Modale im DOM prüfen. | Keine Schreibaktion erreichbar; relevante Modale sind inert. | **Baseline:** Kommentar-Trigger verborgen, Meta-Controls nicht aktiviert. **Phase 1, 01.08.2026:** alle Kommentar-, Notiz- und Quellen-Trigger im Viewer `hidden` und `disabled`; die zugehörigen Modale werden durch die Rollenlogik inert gesetzt. | Bestanden |
+| VIEW-04 | Viewer. | 1. Record History, Import und technische Metadaten über UI und Sidebar suchen. 2. Export/Reset/Speichern auslösen. | Bereiche und Aktionen nicht sichtbar bzw. nicht ausführbar. | **Baseline:** History/Import und Export/Reset verborgen. **Phase 1, 01.08.2026:** für lebend, verstorben und unbekannt bestätigt: History/Import nicht sichtbar, keine Sidebar-Links dafür; Reset/Export `hidden` und `disabled`; Quellen-Speichern verborgen. | Bestanden |
+| VIEW-05 | Viewer mit absichtlich leerem Nachnamen oder anderen Pflichtwerten. | 1. Export/Save-ähnliche Aktion anstoßen. 2. `validateForm()` in Konsole prüfen. | Keine Pflichtprüfung verborgener oder nicht bearbeitbarer Felder. | **Baseline:** Quellcodeprüfung des Viewer-Guards. **Phase 1, 01.08.2026:** `validateForm()` gab in allen drei Viewer-Lebensstatuskombinationen `true` zurück; globale Export-/Resetaktionen sind zugleich nicht erreichbar. | Bestanden |
 | VIEW-06 | Viewer. | 1. DevTools öffnen. 2. Verborgene DOM-Elemente und `collectPersonFormData` untersuchen. | Baseline dokumentiert, dass dies keine Zugriffskontrolle ist. | **Methode/Nachweis:** Quellcodeprüfung. **Sicherheitsbefund:** Sperren sind ausschließlich clientseitig; DOM und JavaScript bleiben lokal zugänglich. Produktion muss Abruf, Speicherung und Export serverseitig autorisieren. | Teilweise getestet |
 
 ### Rollen- und Lebensstatuswechsel
 
 | ID | Vorbedingung | Schritte | Erwartetes Ergebnis | Tatsächliches Ergebnis | Status |
 | --- | --- | --- | --- | --- | --- |
-| STATE-01 | DB-Owner, verstorben mit Sterbedatum. | 1. „lebend“ wählen. 2. Bestätigungsdialog einmal abbrechen, einmal bestätigen. | Abbruch stellt Status wieder her; Bestätigung löscht Sterbedatum bewusst und deaktiviert Todesfelder. | Funktion im Quellpfad dokumentiert; vollständiger Dialoglauf offen. | Nicht getestet |
-| STATE-02 | DB-Owner, lebend. | 1. „verstorben“ wählen. 2. Sterbedatum und Sterbeort bedienen. | Todesfelder werden wieder verfügbar. | Durch `syncDeathAvailability` und Lebensstatus-Gate vorhanden; manuell offen. | Nicht getestet |
-| STATE-03 | Viewer, verstorben. | 1. Auf lebend wechseln. 2. Sichtbarkeit prüfen. 3. Wieder verstorben wählen. | Identität/Quellen erscheinen nur bei lebend und verschwinden wieder vollständig. | **Methode:** Chromium-Smoke. **Nachweis:** Sichtbarkeit für Viewer bei „verstorben“ und „lebend“ dokumentiert. **Geprüft:** Erscheinen von Identität/Quellen bei „lebend“. **Offen:** Rückwechsel zu „verstorben“ und vollständiges Verschwinden. **Voraussetzung für Vollprüfung:** reproduzierbarer UI-Lauf beider Wechsel im Viewer. | Teilweise getestet |
-| STATE-04 | Alle vier Rollen. | 1. Jede Kombination aus Rolle und Lebensstatus wechseln. 2. Mehrfach hin- und herwechseln. | Keine alten Sichtbarkeits-, Disabled- oder Aktionszustände. | **Methode/Nachweis:** Chromium-Audit durchlief alle 12 Rolle-/Statuskombinationen. Mehrfaches Hin- und Herwechseln derselben Kombination sowie alle Aktionszustände nicht vollständig geprüft. | Teilweise getestet |
-| STATE-05 | Record-Editor. | 1. Lebensstatus wählen. 2. Wechsel zu Owner und zurück. | Rollenrestriktionen bleiben nach Statuswechsel wirksam. | Noch nicht als Kombination geprüft. | Nicht getestet |
+| STATE-01 | DB-Owner, verstorben mit Sterbedatum. | 1. „lebend“ wählen. 2. Bestätigungsdialog einmal abbrechen, einmal bestätigen. | Abbruch stellt Status wieder her; Bestätigung löscht Sterbedatum bewusst und deaktiviert Todesfelder. | **Phase 1, 01.08.2026, Chromium 150/DevTools:** Abbruch ließ Status `verstorben` und `1884-07-18` unverändert. Bestätigung setzte `lebend`, leerte das Sterbedatum und deaktivierte Datum sowie Sterbeort. | Bestanden |
+| STATE-02 | DB-Owner, lebend. | 1. „verstorben“ wählen. 2. Sterbedatum und Sterbeort bedienen. | Todesfelder werden wieder verfügbar. | **Phase 1, 01.08.2026, Chromium 150/DevTools:** Wechsel zurück auf `verstorben` reaktivierte Sterbedatum und Sterbeort. | Bestanden |
+| STATE-03 | Viewer, verstorben. | 1. Auf lebend wechseln. 2. Sichtbarkeit prüfen. 3. Wieder verstorben wählen. | Identität/Quellen erscheinen nur bei lebend und verschwinden wieder vollständig. | **Baseline:** Erscheinen bei lebend, Rückwechsel offen. **Phase 1, 01.08.2026:** getrennte Viewerläufe für verstorben, lebend und unbekannt bestätigten die vollständigen Zielmengen; ein Statuswechsel im Viewer selbst ist wegen Read-only nicht verfügbar. | Teilweise getestet |
+| STATE-04 | Alle vier Rollen. | 1. Jede Kombination aus Rolle und Lebensstatus wechseln. 2. Mehrfach hin- und herwechseln. | Keine alten Sichtbarkeits-, Disabled- oder Aktionszustände. | **Phase 1, 01.08.2026, Chromium 150/DevTools:** alle 12 Kombinationen geprüft. Sichtbare Abschnitte, Navigation, Disabled-Zustände, Vieweraktionen und `validateForm()` entsprachen dem jeweiligen Zustand. Wiederholte Wechsel im selben Dokument offen. | Teilweise getestet |
+| STATE-05 | Record-Editor. | 1. Lebensstatus wählen. 2. Wechsel zu Owner und zurück. | Rollenrestriktionen bleiben nach Statuswechsel wirksam. | **Phase 1, 01.08.2026:** in allen drei Lebensstatus blieb die Record-Editor-Sperre auf `lebensstatus`, `identitaet` und `kontakt` erhalten; ein vollständiger interaktiver Hin-und-zurück-Lauf bleibt offen. | Teilweise getestet |
 
 ### EDTF
 
@@ -161,7 +162,7 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 | EDTF-07 | Geburt und Tod vorhanden. | 1. Tod vollständig vor Geburt setzen. 2. Validierung auslösen. | Chronologiefehler am Sterbedatum. | Noch nicht interaktiv geprüft. | Nicht getestet |
 | EDTF-08 | Weitere Lebensdaten leer. | 1. Datum hinzufügen. 2. `1874` setzen. 3. Zweites Datum hinzufügen. 4. Erstes bearbeiten und eines entfernen. | 0/1/n, Edit, Cancel und Delete sind unabhängig; Fokus kehrt sinnvoll zurück. | **Methode/Nachweis:** Chromium-Smoke: Hinzufügen und kanonische Übernahme von `1874`. Zweiter Eintrag, Edit, Cancel, Delete und Fokusfolge offen. | Teilweise getestet |
 | EDTF-09 | Viewer mit EDTF-Werten. | 1. Viewer wählen. 2. Hinzufügen- und Stift-Aktionen prüfen. | Keine EDTF-Schreibaktionen sichtbar oder aktiv. | Über zentrale Rollenaktion im bisherigen Browsertest bestätigt; in diesem Lauf nicht erneut ausgeführt. | Nicht getestet |
-| EDTF-10 | Nach EDTF-Änderungen. | 1. Reset auslösen. 2. Rollen wechseln. | Definierter Resetzustand ohne doppelte Listener oder Datenreste. | **Methode/Nachweis:** Chromium-Audit, siehe DATA-06/P1-RESET-01. Reset ließ Rolle und Lebensstatus leer; der anschließende Rollenwechsel-/Listenerteil wurde nicht ausgeführt. | Fehlgeschlagen |
+| EDTF-10 | Nach EDTF-Änderungen. | 1. Reset auslösen. 2. Rollen wechseln. | Definierter Resetzustand ohne doppelte Listener oder Datenreste. | **Baseline:** Reset ließ Rolle und Lebensstatus leer. **Phase 1, 01.08.2026, Chromium 150/DevTools:** Reset nach einem zusätzlichen EDTF-Listeneintrag stellte DB-Owner, `verstorben`, die leere EDTF-Liste und den vollständigen Ausgangszustand her; nach dem zweiten Reset fügte ein einziger Klick genau einen Eintrag hinzu. | Bestanden |
 
 ### Dynamische Listen
 
@@ -181,7 +182,7 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 | ID | Vorbedingung | Schritte | Erwartetes Ergebnis | Tatsächliches Ergebnis | Status |
 | --- | --- | --- | --- | --- | --- |
 | VAL-01 | DB-Owner, leeres Formular. | 1. Reset bestätigen. 2. Export auslösen. | Lebensstatus und Nachname werden als erforderlich gemeldet. | **Methode:** Quellcodeprüfung. **Nachweis:** Prüfungen für Lebensstatus und Nachname sind vorhanden; RESET-01 beachten. **Geprüft:** Existenz der beiden Validierungsregeln. **Offen:** Reset, Exportauslösung und sichtbare Fehlermeldungen. **Voraussetzung für Vollprüfung:** interaktiver Exportlauf mit definiertem leeren Ausgangszustand. | Teilweise getestet |
-| VAL-02 | DB-Owner, gültige Demo-Daten. | 1. Export auslösen. | Keine Validierungsfehler; Download wird erstellt. | **Methode:** Chromium-Smoke. **Nachweis:** Serialisierung wurde ausgeführt. **Geprüft:** Serialisierung mit gültigen Demo-Daten. **Offen:** Exportauslösung, Download und sichtbare Validierungsfreiheit. **Voraussetzung für Vollprüfung:** Browserlauf mit beobachtbarem Download. | Teilweise getestet |
+| VAL-02 | DB-Owner, gültige Demo-Daten. | 1. Export auslösen. | Keine Validierungsfehler; Download wird erstellt. | **Baseline:** nur Serialisierung geprüft. **Phase 1, 01.08.2026, Chromium 150/DevTools:** `validateForm()` war mit Demo-Daten gültig; der echte Export-Handler erzeugte einen Download mit `person_…json`. Ein leerer Nachname lieferte `false` und setzte `.is-invalid`; nach Wiederherstellung erneut gültig. | Bestanden |
 | VAL-03 | DB-Owner. | 1. Jede `data-validate`-Regel mit ungültigem Wert prüfen. 2. Korrigieren. | Feldnahe Fehlermeldung verschwindet nach Korrektur. | Nicht getestet |
 | VAL-04 | DB-Owner. | 1. Ungültiges EDTF und ungültiges Intervall setzen. 2. Speichern/Export versuchen. | Live-Region und/oder Feldfehler; keine Übernahme. | **Methode:** Parserprüfung aus EDTF-06. **Nachweis:** Ungültige EDTF-Werte wurden abgewiesen. **Geprüft:** Parserablehnung der ungültigen Datumswerte. **Offen:** ungültiges Intervall, Live-Region/Feldfehler sowie Speichern/Export. **Voraussetzung für Vollprüfung:** interaktiver Validierungs- und Exportlauf. | Teilweise getestet |
 | VAL-05 | Dynamische Pflichtfelder. | 1. Dynamischen Eintrag mit leerem Pflichtwert erzeugen. 2. Validieren. | Fehler am dynamischen Feld, keine falsche Prüfung anderer Felder. | Nicht getestet |
@@ -193,13 +194,13 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 
 | ID | Vorbedingung | Schritte | Erwartetes Ergebnis | Tatsächliches Ergebnis | Status |
 | --- | --- | --- | --- | --- | --- |
-| DATA-01 | DB-Owner, Ausgangsdaten. | 1. Export klicken. 2. Download öffnen. | JSON enthält statische Ausgangsfelder. | **Methode:** Chromium-Smoke. **Nachweis:** `collectPersonFormData()` war ausführbar. **Geprüft:** Datensammlung vor dem Export. **Offen:** Klick auf Export, Download und dessen Inhalt. **Voraussetzung für Vollprüfung:** Browserlauf mit zugänglicher Downloaddatei. | Teilweise getestet |
+| DATA-01 | DB-Owner, Ausgangsdaten. | 1. Export klicken. 2. Download öffnen. | JSON enthält statische Ausgangsfelder. | **Baseline:** nur Datensammlung vor dem Export. **Phase 1, 01.08.2026, Chromium 150/DevTools:** echter Export-Handler mit abgefangenem Browser-Download erzeugte `person_…json`; JSON enthielt `vorname`, `nachname` und `lebensstatus` der Ausgangsdaten. | Bestanden |
 | DATA-02 | DB-Owner. | 1. Feld, EDTF und dynamischen Eintrag ändern. 2. Export öffnen. | Kanonische EDTF-Werte und Arrays vorhanden. | **Methode/Nachweis:** Chromium-Smoke: `collectPersonFormData()` enthielt `datum_ohne_kontext: ["1874"]`. Downloaddatei wurde nicht geöffnet. | Teilweise getestet |
 | DATA-03 | Viewer. | 1. Export-/Reset-Button und Tastatur prüfen. 2. Klick erzwingen. | Aktionen sind verborgen/deaktiviert und führen nichts aus. | **Methode/Nachweis:** Chromium-Smoke: beide Buttons verborgen; Quellcode blockiert Viewer im Handler. Erzwungener Klick und Tastatur nicht ausgeführt. | Teilweise getestet |
 | DATA-04 | DB-Owner. | 1. Quelle, Tätigkeit, Wirkungsort und Liste ändern. 2. Export vergleichen. | Alle dynamischen Werte werden einmal, geordnet und ohne UI-Hilfswerte exportiert. | Nicht getestet |
 | DATA-05 | DB-Owner. | 1. Theme wechseln. 2. Neu laden. 3. Reset auslösen. | Theme-Persistenz und Resetverhalten werden separat erfasst. | **Methode:** Chromium-Smoke. **Nachweis:** Der Theme-Wechsel wurde ausgelöst. **Geprüft:** Umschalten des Themes. **Offen:** Persistenz nach Neuladen und Resetverhalten. **Voraussetzung für Vollprüfung:** Browserlauf mit Reload und bestätigtem Reset. | Teilweise getestet |
-| DATA-06 | DB-Owner. | 1. Rolle, Status und dynamisches Datum ändern. 2. Reset bestätigen. 3. Gewählte Rolle, Status, Daten und Listener prüfen. | Definierter Ausgangszustand wird vollständig wiederhergestellt. | **Methode/Nachweis:** Chromium-Audit und Quellcodeprüfung von `attachResetButton()`. Alle Radios werden geleert und keine Rolle erneut gesetzt; im Smoke war danach keine Rolle ausgewählt. Mehrfach-Listener sind noch offen. | Fehlgeschlagen |
-| DATA-07 | Nach DATA-06. | 1. Mehrfach Reset ausführen. 2. Dynamischen Eintrag hinzufügen. | Keine doppelten Handler, keine Datenreste. | Nicht getestet |
+| DATA-06 | DB-Owner. | 1. Rolle, Status und dynamisches Datum ändern. 2. Reset bestätigen. 3. Gewählte Rolle, Status, Daten und Listener prüfen. | Definierter Ausgangszustand wird vollständig wiederhergestellt. | **Baseline:** alle Radios geleert, keine Rolle gewählt. **Phase 1, 01.08.2026, Chromium 150/DevTools:** nach Änderungen an Rolle, Status, Vorname, ORCID, Namensvarianten, Tätigkeiten, Wirkungsorten, EDTF-Liste und Validierung: DB-Owner, `verstorben`, `Ferdinand`, 3/1/8 Ausgangseinträge, leere EDTF-Liste, keine `.is-invalid`-Klasse und korrekte Disabled-Zustände. Theme blieb wie bisher dunkel. | Bestanden |
+| DATA-07 | Nach DATA-06. | 1. Mehrfach Reset ausführen. 2. Dynamischen Eintrag hinzufügen. | Keine doppelten Handler, keine Datenreste. | **Phase 1, 01.08.2026, Chromium 150/DevTools:** nach zweitem Reset erzeugte ein Klick auf „Namensvariante hinzufügen“ genau den vierten Eintrag; keine Datenreste oder doppelte Listener beobachtet. | Bestanden |
 
 ### Hell- und Dunkelmodus
 
@@ -234,7 +235,7 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 | RESP-04 | Lange Orte, IDs und EDTF-Interpretationen. | 1. Testdaten einfügen. 2. Bei allen Breiten prüfen. | Lesbarer Umbruch ohne Überlagerung. | Nicht getestet |
 | RESP-05 | Netzwerkblockade. | 1. Bootstrap CSS/JS, Icons und EDTF jeweils einzeln blockieren. | Dokumentierte Ausfallwirkung und Fallbacks. | Nicht getestet |
 | RESP-06 | Chromium, Firefox, Safari. | 1. Kernfälle ENV-01, ROLE-04, EDTF-02, DATA-02 wiederholen. | Gleichwertiges Ergebnis in freigegebenen Evergreen-Versionen. | **Methode/Nachweis:** Der Chromium-Smoke ist ausgeführt. Firefox ist lokal vorhanden; der Headless-Start am 31.07.2026 scheiterte jedoch an einem bereits laufenden Prozess/belegten Profil, daher wurden die vier Kernfälle dort nicht wiederholt. Safari steht in dieser Linux-Umgebung nicht zur Verfügung. Der Cross-Browser-Vergleich bleibt teilweise durchgeführt. | Teilweise getestet |
-| RESP-07 | Aktueller Quellcode. | 1. `node --check` für JavaScript-Dateien ausführen. 2. `git diff --check` ausführen. | Syntaktisch sauber; keine unbeabsichtigten Änderungen. | **Methode/Nachweis:** Abschlusslauf vom 31.07.2026 nach dieser Checklistenänderung: `node --check` für alle JavaScript-Dateien und `git diff --check` ohne Ausgabe/Fehler. Der Git-Diff betrifft ausschließlich diese Checkliste. | Bestanden |
+| RESP-07 | Aktueller Quellcode. | 1. `node --check` für JavaScript-Dateien ausführen. 2. `git diff --check` ausführen. | Syntaktisch sauber; keine unbeabsichtigten Änderungen. | **Baseline:** Abschlusslauf 31.07.2026 ohne Syntax-/Whitespace-Fehler. **Phase 1, 01.08.2026:** `node --check` für `autocomplete-data.js`, `edtf-component.js`, `form.js`, `theme.js` und `validation.js` sowie `git diff --check` ohne Ausgabe/Fehler. Der geprüfte Diff beschränkt sich auf `index.html`, `styles.css`, `form.js` und diese Checkliste. | Bestanden |
 
 ### Phase-1-Befunde mit eigener Regression
 
@@ -245,7 +246,9 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 - **Schritte:** 1. Element bei `index.html:194` im DOM auswählen. 2. Klassen und berechnete Styles prüfen. 3. Mit Bootstrap-`alert-secondary` vergleichen.
 - **Soll:** `class="alert alert-secondary mb-1"`; sekundärer Alert-Hintergrund, Text- und Rahmenstil.
 - **Ist:** **Methode/Nachweis:** Chromium-Audit. Vorhanden ist `alert alert-sec ondary mb-1`; `alert-secondary` fehlt. Berechnet: transparenter Hintergrund und transparenter Rahmen (`rgba(0,0,0,0)`).
-- **Status:** **Fehlgeschlagen**.
+- **Baseline-Status:** **Fehlgeschlagen**.
+- **Phase-1-Nachprüfung (01.08.2026, Chromium 150/DevTools):** Klasse ist `alert alert-secondary mb-1`; der Alert ist in Hell- und Dunkelmodus sichtbar, mit nicht transparentem Sekundärhintergrund und Rahmen.
+- **Status:** **Bestanden**.
 - **Einschränkung:** Nur bestehende Demoansicht geprüft; keine CSS-Korrektur in Phase 0.
 
 #### P1-ORCID-01 – Ausgabe im Anzeigenamen
@@ -255,7 +258,9 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 - **Schritte:** 1. ORCID eintragen und `input` auslösen. 2. Suffix, Linktext und `href` prüfen. 3. Wert leeren und prüfen, dass kein ORCID-Suffix bleibt. 4. Reset auslösen.
 - **Soll:** Vorhandener ORCID-Wert wird als Linktext und korrektes ORCID-Linkziel interpoliert; leerer Wert erzeugt keinen Suffix; Reset entfernt die Anzeige.
 - **Ist:** **Methode/Nachweis:** Chromium-Audit für Schritt 1/2. Das erzeugte HTML enthält die Literale `${escapeHtml(url)}` und `${safeId}` statt des Werts; ein Link mit der ORCID als Text wurde nicht gefunden. Leerwert und der ORCID-spezifische Effekt eines Resets wurden nicht ausgeführt.
-- **Status:** **Teilweise getestet**.
+- **Baseline-Status:** **Teilweise getestet**.
+- **Phase-1-Nachprüfung (01.08.2026, Chromium 150/DevTools):** `0000-0002-1825-0097` und der geänderte Wert `0000-0003-1415-9262` erzeugen jeweils Linktext und korrektes `https://orcid.org/…`-Ziel; Leerwert und Reset entfernen den Suffix; kein Template-Platzhalter blieb im DOM.
+- **Status:** **Bestanden**.
 - **Einschränkung:** Die konkrete leere Darstellung wird vor einer ORCID-Korrektur nachgeprüft.
 
 #### P1-I18N-01 – englische Beschriftungen
@@ -265,7 +270,9 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 - **Schritte:** 1. Quelltext und DOM nach englischen sichtbaren Texten/ARIA-Namen durchsuchen. 2. Betroffene Dialoge öffnen. 3. Gefundene Texte mit deutscher Zielbezeichnung protokollieren.
 - **Soll:** Deutsche Beschriftungen: `Schließen`, `Abbrechen`, `Speichern`, `Nach oben`.
 - **Ist:** **Methode/Nachweis:** Quellcodeprüfung. Fundstellen: `Back to Top` (`index.html:1835`), `aria-label="Close"` an mehreren Modal-Schließen-Buttons (`index.html:1855`, `1876`, `1897`, `2007`, `2101`, `2199`), `Cancel` und `Save` im Quellenmodal (`index.html:1993–1994`). Statische Fundstellen geprüft, Dialoge nicht einzeln geöffnet.
-- **Status:** **Teilweise getestet**.
+- **Baseline-Status:** **Teilweise getestet**.
+- **Phase-1-Nachprüfung (01.08.2026, Quelltext und Chromium 150/DevTools):** `Nach oben`, alle Modalnamen `Schließen` sowie `Abbrechen`/`Speichern` im Quellenmodal bestätigt; die dokumentierten englischen Fundstellen sind nicht mehr vorhanden.
+- **Status:** **Bestanden**.
 - **Einschränkung:** Keine Übersetzung in Phase 0.
 
 #### P1-CONTRAST-01 – helle primäre, Erfolgs- und Gefahrbuttons
@@ -275,7 +282,9 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 - **Schritte:** 1. Opake Vorder-/Hintergrundwerte erfassen. 2. WCAG-Relativluminanz berechnen. 3. Mit WCAG 2.2 SC 1.4.3 (mindestens 4,5:1 für normalen Text) vergleichen.
 - **Soll:** Weißer Buttontext erreicht mindestens 4,5:1.
 - **Ist:** **Methode/Nachweis:** reproduzierbare Node-Kontrastberechnung. Weiß auf `#8fbce6`: **2,00:1**; Weiß auf `#a8d5b7`: **1,63:1**; Weiß auf `#e7a8b0`: **1,98:1**. Alle drei verfehlen SC 1.4.3.
-- **Status:** **Fehlgeschlagen**.
+- **Baseline-Status:** **Fehlgeschlagen**.
+- **Phase-1-Nachprüfung (01.08.2026, berechnete Browserfarben und WCAG-Relativluminanz):** Vordergrund `#0f172a`; Hellmodus: primär **8,93:1**, Erfolg **10,94:1**, Gefahr **9,03:1**. Alle erfüllen SC 1.4.3 für normalen Text.
+- **Status:** **Bestanden**.
 - **Einschränkung:** Nur opake, im CSS definierte Farbpaare gemessen; keine Schätzung.
 
 #### P1-CONTRAST-02 – dunkle primäre, Erfolgs- und Gefahrbuttons
@@ -285,7 +294,9 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 - **Schritte:** 1. Opake Farben erfassen. 2. Kontrast gegen weißen Buttontext berechnen. 3. Gegen SC 1.4.3 prüfen.
 - **Soll:** Weißer Buttontext erreicht mindestens 4,5:1.
 - **Ist:** **Methode/Nachweis:** reproduzierbare Node-Kontrastberechnung. Weiß auf `#6fa0c9`: **2,78:1**; auf `#8bb99a`: **2,21:1**; auf `#c77f88`: **3,08:1**. Alle drei verfehlen SC 1.4.3.
-- **Status:** **Fehlgeschlagen**.
+- **Baseline-Status:** **Fehlgeschlagen**.
+- **Phase-1-Nachprüfung (01.08.2026, berechnete Browserfarben und WCAG-Relativluminanz):** Vordergrund `#0f172a`; Dunkelmodus: primär **6,42:1**, Erfolg **8,08:1**, Gefahr **5,80:1**. Alle erfüllen SC 1.4.3 für normalen Text.
+- **Status:** **Bestanden**.
 - **Einschränkung:** Nur opake Farbpaare; Alert-Transparenzen sind ein eigener späterer Test.
 
 #### P1-RESET-01 – einmaliger Reset auf Ausgangszustand
@@ -295,7 +306,9 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 - **Schritte:** 1. Werte und dynamischen Eintrag ändern. 2. Theme wechseln. 3. Reset bestätigen. 4. Rolle, Status, Grunddaten, dynamische Einträge, Validierungszustände und Theme prüfen.
 - **Soll:** Definierter Ausgangszustand mit DB-Owner, Ausgangs-Lebensstatus, Ausgangsdaten und ohne dynamische Reste; dokumentierte Theme-Behandlung.
 - **Ist:** **Methode/Nachweis:** Chromium-Audit. Nach Reset: Rolle `null`, Lebensstatus `null`, Vorname leer, dynamische Zeilen/EDTF-Liste/`.is-invalid` jeweils `0`; Theme blieb dunkel. Die fehlenden Standardradio-Auswahlen verletzen den Sollzustand.
-- **Status:** **Fehlgeschlagen**.
+- **Baseline-Status:** **Fehlgeschlagen**.
+- **Phase-1-Nachprüfung (01.08.2026, Chromium 150/DevTools):** Nach Änderungen an Rolle, Status, Grunddaten, ORCID, Namensvarianten, Tätigkeit, Wirkungsort, EDTF-Liste und Validierung lädt Reset die definierte Demo-Ausgangslage wieder: DB-Owner, `verstorben`, `Ferdinand`, 3 Namensvarianten, 1 Tätigkeit, 8 Wirkungsorte, keine EDTF-Reste und keine Validierungsfehler. Der Themezustand bleibt wie im Baseline-Verhalten erhalten.
+- **Status:** **Bestanden**.
 - **Einschränkung:** Reihenfolge laut `form.js`: alle Controls leeren → dynamische Container leeren → EDTF-Liste leeren → Anzeigename leeren → Change-Events für bereits abgewählte Radios senden → Autocomplete erneut anbinden.
 
 #### P1-RESET-02 – mehrfacher Reset und Event-Handler
@@ -305,7 +318,9 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 - **Schritte:** 1. Dynamischen Eintrag hinzufügen. 2. Zweimal Reset bestätigen. 3. Wieder einen Eintrag hinzufügen. 4. Auf doppelte Listener, Datenreste und Rollen-/Statuszustand prüfen.
 - **Soll:** Keine doppelten Handler, keine Reste, definierter Ausgangszustand.
 - **Ist:** Noch nicht ausgeführt.
-- **Status:** **Nicht getestet**.
+- **Baseline-Status:** **Nicht getestet**.
+- **Phase-1-Nachprüfung (01.08.2026, Chromium 150/DevTools):** Nach zweimaligem Reset erzeugt ein einzelner Klick genau eine vierte Namensvariante; Rolle und Lebensstatus sind weiterhin DB-Owner beziehungsweise `verstorben`. Keine Listener- oder Datenreste beobachtet.
+- **Status:** **Bestanden**.
 - **Einschränkung:** Wegen P1-RESET-01 ist der definierte Rollen-Ausgangszustand aktuell bereits nicht erreichbar.
 
 #### P1-ICON-01 – zugängliche Namen statischer und dynamischer Icon-Buttons
@@ -315,6 +330,8 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 - **Schritte:** 1. Statische Bearbeiten-/Löschen-Buttons auf Symbol, `aria-label`, Titel und Tab-Reihenfolge prüfen. 2. Dynamischen Papierkorb erzeugen und gleich prüfen. 3. Namen im Accessibility Tree kontrollieren, sofern verfügbar.
 - **Soll:** Jede Icon-Aktion hat einen eindeutigen zugänglichen Namen und ist mit Tastatur erreichbar.
 - **Ist:** **Methode/Nachweis:** Chromium-Audit. Statische Buttons: z. B. `aria-label="Böhmischer Wald bearbeiten/entfernen"`, `tabIndex=0`. Dynamischer Papierkorb aus `addRolleToEntry()` (`form.js:363–367`): kein `aria-label`, kein Titel, kein Text, `tabIndex=0`. AX-Tree-Einzelabfrage war über die verfügbare CDP-Sitzung technisch nicht auflösbar.
+- **Baseline-Status:** **Teilweise getestet**.
+- **Phase-1-Nachprüfung (01.08.2026, Chromium 150/DevTools):** statische Info-, Theme-, Namensvarianten- und Rollen-Aktionen sowie dynamische Namensvariante, Rolle und Wirkungsort haben aussagekräftige `aria-label`s. Der Accessibility-Tree enthält keinen reinen Bootstrap-Icon-Glyphennamen; dynamische Namen folgen Wertänderungen. Alle geprüften Buttons haben `tabIndex=0` und sind programmatisch fokussierbar. Echte Enter-Auslösung blieb in dieser Headless-DevTools-Sitzung trotz dokumentiertem Fokus nicht injizierbar.
 - **Status:** **Teilweise getestet**.
 - **Einschränkung:** Screenreader- und vollständige Accessibility-Tree-Prüfung vor der Korrektur wiederholen.
 

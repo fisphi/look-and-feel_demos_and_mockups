@@ -499,17 +499,17 @@ label:has(+ textarea:disabled) {
 .btn-primary {
     background-color: var(--bs-primary) !important;
     border-color: transparent !important;
-    color: #fff !important;
+    color: #0f172a !important;
 }
 .btn-success {
     background-color: var(--bs-success) !important;
     border-color: transparent !important;
-    color: #fff !important;
+    color: #0f172a !important;
 }
 .btn-danger {
     background-color: var(--bs-danger) !important;
     border-color: transparent !important;
-    color: #fff !important;
+    color: #0f172a !important;
 }
 .btn-warning {
     background-color: #f6d7a8 !important; /* soft warm */
