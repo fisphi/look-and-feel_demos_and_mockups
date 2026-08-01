@@ -556,19 +556,28 @@ class EdtfIntervalInput {
         const endLabel = this.options.endLabel || 'Ende';
         this.host.className = 'edtf-interval form-layout-container border rounded p-3';
         this.host.innerHTML = `
-            <fieldset><legend class="fs-6 fw-semibold">${this.options.intervalLabel || 'Tätigkeitszeitraum'}</legend>
-                <div class="form-subsection-stack mt-3">
-                    <section class="form-subsection" aria-labelledby="${this.id}-start-title">
+            <fieldset><legend class="edtf-interval-title">${this.options.intervalLabel || 'Tätigkeitszeitraum'}</legend>
+                <div class="edtf-interval-rows">
+                    <section class="form-subsection edtf-interval-boundary" aria-labelledby="${this.id}-start-title">
                         <h4 id="${this.id}-start-title" class="form-subsection-title">${startLabel}</h4>
-                        <div class="mt-3" data-start-host></div>
+                        <div data-start-host></div>
                     </section>
-                    <section class="form-subsection" aria-labelledby="${this.id}-end-title">
+                    <section class="form-subsection edtf-interval-boundary" aria-labelledby="${this.id}-end-title">
                         <h4 id="${this.id}-end-title" class="form-subsection-title">${endLabel}</h4>
-                        <div class="mt-3" data-end-host></div>
+                        <div data-end-host></div>
                     </section>
                 </div>
-                <div class="row g-2 mt-2"><div class="col-sm-4"><label class="form-label" for="${this.id}-output">EDTF-Zeitraum</label><input id="${this.id}-output" class="form-control edtf-output" readonly aria-describedby="${this.id}-text ${this.id}-error"></div>
-                <div class="col-sm-8"><div class="form-label">Interpretation</div><div id="${this.id}-text" class="form-control-plaintext"></div></div></div>
+                <div class="edtf-interval-summary border-top mt-3 pt-3">
+                    <h4 class="form-subsection-title">Zeitraum</h4>
+                    <div class="edtf-interval-summary-values">
+                        <div id="${this.id}-output-label" class="form-label compact-value-label">EDTF-Datum</div>
+                        <div class="form-label compact-value-label">Interpretation</div>
+                        <output id="${this.id}-output" class="edtf-output font-monospace"
+                            aria-labelledby="${this.id}-output-label"
+                            aria-describedby="${this.id}-text ${this.id}-error"></output>
+                        <div id="${this.id}-text"></div>
+                    </div>
+                </div>
                 <div id="${this.id}-error" class="invalid-feedback d-block" role="status" aria-live="polite"></div>
             </fieldset>`;
         const startInput = document.createElement('input'); startInput.type = 'hidden'; startInput.value = start;
@@ -705,7 +714,7 @@ class EdtfIntervalInput {
         }
         this.valid = !error && result.valid;
         this.input.value = result.valid ? result.canonical : value;
-        this.output.value = this.input.value;
+        this.output.textContent = this.input.value;
         this.text.textContent = this.intervalText(start, end, mode);
         this.updateEndCompactView(mode);
         this.error.textContent = error;

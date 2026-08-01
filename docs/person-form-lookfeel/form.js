@@ -406,7 +406,7 @@ function bindNamedRemoveButton(button, input, itemLabel) {
             entry.className = 'taetigkeiten-entry border rounded p-3 mb-3';
             entry.innerHTML = `
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="mb-0">Tätigkeit #${taetigkeitenCounter}</h4>
+                <h4 class="taetigkeiten-entry-title mb-0">Tätigkeit #${taetigkeitenCounter}</h4>
                 <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.taetigkeiten-entry').remove()">
                     <i class="bi bi-trash" aria-hidden="true"></i> Entfernen
                 </button>
