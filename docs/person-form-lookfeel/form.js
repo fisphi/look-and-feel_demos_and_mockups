@@ -326,12 +326,12 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         }
 
         const metaParts = [];
-        if (datePieces.length) {
-            metaParts.push(datePieces.map(escapeHtml).join(' · '));
-        }
         metaParts.push(escapeHtml(collectionSuffix.trim()));
         if (normdatenSuffixes.length) {
             metaParts.push(...normdatenSuffixes);
+        }
+        if (datePieces.length) {
+            metaParts.push(...datePieces.map(escapeHtml));
         }
         const metaHtml = metaParts.join(' · ');
         anzeigeNameDates.innerHTML = metaHtml;
