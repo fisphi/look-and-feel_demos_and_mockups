@@ -695,13 +695,6 @@ function bindNamedRemoveButton(button, input, itemLabel) {
             placeholder: 'Akademischer Titel',
             autocomplete: 'akademischeTitel',
             shortRow: true
-        },
-        rollen: {
-            container: 'rollen-container',
-            name: 'rollen',
-            itemLabel: 'Rolle',
-            placeholder: 'Rolle',
-            autocomplete: 'rollen'
         }
     };
 
@@ -866,22 +859,6 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         refreshShortListState(config);
     });
     
-    // Andere bestehende generische Rollen-Zeilen außerhalb der Tätigkeiten
-    // behalten ihr aktuelles Render- und Löschmuster.
-    document.querySelectorAll('.dynamic-field-row button').forEach(button => {
-        const row = button.closest('.dynamic-field-row');
-        if (!row || row.closest('.taetigkeiten-entry')) return;
-        const input = row?.querySelector('input');
-        button.onclick = () => row?.remove();
-        bindNamedRemoveButton(button, input, 'Rolle');
-    });
-    
-    // Initial je ein Feld hinzufügen (außer bereits vorgefüllten Typen)
-    Object.keys(dynamicFieldsConfig).forEach(fieldType => {
-        if (!dynamicFieldsConfig[fieldType].shortRow && fieldType !== 'rollen') {
-            addDynamicField(fieldType);
-        }
-    });
 })();
 
 // Autocomplete-Funktionalität
@@ -1504,7 +1481,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// add: reset form button handler
 function attachResetButton() {
 	const btn = document.getElementById('resetForm');
 	if (!btn) return;
@@ -1520,10 +1496,4 @@ function attachResetButton() {
 	});
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-	// JSON controls init
-	// Kontakt consent init
-	// ...
-	// attach reset button
-	attachResetButton();
-});
+document.addEventListener('DOMContentLoaded', attachResetButton);

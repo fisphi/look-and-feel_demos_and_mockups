@@ -60,25 +60,10 @@
     --radius-md: 0.375rem;
     --radius-lg: 0.5rem;
     --border-width: 1px;
-    --shadow-raised: 0 1px 2px rgb(16 24 40 / 0.06);
-    --shadow-dialog: 0 16px 48px rgb(16 24 40 / 0.18);
     --control-height-sm: 2rem;
     --control-height-md: 2.5rem;
     --control-height-lg: 3rem;
     --icon-button-size: 2.25rem;
-    --content-width-form: 70rem;
-    --content-width-reading: 48rem;
-    --sidebar-width: 15rem;
-    --breakpoint-sm: 36rem;
-    --breakpoint-md: 48rem;
-    --breakpoint-lg: 64rem;
-    --duration-fast: 120ms;
-    --duration-normal: 180ms;
-    --easing-standard: cubic-bezier(0.2, 0, 0, 1);
-    --z-sticky: 20;
-    --z-dropdown: 100;
-    --z-dialog: 1000;
-    --z-tooltip: 1100;
 
     /* Controlled Bootstrap compatibility mapping. */
     --bs-border-color: var(--color-border);
@@ -323,16 +308,7 @@ h4 { font-size: var(--font-size-md); }
     container-name: person-workbench;
 }
 
-.ui-stack { display: flex; flex-direction: column; gap: var(--space-4); }
-.ui-cluster { align-items: center; display: flex; flex-wrap: wrap; gap: var(--space-3); }
 .ui-grid { display: grid; gap: var(--space-4); }
-.ui-grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.ui-split { display: grid; gap: var(--space-6); grid-template-columns: minmax(0, 1fr) minmax(15rem, var(--sidebar-width)); }
-
-@media (max-width: 63.999rem) {
-    .ui-grid--two,
-    .ui-split { grid-template-columns: 1fr; }
-}
 
 @media (max-width: 36rem) {
     :where(input, select, textarea, button, .form-control, .form-select) {
@@ -627,8 +603,7 @@ h4 { font-size: var(--font-size-md); }
 .disabled-section input,
 .disabled-section select,
 .disabled-section textarea,
-.disabled-section button,
-.disabled-section .section-toggle {
+.disabled-section button {
     cursor: not-allowed !important;
 }
 [data-bs-theme="dark"] .disabled-section::after {
@@ -683,15 +658,6 @@ label:has(+ textarea:disabled) {
     color: inherit;
     white-space: normal;
     overflow-wrap: anywhere;
-}
-
-.edtf-edit-action {
-    align-items: center;
-    display: inline-flex;
-    height: 2.25rem;
-    justify-content: center;
-    padding: 0;
-    width: 2.25rem;
 }
 
 .dynamic-field-row {
@@ -1093,18 +1059,6 @@ label:has(+ textarea:disabled) {
     background-color: var(--color-surface-subtle);
 }
 
-/* Row separators for Lebensdaten */
-.row-separator {
-    border-bottom: 1px solid var(--bs-border-color);
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-}
-.row-separator:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-    margin-bottom: 0;
-}
-
 /* Wiederverwendbare Hierarchie für Formularabschnitte und fachliche Gruppen. */
 .form-section-title {
     font-weight: 600;
@@ -1455,17 +1409,6 @@ button.btn[aria-label]:has(> .bi:only-child):not(.edtf-date-action),
     width: auto;
 }
 
-.ui-notice {
-    border: var(--border-width) solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--space-3) var(--space-4);
-}
-
-.ui-notice--info { background: var(--color-info-subtle); border-color: var(--color-info); color: var(--color-text); }
-.ui-notice--success { background: var(--color-success-subtle); border-color: var(--color-success); color: var(--color-text); }
-.ui-notice--warning { background: var(--color-warning-subtle); border-color: var(--color-warning); color: var(--color-text); }
-.ui-notice--danger { background: var(--color-danger-subtle); border-color: var(--color-danger); color: var(--color-text); }
-
 /* outline variants: soft border and subtle hover fill */
 .btn-outline-secondary,
 .btn-outline-primary,
@@ -1644,14 +1587,12 @@ a.btn {
 
     .btn,
     .ui-button,
-    .ui-icon-button,
-    .ui-notice {
+    .ui-icon-button {
         border: 1px solid ButtonText;
         forced-color-adjust: auto;
     }
 
-    .alert,
-    .ui-notice {
+    .alert {
         background: Canvas;
         color: CanvasText;
     }
