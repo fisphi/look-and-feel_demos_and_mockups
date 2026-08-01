@@ -429,6 +429,16 @@ function bindNamedRemoveButton(button, input, itemLabel) {
                     <label class="form-label">Abteilung</label>
                     <input type="text" class="form-control" name="abteilung[]">
                 </div>
+                <div class="col-md-6">
+                    <label class="form-label">Wirkungsort</label>
+                    <div class="autocomplete-wrapper">
+                        <input type="text" class="form-control autocomplete-input"
+                               name="wirkungsort[]"
+                               data-autocomplete="wirkungsorte"
+                               placeholder="Ort / Region">
+                        <div class="autocomplete-dropdown"></div>
+                    </div>
+                </div>
                 <div class="col-12">
                     <div data-edtf-interval></div>
                     <input type="hidden" name="zeitraum[]">
@@ -448,10 +458,11 @@ function bindNamedRemoveButton(button, input, itemLabel) {
             container.appendChild(entry);
             document.dispatchEvent(new CustomEvent('edtf-entry-added', { detail: entry }));
             
-            // Initialize autocomplete for institution field
-            const institutionInput = entry.querySelector('[data-autocomplete="institutionen"]');
-            const institutionDropdown = institutionInput.nextElementSibling;
-            initAutocomplete(institutionInput, institutionDropdown, 'institutionen');
+            // Initialize autocomplete fields in the new activity entry
+            entry.querySelectorAll('[data-autocomplete]').forEach(input => {
+                const dropdown = input.nextElementSibling;
+                initAutocomplete(input, dropdown, input.dataset.autocomplete);
+            });
             
             // Add initial role field
             addRolleToEntry(entry.querySelector('.btn-outline-primary'), taetigkeitenCounter);
@@ -460,16 +471,10 @@ function bindNamedRemoveButton(button, input, itemLabel) {
     
     // Initialize autocomplete for pre-filled entry
     existingEntries.forEach((entry) => {
-        const institutionInput = entry.querySelector('[data-autocomplete="institutionen"]');
-        if (institutionInput) {
-            const dropdown = institutionInput.nextElementSibling;
-            initAutocomplete(institutionInput, dropdown, 'institutionen');
-        }
-        
-        // Initialize autocomplete for pre-filled roles
-        entry.querySelectorAll('[data-autocomplete="rollen"]').forEach(input => {
+        // Initialize autocomplete for all pre-filled activity fields
+        entry.querySelectorAll('[data-autocomplete]').forEach(input => {
             const dropdown = input.nextElementSibling;
-            initAutocomplete(input, dropdown, 'rollen');
+            initAutocomplete(input, dropdown, input.dataset.autocomplete);
         });
         
         // Add remove functionality to pre-filled role buttons
@@ -478,90 +483,6 @@ function bindNamedRemoveButton(button, input, itemLabel) {
             btn.onclick = () => btn.closest('.dynamic-field-row').remove();
             bindNamedRemoveButton(btn, input, 'Rolle');
         });
-    });
-})();
-
-// Wirkungsorte – dynamische Karten
-(function() {
-    const container = document.getElementById('wirkungsorte-container');
-    const addButton = document.getElementById('addWirkungsortBtn');
-    if (!container || !addButton) return;
-
-    let wirkungsortCounter = 0;
-
-    function createWirkungsortCard(initial = {}) {
-        const entryId = `wirkungsort-${++wirkungsortCounter}`;
-        const card = document.createElement('div');
-        card.className = 'wirkungsort-item card shadow-sm mb-3';
-        card.dataset.wirkungsortId = entryId;
-        card.innerHTML = `
-            <div class="card-body">
-                <div class="row g-2 align-items-end">
-                    <div class="col-12 col-lg">
-                        <label class="form-label small mb-1">Wirkungsort</label>
-                        <div class="autocomplete-wrapper">
-                            <input type="text" class="form-control autocomplete-input" name="wirkungsorte[]" placeholder="Ort / Region" data-autocomplete="wirkungsorte">
-                            <div class="autocomplete-dropdown"></div>
-                        </div>
-                    </div>
-                    <div class="col-auto ms-auto">
-                        <button type="button" class="btn btn-outline-danger btn-sm remove-wirkungsort">
-                            <i class="bi bi-trash" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="mt-3" data-edtf-wirkungsort-interval></div>
-                <input type="hidden" name="wirkungsorte_von[]">
-                <input type="hidden" name="wirkungsorte_bis[]">
-                <input type="hidden" name="wirkungsorte_zeitraum[]">
-                <div class="row g-2 mt-2">
-                    <div class="col-12 col-md-6">
-                        <label class="form-label small mb-1">Institution</label>
-                        <input type="text" class="form-control" name="wirkungsorte_institution[]" placeholder="Institution / Einrichtung">
-                    </div>
-                    <div class="col-12 col-md-6">
-                        <label class="form-label small mb-1">Rolle / Funktion</label>
-                        <input type="text" class="form-control" name="wirkungsorte_rolle[]" placeholder="z.B. Expeditionsleiter">
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-12">
-                        <label class="form-label small mb-1">Beschreibung / Kontext</label>
-                        <textarea class="form-control" name="wirkungsorte_beschreibung[]" rows="2" placeholder="Kurzbeschreibung zum Wirkungsort"></textarea>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        card.querySelector('input[name="wirkungsorte[]"]').value = initial.ort || '';
-        card.querySelector('input[name="wirkungsorte_von[]"]').value = initial.von || '';
-        card.querySelector('input[name="wirkungsorte_bis[]"]').value = initial.bis || '';
-        card.querySelector('input[name="wirkungsorte_zeitraum[]"]').value = initial.zeitraum || '';
-        card.querySelector('input[name="wirkungsorte_institution[]"]').value = initial.institution || '';
-        card.querySelector('input[name="wirkungsorte_rolle[]"]').value = initial.rolle || '';
-        card.querySelector('textarea[name="wirkungsorte_beschreibung[]"]').value = initial.beschreibung || '';
-
-        const ortInput = card.querySelector('.autocomplete-input');
-        const dropdown = card.querySelector('.autocomplete-dropdown');
-        if (ortInput && dropdown) {
-            initAutocomplete(ortInput, dropdown, 'wirkungsorte');
-        }
-
-        const removeBtn = card.querySelector('.remove-wirkungsort');
-        if (removeBtn) {
-            removeBtn.addEventListener('click', () => card.remove());
-            bindNamedRemoveButton(removeBtn, ortInput, 'Wirkungsort');
-        }
-
-        return card;
-    }
-
-    addButton.addEventListener('click', () => {
-        const card = createWirkungsortCard();
-        container.appendChild(card);
-        document.dispatchEvent(new CustomEvent('edtf-wirkungsort-added', {
-            detail: card.querySelector('[data-edtf-wirkungsort-interval]')
-        }));
     });
 })();
 
@@ -1033,13 +954,7 @@ function collectPersonFormData() {
         akademischer_titel: [],
         namensvarianten: [],
         rollen: [],
-        wirkungsorte: [],
-        wirkungsorte_von: [],
-        wirkungsorte_bis: [],
-        wirkungsorte_zeitraum: [],
-        wirkungsorte_institution: [],
-        wirkungsorte_rolle: [],
-        wirkungsorte_beschreibung: [],
+        wirkungsort: [],
         zeitraum: [],
         datum_ohne_kontext: []
     };

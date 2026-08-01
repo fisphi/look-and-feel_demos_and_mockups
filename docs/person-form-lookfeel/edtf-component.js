@@ -739,35 +739,6 @@ function initIntervalHost(host) {
     new EdtfIntervalInput(host, input);
 }
 
-function initWirkungsortInterval(host) {
-    if (host.dataset.edtfReady) return;
-    const card = host.closest('.wirkungsort-item');
-    const intervalInput = card?.querySelector('input[name="wirkungsorte_zeitraum[]"]');
-    const fromInput = card?.querySelector('input[name="wirkungsorte_von[]"]');
-    const untilInput = card?.querySelector('input[name="wirkungsorte_bis[]"]');
-    if (!card || !intervalInput || !fromInput || !untilInput) return;
-    if (!intervalInput.value && (fromInput.value || untilInput.value)) {
-        intervalInput.value = `${fromInput.value}/${untilInput.value}`;
-    }
-    host.dataset.edtfReady = 'true';
-    new EdtfIntervalInput(host, intervalInput, {
-        intervalLabel: 'Wirkungszeitraum',
-        startLabel: 'Von',
-        endLabel: 'Bis',
-        startActionLabel: 'Beginn des Wirkungsorts',
-        endActionLabel: 'Ende des Wirkungsorts',
-        boundaryClass: 'col-12 col-xl-6',
-        transactionalDates: true
-    });
-    const syncLegacyBounds = () => {
-        const [from = '', until = ''] = intervalInput.value.split('/');
-        fromInput.value = from;
-        untilInput.value = until;
-    };
-    intervalInput.addEventListener('input', syncLegacyBounds);
-    syncLegacyBounds();
-}
-
 function validateChronology() {
     const birth = dateComponents.find(component => component.input.id === 'geburtsdatum');
     const death = dateComponents.find(component => component.input.id === 'sterbedatum');
@@ -799,9 +770,7 @@ ensureEdtfInfoModal();
 document.querySelectorAll('[data-edtf-date]').forEach(initDateHost);
 document.querySelectorAll('[data-edtf-date-list]').forEach(host => new EdtfDateList(host));
 document.querySelectorAll('[data-edtf-interval]').forEach(initIntervalHost);
-document.querySelectorAll('[data-edtf-wirkungsort-interval]').forEach(initWirkungsortInterval);
 document.addEventListener('edtf-entry-added', event => event.detail.querySelectorAll('[data-edtf-interval]').forEach(initIntervalHost));
-document.addEventListener('edtf-wirkungsort-added', event => initWirkungsortInterval(event.detail));
 
 let previousLifeStatus = document.querySelector('input[name="lebensstatus"]:checked')?.value;
 function syncDeathAvailability() {

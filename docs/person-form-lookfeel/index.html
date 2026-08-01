@@ -723,20 +723,19 @@
                             </div>
                         </section>
 
-                        <!-- 6. TÄTIGKEITEN / ROLLEN -->
+                        <!-- 6. TÄTIGKEITEN, ROLLEN UND WIRKUNGSORTE -->
                         <section id="taetigkeiten" class="form-section ui-section disabled-section"
                             data-role-restriction="user">
                             <header class="ui-section__header ui-section__header--actions">
                                 <div>
-                                    <h2 class="ui-section__title">Tätigkeiten / Rollen</h2>
-                                    <p class="ui-section__description">
-                                        Zeitliche Übersicht der wichtigsten Tätigkeiten und Rollen <br>
-                                        <i><code>[tbd: Merge into Wirkungsorte (same, same like Wirkungsorte)]</code></i>
-                                    </p>
+                                    <h2 class="ui-section__title">Tätigkeiten, Rollen und Wirkungsorte</h2>
+                                    <p class="ui-section__description">Berufliche Tätigkeiten, Rollen, Institutionen,
+                                        Zeiträume und zugehörige Wirkungsorte</p>
                                 </div>
                                 <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
                                     data-bs-toggle="collapse" data-bs-target="#taetigkeiten-body" aria-expanded="true"
-                                    aria-controls="taetigkeiten-body" aria-label="Tätigkeiten und Rollen einklappen">
+                                    aria-controls="taetigkeiten-body"
+                                    aria-label="Tätigkeiten, Rollen und Wirkungsorte einklappen">
                                     <i class="bi bi-chevron-up" aria-hidden="true"></i>
                                 </button>
                             </header>
@@ -894,6 +893,15 @@
                                                 <input type="text" class="form-control" name="abteilung[]"
                                                     value="Zoologie">
                                             </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label">Wirkungsort</label>
+                                                <div class="autocomplete-wrapper">
+                                                    <input type="text" class="form-control autocomplete-input"
+                                                        name="wirkungsort[]" data-autocomplete="wirkungsorte"
+                                                        value="Wien" placeholder="Ort / Region">
+                                                    <div class="autocomplete-dropdown"></div>
+                                                </div>
+                                            </div>
                                             <div class="col-12">
                                                 <div data-edtf-interval></div>
                                                 <input type="hidden" name="zeitraum[]" value="1857/1859">
@@ -929,304 +937,6 @@
                                     <button type="button" class="btn btn-outline-primary" id="addTaetigkeitBtn">
                                         <i class="bi bi-plus-circle" aria-hidden="true"></i> Tätigkeitszeitraum
                                         hinzufügen
-                                    </button>
-                                </div>
-                            </div>
-                        </section>
-
-                        <!-- 7. ORTE -->
-                        <section id="orte" class="form-section ui-section disabled-section"
-                            data-role-restriction="user">
-                            <header class="ui-section__header ui-section__header--actions">
-                                <div>
-                                    <h2 class="ui-section__title">Wirkungsorte</h2>
-                                    <p class="ui-section__description">
-                                        Wirkungsorte der wichtigsten Lebensstationen <br>
-                                        <i><code>[tbd: Merge into Tätigkeiten / Rollen (same, same like Tätigkeiten / Rollen)]</code></i>
-                                    </p>
-                                </div>
-                                <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
-                                    data-bs-toggle="collapse" data-bs-target="#orte-body" aria-expanded="true"
-                                    aria-controls="orte-body" aria-label="Wirkungsorte einklappen">
-                                    <i class="bi bi-chevron-up" aria-hidden="true"></i>
-                                </button>
-                            </header>
-                            <div class="ui-section__body collapse show" id="orte-body">
-                                <div id="wirkungsorte-container">
-                                    <div class="wirkungsort-item card shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="d-flex flex-wrap align-items-start gap-3">
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex flex-wrap align-items-center gap-2">
-                                                        <strong class="location-name">Böhmischer Wald</strong>
-                                                        <a class="btn btn-sm btn-outline-secondary rounded-pill"
-                                                            href="https://www.openstreetmap.org/search?query=B%C3%B6hmischer%20Wald"
-                                                            target="_blank" rel="noopener noreferrer">
-                                                            <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
-                                                        </a>
-                                                        <span class="badge bg-secondary text-dark">Station ·
-                                                            Böhmen</span>
-                                                    </div>
-                                                    <div class="wirkungsort-meta mt-2">
-                                                        <span class="badge bg-primary text-dark">1853 – 1856</span>
-                                                        <span class="text-muted small">k.k. Geologische
-                                                            Reichsanstalt · Detailkartierung</span>
-                                                    </div>
-                                                </div>
-                                                <div class="wirkungsort-actions d-flex gap-2">
-                                                    <button type="button" class="btn btn-outline-primary btn-sm"
-                                                        aria-label="Böhmischer Wald bearbeiten">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        aria-label="Böhmischer Wald entfernen">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="wirkungsort-item card shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="d-flex flex-wrap align-items-start gap-3">
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex flex-wrap align-items-center gap-2">
-                                                        <strong class="location-name">Fichtelgebirge &amp;
-                                                            Karlsbader Gebirge</strong>
-                                                        <a class="btn btn-sm btn-outline-secondary rounded-pill"
-                                                            href="https://www.openstreetmap.org/search?query=Fichtelgebirge"
-                                                            target="_blank" rel="noopener noreferrer">
-                                                            <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
-                                                        </a>
-                                                        <span
-                                                            class="badge bg-secondary text-dark">Gesteinsanalyse</span>
-                                                    </div>
-                                                    <div class="wirkungsort-meta mt-2">
-                                                        <span class="badge bg-primary text-dark">1853 – 1856</span>
-                                                        <span class="text-muted small">Fichtel- &amp; Karlsbader
-                                                            Gebirge · Petrologische Profile</span>
-                                                    </div>
-                                                </div>
-                                                <div class="wirkungsort-actions d-flex gap-2">
-                                                    <button type="button" class="btn btn-outline-primary btn-sm"
-                                                        aria-label="Fichtelgebirge bearbeiten">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        aria-label="Fichtelgebirge entfernen">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="wirkungsort-item card shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="d-flex flex-wrap align-items-start gap-3">
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex flex-wrap align-items-center gap-2">
-                                                        <strong class="location-name">Novara-Expedition
-                                                            (weltweit)</strong>
-                                                        <a class="btn btn-sm btn-outline-secondary rounded-pill"
-                                                            href="https://www.openstreetmap.org/search?query=world"
-                                                            target="_blank" rel="noopener noreferrer">
-                                                            <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
-                                                        </a>
-                                                        <span class="badge bg-success text-dark">Expedition</span>
-                                                    </div>
-                                                    <div class="wirkungsort-meta mt-2">
-                                                        <span class="badge bg-primary text-dark">1857 – 1859</span>
-                                                        <span class="text-muted small">Kaiserliche Weltumsegelung ·
-                                                            Vergleichsmaterial</span>
-                                                    </div>
-                                                </div>
-                                                <div class="wirkungsort-actions d-flex gap-2">
-                                                    <button type="button" class="btn btn-outline-primary btn-sm"
-                                                        aria-label="Novara-Expedition bearbeiten">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        aria-label="Novara-Expedition entfernen">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="wirkungsort-item card shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="d-flex flex-wrap align-items-start gap-3">
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex flex-wrap align-items-center gap-2">
-                                                        <strong class="location-name">Neuseeland · Auckland / Nord-
-                                                            &amp; Südinsel</strong>
-                                                        <a class="btn btn-sm btn-outline-secondary rounded-pill"
-                                                            href="https://www.openstreetmap.org/search?query=Neuseeland"
-                                                            target="_blank" rel="noopener noreferrer">
-                                                            <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
-                                                        </a>
-                                                        <span class="badge bg-success text-dark">Feldforschung</span>
-                                                    </div>
-                                                    <div class="wirkungsort-meta mt-2">
-                                                        <span class="badge bg-primary text-dark">1858-12 –
-                                                            1859-12</span>
-                                                        <span class="text-muted small">Kartierung vulkanischer
-                                                            Aktivitätszonen</span>
-                                                    </div>
-                                                </div>
-                                                <div class="wirkungsort-actions d-flex gap-2">
-                                                    <button type="button" class="btn btn-outline-primary btn-sm"
-                                                        aria-label="Neuseeland bearbeiten">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        aria-label="Neuseeland entfernen">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="wirkungsort-item card shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="d-flex flex-wrap align-items-start gap-3">
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex flex-wrap align-items-center gap-2">
-                                                        <strong class="location-name">Wien, Österreich</strong>
-                                                        <a class="btn btn-sm btn-outline-secondary rounded-pill"
-                                                            href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich"
-                                                            target="_blank" rel="noopener noreferrer">
-                                                            <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
-                                                        </a>
-                                                        <span class="badge bg-warning text-dark">Polytechnisches
-                                                            Institut</span>
-                                                    </div>
-                                                    <div class="wirkungsort-meta mt-2">
-                                                        <span class="badge bg-primary text-dark">1860 – 1874</span>
-                                                        <span class="text-muted small">Professor für Mineralogie
-                                                            &amp; Geologie</span>
-                                                    </div>
-                                                </div>
-                                                <div class="wirkungsort-actions d-flex gap-2">
-                                                    <button type="button" class="btn btn-outline-primary btn-sm"
-                                                        aria-label="Wien 1860 bearbeiten">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        aria-label="Wien 1860 entfernen">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="wirkungsort-item card shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="d-flex flex-wrap align-items-start gap-3">
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex flex-wrap align-items-center gap-2">
-                                                        <strong class="location-name">Wien, Österreich</strong>
-                                                        <a class="btn btn-sm btn-outline-secondary rounded-pill"
-                                                            href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich"
-                                                            target="_blank" rel="noopener noreferrer">
-                                                            <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
-                                                        </a>
-                                                        <span class="badge bg-dark text-white">Rektorat</span>
-                                                    </div>
-                                                    <div class="wirkungsort-meta mt-2">
-                                                        <span class="badge bg-primary text-dark">1874 – 1875</span>
-                                                        <span class="text-muted small">Polytechnisches Institut ·
-                                                            Verwaltung</span>
-                                                    </div>
-                                                </div>
-                                                <div class="wirkungsort-actions d-flex gap-2">
-                                                    <button type="button" class="btn btn-outline-primary btn-sm"
-                                                        aria-label="Wien 1874 bearbeiten">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        aria-label="Wien 1874 entfernen">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="wirkungsort-item card shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="d-flex flex-wrap align-items-start gap-3">
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex flex-wrap align-items-center gap-2">
-                                                        <strong class="location-name">Wien, Österreich</strong>
-                                                        <a class="btn btn-sm btn-outline-secondary rounded-pill"
-                                                            href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich"
-                                                            target="_blank" rel="noopener noreferrer">
-                                                            <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
-                                                        </a>
-                                                        <span class="badge bg-info text-dark">Mentoring</span>
-                                                    </div>
-                                                    <div class="wirkungsort-meta mt-2">
-                                                        <span class="badge bg-primary text-dark">1866 – 1882</span>
-                                                        <span class="text-muted small">Österreichische Geographische
-                                                            Gesellschaft</span>
-                                                    </div>
-                                                </div>
-                                                <div class="wirkungsort-actions d-flex gap-2">
-                                                    <button type="button" class="btn btn-outline-primary btn-sm"
-                                                        aria-label="Wien 1866 bearbeiten">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        aria-label="Wien 1866 entfernen">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="wirkungsort-item card shadow-sm mb-3">
-                                        <div class="card-body">
-                                            <div class="d-flex flex-wrap align-items-start gap-3">
-                                                <div class="flex-grow-1">
-                                                    <div class="d-flex flex-wrap align-items-center gap-2">
-                                                        <strong class="location-name">Wien, Österreich</strong>
-                                                        <a class="btn btn-sm btn-outline-secondary rounded-pill"
-                                                            href="https://www.openstreetmap.org/search?query=Wien%2C%20%C3%96sterreich"
-                                                            target="_blank" rel="noopener noreferrer">
-                                                            <i class="bi bi-globe"></i><span class="ms-1">Karte</span>
-                                                        </a>
-                                                        <span class="badge bg-danger text-white">Museumsleitung</span>
-                                                    </div>
-                                                    <div class="wirkungsort-meta mt-2">
-                                                        <span class="badge bg-primary text-dark">1876 – 1884</span>
-                                                        <span class="text-muted small">Naturhistorisches Museum Wien
-                                                            · Intendanz</span>
-                                                    </div>
-                                                </div>
-                                                <div class="wirkungsort-actions d-flex gap-2">
-                                                    <button type="button" class="btn btn-outline-primary btn-sm"
-                                                        aria-label="Wien 1876 bearbeiten">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                                        aria-label="Wien 1876 entfernen">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="section-actions">
-                                    <button type="button" id="addWirkungsortBtn" class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-plus-circle" aria-hidden="true"></i> Wirkungsort hinzufügen
                                     </button>
                                 </div>
                             </div>
@@ -1935,8 +1645,7 @@
                         <a class="nav-link" href="#identitaet">Identität</a>
                         <a class="nav-link" href="#normdaten">Normdaten</a>
                         <a class="nav-link" href="#lebensdaten">Lebensdaten</a>
-                        <a class="nav-link" href="#taetigkeiten">Tätigkeiten / Rollen</a>
-                        <a class="nav-link" href="#orte">Wirkungsorte</a>
+                        <a class="nav-link" href="#taetigkeiten">Tätigkeiten, Rollen und Wirkungsorte</a>
                         <a class="nav-link" href="#kontakt">Kontakt</a>
                         <a class="nav-link" href="#quellenangaben">Quellenangaben</a>
                         <a class="nav-link" href="#meta">Anmerkungen</a>

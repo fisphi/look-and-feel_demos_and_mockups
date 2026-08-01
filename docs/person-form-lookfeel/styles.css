@@ -1430,26 +1430,6 @@ a.btn {
     margin-bottom: 4rem;
 }
 
-/* Wirkungsorte cards */
-.wirkungsort-item {
-    border-color: var(--bs-border-color);
-}
-.wirkungsort-item .location-name {
-    font-size: 1.05rem;
-}
-.wirkungsort-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    align-items: center;
-}
-.wirkungsort-meta .badge {
-    font-weight: 600;
-}
-.wirkungsort-actions .btn {
-    min-width: 2.4rem;
-}
-
 /* Quellenangaben detail list */
 .source-detail-list {
     margin: 0;
