@@ -649,6 +649,24 @@ function bindNamedRemoveButton(button, input, itemLabel) {
             autocomplete: null,
             shortRow: true
         },
+        standes_und_amtstitel: {
+            container: 'standesTitel-container',
+            name: 'standes_und_amtstitel',
+            itemLabel: 'Standes- oder Amtstitel',
+            idPrefix: 'standes_und_amtstitel',
+            placeholder: 'Standes- oder Amtstitel',
+            autocomplete: 'standesTitel',
+            shortRow: true
+        },
+        akademischer_titel: {
+            container: 'akademischeTitel-container',
+            name: 'akademischer_titel',
+            itemLabel: 'Akademischer Titel',
+            idPrefix: 'akademischer_titel',
+            placeholder: 'Akademischer Titel',
+            autocomplete: 'akademischeTitel',
+            shortRow: true
+        },
         rollen: {
             container: 'rollen-container',
             name: 'rollen',
@@ -665,9 +683,11 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         return [fieldType, Math.max(0, ...existingIndexes) + 1];
     }));
 
-    function refreshNamensvariantenState() {
-        const container = document.getElementById('namensvarianten-container');
-        const emptyState = document.querySelector('[data-namensvarianten-empty]');
+    function refreshShortListState(config) {
+        const container = document.getElementById(config.container);
+        const emptyState = config.name === 'namensvarianten'
+            ? document.querySelector('[data-namensvarianten-empty]')
+            : document.querySelector(`[data-title-empty="${config.name}"]`);
         if (!container || !emptyState) return;
         emptyState.hidden = container.children.length > 0;
     }
@@ -684,7 +704,7 @@ function bindNamedRemoveButton(button, input, itemLabel) {
             const nextInput = rows[position + 1]?.querySelector('input')
                 || rows[position - 1]?.querySelector('input');
             row.remove();
-            refreshNamensvariantenState();
+            refreshShortListState(config);
             (nextInput || addButton)?.focus();
         };
     }
@@ -697,21 +717,43 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         
         if (config.autocomplete) {
             const wrapper = document.createElement('div');
-            wrapper.className = 'autocomplete-wrapper flex-grow-1';
+            wrapper.className = config.shortRow
+                ? 'autocomplete-wrapper ui-field__control'
+                : 'autocomplete-wrapper flex-grow-1';
+
+            if (config.shortRow) {
+                const label = document.createElement('label');
+                label.className = 'visually-hidden';
+                label.htmlFor = `${config.idPrefix || config.name}-${index}`;
+                label.textContent = `${config.itemLabel} ${index}`;
+                row.appendChild(label);
+            }
             
             input = document.createElement('input');
             input.type = 'text';
-            input.className = 'form-control autocomplete-input';
+            input.className = config.shortRow
+                ? 'form-control autocomplete-input ui-short-row__control'
+                : 'form-control autocomplete-input';
             input.name = `${config.name}[]`;
             input.placeholder = config.placeholder;
             input.dataset.autocomplete = config.autocomplete;
+
+            const dropdown = document.createElement('div');
+            dropdown.className = 'autocomplete-dropdown';
+
+            if (config.shortRow) {
+                input.id = `${config.idPrefix || config.name}-${index}`;
+                input.setAttribute('role', 'combobox');
+                input.setAttribute('aria-autocomplete', 'list');
+                input.setAttribute('aria-expanded', 'false');
+                dropdown.id = `${input.id}-listbox`;
+                dropdown.setAttribute('role', 'listbox');
+                input.setAttribute('aria-controls', dropdown.id);
+            }
             
             if (config.validate) {
                 input.dataset.validate = config.validate;
             }
-            
-            const dropdown = document.createElement('div');
-            dropdown.className = 'autocomplete-dropdown';
             
             wrapper.appendChild(input);
             wrapper.appendChild(dropdown);
@@ -773,7 +815,7 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         nextIndexes.set(fieldType, index + 1);
         const field = createDynamicField(config, index);
         container.appendChild(field);
-        if (config.shortRow) refreshNamensvariantenState();
+        if (config.shortRow) refreshShortListState(config);
         field.querySelector('input')?.focus();
         return field;
     }
@@ -786,12 +828,14 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         });
     });
 
-    document.querySelectorAll('#namensvarianten-container > .ui-short-row').forEach(row => {
-        const input = row.querySelector('input');
-        const removeButton = row.querySelector('[data-dynamic-remove="namensvarianten"]');
-        bindShortRow(row, input, removeButton, dynamicFieldsConfig.namensvarianten);
+    Object.values(dynamicFieldsConfig).filter(config => config.shortRow).forEach(config => {
+        document.querySelectorAll(`#${config.container} > .ui-short-row`).forEach(row => {
+            const input = row.querySelector('input');
+            const removeButton = row.querySelector(`[data-dynamic-remove="${config.name}"]`);
+            bindShortRow(row, input, removeButton, config);
+        });
+        refreshShortListState(config);
     });
-    refreshNamensvariantenState();
     
     // Bestehende Rollen-Kurzzeilen behalten ihr aktuelles Render- und Löschmuster.
     document.querySelectorAll('.dynamic-field-row button').forEach(button => {
@@ -803,7 +847,7 @@ function bindNamedRemoveButton(button, input, itemLabel) {
     
     // Initial je ein Feld hinzufügen (außer bereits vorgefüllten Typen)
     Object.keys(dynamicFieldsConfig).forEach(fieldType => {
-        if (fieldType !== 'namensvarianten' && fieldType !== 'rollen') {
+        if (!dynamicFieldsConfig[fieldType].shortRow && fieldType !== 'rollen') {
             addDynamicField(fieldType);
         }
     });
@@ -976,6 +1020,8 @@ function collectPersonFormData() {
     
     // Dynamische Felder (Arrays)
     const dynamicFields = {
+        standes_und_amtstitel: [],
+        akademischer_titel: [],
         namensvarianten: [],
         rollen: [],
         wirkungsorte: [],

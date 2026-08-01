@@ -263,42 +263,84 @@
                                     <div class="ui-field-group ui-field-grid">
                                         <div class="ui-field" data-identity-field>
                                             <div class="ui-field__header">
-                                                <label for="standes_und_amtstitel" class="ui-field__label">Standes- und
-                                                    Amtstitel</label>
+                                                <div class="ui-field__label">Standes- und Amtstitel</div>
                                                 <button type="button" class="btn btn-sm btn-outline-info ui-icon-button"
                                                     data-bs-toggle="modal" data-bs-target="#standesTitelModal"
                                                     aria-label="Informationen zu Standes- und Amtstiteln">
                                                     <i class="bi bi-info-circle" aria-hidden="true"></i>
                                                 </button>
                                             </div>
-                                            <div class="autocomplete-wrapper ui-field__control">
-                                                <input type="text" class="form-control autocomplete-input"
-                                                    id="standes_und_amtstitel" name="standes_und_amtstitel"
-                                                    data-autocomplete="standesTitel" role="combobox"
-                                                    aria-autocomplete="list" aria-expanded="false"
-                                                    aria-controls="standesTitel-listbox">
-                                                <div class="autocomplete-dropdown" id="standesTitel-listbox"
-                                                    role="listbox"></div>
+                                            <div id="standesTitel-container" class="ui-short-list">
+                                                <div class="ui-short-row" data-index="1">
+                                                    <label class="visually-hidden" for="standes_und_amtstitel">Standes-
+                                                        und Amtstitel 1</label>
+                                                    <div class="autocomplete-wrapper ui-field__control">
+                                                        <input type="text"
+                                                            class="form-control autocomplete-input ui-short-row__control"
+                                                            id="standes_und_amtstitel" name="standes_und_amtstitel[]"
+                                                            data-autocomplete="standesTitel" role="combobox"
+                                                            aria-autocomplete="list" aria-expanded="false"
+                                                            aria-controls="standesTitel-listbox">
+                                                        <div class="autocomplete-dropdown" id="standesTitel-listbox"
+                                                            role="listbox"></div>
+                                                    </div>
+                                                    <button type="button"
+                                                        class="btn btn-outline-danger btn-sm ui-icon-button ui-icon-button--danger"
+                                                        data-dynamic-remove="standes_und_amtstitel">
+                                                        <i class="bi bi-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <p class="form-empty-state ui-list-empty" data-title-empty="standes_und_amtstitel"
+                                                hidden>Noch keine Standes- oder Amtstitel erfasst.</p>
+                                            <div class="section-actions">
+                                                <button type="button"
+                                                    class="btn btn-sm btn-outline-primary ui-button ui-button--secondary ui-button--sm"
+                                                    data-dynamic-add="standes_und_amtstitel">
+                                                    <i class="bi bi-plus-circle" aria-hidden="true"></i>
+                                                    <span>Standes- oder Amtstitel hinzufügen</span>
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="ui-field" data-identity-field>
                                             <div class="ui-field__header">
-                                                <label for="akademischer_titel" class="ui-field__label">Akademischer
-                                                    Titel</label>
+                                                <div class="ui-field__label">Akademischer Titel</div>
                                                 <button type="button" class="btn btn-sm btn-outline-info ui-icon-button"
                                                     data-bs-toggle="modal" data-bs-target="#akademischeTitelModal"
                                                     aria-label="Informationen zu akademischen Titeln">
                                                     <i class="bi bi-info-circle" aria-hidden="true"></i>
                                                 </button>
                                             </div>
-                                            <div class="autocomplete-wrapper ui-field__control">
-                                                <input type="text" class="form-control autocomplete-input"
-                                                    id="akademischer_titel" name="akademischer_titel"
-                                                    data-autocomplete="akademischeTitel" role="combobox"
-                                                    aria-autocomplete="list" aria-expanded="false"
-                                                    aria-controls="akademischeTitel-listbox">
-                                                <div class="autocomplete-dropdown" id="akademischeTitel-listbox"
-                                                    role="listbox"></div>
+                                            <div id="akademischeTitel-container" class="ui-short-list">
+                                                <div class="ui-short-row" data-index="1">
+                                                    <label class="visually-hidden" for="akademischer_titel">Akademischer
+                                                        Titel 1</label>
+                                                    <div class="autocomplete-wrapper ui-field__control">
+                                                        <input type="text"
+                                                            class="form-control autocomplete-input ui-short-row__control"
+                                                            id="akademischer_titel" name="akademischer_titel[]"
+                                                            data-autocomplete="akademischeTitel" role="combobox"
+                                                            aria-autocomplete="list" aria-expanded="false"
+                                                            aria-controls="akademischeTitel-listbox">
+                                                        <div class="autocomplete-dropdown" id="akademischeTitel-listbox"
+                                                            role="listbox"></div>
+                                                    </div>
+                                                    <button type="button"
+                                                        class="btn btn-outline-danger btn-sm ui-icon-button ui-icon-button--danger"
+                                                        data-dynamic-remove="akademischer_titel">
+                                                        <i class="bi bi-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <p class="form-empty-state ui-list-empty" data-title-empty="akademischer_titel"
+                                                hidden>Noch keine akademischen Titel erfasst.</p>
+                                            <div class="section-actions">
+                                                <button type="button"
+                                                    class="btn btn-sm btn-outline-primary ui-button ui-button--secondary ui-button--sm"
+                                                    data-dynamic-add="akademischer_titel">
+                                                    <i class="bi bi-plus-circle" aria-hidden="true"></i>
+                                                    <span>Akademischen Titel hinzufügen</span>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
