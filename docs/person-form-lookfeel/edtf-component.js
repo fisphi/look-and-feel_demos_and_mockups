@@ -52,8 +52,14 @@ function syncDateActionVisibility(component) {
     const viewer = document.querySelector('input[name="userrolle"]:checked')?.value === 'user';
     const livingDeath = component.input.id === 'sterbedatum'
         && document.querySelector('input[name="lebensstatus"]:checked')?.value === 'lebend';
-    component.action.hidden = viewer || livingDeath;
+    component.action.hidden = viewer;
     component.action.disabled = viewer || livingDeath;
+    if (livingDeath) {
+        component.action.title = 'Sterbedatum kann bei einer lebenden Person nicht erfasst werden';
+    } else {
+        const accessibleName = component.action.getAttribute('aria-label');
+        if (accessibleName) component.action.title = accessibleName;
+    }
 }
 
 function syncAllDateActions() {

@@ -574,6 +574,7 @@ function bindNamedRemoveButton(button, input, itemLabel) {
     const kontaktFieldIds = ['email', 'telefon', 'mobil', 'fax', 'adresse_roh'];
     const sterbedatum = document.getElementById('sterbedatum');
     const sterbeort = document.getElementById('sterbeort');
+    const deathSection = document.querySelector('[data-life-event="death"]');
     const sterbeortEditablePlaceholder = sterbeort?.dataset.editablePlaceholder || sterbeort?.placeholder || '';
     
     function updateFormState() {
@@ -594,10 +595,18 @@ function bindNamedRemoveButton(button, input, itemLabel) {
             sterbedatum.disabled = true;
             sterbeort.disabled = true;
             sterbeort.placeholder = 'Nicht erfasst';
+            if (deathSection) {
+                deathSection.hidden = true;
+                deathSection.inert = true;
+            }
         } else {
             sterbedatum.disabled = false;
             sterbeort.disabled = false;
             sterbeort.placeholder = sterbeortEditablePlaceholder;
+            if (deathSection) {
+                deathSection.hidden = false;
+                deathSection.inert = false;
+            }
         }
         
         // Kontakt-Logik
