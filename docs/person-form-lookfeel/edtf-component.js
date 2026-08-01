@@ -558,11 +558,11 @@ class EdtfIntervalInput {
         this.host.innerHTML = `
             <fieldset><legend class="edtf-interval-title">${this.options.intervalLabel || 'Tätigkeitszeitraum'}</legend>
                 <div class="edtf-interval-rows">
-                    <section class="form-subsection edtf-interval-boundary" aria-labelledby="${this.id}-start-title">
+                    <section class="form-subsection compact-date-row" aria-labelledby="${this.id}-start-title">
                         <h4 id="${this.id}-start-title" class="form-subsection-title">${startLabel}</h4>
                         <div data-start-host></div>
                     </section>
-                    <section class="form-subsection edtf-interval-boundary" aria-labelledby="${this.id}-end-title">
+                    <section class="form-subsection compact-date-row" aria-labelledby="${this.id}-end-title">
                         <h4 id="${this.id}-end-title" class="form-subsection-title">${endLabel}</h4>
                         <div data-end-host></div>
                     </section>

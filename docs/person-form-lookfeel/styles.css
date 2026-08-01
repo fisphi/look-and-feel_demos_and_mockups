@@ -1123,11 +1123,12 @@ label:has(+ textarea:disabled) {
     width: 100%;
 }
 
-.edtf-interval .form-subsection-title {
+.compact-date-row > .form-subsection-title,
+.edtf-interval-summary > .form-subsection-title {
     font-size: var(--font-size-md);
 }
 
-.edtf-interval-boundary,
+.compact-date-row,
 .edtf-interval-summary {
     align-items: start;
     column-gap: var(--space-4);
@@ -1135,9 +1136,21 @@ label:has(+ textarea:disabled) {
     grid-template-columns: minmax(7rem, 10rem) minmax(0, 1fr);
 }
 
-.edtf-interval-boundary > .edtf-component,
+.compact-date-row > .edtf-component,
 .edtf-interval-summary-values {
     min-width: 0;
+}
+
+.compact-date-row__additional {
+    grid-column: 2;
+    min-width: 0;
+}
+
+@media (min-width: 576px) {
+    #lebensdaten .compact-date-row {
+        column-gap: var(--space-2);
+        grid-template-columns: 4.5rem minmax(0, 1fr);
+    }
 }
 
 .edtf-interval-summary-values {
@@ -1274,14 +1287,18 @@ label:has(+ textarea:disabled) {
 }
 
 @media (max-width: 575.98px) {
-    .edtf-interval-boundary,
+    .compact-date-row,
     .edtf-interval-summary {
         grid-template-columns: minmax(0, 1fr);
     }
 
-    .edtf-interval-boundary > .form-subsection-title,
+    .compact-date-row > .form-subsection-title,
     .edtf-interval-summary > .form-subsection-title {
         margin-bottom: var(--space-3);
+    }
+
+    .compact-date-row__additional {
+        grid-column: 1;
     }
 
     .edtf-interval-summary-values {
