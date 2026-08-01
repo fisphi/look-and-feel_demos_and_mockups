@@ -408,7 +408,7 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         entry.className = 'taetigkeiten-entry border rounded p-3 mb-3';
         entry.dataset.entryIndex = String(entryIndex);
         entry.innerHTML = `
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="taetigkeiten-entry__header">
                 <h4 class="taetigkeiten-entry-title mb-0">Tätigkeit #${entryIndex}</h4>
                 <button type="button" class="btn btn-sm btn-outline-danger" data-taetigkeit-entry-remove>
                     <i class="bi bi-trash" aria-hidden="true"></i> Entfernen
