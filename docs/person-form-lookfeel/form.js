@@ -1083,34 +1083,34 @@ document.addEventListener('DOMContentLoaded', function() {
             header.appendChild(actions);
         }
 
-        let intro = header.querySelector(':scope > .ui-section__intro');
-        if (!intro) {
-            intro = document.createElement('div');
-            intro.className = 'ui-section__intro';
-            header.insertBefore(intro, actions);
-            [...header.childNodes].forEach(node => {
-                if (node === intro || node === actions) return;
-                intro.appendChild(node);
-            });
+        let heading = header.querySelector(':scope > .ui-section__heading');
+        if (!heading) {
+            heading = document.createElement('div');
+            heading.className = 'ui-section__heading';
+            header.insertBefore(heading, actions);
         }
 
-        let introContent = intro.querySelector(':scope > .ui-section__intro-content');
-        if (!introContent) {
-            introContent = document.createElement('div');
-            introContent.className = 'ui-section__intro-content';
-            intro.appendChild(introContent);
-            [...intro.childNodes].forEach(node => {
-                if (node === introContent) return;
-                introContent.appendChild(node);
-            });
-        }
+        [...header.childNodes].forEach(node => {
+            if (node === heading || node === actions) return;
+            if (node.nodeType === Node.TEXT_NODE && !node.textContent.trim()) {
+                node.remove();
+                return;
+            }
+            if (node.nodeType === Node.ELEMENT_NODE && (
+                node.matches('button, .btn, .ui-section__toggle, [data-section-favorite-button]')
+            )) {
+                actions.appendChild(node);
+                return;
+            }
+            heading.appendChild(node);
+        });
 
         const toggle = header.querySelector('.ui-section__toggle');
-        if (toggle && toggle.parentElement !== intro) {
-            intro.insertBefore(toggle, introContent);
+        if (toggle && toggle.parentElement !== actions) {
+            actions.appendChild(toggle);
         }
 
-        return { header, actions, intro, introContent };
+        return { header, actions, heading };
     }
 
     function updateFavoriteButton(button, section) {
@@ -1144,8 +1144,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function ensureTitleCollapseControl(section, headerParts) {
-        const title = headerParts.introContent.querySelector('.ui-section__title');
-        const toggle = headerParts.intro.querySelector(':scope > .ui-section__toggle');
+        const title = headerParts.heading.querySelector('.ui-section__title');
+        const toggle = headerParts.actions.querySelector(':scope > .ui-section__toggle');
         const targetSelector = toggle?.getAttribute('data-bs-target');
         const body = targetSelector ? section.querySelector(targetSelector) : null;
         if (!title || !toggle || !body) return;
@@ -1159,12 +1159,14 @@ document.addEventListener('DOMContentLoaded', function() {
             title.appendChild(titleButton);
         }
 
+        titleButton.dataset.bsToggle = 'collapse';
+        titleButton.dataset.bsTarget = targetSelector;
+
         const controls = toggle.getAttribute('aria-controls');
         if (controls) titleButton.setAttribute('aria-controls', controls);
 
         if (titleButton.dataset.collapseBound !== 'true') {
             titleButton.dataset.collapseBound = 'true';
-            titleButton.addEventListener('click', () => toggle.click());
             body.addEventListener('shown.bs.collapse', () => syncTitleCollapseControl(section));
             body.addEventListener('hidden.bs.collapse', () => syncTitleCollapseControl(section));
         }
@@ -1318,11 +1320,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (FIXED_SECTION_IDS.includes(section.id)) {
             headerParts.actions.querySelector('[data-section-favorite-button]')?.remove();
-            headerParts.intro.querySelector('[data-section-favorite-button]')?.remove();
+            headerParts.heading.querySelector('[data-section-favorite-button]')?.remove();
             return;
         }
 
-        let favoriteButton = headerParts.intro.querySelector('[data-section-favorite-button]')
+        let favoriteButton = headerParts.heading.querySelector('[data-section-favorite-button]')
             || headerParts.actions.querySelector('[data-section-favorite-button]');
         if (!favoriteButton) {
             favoriteButton = document.createElement('button');
@@ -1336,8 +1338,9 @@ document.addEventListener('DOMContentLoaded', function() {
             favoriteButton.appendChild(icon);
         }
 
-        if (favoriteButton.parentElement !== headerParts.actions) {
-            headerParts.actions.appendChild(favoriteButton);
+        const collapseToggle = headerParts.actions.querySelector(':scope > .ui-section__toggle');
+        if (favoriteButton.parentElement !== headerParts.actions || favoriteButton.nextElementSibling !== collapseToggle) {
+            headerParts.actions.insertBefore(favoriteButton, collapseToggle);
         }
 
         if (!favoriteButton.dataset.favoriteBound) {

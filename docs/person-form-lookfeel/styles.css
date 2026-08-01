@@ -473,21 +473,13 @@ h4 { font-size: var(--font-size-md); }
 .ui-section__header--actions {
     align-items: flex-start;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: var(--space-3) var(--space-4);
     justify-content: space-between;
 }
 
-.ui-section__intro {
-    align-items: flex-start;
-    display: flex;
-    flex: 1 1 auto;
-    gap: var(--space-3);
-    min-width: 0;
-}
-
-.ui-section__intro-content {
-    flex: 1 1 auto;
+.ui-section__heading {
+    flex: 1 1 22rem;
     min-width: 0;
 }
 
@@ -532,10 +524,16 @@ h4 { font-size: var(--font-size-md); }
 .ui-section__actions {
     align-items: center;
     display: flex;
+    flex: 0 1 auto;
     flex-wrap: wrap;
     gap: var(--space-2, 0.5rem);
     justify-content: flex-end;
     margin-left: auto;
+    min-width: 0;
+}
+
+.ui-section__actions:empty {
+    display: none;
 }
 
 .ui-section__favorite {
@@ -948,8 +946,16 @@ label:has(+ textarea:disabled) {
 }
 
 .entry-actions .btn,
-.ui-section__actions .btn,
 .section-actions [data-bs-target="#newNoteModal"] {
+    white-space: nowrap;
+}
+
+.ui-section__actions .btn {
+    white-space: normal;
+}
+
+.ui-section__actions .ui-icon-button {
+    flex: 0 0 auto;
     white-space: nowrap;
 }
 
