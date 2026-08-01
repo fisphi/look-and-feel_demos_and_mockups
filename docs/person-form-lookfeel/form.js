@@ -1104,6 +1104,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('personForm');
     const nav = document.getElementById('navbar-sections');
     if (!form || !nav) return;
+    const navDivider = nav.querySelector(':scope > .sidebar-nav-divider');
 
     const sections = [...form.querySelectorAll('.form-section.ui-section[id]')];
     if (!sections.length) return;
@@ -1307,10 +1308,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function syncNavigation(orderedSections) {
-        [...fixedSections, ...orderedSections].forEach(section => {
-            const link = navLinkMap.get(section.id);
-            if (link) nav.appendChild(link);
-        });
+        const orderedLinks = orderedSections
+            .map(section => navLinkMap.get(section.id))
+            .filter(Boolean);
+
+        if (navDivider) {
+            navDivider.after(...orderedLinks);
+        } else {
+            orderedLinks.forEach(link => nav.appendChild(link));
+        }
         updateAllNavFavoriteIndicators();
     }
 

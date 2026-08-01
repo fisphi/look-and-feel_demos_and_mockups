@@ -406,6 +406,13 @@ h4 { font-size: var(--font-size-md); }
     margin-top: 0.1rem;
 }
 
+.sidebar-nav-divider {
+    border-block-start: var(--border-width) solid var(--color-border-strong);
+    flex: 0 0 auto;
+    margin-block: var(--space-2);
+    width: 100%;
+}
+
 [data-bs-theme="dark"] .sidebar-nav__favorite {
     color: #f7d488;
 }
