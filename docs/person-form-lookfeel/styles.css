@@ -277,8 +277,8 @@ h4 { font-size: var(--font-size-md); }
 
 .form-label {
     color: var(--color-text);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
     margin-bottom: var(--space-2);
 }
 
@@ -423,6 +423,69 @@ h4 { font-size: var(--font-size-md); }
     scroll-margin-top: 20px;
     position: relative;
 }
+
+.ui-section {
+    background: var(--color-surface, var(--bs-body-bg));
+    border: var(--border-width, 1px) solid var(--color-border, var(--bs-border-color));
+    border-radius: var(--radius-lg, 0.5rem);
+    margin-block-end: var(--space-10, 2.5rem);
+    min-width: 0;
+    padding: var(--space-6, 1.5rem);
+}
+
+.ui-section__header {
+    border-bottom: var(--border-width, 1px) solid var(--color-border, var(--bs-border-color));
+    margin-block-end: var(--space-6, 1.5rem);
+    padding-block-end: var(--space-4, 1rem);
+}
+
+.ui-section__header--actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-4);
+    justify-content: space-between;
+}
+
+.ui-section__title {
+    color: var(--color-text, var(--bs-body-color));
+    font-size: var(--font-size-xl, 1.25rem);
+    font-weight: var(--font-weight-semibold, 600);
+    line-height: var(--line-height-tight, 1.3);
+    margin: 0;
+}
+
+.ui-section__description {
+    color: var(--color-text-muted, var(--bs-secondary-color));
+    margin: var(--space-2, 0.5rem) 0 0;
+}
+
+.ui-section__body {
+    min-width: 0;
+}
+
+.ui-section__actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2, 0.5rem);
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.demo-role-panel > .card {
+    border-style: dashed;
+}
+
+.demo-role-panel > .card > .card-header::before {
+    content: "Demo-Steuerung";
+    display: block;
+    font-size: var(--font-size-xs, 0.75rem);
+    font-weight: var(--font-weight-semibold, 600);
+    letter-spacing: 0.04em;
+    margin-bottom: var(--space-1, 0.25rem);
+    text-transform: uppercase;
+}
 .disabled-section::after {
     content: "";
     position: absolute;
@@ -444,10 +507,12 @@ h4 { font-size: var(--font-size-md); }
 [data-bs-theme="dark"] .disabled-section::after {
     background: rgba(0, 0, 0, 0.35);
 }
-.disabled-section .card-header {
+.disabled-section .card-header,
+.disabled-section .ui-section__header {
     opacity: 1;
 }
-.disabled-section .card-body {
+.disabled-section .card-body,
+.disabled-section .ui-section__body {
     opacity: 1;
 }
 .disabled-section .form-control,
@@ -545,8 +610,8 @@ label:has(+ textarea:disabled) {
 .ui-field__label {
     color: var(--color-text);
     display: block;
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
     line-height: var(--line-height-normal);
     margin: 0 0 var(--space-2);
 }
@@ -730,8 +795,7 @@ label:has(+ textarea:disabled) {
 }
 
 .section-actions,
-.entry-actions,
-.card-header-actions {
+.entry-actions {
     display: flex;
     align-items: center;
     gap: var(--space-2);
@@ -744,22 +808,9 @@ label:has(+ textarea:disabled) {
     margin-top: 1rem;
 }
 
-.card-header-layout {
-    align-items: center;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3) var(--space-4);
-    justify-content: space-between;
-}
-
-.card-header-actions {
-    justify-content: flex-end;
-    margin-left: auto;
-}
-
 .section-actions .btn,
 .entry-actions .btn,
-.card-header-actions .btn {
+.ui-section__actions .btn {
     max-width: 100%;
 }
 
@@ -768,7 +819,7 @@ label:has(+ textarea:disabled) {
 }
 
 .entry-actions .btn,
-.card-header-actions .btn,
+.ui-section__actions .btn,
 .section-actions [data-bs-target="#newNoteModal"] {
     white-space: nowrap;
 }
@@ -780,7 +831,7 @@ label:has(+ textarea:disabled) {
 }
 
 @container person-workbench (max-width: 30rem) {
-    .card-header-actions {
+    .ui-section__actions {
         flex-basis: 100%;
         justify-content: flex-start;
         margin-left: 0;
@@ -1011,9 +1062,9 @@ label:has(+ textarea:disabled) {
 }
 
 .compact-value-label {
-    color: var(--bs-secondary-color);
-    font-size: 0.875rem;
-    font-weight: 500;
+    color: var(--bs-body-color);
+    font-size: 0.9375rem;
+    font-weight: 600;
 }
 
 .compact-value-grid code {

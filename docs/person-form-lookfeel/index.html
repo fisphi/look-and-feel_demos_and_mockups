@@ -62,7 +62,7 @@
                     <form id="personForm" novalidate>
 
                         <!-- 0. USER-ROLLE (GATE) -->
-                        <section id="userrolle" class="form-section mb-5">
+                        <section id="userrolle" class="form-section demo-role-panel mb-5">
                             <div class="card border-primary">
                                 <div class="card-header bg-primary text-white">
                                     <h2 class="h5 mb-0">
@@ -138,16 +138,15 @@
                         </section>
 
                         <!-- 1. LEBENSSTATUS (GATE) -->
-                        <section id="lebensstatus" class="form-section mb-5 disabled-section"
+                        <section id="lebensstatus" class="form-section ui-section disabled-section"
                             data-role-restriction="wissenschaftler,user">
-                            <div class="card">
-                                <div class="card-header bg-primary text-white">
-                                    <h2 class="h5 mb-0">Lebensstatus</h2>
-                                    <small class="d-block mt-1 opacity-75">Ob die Person lebend oder verstorben ist,
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title">Lebensstatus</h2>
+                                    <p class="ui-section__description">Ob die Person lebend oder verstorben ist,
                                         bestimmt den rechtlichen Rahmen für die Personendatenerfassung. Entsprechend
-                                        werden einige Felder ausgeblendet. <i>[tbf]</i></small>
-                                </div>
-                                <div class="card-body">
+                                        werden einige Felder ausgeblendet. <i>[tbf]</i></p>
+                                </header>
+                                <div class="ui-section__body">
                                     <div class="d-flex gap-3">
                                         <div class="lebensstatus-option">
                                             <input class="form-check-input" type="radio" name="lebensstatus" id="lebend"
@@ -177,16 +176,14 @@
                                     <div class="invalid-feedback d-block" id="lebensstatusError"
                                         style="display:none!important"></div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 2. ANZEIGENAME -->
-                        <section id="anzeigename" class="form-section mb-5 disabled-section">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="h5 mb-0">Anzeigename</h2>
-                                </div>
-                                <div class="card-body">
+                        <section id="anzeigename" class="form-section ui-section disabled-section">
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title">Anzeigename</h2>
+                                </header>
+                                <div class="ui-section__body">
                                     <div class="ui-field">
                                         <div id="anzeigename-label" class="ui-field__label">Anzeigename und Suffixe
                                             (automatisch generiert)</div>
@@ -202,17 +199,15 @@
                                                 [Normdatenbank: ID+URL]</i>.</p>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 3. IDENTITÄT -->
-                        <section id="identitaet" class="form-section mb-5 disabled-section"
+                        <section id="identitaet" class="form-section ui-section disabled-section"
                             data-role-restriction="wissenschaftler,user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="h5 mb-0">Identität</h2>
-                                </div>
-                                <div class="card-body">
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title">Identität</h2>
+                                </header>
+                                <div class="ui-section__body">
                                     <div class="ui-field-group ui-field-grid ui-field-grid--three">
                                         <div class="ui-field" data-identity-field>
                                             <label for="vorname" class="ui-field__label">Vorname</label>
@@ -369,16 +364,14 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 4. NORMDATEN -->
-                        <section id="normdaten" class="form-section mb-5 disabled-section" data-role-restriction="user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="h5 mb-0">Normdaten</h2>
-                                </div>
-                                <div class="card-body">
+                        <section id="normdaten" class="form-section ui-section disabled-section" data-role-restriction="user">
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title">Normdaten</h2>
+                                </header>
+                                <div class="ui-section__body">
                                     <div class="row g-3 mb-4 authority-grid">
                                         <div class="col-12 authority-field">
                                             <label for="orcid" class="form-label strong">ORCID</label>
@@ -627,17 +620,15 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 5. LEBENSDATEN -->
-                        <section id="lebensdaten" class="form-section mb-5 disabled-section"
+                        <section id="lebensdaten" class="form-section ui-section disabled-section"
                             data-role-restriction="user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="h5 mb-0 form-section-title">Lebensdaten</h2>
-                                </div>
-                                <div class="card-body form-layout-container">
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title form-section-title">Lebensdaten</h2>
+                                </header>
+                                <div class="ui-section__body form-layout-container">
                                     <div class="form-subsection-stack ui-grid">
                                         <section class="form-subsection" aria-labelledby="birth-data-title">
                                             <h4 id="birth-data-title" class="form-subsection-title">Geburt</h4>
@@ -677,21 +668,19 @@
                                         </section>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 6. TÄTIGKEITEN / ROLLEN -->
-                        <section id="taetigkeiten" class="form-section mb-5 disabled-section"
+                        <section id="taetigkeiten" class="form-section ui-section disabled-section"
                             data-role-restriction="user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="h5 mb-0">Tätigkeiten / Rollen</h2>
-                                    <small class="text-muted">
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title">Tätigkeiten / Rollen</h2>
+                                    <p class="ui-section__description">
                                         Timeline der wichtigsten Stationen <br>
                                         <i><code>[tbd: Merge into Wirkungsorte (same, same like Wirkungsorte)]</code></i>
-                                    </small>
-                                </div>
-                                <div class="card-body">
+                                    </p>
+                                </header>
+                                <div class="ui-section__body">
 
                                     <div class="timeline-list">
                                         <div class="card mb-3 shadow-sm">
@@ -882,20 +871,18 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 7. ORTE -->
-                        <section id="orte" class="form-section mb-5 disabled-section" data-role-restriction="user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="h5 mb-0">Wirkungsorte</h2>
-                                    <small class="text-muted">
+                        <section id="orte" class="form-section ui-section disabled-section" data-role-restriction="user">
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title">Wirkungsorte</h2>
+                                    <p class="ui-section__description">
                                         Wirkungsorte der wichtigsten Lebensstationen <br>
                                         <i><code>[tbd: Merge into Tätigkeiten / Rollen (same, same like Tätigkeiten / Rollen)]</code></i>
-                                    </small>
-                                </div>
-                                <div class="card-body">
+                                    </p>
+                                </header>
+                                <div class="ui-section__body">
                                     <div id="wirkungsorte-container">
                                         <div class="wirkungsort-item card shadow-sm mb-3">
                                             <div class="card-body">
@@ -1184,16 +1171,14 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 8. KONTAKT (SENSITIV) -->
-                        <section id="kontakt" class="form-section mb-5" data-role-restriction="wissenschaftler,user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="h5 mb-0">Kontakt (Sensitiv)</h2>
-                                </div>
-                                <div class="card-body">
+                        <section id="kontakt" class="form-section ui-section" data-role-restriction="wissenschaftler,user">
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title">Kontakt (Sensitiv)</h2>
+                                </header>
+                                <div class="ui-section__body">
                                     <div class="form-check mb-3">
                                         <input class="form-check-input" type="checkbox" id="einwilligung"
                                             name="einwilligung">
@@ -1240,17 +1225,15 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 9. QUELLENANGABEN -->
-                        <section id="quellenangaben" class="form-section mb-5 disabled-section"
+                        <section id="quellenangaben" class="form-section ui-section disabled-section"
                             data-role-restriction="user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="h5 mb-0">Quellenangaben</h2>
-                                </div>
-                                <div class="card-body">
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title">Quellenangaben</h2>
+                                </header>
+                                <div class="ui-section__body">
                                     <div class="source-list d-flex flex-column gap-3">
                                         <article class="card border-start border-3 border-primary source-entry"
                                             data-source-type="Publikation">
@@ -1396,16 +1379,14 @@
                                         </button>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 10. ANMERKUNGEN UND KOMMENTARE -->
-                        <section id="meta" class="form-section mb-5 disabled-section" data-role-restriction="user">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="h5 mb-0">Anmerkungen und Kommentare</h2>
-                                </div>
-                                <div class="card-body">
+                        <section id="meta" class="form-section ui-section disabled-section" data-role-restriction="user">
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title">Anmerkungen und Kommentare</h2>
+                                </header>
+                                <div class="ui-section__body">
                                     <div class="alert alert-info d-flex align-items-start mb-3" role="alert">
                                         <i class="bi bi-chat-left-text-fill me-2 fs-5"></i>
                                         <div>
@@ -1585,22 +1566,20 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 11. RECORD HISTORY -->
-                        <section id="record_history" class="form-section mb-5">
-                            <div class="card">
-                                <div class="card-header card-header-layout">
-                                    <h2 class="h5 mb-0">Record History</h2>
-                                    <div class="card-header-actions">
+                        <section id="record_history" class="form-section ui-section">
+                                <header class="ui-section__header ui-section__header--actions">
+                                    <h2 class="ui-section__title">Record History</h2>
+                                    <div class="ui-section__actions">
                                         <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
                                             data-bs-target="#recordHistoryInfoModal">
                                             <i class="bi bi-info-circle" aria-hidden="true"></i> Erklärung
                                         </button>
                                     </div>
-                                </div>
-                                <div class="card-body">
+                                </header>
+                                <div class="ui-section__body">
                                     <div class="table-responsive">
                                         <table class="table table-hover align-middle">
                                             <thead>
@@ -1704,17 +1683,15 @@
                                         </table>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                         <!-- 12. IMPORTDATEN (READONLY) -->
-                        <section id="import" class="form-section mb-5 disabled-section" data-role-restriction="user"
+                        <section id="import" class="form-section ui-section disabled-section" data-role-restriction="user"
                             data-hide-when-restricted="true">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h2 class="h5 mb-0">Importdaten (Readonly)</h2>
-                                </div>
-                                <div class="card-body">
+                                <header class="ui-section__header">
+                                    <h2 class="ui-section__title">Importdaten (Readonly)</h2>
+                                </header>
+                                <div class="ui-section__body">
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <label for="import_quelle" class="form-label">Import-Quelle</label>
@@ -1841,7 +1818,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </section>
 
                     </form>
