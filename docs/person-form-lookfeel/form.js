@@ -358,56 +358,59 @@ function bindNamedRemoveButton(button, input, itemLabel) {
 
 // Tätigkeiten / Rollen - Repeatable Section
 (function() {
-    const existingEntries = document.querySelectorAll('.taetigkeiten-entry');
-    let taetigkeitenCounter = existingEntries.length || 1;
-    
-    window.addRolleToEntry = function(button, entryId) {
-        const container = document.querySelector(`.rollen-container-${entryId}`);
-        const rolleRow = document.createElement('div');
-        rolleRow.className = 'dynamic-field-row';
-        
+    const container = document.getElementById('taetigkeiten-container');
+    const addTaetigkeitButton = document.getElementById('addTaetigkeitBtn');
+    if (!container || !addTaetigkeitButton) return;
+
+    function createAutocompleteWrapper(name, dataAutocomplete, options = {}) {
         const wrapper = document.createElement('div');
-        wrapper.className = 'autocomplete-wrapper flex-grow-1';
-        
+        wrapper.className = options.wrapperClass || 'autocomplete-wrapper';
+
         const input = document.createElement('input');
         input.type = 'text';
-        input.className = 'form-control autocomplete-input';
-        input.name = `rollen_${entryId}[]`;
-        input.dataset.autocomplete = 'rollen';
-        
+        input.className = options.inputClass || 'form-control autocomplete-input';
+        input.name = name;
+        input.dataset.autocomplete = dataAutocomplete;
+        if (options.value) input.value = options.value;
+        if (options.placeholder) input.placeholder = options.placeholder;
+
         const dropdown = document.createElement('div');
         dropdown.className = 'autocomplete-dropdown';
-        
+
         wrapper.appendChild(input);
         wrapper.appendChild(dropdown);
-        
-        const removeBtn = document.createElement('button');
-        removeBtn.type = 'button';
-        removeBtn.className = 'btn btn-outline-danger btn-sm';
-        removeBtn.innerHTML = '<i class="bi bi-trash" aria-hidden="true"></i>';
-        removeBtn.onclick = () => rolleRow.remove();
-        bindNamedRemoveButton(removeBtn, input, 'Rolle');
-        
+        return { wrapper, input, dropdown };
+    }
+
+    function createTaetigkeitRoleRow(entryIndex, value = '') {
+        const rolleRow = document.createElement('div');
+        rolleRow.className = 'dynamic-field-row';
+
+        const { wrapper, input } = createAutocompleteWrapper(`rollen_${entryIndex}[]`, 'rollen', {
+            wrapperClass: 'autocomplete-wrapper flex-grow-1',
+            value
+        });
+
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'btn btn-outline-danger btn-sm ui-icon-button ui-icon-button--danger';
+        removeButton.dataset.taetigkeitRoleRemove = 'true';
+        removeButton.innerHTML = '<i class="bi bi-trash" aria-hidden="true"></i>';
+
         rolleRow.appendChild(wrapper);
-        rolleRow.appendChild(removeBtn);
-        container.appendChild(rolleRow);
-        
-        // Initialize autocomplete for new field
-        initAutocomplete(input, dropdown, 'rollen');
-    };
-    
-    const addTaetigkeitButton = document.getElementById('addTaetigkeitBtn');
-    if (addTaetigkeitButton) {
-        addTaetigkeitButton.addEventListener('click', function() {
-            taetigkeitenCounter++;
-            const container = document.getElementById('taetigkeiten-container');
-            
-            const entry = document.createElement('div');
-            entry.className = 'taetigkeiten-entry border rounded p-3 mb-3';
-            entry.innerHTML = `
+        rolleRow.appendChild(removeButton);
+        bindTaetigkeitRoleRow(rolleRow, entryIndex);
+        return rolleRow;
+    }
+
+    function createTaetigkeitEntry(entryIndex) {
+        const entry = document.createElement('div');
+        entry.className = 'taetigkeiten-entry border rounded p-3 mb-3';
+        entry.dataset.entryIndex = String(entryIndex);
+        entry.innerHTML = `
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="taetigkeiten-entry-title mb-0">Tätigkeit #${taetigkeitenCounter}</h4>
-                <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.taetigkeiten-entry').remove()">
+                <h4 class="taetigkeiten-entry-title mb-0">Tätigkeit #${entryIndex}</h4>
+                <button type="button" class="btn btn-sm btn-outline-danger" data-taetigkeit-entry-remove>
                     <i class="bi bi-trash" aria-hidden="true"></i> Entfernen
                 </button>
             </div>
@@ -419,9 +422,7 @@ function bindNamedRemoveButton(button, input, itemLabel) {
                 <div class="col-md-6">
                     <label class="form-label">Institution</label>
                     <div class="autocomplete-wrapper">
-                        <input type="text" class="form-control autocomplete-input" 
-                               name="institution[]"
-                               data-autocomplete="institutionen">
+                        <input type="text" class="form-control autocomplete-input" name="institution[]" data-autocomplete="institutionen">
                         <div class="autocomplete-dropdown"></div>
                     </div>
                 </div>
@@ -432,10 +433,7 @@ function bindNamedRemoveButton(button, input, itemLabel) {
                 <div class="col-md-6">
                     <label class="form-label">Wirkungsort</label>
                     <div class="autocomplete-wrapper">
-                        <input type="text" class="form-control autocomplete-input"
-                               name="wirkungsort[]"
-                               data-autocomplete="wirkungsorte"
-                               placeholder="Ort / Region">
+                        <input type="text" class="form-control autocomplete-input" name="wirkungsort[]" data-autocomplete="wirkungsorte" placeholder="Ort / Region">
                         <div class="autocomplete-dropdown"></div>
                     </div>
                 </div>
@@ -445,44 +443,145 @@ function bindNamedRemoveButton(button, input, itemLabel) {
                 </div>
                 <div class="col-12">
                     <label class="form-label">Rollen</label>
-                    <div class="rollen-container-${taetigkeitenCounter}"></div>
+                    <div class="rollen-container-${entryIndex}" data-rollen-container data-entry-index="${entryIndex}"></div>
                     <div class="section-actions">
-                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, ${taetigkeitenCounter})">
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-taetigkeit-role-add data-entry-index="${entryIndex}">
                             <i class="bi bi-plus-circle" aria-hidden="true"></i> Rolle hinzufügen
                         </button>
                     </div>
                 </div>
             </div>
         `;
-            
-            container.appendChild(entry);
-            document.dispatchEvent(new CustomEvent('edtf-entry-added', { detail: entry }));
-            
-            // Initialize autocomplete fields in the new activity entry
-            entry.querySelectorAll('[data-autocomplete]').forEach(input => {
-                const dropdown = input.nextElementSibling;
-                initAutocomplete(input, dropdown, input.dataset.autocomplete);
-            });
-            
-            // Add initial role field
-            addRolleToEntry(entry.querySelector('.btn-outline-primary'), taetigkeitenCounter);
-        });
+        return entry;
     }
-    
-    // Initialize autocomplete for pre-filled entry
-    existingEntries.forEach((entry) => {
-        // Initialize autocomplete for all pre-filled activity fields
+
+    function updateTaetigkeitRemoveButton(entry) {
+        const button = entry.querySelector('[data-taetigkeit-entry-remove]');
+        const title = entry.querySelector('.taetigkeiten-entry-title')?.textContent?.trim() || 'Tätigkeit';
+        if (!button) return;
+        button.setAttribute('aria-label', `${title} entfernen`);
+        button.title = `${title} entfernen`;
+    }
+
+    function bindTaetigkeitRoleRow(rolleRow, entryIndex) {
+        if (!rolleRow || rolleRow.dataset.taetigkeitRoleBound === 'true') return;
+        rolleRow.dataset.taetigkeitRoleBound = 'true';
+
+        const input = rolleRow.querySelector('input');
+        const dropdown = rolleRow.querySelector('.autocomplete-dropdown');
+        const removeButton = rolleRow.querySelector('[data-taetigkeit-role-remove]') || rolleRow.querySelector('button');
+        if (input) {
+            input.name = `rollen_${entryIndex}[]`;
+            if (input.dataset.autocomplete && dropdown) {
+                initAutocomplete(input, dropdown, input.dataset.autocomplete);
+            }
+        }
+        bindNamedRemoveButton(removeButton, input, 'Rolle');
+
+        if (removeButton && removeButton.dataset.taetigkeitRoleClickBound !== 'true') {
+            removeButton.dataset.taetigkeitRoleClickBound = 'true';
+            removeButton.addEventListener('click', () => {
+                const currentEntry = rolleRow.closest('.taetigkeiten-entry');
+                if (!currentEntry) return;
+                const roleRows = [...currentEntry.querySelectorAll('.dynamic-field-row')];
+                const currentIndex = roleRows.indexOf(rolleRow);
+                const fallbackTarget = roleRows[currentIndex + 1]?.querySelector('input')
+                    || roleRows[currentIndex - 1]?.querySelector('input')
+                    || currentEntry.querySelector('[data-taetigkeit-role-add]');
+                rolleRow.remove();
+                setTimeout(() => fallbackTarget?.focus(), 0);
+            });
+        }
+    }
+
+    function syncTaetigkeitEntries() {
+        const entries = [...container.querySelectorAll(':scope > .taetigkeiten-entry')];
+        entries.forEach((entry, index) => {
+            const entryIndex = index + 1;
+            entry.dataset.entryIndex = String(entryIndex);
+            const title = entry.querySelector('.taetigkeiten-entry-title');
+            if (title) title.textContent = `Tätigkeit #${entryIndex}`;
+
+            const rollenContainer = entry.querySelector('[data-rollen-container]');
+            if (rollenContainer) {
+                rollenContainer.className = `rollen-container-${entryIndex}`;
+                rollenContainer.dataset.entryIndex = String(entryIndex);
+            }
+
+            const addRoleButton = entry.querySelector('[data-taetigkeit-role-add]');
+            if (addRoleButton) {
+                addRoleButton.dataset.entryIndex = String(entryIndex);
+                addRoleButton.setAttribute('aria-label', `Rolle zu Tätigkeit #${entryIndex} hinzufügen`);
+                addRoleButton.title = `Rolle zu Tätigkeit #${entryIndex} hinzufügen`;
+            }
+
+            updateTaetigkeitRemoveButton(entry);
+            entry.querySelectorAll('.dynamic-field-row').forEach(rolleRow => {
+                const input = rolleRow.querySelector('input');
+                if (input) input.name = `rollen_${entryIndex}[]`;
+            });
+        });
+        return entries;
+    }
+
+    function bindTaetigkeitEntry(entry) {
+        if (!entry) return;
+
         entry.querySelectorAll('[data-autocomplete]').forEach(input => {
             const dropdown = input.nextElementSibling;
-            initAutocomplete(input, dropdown, input.dataset.autocomplete);
+            if (dropdown?.classList.contains('autocomplete-dropdown')) {
+                initAutocomplete(input, dropdown, input.dataset.autocomplete);
+            }
         });
-        
-        // Add remove functionality to pre-filled role buttons
-        entry.querySelectorAll('.dynamic-field-row button').forEach(btn => {
-            const input = btn.closest('.dynamic-field-row')?.querySelector('input');
-            btn.onclick = () => btn.closest('.dynamic-field-row').remove();
-            bindNamedRemoveButton(btn, input, 'Rolle');
+
+        entry.querySelectorAll('.dynamic-field-row').forEach(rolleRow => {
+            const entryIndex = Number(entry.dataset.entryIndex) || 1;
+            bindTaetigkeitRoleRow(rolleRow, entryIndex);
         });
+
+        const removeEntryButton = entry.querySelector('[data-taetigkeit-entry-remove]');
+        if (removeEntryButton && removeEntryButton.dataset.taetigkeitEntryBound !== 'true') {
+            removeEntryButton.dataset.taetigkeitEntryBound = 'true';
+            removeEntryButton.addEventListener('click', () => {
+                const entries = [...container.querySelectorAll(':scope > .taetigkeiten-entry')];
+                const currentIndex = entries.indexOf(entry);
+                const fallbackTarget = entries[currentIndex + 1]?.querySelector('[data-taetigkeit-entry-remove]')
+                    || entries[currentIndex - 1]?.querySelector('[data-taetigkeit-entry-remove]')
+                    || addTaetigkeitButton;
+                entry.remove();
+                syncTaetigkeitEntries();
+                setTimeout(() => fallbackTarget?.focus(), 0);
+            });
+        }
+
+        const addRoleButton = entry.querySelector('[data-taetigkeit-role-add]');
+        if (addRoleButton && addRoleButton.dataset.taetigkeitAddRoleBound !== 'true') {
+            addRoleButton.dataset.taetigkeitAddRoleBound = 'true';
+            addRoleButton.addEventListener('click', () => {
+                const currentEntry = addRoleButton.closest('.taetigkeiten-entry');
+                const entryIndex = Number(currentEntry?.dataset.entryIndex) || 1;
+                const rollenContainer = currentEntry?.querySelector('[data-rollen-container]');
+                if (!rollenContainer) return;
+                const rolleRow = createTaetigkeitRoleRow(entryIndex);
+                rollenContainer.appendChild(rolleRow);
+                setTimeout(() => rolleRow.querySelector('input')?.focus(), 0);
+            });
+        }
+    }
+
+    syncTaetigkeitEntries().forEach(bindTaetigkeitEntry);
+
+    addTaetigkeitButton.addEventListener('click', () => {
+        const nextIndex = container.querySelectorAll(':scope > .taetigkeiten-entry').length + 1;
+        const entry = createTaetigkeitEntry(nextIndex);
+        container.appendChild(entry);
+        bindTaetigkeitEntry(entry);
+        syncTaetigkeitEntries();
+        document.dispatchEvent(new CustomEvent('edtf-entry-added', { detail: entry }));
+
+        const firstRoleRow = createTaetigkeitRoleRow(nextIndex);
+        entry.querySelector('[data-rollen-container]')?.appendChild(firstRoleRow);
+        entry.querySelector('input[name="beruf_funktion[]"]')?.focus();
     });
 })();
 
@@ -767,9 +866,11 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         refreshShortListState(config);
     });
     
-    // Bestehende Rollen-Kurzzeilen behalten ihr aktuelles Render- und Löschmuster.
+    // Andere bestehende generische Rollen-Zeilen außerhalb der Tätigkeiten
+    // behalten ihr aktuelles Render- und Löschmuster.
     document.querySelectorAll('.dynamic-field-row button').forEach(button => {
         const row = button.closest('.dynamic-field-row');
+        if (!row || row.closest('.taetigkeiten-entry')) return;
         const input = row?.querySelector('input');
         button.onclick = () => row?.remove();
         bindNamedRemoveButton(button, input, 'Rolle');
@@ -785,6 +886,9 @@ function bindNamedRemoveButton(button, input, itemLabel) {
 
 // Autocomplete-Funktionalität
 function initAutocomplete(input, dropdown, dataKey) {
+    if (!input || !dropdown || input.dataset.autocompleteInitialized === 'true') return;
+    input.dataset.autocompleteInitialized = 'true';
+
     const data = autocompleteData[dataKey] || [];
     const accessibleCombobox = input.getAttribute('role') === 'combobox';
     let activeIndex = -1;

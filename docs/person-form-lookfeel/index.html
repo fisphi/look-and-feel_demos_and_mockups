@@ -284,16 +284,16 @@
                                         </div>
                                         <div id="standesTitel-container" class="ui-short-list">
                                             <div class="ui-short-row" data-index="1">
-                                                <label class="visually-hidden" for="standes_und_amtstitel">Standes-
+                                                <label class="visually-hidden" for="standes_und_amtstitel-1">Standes-
                                                     und Amtstitel 1</label>
                                                 <div class="autocomplete-wrapper ui-field__control">
                                                     <input type="text"
                                                         class="form-control autocomplete-input ui-short-row__control"
-                                                        id="standes_und_amtstitel" name="standes_und_amtstitel[]"
+                                                        id="standes_und_amtstitel-1" name="standes_und_amtstitel[]"
                                                         data-autocomplete="standesTitel" role="combobox"
                                                         aria-autocomplete="list" aria-expanded="false"
-                                                        aria-controls="standesTitel-listbox">
-                                                    <div class="autocomplete-dropdown" id="standesTitel-listbox"
+                                                        aria-controls="standes_und_amtstitel-1-listbox">
+                                                    <div class="autocomplete-dropdown" id="standes_und_amtstitel-1-listbox"
                                                         role="listbox"></div>
                                                 </div>
                                                 <button type="button"
@@ -326,16 +326,16 @@
                                         </div>
                                         <div id="akademischeTitel-container" class="ui-short-list">
                                             <div class="ui-short-row" data-index="1">
-                                                <label class="visually-hidden" for="akademischer_titel">Akademischer
+                                                <label class="visually-hidden" for="akademischer_titel-1">Akademischer
                                                     Titel 1</label>
                                                 <div class="autocomplete-wrapper ui-field__control">
                                                     <input type="text"
                                                         class="form-control autocomplete-input ui-short-row__control"
-                                                        id="akademischer_titel" name="akademischer_titel[]"
+                                                        id="akademischer_titel-1" name="akademischer_titel[]"
                                                         data-autocomplete="akademischeTitel" role="combobox"
                                                         aria-autocomplete="list" aria-expanded="false"
-                                                        aria-controls="akademischeTitel-listbox">
-                                                    <div class="autocomplete-dropdown" id="akademischeTitel-listbox"
+                                                        aria-controls="akademischer_titel-1-listbox">
+                                                    <div class="autocomplete-dropdown" id="akademischer_titel-1-listbox"
                                                         role="listbox"></div>
                                                 </div>
                                                 <button type="button"
@@ -884,11 +884,11 @@
                                 </div>
                                 <div id="taetigkeiten-container">
                                     <!-- Tätigkeit 1 (Pre-filled) -->
-                                    <div class="taetigkeiten-entry border rounded p-3 mb-3">
+                                    <div class="taetigkeiten-entry border rounded p-3 mb-3" data-entry-index="1">
                                         <div class="d-flex justify-content-between align-items-center mb-3">
                                             <h4 class="taetigkeiten-entry-title mb-0">Tätigkeit #1</h4>
                                             <button type="button" class="btn btn-sm btn-outline-danger"
-                                                onclick="this.closest('.taetigkeiten-entry').remove()">
+                                                data-taetigkeit-entry-remove aria-label="Tätigkeit #1 entfernen">
                                                 <i class="bi bi-trash" aria-hidden="true"></i> Entfernen
                                             </button>
                                         </div>
@@ -927,7 +927,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <label class="form-label">Rollen</label>
-                                                <div class="rollen-container-1">
+                                                <div class="rollen-container-1" data-rollen-container data-entry-index="1">
                                                     <div class="dynamic-field-row">
                                                         <div class="autocomplete-wrapper flex-grow-1">
                                                             <input type="text" class="form-control autocomplete-input"
@@ -935,14 +935,17 @@
                                                                 value="Sammler">
                                                             <div class="autocomplete-dropdown"></div>
                                                         </div>
-                                                        <button type="button" class="btn btn-outline-danger btn-sm">
+                                                        <button type="button"
+                                                            class="btn btn-outline-danger btn-sm ui-icon-button ui-icon-button--danger"
+                                                            data-taetigkeit-role-remove>
                                                             <i class="bi bi-trash" aria-hidden="true"></i>
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="section-actions">
                                                     <button type="button" class="btn btn-sm btn-outline-primary"
-                                                        onclick="addRolleToEntry(this, 1)">
+                                                        data-taetigkeit-role-add data-entry-index="1"
+                                                        aria-label="Rolle zu Tätigkeit #1 hinzufügen">
                                                         <i class="bi bi-plus-circle" aria-hidden="true"></i> Rolle
                                                         hinzufügen
                                                     </button>
