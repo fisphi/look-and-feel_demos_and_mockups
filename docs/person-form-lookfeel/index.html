@@ -205,10 +205,15 @@
                         <!-- 3. IDENTITÄT -->
                         <section id="identitaet" class="form-section ui-section disabled-section"
                             data-role-restriction="wissenschaftler,user">
-                            <header class="ui-section__header">
+                            <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Identität</h2>
+                                <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
+                                    data-bs-toggle="collapse" data-bs-target="#identitaet-body" aria-expanded="true"
+                                    aria-controls="identitaet-body" aria-label="Identität einklappen">
+                                    <i class="bi bi-chevron-up" aria-hidden="true"></i>
+                                </button>
                             </header>
-                            <div class="ui-section__body">
+                            <div class="ui-section__body collapse show" id="identitaet-body">
                                 <div class="ui-field-group ui-field-grid ui-field-grid--three">
                                     <div class="ui-field" data-identity-field>
                                         <label for="vorname" class="ui-field__label">Vorname</label>
@@ -409,10 +414,15 @@
                         <!-- 4. NORMDATEN -->
                         <section id="normdaten" class="form-section ui-section disabled-section"
                             data-role-restriction="user">
-                            <header class="ui-section__header">
+                            <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Normdaten</h2>
+                                <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
+                                    data-bs-toggle="collapse" data-bs-target="#normdaten-body" aria-expanded="true"
+                                    aria-controls="normdaten-body" aria-label="Normdaten einklappen">
+                                    <i class="bi bi-chevron-up" aria-hidden="true"></i>
+                                </button>
                             </header>
-                            <div class="ui-section__body">
+                            <div class="ui-section__body collapse show" id="normdaten-body">
                                 <div class="row g-3 mb-4 authority-grid">
                                     <div class="col-12 authority-field">
                                         <label for="orcid" class="form-label strong">ORCID</label>
@@ -657,10 +667,15 @@
                         <!-- 5. LEBENSDATEN -->
                         <section id="lebensdaten" class="form-section ui-section disabled-section"
                             data-role-restriction="user">
-                            <header class="ui-section__header">
+                            <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title form-section-title">Lebensdaten</h2>
+                                <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
+                                    data-bs-toggle="collapse" data-bs-target="#lebensdaten-body" aria-expanded="true"
+                                    aria-controls="lebensdaten-body" aria-label="Lebensdaten einklappen">
+                                    <i class="bi bi-chevron-up" aria-hidden="true"></i>
+                                </button>
                             </header>
-                            <div class="ui-section__body form-layout-container">
+                            <div class="ui-section__body form-layout-container collapse show" id="lebensdaten-body">
                                 <div class="form-subsection-stack ui-grid">
                                     <section class="form-subsection" aria-labelledby="birth-data-title">
                                         <h4 id="birth-data-title" class="form-subsection-title">Geburt</h4>
@@ -708,14 +723,21 @@
                         <!-- 6. TÄTIGKEITEN / ROLLEN -->
                         <section id="taetigkeiten" class="form-section ui-section disabled-section"
                             data-role-restriction="user">
-                            <header class="ui-section__header">
-                                <h2 class="ui-section__title">Tätigkeiten / Rollen</h2>
-                                <p class="ui-section__description">
-                                    Timeline der wichtigsten Stationen <br>
-                                    <i><code>[tbd: Merge into Wirkungsorte (same, same like Wirkungsorte)]</code></i>
-                                </p>
+                            <header class="ui-section__header ui-section__header--actions">
+                                <div>
+                                    <h2 class="ui-section__title">Tätigkeiten / Rollen</h2>
+                                    <p class="ui-section__description">
+                                        Timeline der wichtigsten Stationen <br>
+                                        <i><code>[tbd: Merge into Wirkungsorte (same, same like Wirkungsorte)]</code></i>
+                                    </p>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
+                                    data-bs-toggle="collapse" data-bs-target="#taetigkeiten-body" aria-expanded="true"
+                                    aria-controls="taetigkeiten-body" aria-label="Tätigkeiten und Rollen einklappen">
+                                    <i class="bi bi-chevron-up" aria-hidden="true"></i>
+                                </button>
                             </header>
-                            <div class="ui-section__body">
+                            <div class="ui-section__body collapse show" id="taetigkeiten-body">
 
                                 <div class="timeline-list">
                                     <div class="card mb-3 shadow-sm">
@@ -912,14 +934,21 @@
                         <!-- 7. ORTE -->
                         <section id="orte" class="form-section ui-section disabled-section"
                             data-role-restriction="user">
-                            <header class="ui-section__header">
-                                <h2 class="ui-section__title">Wirkungsorte</h2>
-                                <p class="ui-section__description">
-                                    Wirkungsorte der wichtigsten Lebensstationen <br>
-                                    <i><code>[tbd: Merge into Tätigkeiten / Rollen (same, same like Tätigkeiten / Rollen)]</code></i>
-                                </p>
+                            <header class="ui-section__header ui-section__header--actions">
+                                <div>
+                                    <h2 class="ui-section__title">Wirkungsorte</h2>
+                                    <p class="ui-section__description">
+                                        Wirkungsorte der wichtigsten Lebensstationen <br>
+                                        <i><code>[tbd: Merge into Tätigkeiten / Rollen (same, same like Tätigkeiten / Rollen)]</code></i>
+                                    </p>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
+                                    data-bs-toggle="collapse" data-bs-target="#orte-body" aria-expanded="true"
+                                    aria-controls="orte-body" aria-label="Wirkungsorte einklappen">
+                                    <i class="bi bi-chevron-up" aria-hidden="true"></i>
+                                </button>
                             </header>
-                            <div class="ui-section__body">
+                            <div class="ui-section__body collapse show" id="orte-body">
                                 <div id="wirkungsorte-container">
                                     <div class="wirkungsort-item card shadow-sm mb-3">
                                         <div class="card-body">
@@ -1203,10 +1232,15 @@
                         <!-- 8. KONTAKT (SENSITIV) -->
                         <section id="kontakt" class="form-section ui-section"
                             data-role-restriction="wissenschaftler,user">
-                            <header class="ui-section__header">
+                            <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Kontakt (Sensitiv)</h2>
+                                <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
+                                    data-bs-toggle="collapse" data-bs-target="#kontakt-body" aria-expanded="true"
+                                    aria-controls="kontakt-body" aria-label="Kontakt einklappen">
+                                    <i class="bi bi-chevron-up" aria-hidden="true"></i>
+                                </button>
                             </header>
-                            <div class="ui-section__body">
+                            <div class="ui-section__body collapse show" id="kontakt-body">
                                 <div class="form-check mb-3">
                                     <input class="form-check-input" type="checkbox" id="einwilligung"
                                         name="einwilligung">
@@ -1258,10 +1292,15 @@
                         <!-- 9. QUELLENANGABEN -->
                         <section id="quellenangaben" class="form-section ui-section disabled-section"
                             data-role-restriction="user">
-                            <header class="ui-section__header">
+                            <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Quellenangaben</h2>
+                                <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
+                                    data-bs-toggle="collapse" data-bs-target="#quellenangaben-body" aria-expanded="true"
+                                    aria-controls="quellenangaben-body" aria-label="Quellenangaben einklappen">
+                                    <i class="bi bi-chevron-up" aria-hidden="true"></i>
+                                </button>
                             </header>
-                            <div class="ui-section__body">
+                            <div class="ui-section__body collapse show" id="quellenangaben-body">
                                 <div class="source-list d-flex flex-column gap-3">
                                     <article class="card border-start border-3 border-primary source-entry"
                                         data-source-type="Publikation">
@@ -1413,10 +1452,15 @@
                         <!-- 10. ANMERKUNGEN UND KOMMENTARE -->
                         <section id="meta" class="form-section ui-section disabled-section"
                             data-role-restriction="user">
-                            <header class="ui-section__header">
+                            <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Anmerkungen und Kommentare</h2>
+                                <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
+                                    data-bs-toggle="collapse" data-bs-target="#meta-body" aria-expanded="true"
+                                    aria-controls="meta-body" aria-label="Anmerkungen und Kommentare einklappen">
+                                    <i class="bi bi-chevron-up" aria-hidden="true"></i>
+                                </button>
                             </header>
-                            <div class="ui-section__body">
+                            <div class="ui-section__body collapse show" id="meta-body">
                                 <div class="alert alert-info d-flex align-items-start mb-3" role="alert">
                                     <i class="bi bi-chat-left-text-fill me-2 fs-5"></i>
                                     <div>
@@ -1602,9 +1646,14 @@
                                         data-bs-target="#recordHistoryInfoModal">
                                         <i class="bi bi-info-circle" aria-hidden="true"></i> Erklärung
                                     </button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
+                                        data-bs-toggle="collapse" data-bs-target="#record-history-body" aria-expanded="true"
+                                        aria-controls="record-history-body" aria-label="Record History einklappen">
+                                        <i class="bi bi-chevron-up" aria-hidden="true"></i>
+                                    </button>
                                 </div>
                             </header>
-                            <div class="ui-section__body">
+                            <div class="ui-section__body collapse show" id="record-history-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover align-middle">
                                         <thead>
@@ -1713,10 +1762,15 @@
                         <!-- 12. IMPORTDATEN (READONLY) -->
                         <section id="import" class="form-section ui-section disabled-section"
                             data-role-restriction="user" data-hide-when-restricted="true">
-                            <header class="ui-section__header">
+                            <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Importdaten (Readonly)</h2>
+                                <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
+                                    data-bs-toggle="collapse" data-bs-target="#import-body" aria-expanded="true"
+                                    aria-controls="import-body" aria-label="Importdaten einklappen">
+                                    <i class="bi bi-chevron-up" aria-hidden="true"></i>
+                                </button>
                             </header>
-                            <div class="ui-section__body">
+                            <div class="ui-section__body collapse show" id="import-body">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label for="import_quelle" class="form-label">Import-Quelle</label>

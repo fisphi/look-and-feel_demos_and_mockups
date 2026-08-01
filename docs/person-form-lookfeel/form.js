@@ -1085,6 +1085,27 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Einklappbare Hauptabschnitte ab Identität
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.ui-section__toggle').forEach(toggle => {
+        const targetSelector = toggle.getAttribute('data-bs-target');
+        const body = targetSelector ? document.querySelector(targetSelector) : null;
+        if (!body) return;
+
+        const subject = toggle.getAttribute('aria-label')
+            .replace(/ (?:ein|aus)klappen$/, '');
+        const updateName = expanded => {
+            const label = `${subject} ${expanded ? 'einklappen' : 'ausklappen'}`;
+            toggle.setAttribute('aria-label', label);
+            toggle.title = label;
+        };
+
+        body.addEventListener('shown.bs.collapse', () => updateName(true));
+        body.addEventListener('hidden.bs.collapse', () => updateName(false));
+        updateName(toggle.getAttribute('aria-expanded') === 'true');
+    });
+});
+
 // add: reset form button handler
 function attachResetButton() {
 	const btn = document.getElementById('resetForm');

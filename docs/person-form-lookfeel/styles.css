@@ -473,6 +473,20 @@ h4 { font-size: var(--font-size-md); }
     margin-left: auto;
 }
 
+.ui-section__toggle .bi {
+    transition: transform var(--motion-fast, 140ms) ease;
+}
+
+.ui-section__toggle[aria-expanded="false"] .bi {
+    transform: rotate(180deg);
+}
+
+.ui-section:has(> .ui-section__header .ui-section__toggle[aria-expanded="false"]) > .ui-section__header {
+    border-bottom-color: transparent;
+    margin-block-end: 0;
+    padding-block-end: 0;
+}
+
 .demo-role-panel > .card {
     border-style: dashed;
 }
