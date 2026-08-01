@@ -142,9 +142,7 @@
                             data-role-restriction="wissenschaftler,user">
                             <header class="ui-section__header">
                                 <h2 class="ui-section__title">Lebensstatus</h2>
-                                <p class="ui-section__description">Ob die Person lebend oder verstorben ist,
-                                    bestimmt den rechtlichen Rahmen für die Personendatenerfassung. Entsprechend
-                                    werden einige Felder ausgeblendet. <i>[tbf]</i></p>
+                                <p class="ui-section__description">Rechtlicher Lebensstatus der erfassten Person</p>
                             </header>
                             <div class="ui-section__body">
                                 <div class="d-flex gap-3">
@@ -182,6 +180,7 @@
                         <section id="anzeigename" class="form-section ui-section disabled-section">
                             <header class="ui-section__header">
                                 <h2 class="ui-section__title">Anzeigename</h2>
+                                <p class="ui-section__description">Automatisch zusammengesetzte Namensanzeige mit relevanten Suffixen</p>
                             </header>
                             <div class="ui-section__body">
                                 <div class="ui-field">
@@ -207,6 +206,7 @@
                             data-role-restriction="wissenschaftler,user">
                             <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Identität</h2>
+                                <p class="ui-section__description">Namen, Geschlecht und Titel der Person</p>
                                 <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
                                     data-bs-toggle="collapse" data-bs-target="#identitaet-body" aria-expanded="true"
                                     aria-controls="identitaet-body" aria-label="Identität einklappen">
@@ -416,6 +416,7 @@
                             data-role-restriction="user">
                             <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Normdaten</h2>
+                                <p class="ui-section__description">Verknüpfungen zu Normdatenbanken und externen Identifikatoren</p>
                                 <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
                                     data-bs-toggle="collapse" data-bs-target="#normdaten-body" aria-expanded="true"
                                     aria-controls="normdaten-body" aria-label="Normdaten einklappen">
@@ -669,6 +670,7 @@
                             data-role-restriction="user">
                             <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title form-section-title">Lebensdaten</h2>
+                                <p class="ui-section__description">Daten und Orte der wichtigsten Lebensereignisse</p>
                                 <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
                                     data-bs-toggle="collapse" data-bs-target="#lebensdaten-body" aria-expanded="true"
                                     aria-controls="lebensdaten-body" aria-label="Lebensdaten einklappen">
@@ -728,7 +730,7 @@
                                 <div>
                                     <h2 class="ui-section__title">Tätigkeiten / Rollen</h2>
                                     <p class="ui-section__description">
-                                        Timeline der wichtigsten Stationen <br>
+                                        Zeitliche Übersicht der wichtigsten Tätigkeiten und Rollen <br>
                                         <i><code>[tbd: Merge into Wirkungsorte (same, same like Wirkungsorte)]</code></i>
                                     </p>
                                 </div>
@@ -1235,6 +1237,7 @@
                             data-role-restriction="wissenschaftler,user">
                             <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Kontakt (Sensitiv)</h2>
+                                <p class="ui-section__description">Sensible Kontakt- und Adressdaten der Person</p>
                                 <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
                                     data-bs-toggle="collapse" data-bs-target="#kontakt-body" aria-expanded="true"
                                     aria-controls="kontakt-body" aria-label="Kontakt einklappen">
@@ -1295,6 +1298,7 @@
                             data-role-restriction="user">
                             <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Quellenangaben</h2>
+                                <p class="ui-section__description">Belege und Referenzen zu den erfassten Personendaten</p>
                                 <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
                                     data-bs-toggle="collapse" data-bs-target="#quellenangaben-body" aria-expanded="true"
                                     aria-controls="quellenangaben-body" aria-label="Quellenangaben einklappen">
@@ -1455,6 +1459,7 @@
                             data-role-restriction="user">
                             <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Anmerkungen und Kommentare</h2>
+                                <p class="ui-section__description">Ergänzende interne Hinweise und fachliche Kommentare</p>
                                 <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
                                     data-bs-toggle="collapse" data-bs-target="#meta-body" aria-expanded="true"
                                     aria-controls="meta-body" aria-label="Anmerkungen und Kommentare einklappen">
@@ -1642,6 +1647,7 @@
                         <section id="record_history" class="form-section ui-section">
                             <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Record History</h2>
+                                <p class="ui-section__description">Chronologische Dokumentation der Änderungen am Datensatz</p>
                                 <div class="ui-section__actions">
                                     <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
                                         data-bs-target="#recordHistoryInfoModal">
@@ -1765,6 +1771,7 @@
                             data-role-restriction="user" data-hide-when-restricted="true">
                             <header class="ui-section__header ui-section__header--actions">
                                 <h2 class="ui-section__title">Importdaten (Readonly)</h2>
+                                <p class="ui-section__description">Schreibgeschützte Rohdaten aus dem ursprünglichen Import</p>
                                 <button type="button" class="btn btn-sm btn-outline-secondary ui-icon-button ui-section__toggle"
                                     data-bs-toggle="collapse" data-bs-target="#import-body" aria-expanded="true"
                                     aria-controls="import-body" aria-label="Importdaten einklappen">
