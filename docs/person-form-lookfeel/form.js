@@ -1314,11 +1314,23 @@ document.addEventListener('DOMContentLoaded', function() {
         updateAllNavFavoriteIndicators();
     }
 
-    function sortSections() {
+    function sortSections(anchor = null) {
+        const anchorTop = anchor?.getBoundingClientRect().top;
         const orderedSections = sortedSections();
         fixedSections.forEach(section => form.appendChild(section));
         orderedSections.forEach(section => form.appendChild(section));
         syncNavigation(orderedSections);
+
+        if (anchor && Number.isFinite(anchorTop)) {
+            const offset = anchor.getBoundingClientRect().top - anchorTop;
+            const root = document.documentElement;
+            const previousScrollBehavior = root.style.scrollBehavior;
+            root.style.scrollBehavior = 'auto';
+            window.scrollBy(0, offset);
+            root.style.scrollBehavior = previousScrollBehavior;
+            anchor.focus({ preventScroll: true });
+        }
+
         refreshScrollSpy();
     }
 
@@ -1331,7 +1343,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         writeStoredFavorites([...favoriteIds]);
         updateFavoriteButton(button, section);
-        sortSections();
+        sortSections(button);
         setSectionExpanded(section, becomesFavorite);
     }
 
