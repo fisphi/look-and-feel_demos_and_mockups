@@ -404,9 +404,9 @@ function bindNamedRemoveButton(button, input, itemLabel) {
             entry.className = 'taetigkeiten-entry border rounded p-3 mb-3';
             entry.innerHTML = `
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="mb-0">Tätigkeit #${taetigkeitenCounter}</h6>
+                <h4 class="mb-0">Tätigkeit #${taetigkeitenCounter}</h4>
                 <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.taetigkeiten-entry').remove()">
-                    <i class="bi bi-trash"></i> Entfernen
+                    <i class="bi bi-trash" aria-hidden="true"></i> Entfernen
                 </button>
             </div>
             <div class="row g-3">
@@ -434,9 +434,11 @@ function bindNamedRemoveButton(button, input, itemLabel) {
                 <div class="col-12">
                     <label class="form-label">Rollen</label>
                     <div class="rollen-container-${taetigkeitenCounter}"></div>
-                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, ${taetigkeitenCounter})">
-                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                    </button>
+                    <div class="section-actions">
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRolleToEntry(this, ${taetigkeitenCounter})">
+                            <i class="bi bi-plus-circle" aria-hidden="true"></i> Rolle hinzufügen
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -570,6 +572,7 @@ function bindNamedRemoveButton(button, input, itemLabel) {
     const kontaktFieldIds = ['email', 'telefon', 'mobil', 'fax', 'adresse_roh'];
     const sterbedatum = document.getElementById('sterbedatum');
     const sterbeort = document.getElementById('sterbeort');
+    const sterbeortEditablePlaceholder = sterbeort?.dataset.editablePlaceholder || sterbeort?.placeholder || '';
     
     function updateFormState() {
         const selectedStatus = document.querySelector('input[name="lebensstatus"]:checked');
@@ -588,9 +591,11 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         if (status === 'lebend') {
             sterbedatum.disabled = true;
             sterbeort.disabled = true;
+            sterbeort.placeholder = 'Nicht erfasst';
         } else {
             sterbedatum.disabled = false;
             sterbeort.disabled = false;
+            sterbeort.placeholder = sterbeortEditablePlaceholder;
         }
         
         // Kontakt-Logik
@@ -839,25 +844,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
-
-// Highlight inputs/selects with values
-(function() {
-    const selector = '.form-control, .form-select';
-
-    function updateHighlight(el) {
-        if (!el || !el.matches(selector)) return;
-        const value = (el.value || '').trim();
-        el.classList.toggle('has-value', value.length > 0);
-    }
-
-    function initValueHighlights() {
-        document.querySelectorAll(selector).forEach(updateHighlight);
-        document.addEventListener('input', (event) => updateHighlight(event.target), true);
-        document.addEventListener('change', (event) => updateHighlight(event.target), true);
-    }
-
-    document.addEventListener('DOMContentLoaded', initValueHighlights);
-})();
 
 // JSON-Modell und Export
 function collectPersonFormData() {

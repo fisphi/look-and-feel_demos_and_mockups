@@ -32,25 +32,25 @@
 <body>
     <div class="container-fluid py-4">
 
-        <div class="row justify-content-center">
+        <div class="page-layout">
             <!-- Main Form -->
-            <div class="col-md-9 col-lg-8 col-xl-7 order-md-1" style="max-width: 800px;">
+            <div class="form-main ui-workbench">
                 <div class="mb-3">
                     <a href="../index.html" class="btn btn-outline-secondary rounded-pill px-3 py-1">
                         ← Back to Demos
                     </a>
                 </div>
                 <div data-bs-spy="scroll" data-bs-target="#navbar-sections" data-bs-smooth-scroll="true">
-                    <h4 class="mb-4">
-                        <div class="mb-4">
+                    <h1 class="mb-4">
+                        <span class="d-block mb-4">
                             <span
                                 class="badge rounded-pill bg-secondary text-white me-1 small py-1 px-2">look&amp;feel</span>
                             <span class="badge rounded-pill bg-info text-white me-1 small py-1 px-2">mockup</span>
                             <span class="badge rounded-pill bg-warning text-dark me-1 small py-1 px-2">demo</span>
                             <span class="badge rounded-pill bg-danger text-white me-1 small py-1 px-2">draft</span>
-                        </div>
+                        </span>
                         Demo-Formular zur Erfassung von personenbezogenen Daten
-                    </h4>
+                    </h1>
                     <p class="lead text-muted mb-2">Dies ist ein <i>look&feel</i> Mockup zur Demonstration von
                         Eingabefeldern, Interaktionslogik und Funktionalitäten füŕ die Erfassung von
                         per&shy;sonen&shy;bezogenen Daten.</p>
@@ -65,11 +65,11 @@
                         <section id="userrolle" class="form-section mb-5">
                             <div class="card border-primary">
                                 <div class="card-header bg-primary text-white">
-                                    <h3 class="h5 mb-0">
+                                    <h2 class="h5 mb-0">
                                         User-Rolle wählen
                                         <small class="d-block mt-1 opacity-75">Wählen Sie als erstes eine
                                             User-Rolle:</small>
-                                    </h3>
+                                    </h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="alert alert-info mb-3" role="alert">
@@ -142,7 +142,7 @@
                             data-role-restriction="wissenschaftler,user">
                             <div class="card">
                                 <div class="card-header bg-primary text-white">
-                                    <h3 class="h5 mb-0">Lebensstatus</h3>
+                                    <h2 class="h5 mb-0">Lebensstatus</h2>
                                     <small class="d-block mt-1 opacity-75">Ob die Person lebend oder verstorben ist,
                                         bestimmt den rechtlichen Rahmen für die Personendatenerfassung. Entsprechend
                                         werden einige Felder ausgeblendet. <i>[tbf]</i></small>
@@ -184,7 +184,7 @@
                         <section id="anzeigename" class="form-section mb-5 disabled-section">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0">Anzeigename</h3>
+                                    <h2 class="h5 mb-0">Anzeigename</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-3">
@@ -216,7 +216,7 @@
                             data-role-restriction="wissenschaftler,user">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0">Identität</h3>
+                                    <h2 class="h5 mb-0">Identität</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-3 row-separator">
@@ -243,7 +243,7 @@
                                         </div>
                                         <div class="col-md-8">
                                             <label class="form-label">Geschlecht</label>
-                                            <div>
+                                            <div class="gender-options">
                                                 <div class="form-check form-check-inline">
                                                     <input class="form-check-input" type="radio" name="geschlecht"
                                                         id="geschlecht_w" value="w">
@@ -274,7 +274,7 @@
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <label for="standes_und_amtstitel" class="form-label mb-0">Standes- und
                                                     Amtstitel</label>
-                                                <button type="button" class="btn btn-sm btn-outline-info"
+                                                <button type="button" class="btn btn-sm btn-outline-info ui-icon-button"
                                                     data-bs-toggle="modal" data-bs-target="#standesTitelModal"
                                                     aria-label="Informationen zu Standes- und Amtstiteln">
                                                     <i class="bi bi-info-circle" aria-hidden="true"></i>
@@ -291,7 +291,7 @@
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <label for="akademischer_titel" class="form-label mb-0">Akademischer
                                                     Titel</label>
-                                                <button type="button" class="btn btn-sm btn-outline-info"
+                                                <button type="button" class="btn btn-sm btn-outline-info ui-icon-button"
                                                     data-bs-toggle="modal" data-bs-target="#akademischeTitelModal"
                                                     aria-label="Informationen zu akademischen Titeln">
                                                     <i class="bi bi-info-circle" aria-hidden="true"></i>
@@ -333,10 +333,12 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-sm btn-outline-primary"
-                                                data-dynamic-add="namensvarianten">
-                                                <i class="bi bi-plus-circle"></i> Namensvariante hinzufügen
-                                            </button>
+                                            <div class="section-actions">
+                                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                                    data-dynamic-add="namensvarianten">
+                                                    <i class="bi bi-plus-circle" aria-hidden="true"></i> Namensvariante hinzufügen
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -347,11 +349,11 @@
                         <section id="normdaten" class="form-section mb-5 disabled-section" data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0">Normdaten</h3>
+                                    <h2 class="h5 mb-0">Normdaten</h2>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row g-3 mb-4">
-                                        <div class="col-12">
+                                    <div class="row g-3 mb-4 authority-grid">
+                                        <div class="col-12 authority-field">
                                             <label for="orcid" class="form-label strong">ORCID</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="orcid" name="orcid"
@@ -372,7 +374,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 authority-field">
                                             <label for="viaf" class="form-label strong">VIAF</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="viaf" name="viaf"
@@ -387,7 +389,7 @@
                                             <div class="invalid-feedback">Ungültiges VIAF-Format</div>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 authority-field">
                                             <label for="gnd" class="form-label strong">GND</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="gnd" name="gnd"
@@ -402,7 +404,7 @@
                                             <div class="invalid-feedback">Ungültiges GND-Format</div>
                                         </div>
 
-                                        <div class="col-12 col-sm-6">
+                                        <div class="col-12 col-sm-6 authority-field">
                                             <label for="wikidata" class="form-label strong">Wikidata</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="wikidata" name="wikidata"
@@ -417,7 +419,7 @@
                                             <div class="invalid-feedback">Ungültiges Wikidata-Format (Q + Zahl)</div>
                                         </div>
 
-                                        <div class="col-12 col-sm-6">
+                                        <div class="col-12 col-sm-6 authority-field">
                                             <label for="wikipedia" class="form-label strong">Wikipedia</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" id="wikipedia" name="wikipedia"
@@ -447,8 +449,8 @@
                                                 aria-labelledby="normdatenAccordionHeading"
                                                 data-bs-parent="#normdatenAccordion">
                                                 <div class="accordion-body">
-                                                    <div class="row g-3">
-                                                        <div class="col-md-6">
+                                                    <div class="row g-3 authority-grid">
+                                                        <div class="col-md-6 authority-field">
                                                             <label for="isni" class="form-label">ISNI</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" id="isni"
@@ -466,7 +468,7 @@
                                                                 Ziffern)</div>
                                                         </div>
 
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 authority-field">
                                                             <label for="lcnaf" class="form-label">LCNAF</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" id="lcnaf"
@@ -485,7 +487,7 @@
                                                                 Zahl)</div>
                                                         </div>
 
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 authority-field">
                                                             <label for="bnf" class="form-label">BNF</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" id="bnf"
@@ -504,7 +506,7 @@
                                                                 Zahl)</div>
                                                         </div>
 
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 authority-field">
                                                             <label for="bhl" class="form-label">BHL</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" id="bhl"
@@ -522,7 +524,7 @@
                                                             <div class="invalid-feedback">Ungültiges BHL-Format</div>
                                                         </div>
 
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 authority-field">
                                                             <label for="zoobank" class="form-label">ZooBank</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" id="zoobank"
@@ -540,7 +542,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 authority-field">
                                                             <label for="zobodat" class="form-label">ZOBODAT</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" id="zobodat"
@@ -558,7 +560,7 @@
                                                             <div class="invalid-feedback">Ungültige URL</div>
                                                         </div>
 
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 authority-field">
                                                             <label for="ulan" class="form-label">ULAN</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" id="ulan"
@@ -576,7 +578,7 @@
                                                             <div class="invalid-feedback">Ungültiges ULAN-Format</div>
                                                         </div>
 
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-6 authority-field">
                                                             <label for="ipni" class="form-label">IPNI</label>
                                                             <div class="input-group">
                                                                 <input type="text" class="form-control" id="ipni"
@@ -606,10 +608,10 @@
                             data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0 form-section-title">Lebensdaten</h3>
+                                    <h2 class="h5 mb-0 form-section-title">Lebensdaten</h2>
                                 </div>
                                 <div class="card-body form-layout-container">
-                                    <div class="form-subsection-stack">
+                                    <div class="form-subsection-stack ui-grid">
                                         <section class="form-subsection" aria-labelledby="birth-data-title">
                                             <h4 id="birth-data-title" class="form-subsection-title">Geburt</h4>
                                             <div class="mt-3">
@@ -635,14 +637,15 @@
                                             <div class="mt-3">
                                                 <label for="sterbeort" class="form-label compact-value-label">Sterbeort</label>
                                                 <input type="text" class="form-control form-control-comfortable" id="sterbeort"
-                                                    name="sterbeort" placeholder="Sterbeort eingeben oder auswählen">
+                                                    name="sterbeort" placeholder="Sterbeort eingeben oder auswählen"
+                                                    data-editable-placeholder="Sterbeort eingeben oder auswählen">
                                             </div>
                                         </section>
 
                                         <section class="form-subsection" aria-label="Weitere Lebensdaten">
                                             <div id="datum-ohne-kontext-container" data-edtf-date-list
                                                 data-label="Weitere Lebensdaten" data-item-label="Datum ohne Kontext"
-                                                data-description="Datumsangaben, die keinem konkreten Lebensereignis zugeordnet werden können."
+                                                data-description="Noch keine weiteren Datumsangaben erfasst. Hier können Datumsangaben ergänzt werden, die keinem konkreten Lebensereignis zugeordnet sind."
                                                 data-name="datum_ohne_kontext"></div>
                                         </section>
                                     </div>
@@ -655,7 +658,7 @@
                             data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0">Tätigkeiten / Rollen</h3>
+                                    <h2 class="h5 mb-0">Tätigkeiten / Rollen</h2>
                                     <small class="text-muted">
                                         Timeline der wichtigsten Stationen <br>
                                         <i><code>[tbd: Merge into Wirkungsorte (same, same like Wirkungsorte)]</code></i>
@@ -785,16 +788,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="card-body">
                                     <div id="taetigkeiten-container">
                                         <!-- Tätigkeit 1 (Pre-filled) -->
                                         <div class="taetigkeiten-entry border rounded p-3 mb-3">
                                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <h6 class="mb-0">Tätigkeit #1</h6>
+                                                <h4 class="mb-0">Tätigkeit #1</h4>
                                                 <button type="button" class="btn btn-sm btn-outline-danger"
                                                     onclick="this.closest('.taetigkeiten-entry').remove()">
-                                                    <i class="bi bi-trash"></i> Entfernen
+                                                    <i class="bi bi-trash" aria-hidden="true"></i> Entfernen
                                                 </button>
                                             </div>
                                             <div class="row g-3">
@@ -837,26 +838,31 @@
                                                             </button>
                                                         </div>
                                                     </div>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary"
-                                                        onclick="addRolleToEntry(this, 1)">
-                                                        <i class="bi bi-plus-circle"></i> Rolle hinzufügen
-                                                    </button>
+                                                    <div class="section-actions">
+                                                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                                            onclick="addRolleToEntry(this, 1)">
+                                                            <i class="bi bi-plus-circle" aria-hidden="true"></i> Rolle hinzufügen
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <button type="button" class="btn btn-outline-primary" id="addTaetigkeitBtn">
-                                        <i class="bi bi-plus-circle"></i> Tätigkeitszeitraum hinzufügen
-                                    </button>
+                                    <div class="section-actions">
+                                        <button type="button" class="btn btn-outline-primary" id="addTaetigkeitBtn">
+                                            <i class="bi bi-plus-circle" aria-hidden="true"></i> Tätigkeitszeitraum hinzufügen
+                                        </button>
+                                    </div>
                                 </div>
+                            </div>
                         </section>
 
                         <!-- 7. ORTE -->
                         <section id="orte" class="form-section mb-5 disabled-section" data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0">Wirkungsorte</h3>
+                                    <h2 class="h5 mb-0">Wirkungsorte</h2>
                                     <small class="text-muted">
                                         Wirkungsorte der wichtigsten Lebensstationen <br>
                                         <i><code>[tbd: Merge into Tätigkeiten / Rollen (same, same like Tätigkeiten / Rollen)]</code></i>
@@ -1145,9 +1151,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button type="button" id="addWirkungsortBtn" class="btn btn-sm btn-outline-primary">
-                                        <i class="bi bi-plus-circle"></i> Wirkungsort hinzufügen
-                                    </button>
+                                    <div class="section-actions">
+                                        <button type="button" id="addWirkungsortBtn" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-plus-circle" aria-hidden="true"></i> Wirkungsort hinzufügen
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -1156,7 +1164,7 @@
                         <section id="kontakt" class="form-section mb-5" data-role-restriction="wissenschaftler,user">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0">Kontakt (Sensitiv)</h3>
+                                    <h2 class="h5 mb-0">Kontakt (Sensitiv)</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="form-check mb-3">
@@ -1213,7 +1221,7 @@
                             data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0">Quellenangaben</h3>
+                                    <h2 class="h5 mb-0">Quellenangaben</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="source-list d-flex flex-column gap-3">
@@ -1354,10 +1362,12 @@
 
                                     </div>
 
-                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2"
-                                        data-bs-toggle="modal" data-bs-target="#sourceModal">
-                                        <i class="bi bi-plus-circle"></i> Neue Quellenangabe hinzufügen
-                                    </button>
+                                    <div class="section-actions">
+                                        <button type="button" class="btn btn-sm btn-outline-primary mt-2"
+                                            data-bs-toggle="modal" data-bs-target="#sourceModal">
+                                            <i class="bi bi-plus-circle" aria-hidden="true"></i> Neue Quellenangabe hinzufügen
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -1366,7 +1376,7 @@
                         <section id="meta" class="form-section mb-5 disabled-section" data-role-restriction="user">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0">Anmerkungen und Kommentare</h3>
+                                    <h2 class="h5 mb-0">Anmerkungen und Kommentare</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="alert alert-info d-flex align-items-start mb-3" role="alert">
@@ -1381,7 +1391,7 @@
 
                                     <!-- Dummy Anmerkungen mit Kommentaren -->
                                     <div class="mb-4">
-                                        <h6 class="mb-3">Bisherige Anmerkungen</h6>
+                                        <h4 class="mb-3">Bisherige Anmerkungen</h4>
 
                                         <!-- Anmerkung 1 -->
                                         <div class="card mb-3">
@@ -1425,10 +1435,12 @@
                                                     </div>
                                                 </div>
 
-                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2"
-                                                    data-bs-toggle="modal" data-bs-target="#commentModal">
-                                                    <i class="bi bi-chat-dots"></i> Kommentar abgeben
-                                                </button>
+                                                <div class="entry-actions">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                        data-bs-toggle="modal" data-bs-target="#commentModal">
+                                                        <i class="bi bi-chat-dots" aria-hidden="true"></i> Kommentar abgeben
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -1460,10 +1472,12 @@
                                                     </div>
                                                 </div>
 
-                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2"
-                                                    data-bs-toggle="modal" data-bs-target="#commentModal">
-                                                    <i class="bi bi-chat-dots"></i> Kommentar abgeben
-                                                </button>
+                                                <div class="entry-actions">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                        data-bs-toggle="modal" data-bs-target="#commentModal">
+                                                        <i class="bi bi-chat-dots" aria-hidden="true"></i> Kommentar abgeben
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -1526,18 +1540,22 @@
                                                     </div>
                                                 </div>
 
-                                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2"
-                                                    data-bs-toggle="modal" data-bs-target="#commentModal">
-                                                    <i class="bi bi-chat-dots"></i> Kommentar abgeben
-                                                </button>
+                                                <div class="entry-actions">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                        data-bs-toggle="modal" data-bs-target="#commentModal">
+                                                        <i class="bi bi-chat-dots" aria-hidden="true"></i> Kommentar abgeben
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <!-- Button zum Hinzufügen neuer Anmerkungen -->
-                                        <button type="button" class="btn btn-sm btn-outline-primary"
-                                            data-bs-toggle="modal" data-bs-target="#newNoteModal">
-                                            <i class="bi bi-plus-circle"></i> Neue Anmerkung hinzufügen
-                                        </button>
+                                        <div class="section-actions">
+                                            <button type="button" class="btn btn-sm btn-outline-primary"
+                                                data-bs-toggle="modal" data-bs-target="#newNoteModal">
+                                                <i class="bi bi-plus-circle" aria-hidden="true"></i> Neue Anmerkung hinzufügen
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1546,12 +1564,14 @@
                         <!-- 11. RECORD HISTORY -->
                         <section id="record_history" class="form-section mb-5">
                             <div class="card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h3 class="h5 mb-0">Record History</h3>
-                                    <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
-                                        data-bs-target="#recordHistoryInfoModal">
-                                        <i class="bi bi-info-circle"></i> Erklärung
-                                    </button>
+                                <div class="card-header card-header-layout">
+                                    <h2 class="h5 mb-0">Record History</h2>
+                                    <div class="card-header-actions">
+                                        <button type="button" class="btn btn-sm btn-outline-info" data-bs-toggle="modal"
+                                            data-bs-target="#recordHistoryInfoModal">
+                                            <i class="bi bi-info-circle" aria-hidden="true"></i> Erklärung
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -1665,7 +1685,7 @@
                             data-hide-when-restricted="true">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="h5 mb-0">Importdaten (Readonly)</h3>
+                                    <h2 class="h5 mb-0">Importdaten (Readonly)</h2>
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-3">
@@ -1802,7 +1822,7 @@
             </div>
 
             <!-- Sidebar Navigation -->
-            <div class="col-md-3 col-lg-2 order-md-2">
+            <div class="form-sidebar">
                 <div class="sidebar">
                     <div class="card mb-3 shadow-sm">
                         <div class="card-body py-3">
@@ -1811,8 +1831,8 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5>Navigation</h5>
-                        <button id="themeToggle" class="btn btn-sm btn-outline-secondary" title="Theme wechseln"
+                        <h2>Navigation</h2>
+                        <button id="themeToggle" class="btn btn-sm btn-outline-secondary ui-icon-button" title="Theme wechseln"
                             aria-label="Farbschema wechseln">
                             <i class="bi bi-moon-fill" aria-hidden="true"></i>
                         </button>
@@ -1854,7 +1874,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="commentModalLabel">Kommentar hinzufügen</h5>
+                    <h2 class="modal-title" id="commentModalLabel">Kommentar hinzufügen</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
                 </div>
                 <div class="modal-body">
@@ -1875,7 +1895,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="newNoteModalLabel">Neue Anmerkung hinzufügen</h5>
+                    <h2 class="modal-title" id="newNoteModalLabel">Neue Anmerkung hinzufügen</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
                 </div>
                 <div class="modal-body">
@@ -1896,7 +1916,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="sourceModalLabel">Quellenangabe</h5>
+                    <h2 class="modal-title" id="sourceModalLabel">Quellenangabe</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
                 </div>
                 <div class="modal-body">
@@ -1929,7 +1949,7 @@
                         </div>
 
                         <div class="border rounded-3 p-3 mb-4">
-                            <h6 class="mb-3">Allgemeine Angaben</h6>
+                            <h3 class="mb-3">Allgemeine Angaben</h3>
                             <div class="mb-3">
                                 <label for="sourceTitle" class="form-label">Titel/Kurzbezeichnung</label>
                                 <input type="text" class="form-control" id="sourceTitle" name="sourceTitle"
@@ -1950,7 +1970,7 @@
                         <div id="zoteroSection" class="border border-info rounded-3 p-3 mb-4 d-none">
                             <div class="d-flex align-items-center mb-3">
                                 <i class="bi bi-collection me-2 text-info"></i>
-                                <h6 class="mb-0">Zotero-Angaben</h6>
+                                <h3 class="mb-0">Zotero-Angaben</h3>
                             </div>
                             <div class="row g-3">
                                 <div class="col-md-6">
@@ -2006,7 +2026,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="standesTitelModalLabel">Standes- und Amtstitel – Auswahl</h5>
+                    <h2 class="modal-title" id="standesTitelModalLabel">Standes- und Amtstitel – Auswahl</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
                 </div>
                 <div class="modal-body">
@@ -2100,7 +2120,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="akademischeTitelModalLabel">Akademische Titel – Auswahl</h5>
+                    <h2 class="modal-title" id="akademischeTitelModalLabel">Akademische Titel – Auswahl</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
                 </div>
                 <div class="modal-body">
@@ -2198,7 +2218,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="recordHistoryInfoModalLabel">Record History – Erklärung</h5>
+                    <h2 class="modal-title" id="recordHistoryInfoModalLabel">Record History – Erklärung</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
                 </div>
                 <div class="modal-body">

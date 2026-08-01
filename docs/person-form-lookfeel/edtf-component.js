@@ -26,12 +26,12 @@ function ensureEdtfInfoModal() {
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="edtfInfoModalLabel">Was ist ein EDTF-Datum?</h5>
+                        <h2 class="modal-title" id="edtfInfoModalLabel">Was ist ein EDTF-Datum?</h2>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
                     </div>
                     <div class="modal-body">
                         <p>EDTF steht für „Extended Date/Time Format“. Es erweitert das übliche Datumsformat um ungenaue, unsichere oder unvollständige historische Datumsangaben.</p>
-                        <h6>Beispiele</h6>
+                        <h3>Beispiele</h3>
                         <dl class="row mb-3">
                             <dt class="col-4"><code>1874-03-12</code></dt><dd class="col-8">12. März 1874</dd>
                             <dt class="col-4"><code>1874?</code></dt><dd class="col-8">vermutlich 1874</dd>
@@ -224,24 +224,20 @@ class EdtfDateInput {
         this.host.innerHTML = `
             <div class="edtf-compact-view border rounded p-3">
                 ${heading}
-                <div class="row g-3 align-items-start edtf-summary compact-value-grid">
-                    <div class="col-12 col-md" data-empty-state>Unbekannt</div>
-                    <div class="col-12 col-md-3 d-none edtf-summary-value compact-value-primary" data-value-state>
-                        <div class="form-label compact-value-label d-flex align-items-center gap-1">
-                            <span>EDTF-Datum</span>
-                            <button type="button" class="btn btn-link btn-sm p-0 edtf-info-action"
-                                data-bs-toggle="modal" data-bs-target="#edtfInfoModal"
-                                aria-label="EDTF-Datum erklären" title="EDTF-Datum erklären">
-                                <i class="bi bi-question-circle" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                        <code data-summary-value></code>
+                <div class="edtf-summary compact-value-grid">
+                    <div data-empty-state>Unbekannt</div>
+                    <div class="d-none form-label compact-value-label compact-value-label-primary" data-value-state>
+                        <span>EDTF-Datum</span>
+                        <button type="button" class="btn btn-link btn-sm p-0 edtf-info-action"
+                            data-bs-toggle="modal" data-bs-target="#edtfInfoModal"
+                            aria-label="EDTF-Datum erklären" title="EDTF-Datum erklären">
+                            <i class="bi bi-question-circle" aria-hidden="true"></i>
+                        </button>
                     </div>
-                    <div class="col-12 col-md d-none edtf-summary-interpretation compact-value-detail" data-value-state>
-                        <div class="form-label compact-value-label">Interpretation</div>
-                        <code data-summary-interpretation></code>
-                    </div>
-                    <div class="col-12 col-md-auto ms-md-auto compact-value-action" data-action-column>
+                    <div class="d-none form-label compact-value-label compact-value-label-detail" data-value-state>Interpretation</div>
+                    <code class="d-none edtf-summary-value compact-value-primary" data-summary-value data-value-state></code>
+                    <span class="d-none edtf-summary-interpretation compact-value-detail" data-summary-interpretation data-value-state></span>
+                    <div class="compact-value-action" data-action-column>
                         <button type="button" class="btn btn-sm btn-outline-primary edtf-date-action"
                             data-edtf-action data-bs-toggle="modal" data-bs-target="#${this.id}-modal"></button>
                     </div>
@@ -249,7 +245,7 @@ class EdtfDateInput {
             </div>
             <div class="modal fade" id="${this.id}-modal" tabindex="-1" aria-labelledby="${this.id}-modal-title" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content">
-                    <div class="modal-header"><h5 class="modal-title" id="${this.id}-modal-title">${label}</h5>
+                    <div class="modal-header"><h2 class="modal-title" id="${this.id}-modal-title">${label}</h2>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button></div>
                     <div class="modal-body"><fieldset>
                         <legend class="visually-hidden">${label} als EDTF Level 1 erfassen</legend>
@@ -456,14 +452,15 @@ class EdtfDateList {
         this.host.innerHTML = `
             <h4 class="form-subsection-title">${this.label}</h4>
             <div class="form-empty-state mt-3 mb-3" data-list-empty>
-                <div class="form-empty-state-title">Noch keine weiteren Datumsangaben erfasst.</div>
-                ${this.description ? `<div class="form-empty-state-description mt-1">${this.description}</div>` : ''}
+                <div class="form-empty-state-title">${this.description || 'Noch keine weiteren Datumsangaben erfasst.'}</div>
             </div>
             <div class="d-grid gap-3 mb-3 repeatable-entry-items" data-list-entries></div>
-            <button type="button" class="btn btn-sm btn-outline-primary" data-list-add
-                aria-label="${this.itemLabel} hinzufügen">
-                <i class="bi bi-plus-circle me-1" aria-hidden="true"></i><span data-list-add-label>Datum hinzufügen</span>
-            </button>`;
+            <div class="section-actions">
+                <button type="button" class="btn btn-sm btn-outline-primary" data-list-add
+                    aria-label="${this.itemLabel} hinzufügen">
+                    <i class="bi bi-plus-circle me-1" aria-hidden="true"></i><span data-list-add-label>Datum hinzufügen</span>
+                </button>
+            </div>`;
         this.emptyState = this.host.querySelector('[data-list-empty]');
         this.entries = this.host.querySelector('[data-list-entries]');
         this.addButton = this.host.querySelector('[data-list-add]');
