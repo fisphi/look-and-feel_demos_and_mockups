@@ -187,27 +187,21 @@
                                     <h2 class="h5 mb-0">Anzeigename</h2>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row g-3">
-                                        <div class="col-12">
-                                            <label class="form-label">Anzeigename und Suffixe (automatisch
-                                                generiert)</label>
-                                            <div class="alert alert-secondary mb-1" role="alert">
-                                                <strong id="anzeigeNameDisplay" class="fs-5">—</strong> <small
-                                                    id="anzeigeNameDates" class="text-muted small">—</small>
-                                            </div>
-                                        </div>
-                                        <!-- <div class="alert alert-secondary mb-1" role="alert"></div> -->
-                                        <!-- neue Zeile für Geburt/Tod/Wirkungszeitraum -->
-                                        <!-- <div id="anzeigeNameDates" class="small text-muted mb-2"> </div> -->
-                                        <!-- <strong id="anzeigeNameDates" class="fs-5">—</strong>
-                                             </div> -->
-                                        <div class="form-text">Der Anzeigename wird automatisch aus Vorname, Mittelname
-                                            und Nachname zusammengesetzt. Am Ende erscheint statisch <i>[Sammlung] und
-                                                falls bekannt davor das [* Geburtsdatum], [† Sterbedatum], [(fl.)
-                                                Wirkungszeitraum] sowie [Normdatenbank: ID+URL]</i>.</div>
+                                    <div class="ui-field">
+                                        <div id="anzeigename-label" class="ui-field__label">Anzeigename und Suffixe
+                                            (automatisch generiert)</div>
+                                        <output class="ui-computed-value" for="vorname mittelname nachname geburtsdatum sterbedatum"
+                                            aria-labelledby="anzeigename-label" aria-describedby="anzeigename-help">
+                                            <strong id="anzeigeNameDisplay" class="ui-computed-value__primary">—</strong>
+                                            <span id="anzeigeNameDates" class="ui-computed-value__detail">—</span>
+                                        </output>
+                                        <p id="anzeigename-help" class="ui-field__help">Der Anzeigename wird automatisch
+                                            aus Vorname, Mittelname und Nachname zusammengesetzt. Am Ende erscheint
+                                            statisch <i>[Sammlung] und falls bekannt davor das [* Geburtsdatum],
+                                                [† Sterbedatum], [(fl.) Wirkungszeitraum] sowie
+                                                [Normdatenbank: ID+URL]</i>.</p>
                                     </div>
                                 </div>
-
                             </div>
                         </section>
 
@@ -219,60 +213,62 @@
                                     <h2 class="h5 mb-0">Identität</h2>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row g-3 row-separator">
-                                        <div class="col-md-4">
-                                            <label for="vorname" class="form-label">Vorname</label>
+                                    <div class="ui-field-group ui-field-grid ui-field-grid--three">
+                                        <div class="ui-field" data-identity-field>
+                                            <label for="vorname" class="ui-field__label">Vorname</label>
                                             <input type="text" class="form-control" id="vorname" value="Ferdinand"
                                                 name="vorname">
                                         </div>
-                                        <div class="col-md-4">
-                                            <label for="mittelname" class="form-label">Mittelname</label>
+                                        <div class="ui-field" data-identity-field>
+                                            <label for="mittelname" class="ui-field__label">Mittelname</label>
                                             <input type="text" class="form-control" id="mittelname" name="mittelname">
                                         </div>
-                                        <div class="col-md-4">
-                                            <label for="nachname" class="form-label">Nachname <span
-                                                    class="text-danger">*</span></label>
+                                        <div class="ui-field" data-identity-field>
+                                            <label for="nachname" class="ui-field__label">Nachname
+                                                <span class="ui-field__required">(Pflichtfeld)</span></label>
                                             <input type="text" class="form-control" id="nachname" value="Hochstetter"
-                                                name="nachname" required>
-                                            <div class="invalid-feedback">Nachname ist erforderlich</div>
+                                                name="nachname" required aria-describedby="nachname-error">
+                                            <div class="invalid-feedback ui-field__error" id="nachname-error">Nachname
+                                                ist erforderlich</div>
                                         </div>
-                                        <div class="col-md-4">
-                                            <label for="namenskuerzel" class="form-label">Namenskürzel</label>
+                                        <div class="ui-field" data-identity-field>
+                                            <label for="namenskuerzel" class="ui-field__label">Namenskürzel</label>
                                             <input type="text" class="form-control" id="namenskuerzel"
                                                 name="namenskuerzel">
                                         </div>
-                                        <div class="col-md-8">
-                                            <label class="form-label">Geschlecht</label>
-                                            <div class="gender-options">
-                                                <div class="form-check form-check-inline">
+                                        <fieldset class="ui-field ui-field--span-two ui-choice-group"
+                                            data-identity-field>
+                                            <legend class="ui-field__label">Geschlecht</legend>
+                                            <div class="gender-options ui-choice-group__options">
+                                                <div class="form-check ui-choice-option">
                                                     <input class="form-check-input" type="radio" name="geschlecht"
                                                         id="geschlecht_w" value="w">
                                                     <label class="form-check-label" for="geschlecht_w">Weiblich</label>
                                                 </div>
-                                                <div class="form-check form-check-inline">
+                                                <div class="form-check ui-choice-option">
                                                     <input class="form-check-input" type="radio" name="geschlecht"
                                                         id="geschlecht_m" value="m" checked>
                                                     <label class="form-check-label" for="geschlecht_m">Männlich</label>
                                                 </div>
-                                                <div class="form-check form-check-inline">
+                                                <div class="form-check ui-choice-option">
                                                     <input class="form-check-input" type="radio" name="geschlecht"
                                                         id="geschlecht_div" value="div">
                                                     <label class="form-check-label" for="geschlecht_div">Divers</label>
                                                 </div>
-                                                <div class="form-check form-check-inline">
+                                                <div class="form-check ui-choice-option">
                                                     <input class="form-check-input" type="radio" name="geschlecht"
                                                         id="geschlecht_unbekannt" value="unbekannt">
                                                     <label class="form-check-label"
                                                         for="geschlecht_unbekannt">Unbekannt</label>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </fieldset>
                                     </div>
 
-                                    <div class="row g-3 row-separator">
-                                        <div class="col-md-6">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label for="standes_und_amtstitel" class="form-label mb-0">Standes- und
+                                    <div class="ui-field-group ui-field-grid">
+                                        <div class="ui-field" data-identity-field>
+                                            <div class="ui-field__header">
+                                                <label for="standes_und_amtstitel" class="ui-field__label">Standes- und
                                                     Amtstitel</label>
                                                 <button type="button" class="btn btn-sm btn-outline-info ui-icon-button"
                                                     data-bs-toggle="modal" data-bs-target="#standesTitelModal"
@@ -280,16 +276,19 @@
                                                     <i class="bi bi-info-circle" aria-hidden="true"></i>
                                                 </button>
                                             </div>
-                                            <div class="autocomplete-wrapper">
+                                            <div class="autocomplete-wrapper ui-field__control">
                                                 <input type="text" class="form-control autocomplete-input"
                                                     id="standes_und_amtstitel" name="standes_und_amtstitel"
-                                                    data-autocomplete="standesTitel">
-                                                <div class="autocomplete-dropdown"></div>
+                                                    data-autocomplete="standesTitel" role="combobox"
+                                                    aria-autocomplete="list" aria-expanded="false"
+                                                    aria-controls="standesTitel-listbox">
+                                                <div class="autocomplete-dropdown" id="standesTitel-listbox"
+                                                    role="listbox"></div>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label for="akademischer_titel" class="form-label mb-0">Akademischer
+                                        <div class="ui-field" data-identity-field>
+                                            <div class="ui-field__header">
+                                                <label for="akademischer_titel" class="ui-field__label">Akademischer
                                                     Titel</label>
                                                 <button type="button" class="btn btn-sm btn-outline-info ui-icon-button"
                                                     data-bs-toggle="modal" data-bs-target="#akademischeTitelModal"
@@ -297,48 +296,76 @@
                                                     <i class="bi bi-info-circle" aria-hidden="true"></i>
                                                 </button>
                                             </div>
-                                            <div class="autocomplete-wrapper">
+                                            <div class="autocomplete-wrapper ui-field__control">
                                                 <input type="text" class="form-control autocomplete-input"
                                                     id="akademischer_titel" name="akademischer_titel"
-                                                    data-autocomplete="akademischeTitel">
-                                                <div class="autocomplete-dropdown"></div>
+                                                    data-autocomplete="akademischeTitel" role="combobox"
+                                                    aria-autocomplete="list" aria-expanded="false"
+                                                    aria-controls="akademischeTitel-listbox">
+                                                <div class="autocomplete-dropdown" id="akademischeTitel-listbox"
+                                                    role="listbox"></div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row g-3">
-                                        <div class="col-12">
-                                            <label class="form-label">Namensvarianten</label>
-                                            <div id="namensvarianten-container">
-                                                <!-- Pre-filled entries -->
-                                                <div class="dynamic-field-row">
-                                                    <input type="text" class="form-control flex-grow-1"
-                                                        name="namensvarianten[]" value="Ferdinand von Hochstetter">
-                                                    <button type="button" class="btn btn-outline-danger btn-sm">
-                                                        <i class="bi bi-trash" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="dynamic-field-row">
-                                                    <input type="text" class="form-control flex-grow-1"
-                                                        name="namensvarianten[]" value="F. Hochstetter">
-                                                    <button type="button" class="btn btn-outline-danger btn-sm">
-                                                        <i class="bi bi-trash" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                                <div class="dynamic-field-row">
-                                                    <input type="text" class="form-control flex-grow-1"
-                                                        name="namensvarianten[]" value="Ferdl Hochstetter">
-                                                    <button type="button" class="btn btn-outline-danger btn-sm">
-                                                        <i class="bi bi-trash" aria-hidden="true"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="section-actions">
-                                                <button type="button" class="btn btn-sm btn-outline-primary"
-                                                    data-dynamic-add="namensvarianten">
-                                                    <i class="bi bi-plus-circle" aria-hidden="true"></i> Namensvariante hinzufügen
+                                    <div class="ui-field-group ui-repeatable-field" data-identity-field>
+                                        <div class="ui-field__header">
+                                            <h3 class="ui-field__label" id="namensvarianten-label">Namensvarianten</h3>
+                                        </div>
+                                        <p class="ui-field__help" id="namensvarianten-help">Weitere gebräuchliche
+                                            Namensformen dieser Person.</p>
+                                        <div id="namensvarianten-container" class="ui-short-list"
+                                            aria-labelledby="namensvarianten-label"
+                                            aria-describedby="namensvarianten-help">
+                                            <!-- Pre-filled entries -->
+                                            <div class="ui-short-row" data-index="1">
+                                                <label class="visually-hidden" for="namensvariante-1">Namensvariante
+                                                    1</label>
+                                                <input type="text" class="form-control ui-short-row__control"
+                                                    id="namensvariante-1" name="namensvarianten[]"
+                                                    value="Ferdinand von Hochstetter"
+                                                    aria-describedby="namensvarianten-help">
+                                                <button type="button"
+                                                    class="btn btn-outline-danger btn-sm ui-icon-button ui-icon-button--danger"
+                                                    data-dynamic-remove="namensvarianten">
+                                                    <i class="bi bi-trash" aria-hidden="true"></i>
                                                 </button>
                                             </div>
+                                            <div class="ui-short-row" data-index="2">
+                                                <label class="visually-hidden" for="namensvariante-2">Namensvariante
+                                                    2</label>
+                                                <input type="text" class="form-control ui-short-row__control"
+                                                    id="namensvariante-2" name="namensvarianten[]"
+                                                    value="F. Hochstetter" aria-describedby="namensvarianten-help">
+                                                <button type="button"
+                                                    class="btn btn-outline-danger btn-sm ui-icon-button ui-icon-button--danger"
+                                                    data-dynamic-remove="namensvarianten">
+                                                    <i class="bi bi-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                            <div class="ui-short-row" data-index="3">
+                                                <label class="visually-hidden" for="namensvariante-3">Namensvariante
+                                                    3</label>
+                                                <input type="text" class="form-control ui-short-row__control"
+                                                    id="namensvariante-3" name="namensvarianten[]"
+                                                    value="Ferdl Hochstetter" aria-describedby="namensvarianten-help">
+                                                <button type="button"
+                                                    class="btn btn-outline-danger btn-sm ui-icon-button ui-icon-button--danger"
+                                                    data-dynamic-remove="namensvarianten">
+                                                    <i class="bi bi-trash" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="form-empty-state ui-list-empty" data-namensvarianten-empty hidden>
+                                            Noch keine Namensvarianten erfasst.</p>
+                                        <div class="section-actions">
+                                            <button type="button"
+                                                class="btn btn-sm btn-outline-primary ui-button ui-button--secondary ui-button--sm"
+                                                data-dynamic-add="namensvarianten"
+                                                aria-label="Namensvariante hinzufügen">
+                                                <i class="bi bi-plus-circle" aria-hidden="true"></i>
+                                                <span>Namensvariante hinzufügen</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

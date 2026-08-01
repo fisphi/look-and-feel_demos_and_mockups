@@ -4,7 +4,9 @@ function bindNamedRemoveButton(button, input, itemLabel) {
     const updateName = () => {
         const value = (input?.value || '').trim();
         const reference = value ? ` „${value}“` : '';
-        button.setAttribute('aria-label', `${itemLabel}${reference} entfernen`);
+        const accessibleName = `${itemLabel}${reference} entfernen`;
+        button.setAttribute('aria-label', accessibleName);
+        button.title = accessibleName;
     };
 
     button.querySelector('.bi')?.setAttribute('aria-hidden', 'true');
@@ -114,7 +116,7 @@ function bindNamedRemoveButton(button, input, itemLabel) {
 
         const identity = document.getElementById('identitaet');
         if (identity && living) {
-            identity.querySelectorAll('.card-body > .row > [class*="col-"]').forEach(fieldGroup => {
+            identity.querySelectorAll('[data-identity-field]').forEach(fieldGroup => {
                 const input = fieldGroup.querySelector('input, select, textarea');
                 const allowed = input && viewerAllowedIdentityFields.has(input.id);
                 if (!allowed) {
@@ -641,20 +643,55 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         namensvarianten: {
             container: 'namensvarianten-container',
             name: 'namensvarianten',
+            itemLabel: 'Namensvariante',
+            idPrefix: 'namensvariante',
             placeholder: 'Namensvariante',
-            autocomplete: null
+            autocomplete: null,
+            shortRow: true
         },
         rollen: {
             container: 'rollen-container',
             name: 'rollen',
+            itemLabel: 'Rolle',
             placeholder: 'Rolle',
             autocomplete: 'rollen'
         }
     };
+
+    const nextIndexes = new Map(Object.entries(dynamicFieldsConfig).map(([fieldType, config]) => {
+        const existingIndexes = [...document.querySelectorAll(`#${config.container} > [data-index]`)]
+            .map(row => Number(row.dataset.index))
+            .filter(Number.isFinite);
+        return [fieldType, Math.max(0, ...existingIndexes) + 1];
+    }));
+
+    function refreshNamensvariantenState() {
+        const container = document.getElementById('namensvarianten-container');
+        const emptyState = document.querySelector('[data-namensvarianten-empty]');
+        if (!container || !emptyState) return;
+        emptyState.hidden = container.children.length > 0;
+    }
+
+    function bindShortRow(row, input, removeButton, config) {
+        const addButton = document.querySelector(`[data-dynamic-add="${config.name}"]`);
+
+        bindNamedRemoveButton(removeButton, input, config.itemLabel);
+        removeButton.onclick = () => {
+            const container = row.parentElement;
+            if (!container) return;
+            const rows = [...container.children];
+            const position = rows.indexOf(row);
+            const nextInput = rows[position + 1]?.querySelector('input')
+                || rows[position - 1]?.querySelector('input');
+            row.remove();
+            refreshNamensvariantenState();
+            (nextInput || addButton)?.focus();
+        };
+    }
     
     function createDynamicField(config, index) {
         const row = document.createElement('div');
-        row.className = 'dynamic-field-row';
+        row.className = config.shortRow ? 'ui-short-row' : 'dynamic-field-row';
         row.dataset.index = index;
         let input;
         
@@ -683,9 +720,23 @@ function bindNamedRemoveButton(button, input, itemLabel) {
             // Autocomplete initialisieren
             initAutocomplete(input, dropdown, config.autocomplete);
         } else {
+            if (config.shortRow) {
+                const label = document.createElement('label');
+                label.className = 'visually-hidden';
+                label.htmlFor = `${config.idPrefix || config.name}-${index}`;
+                label.textContent = `${config.itemLabel} ${index}`;
+                row.appendChild(label);
+            }
+
             input = document.createElement('input');
             input.type = 'text';
-            input.className = 'form-control flex-grow-1';
+            input.className = config.shortRow
+                ? 'form-control ui-short-row__control'
+                : 'form-control flex-grow-1';
+            if (config.shortRow) {
+                input.id = `${config.idPrefix || config.name}-${index}`;
+                input.setAttribute('aria-describedby', 'namensvarianten-help');
+            }
             input.name = `${config.name}[]`;
             input.placeholder = config.placeholder;
             
@@ -698,12 +749,18 @@ function bindNamedRemoveButton(button, input, itemLabel) {
         
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
-        removeBtn.className = 'btn btn-outline-danger btn-sm';
+        removeBtn.className = config.shortRow
+            ? 'btn btn-outline-danger btn-sm ui-icon-button ui-icon-button--danger'
+            : 'btn btn-outline-danger btn-sm';
+        if (config.shortRow) removeBtn.dataset.dynamicRemove = config.name;
         removeBtn.innerHTML = '<i class="bi bi-trash" aria-hidden="true"></i>';
-        removeBtn.onclick = () => row.remove();
-        bindNamedRemoveButton(removeBtn, input, config.name === 'namensvarianten' ? 'Namensvariante' : 'Rolle');
-        
         row.appendChild(removeBtn);
+
+        if (config.shortRow) bindShortRow(row, input, removeBtn, config);
+        else {
+            removeBtn.onclick = () => row.remove();
+            bindNamedRemoveButton(removeBtn, input, config.itemLabel);
+        }
         
         return row;
     }
@@ -711,9 +768,14 @@ function bindNamedRemoveButton(button, input, itemLabel) {
     function addDynamicField(fieldType) {
         const config = dynamicFieldsConfig[fieldType];
         const container = document.getElementById(config.container);
-        const index = container.children.length;
+        if (!config || !container) return null;
+        const index = nextIndexes.get(fieldType) || 1;
+        nextIndexes.set(fieldType, index + 1);
         const field = createDynamicField(config, index);
         container.appendChild(field);
+        if (config.shortRow) refreshNamensvariantenState();
+        field.querySelector('input')?.focus();
+        return field;
     }
     
     // Event-Listener für Add-Buttons
@@ -723,14 +785,20 @@ function bindNamedRemoveButton(button, input, itemLabel) {
             addDynamicField(fieldType);
         });
     });
+
+    document.querySelectorAll('#namensvarianten-container > .ui-short-row').forEach(row => {
+        const input = row.querySelector('input');
+        const removeButton = row.querySelector('[data-dynamic-remove="namensvarianten"]');
+        bindShortRow(row, input, removeButton, dynamicFieldsConfig.namensvarianten);
+    });
+    refreshNamensvariantenState();
     
-    // Add remove functionality to pre-filled entries
+    // Bestehende Rollen-Kurzzeilen behalten ihr aktuelles Render- und Löschmuster.
     document.querySelectorAll('.dynamic-field-row button').forEach(button => {
         const row = button.closest('.dynamic-field-row');
         const input = row?.querySelector('input');
-        const itemLabel = input?.name.startsWith('namensvarianten') ? 'Namensvariante' : 'Rolle';
         button.onclick = () => row?.remove();
-        bindNamedRemoveButton(button, input, itemLabel);
+        bindNamedRemoveButton(button, input, 'Rolle');
     });
     
     // Initial je ein Feld hinzufügen (außer bereits vorgefüllten Typen)
@@ -744,7 +812,12 @@ function bindNamedRemoveButton(button, input, itemLabel) {
 // Autocomplete-Funktionalität
 function initAutocomplete(input, dropdown, dataKey) {
     const data = autocompleteData[dataKey] || [];
+    const accessibleCombobox = input.getAttribute('role') === 'combobox';
     let activeIndex = -1;
+
+    function setExpanded(expanded) {
+        if (accessibleCombobox) input.setAttribute('aria-expanded', String(expanded));
+    }
     
     function filterData(query) {
         if (!query) return [];
@@ -759,6 +832,7 @@ function initAutocomplete(input, dropdown, dataKey) {
         
         if (items.length === 0) {
             dropdown.classList.remove('show');
+            setExpanded(false);
             return;
         }
         
@@ -767,11 +841,16 @@ function initAutocomplete(input, dropdown, dataKey) {
             div.className = 'autocomplete-item';
             div.textContent = item;
             div.dataset.index = index;
+            if (accessibleCombobox) {
+                div.id = `${dropdown.id}-option-${index}`;
+                div.setAttribute('role', 'option');
+                div.setAttribute('aria-selected', 'false');
+            }
             
             div.addEventListener('click', () => {
                 input.value = item;
                 input.dispatchEvent(new Event('input', { bubbles: true }));
-                dropdown.classList.remove('show');
+                hideDropdown();
                 input.focus();
             });
             
@@ -779,11 +858,14 @@ function initAutocomplete(input, dropdown, dataKey) {
         });
         
         dropdown.classList.add('show');
+        setExpanded(true);
         activeIndex = -1;
     }
     
     function hideDropdown() {
         dropdown.classList.remove('show');
+        setExpanded(false);
+        if (accessibleCombobox) input.removeAttribute('aria-activedescendant');
         activeIndex = -1;
     }
     
@@ -792,8 +874,13 @@ function initAutocomplete(input, dropdown, dataKey) {
         items.forEach((item, index) => {
             if (index === activeIndex) {
                 item.classList.add('active');
+                if (accessibleCombobox) {
+                    item.setAttribute('aria-selected', 'true');
+                    input.setAttribute('aria-activedescendant', item.id);
+                }
             } else {
                 item.classList.remove('active');
+                if (accessibleCombobox) item.setAttribute('aria-selected', 'false');
             }
         });
     }

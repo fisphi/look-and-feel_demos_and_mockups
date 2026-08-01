@@ -718,6 +718,58 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 | Gesamte HTML-Parserprüfung | 1 | 0 | 0 | 1 | 0 | 0 |
 | **Lebensdaten-Nachprüfung gesamt** | **10** | **8** | **0** | **2** | **0** | **0** |
 
+## Phase-3.2-Nachprüfung – Identität als zweiter Komponentenpilot
+
+### Testdatum, Umgebung und Ausgangszustand
+
+- **Datum:** 01.08.2026.
+- **Umgebung:** Chromium 150.0.7547.0, lokaler HTTP-Server,
+  cache-deaktivierte frische DevTools-/CDP-Sitzungen unter Linux; Viewports 375,
+  768, 1024 und 1440px jeweils in Hell- und Dunkelmodus.
+- **Methode:** Gerendertes DOM, Computed Styles, Scroll- und Geometriemessungen,
+  Accessibility Tree, native CDP-Tastaturereignisse, tatsächliche Click-/Change-
+  Handler, Blob-Export-Stub und vollständiges Browser-Reload für Reset. Syntax
+  und HTML-Struktur wurden zusätzlich statisch geprüft.
+- **Ausgangszustand vor Phase 3.2:** Der Identitätsbereich verwendete
+  Bootstrap-Row-/Col-Strukturen ohne neutrale Field-Komponente. Die
+  Geschlechtsauswahl hatte kein `fieldset`/`legend`. Statische
+  Namensvarianten-Inputs hatten weder eindeutige IDs noch zugängliche Labels;
+  ein Leerzustand fehlte. Nach Hinzufügen erhielt das neue Feld keinen Fokus,
+  nach Entfernen fiel der Fokus auf `body`. Der Nachnamefehler war nicht über
+  `aria-describedby` zugeordnet, `aria-invalid` fehlte und die Fehlerklasse
+  blieb nach erneuter gültiger Eingabe bestehen. Die drei Demo-Namensvarianten,
+  Namen, Titel, Rollen-, Viewer- und Lebensstatuszustände waren vorhanden und
+  wurden vor der Änderung als Referenz gesichert.
+
+### Tatsächliche Ergebnisse nach Phase 3.2
+
+| Bereich | Methode und Nachweis | Tatsächliches Ergebnis | Status |
+| --- | --- | --- | --- |
+| Field-Anatomie und Semantik | DOM- und AX-Tree-Prüfung in frischer Sitzung. | Vor-, Mittel-, Nachname, Namenskürzel, Titel und Namensvarianten verwenden gemeinsame neutrale Field-/Grid-/Short-List-Primitives. „Geschlecht“ erscheint als benannte Gruppe mit vier benannten Radios. Labels, Hilfetext und Pflichtfeldfehler sind eindeutig zugeordnet; keine doppelten IDs. | Bestanden |
+| Responsive Layout und Themes | Geometriemessung und Screenshots bei 375/768/1024/1440px, jeweils hell/dunkel, mit langen Mittel-, Titel- und Variantenwerten. | 375px einspaltig, 768px zweispaltig, ab 1024px drei Namensspalten und zwei Titelspalten. Die Radiooptionen umbrechen bei Bedarf. In allen acht Kombinationen `0px` Dokument- und Abschnittsüberlauf, keine Überlagerung oder abgeschnittene Aktion; Controls einheitlich 38px bei 375px und 40px ab 768px. | Bestanden |
+| Anzeigename und Fachdatenbindung | Vor-, Mittel- und Nachname per tatsächlichem `input`-Event geändert; `collectPersonFormData()` geprüft. | Ausgabe änderte sich auf „Ada Augusta Lovelace“, der exportierbare Nachname auf `Lovelace`; EDTF-Ausgangswerte blieben vor den Statusprüfungen `1829-04-30` und `1884-07-18`. Keine Template- oder Platzhalterausgabe. | Bestanden |
+| Namensvarianten 0/1/n | Alle drei Demozeilen über ihre tatsächlichen Löschaktionen entfernt, anschließend ein und drei Einträge hinzugefügt, einen mittleren Eintrag entfernt und Formulardaten gesammelt. | Bei 0 Einträgen erscheint der Leerzustand und der Fokus liegt auf „Namensvariante hinzufügen“. Hinzufügen fokussiert den neuen Input; monotone IDs `namensvariante-4` bis `-6` bleiben eindeutig. Entfernen fokussiert die nächste Zeile. Wertbezogene Namen aktualisierten sich, etwa „Namensvariante „Ada King“ entfernen“. Der Datensatz enthielt danach exakt `Ada King` und `Augusta Ada`. | Bestanden |
+| Pflichtfeld und Fehlerzustand | Nachname geleert, `validateForm()` ausgeführt, anschließend Wert wiederhergestellt und erneut validiert. | Ungültig: `false`, `.is-invalid`, `aria-invalid=true`, Zuordnung zu `nachname-error`. Nach Eingabe: `true`, Fehlerklasse und `aria-invalid` entfernt. | Bestanden |
+| Titel-Autocomplete und Information | Titel-Combobox per Eingabe, Pfeil-ab und Enter bedient; AX-Tree und Attribute geprüft. Info-Button per nativer Enter-Sequenz aktiviert. | Listbox enthielt 14 benannte Optionen; `aria-expanded`, `aria-activedescendant` und `aria-selected` folgten der Bedienung, Enter übernahm `DDr.` und schloss die Liste. Der Info-Button besitzt einen eindeutigen zugänglichen Namen und Enter öffnete das zugehörige Modal. Die Escape-Schließung ließ sich in der verwendeten synthetischen CDP-Sequenz nicht belastbar bestätigen und wird nicht als bestanden gewertet. | Teilweise getestet |
+| Rollen, Lebensstatus und Record-Viewer | Verstorbenen und lebenden Viewer getrennt aus berechtigtem Zustand hergestellt; mehrfach `verstorben → lebend → verstorben` und Owner/Viewer gewechselt. Sichtbare Abschnitte, Controls, Aktionen, Disabled-/Hidden-/Inert-Zustände und `validateForm()` gemessen. | Verstorben sichtbar: `userrolle`, `anzeigename`, `meta`. Lebend zusätzlich `identitaet` mit ausschließlich disabled Vorname/Nachname und `quellenangaben`. Keine Viewer-Schreibaktion, kein fokussierbares verborgenes Control; Kommentar-, Anmerkungs- und Quellenmodal inert; Validierung `true`. Rückkehr zum DB-Owner stellte alle Identitätsfelder und Aktionen her. Record-Owner blieb wie zuvor editierbar und damit weiterhin abweichend zu seiner Beschreibung; Record-Editor behielt seine bestehende `disabled-section`. | Bestanden, bekannte ROLE-02-Abweichung unverändert |
+| Export und mehrfacher Reset | Berechtigten Exporthandler mit Blob-/Download-Stub ausgeführt; anschließend zweimal nach Änderungen und Rollenwechsel tatsächlich neu geladen und erneut hinzugefügt. | Export erzeugte `person_…json`, widerrief die Blob-URL und enthielt `Lovelace` sowie exakt die zwei verbliebenen Varianten. Beide Resets stellten `kurator`, `verstorben`, Ferdinand/Hochstetter, Geburt/Tod und die drei Demo-Varianten wieder her, entfernten Fehler und Sichtbarkeitsreste. Nach zwei Resets fügte ein Klick exakt eine Zeile hinzu; kein doppelter Handler. Eine globale Speichern-Funktion besitzt das clientseitige Mockup nicht. | Bestanden |
+| Statische Prüfungen und Browserfehler | `node --check` für `form.js`, `validation.js`, `edtf-component.js`, `autocomplete-data.js`, `theme.js`; `xmllint --html --noout index.html`; Error-/Unhandled-Rejection-Capture im Browser. | Alle JavaScript-Syntaxprüfungen bestanden; während der Phase-3.2-Interaktionen keine JavaScript-Ausnahme. `xmllint` endete mit Exit 0 und meldete weiterhin die bekannten HTML4-Modus-Warnungen zu HTML5-Elementen, unmaskierten Ampersands, Inline-Script und zwei Record-History-Listenschlüssen; keine dieser fremden Stellen wurde geändert. | Bestanden; HTML-Parser-Gesamtlauf teilweise getestet |
+
+### Abdeckungsmatrix der Identitäts-Nachprüfung
+
+| Bereich | Gesamt | Bestanden | Fehlgeschlagen | Teilweise getestet | Blockiert | Nicht getestet |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Struktur, Field-Anatomie und Accessibility Tree | 1 | 1 | 0 | 0 | 0 | 0 |
+| Responsive Layout, Langwerte, Hell-/Dunkelmodus | 1 | 1 | 0 | 0 | 0 | 0 |
+| Datenbindung, Radio- und Fehlerzustände | 1 | 1 | 0 | 0 | 0 | 0 |
+| Namensvarianten 0/1/n, Fokus und Export | 1 | 1 | 0 | 0 | 0 | 0 |
+| Titel-Autocomplete und Informationsmodal | 1 | 0 | 0 | 1 | 0 | 0 |
+| Rollen, Lebensstatus und vollständiger Record-Viewer | 1 | 1 | 0 | 0 | 0 | 0 |
+| Mehrfacher Reset und Handlerstabilität | 1 | 1 | 0 | 0 | 0 | 0 |
+| JavaScript-Syntax und Browserfehler | 1 | 1 | 0 | 0 | 0 | 0 |
+| Gesamte HTML-Parserprüfung | 1 | 0 | 0 | 1 | 0 | 0 |
+| **Identitäts-Nachprüfung gesamt** | **9** | **7** | **0** | **2** | **0** | **0** |
+
 ## Historische Ausgangsbefunde und heutige Einordnung
 
 Diese Übersicht ersetzt nicht die ursprünglichen Ergebnisfelder. Sie ordnet den
@@ -729,7 +781,7 @@ Nachweise ein.
 | Reset stellte Rolle, Lebensstatus und Ausgangsdaten nicht wieder her. | P1-RESET-01, Baseline 31.07.2026: Rolle und Lebensstatus nach Reset `null`. | **Behoben** | Phase-1-Nachprüfung P1-RESET-01/P1-RESET-02; Phase-2-Aktionsnachprüfung und Lebensdaten-Nachprüfung mit jeweils zweimaligem Reset auf `kurator`/`verstorben` ohne Daten- oder Handlerreste. |
 | Record-Owner-Beschreibung und tatsächliche Sperren stimmten nicht überein. | ROLE-02, Chromium-Smoke/Audit 31.07.2026. | **Offen** | ROLE-02 wurde am 01.08.2026 erneut als abweichend bestätigt und steht weiterhin auf `Fehlgeschlagen`. |
 | Einzelne dynamische Papierkorb-Schaltflächen hatten keinen zugänglichen Namen. | LIST-06 und P1-ICON-01, Chromium-Audit 31.07.2026. | **Status zu verifizieren** | Phase-1-/Phase-2-AX-Tree-Nachweise fanden aussagekräftige dynamische Namen; die dokumentierte vollständige Screenreader- und manuelle Tastaturprüfung fehlt weiterhin. |
-| Autocomplete besaß keine vollständige Combobox-/Listbox-Semantik. | KEY-06, Quellcodeprüfung 31.07.2026. | **Offen** | Kein späterer vollständiger ARIA- und Interaktionsnachweis dokumentiert. |
+| Autocomplete besaß keine vollständige Combobox-/Listbox-Semantik. | KEY-06, Quellcodeprüfung 31.07.2026. | **Teilweise behoben** | Phase 3.2 belegt die vollständige Semantik und Tastaturauswahl für die beiden Identitäts-Titelfelder. Die übrigen Autocomplete-Bereiche bleiben bis Phase 7 offen. |
 | Ein globaler konsistenter `:focus-visible`-Standard fehlte. | P2-FOCUS-01-Baseline. | **Status zu verifizieren** | Globale Regel, Forced-Colors-Fallback und sichtbare Fokuszustände wurden per Computed Style/CDP belegt; ein vollständiger manueller Tastaturlauf über Button, Eingabe, Link und Modale fehlt. |
 | Bei 375px bestand globaler horizontaler Überlauf. | Ursprünglicher RESP-01-Befund. | **Behoben** | Phase-2-Viewportläufe, Aktions-, Sidebar- und Lebensdaten-Nachprüfungen maßen bei 375px und den übrigen dokumentierten Breiten jeweils `scrollWidth === clientWidth` beziehungsweise `0px` Überlauf. Der separate Extremwertfall RESP-04 bleibt nicht getestet. |
 | Abhängigkeiten hatten keinen lokal geprüften Ausfallpfad. | ENV-03/RESP-05. | **Nicht getestet** | Keine dokumentierte gezielte Blockade von Bootstrap, Icons oder EDTF; kein lokaler Asset-Fallback vorhanden. |
@@ -767,7 +819,7 @@ unverändert sichtbar:
 | --- | --- | --- |
 | Record-Owner-Soll gegenüber tatsächlicher Sperrlogik | **Offen** | ROLE-02 bleibt `Fehlgeschlagen`; keine spätere Korrektur dokumentiert. |
 | Ausschließlich clientseitige Rollensteuerung | **Offen** | VIEW-06; produktive Autorisierung für Abruf, Speicherung und Export muss serverseitig erfolgen. |
-| Autocomplete ohne vollständige WAI-ARIA-Combobox-/Listbox-Semantik | **Offen** | KEY-06 ist nur teilweise per Quellcode geprüft. |
+| Autocomplete außerhalb der Identitäts-Titelfelder ohne vollständige WAI-ARIA-Combobox-/Listbox-Semantik | **Offen** | Phase 3.2 belegt das Muster nur für Standes-/Amtstitel und akademischen Titel; die übrigen Autocomplete-Bereiche sind erst für Phase 7 vorgesehen. |
 | 404 für `site.webmanifest`, `favicon.ico`, `favicon.svg` und `favicon-96x96.png` | **Offen** | Lebensdaten-Nachprüfung: weiterhin in der Browserkonsole reproduziert; keine Änderung im dokumentierten Scope. |
 | HTML-Parserwarnungen | **Offen** | Aktions- und Lebensdaten-Nachprüfungen dokumentieren weiterhin HTML5-/Ampersand-/Inline-Script- und Record-History-Listenwarnungen von `xmllint --html`. |
 | Keine automatisierte Paket-/Repository-Testinfrastruktur | **Offen** | In allen späteren Abschlussprüfungen erneut dokumentiert. |
@@ -805,6 +857,7 @@ Abschnitten erhalten:
 3. Phase-2-Nachprüfung und Layout-/Strukturkorrekturen vom 01.08.2026;
 4. Aktions-, Seitenlayout- und Sidebar-Nachprüfungen vom 01.08.2026;
 5. Lebensdaten-Nachprüfung vom 01.08.2026.
+6. Identitäts-Nachprüfung als zweiter Komponentenpilot vom 01.08.2026.
 
 Ein früheres `Fehlgeschlagen`, `Teilweise getestet` oder `Nicht getestet` wird
 nicht rückwirkend geändert. „Behoben“ und „Status zu verifizieren“ sind

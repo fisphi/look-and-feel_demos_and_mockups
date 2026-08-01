@@ -40,7 +40,8 @@ function validateField(input) {
 
     const value = input.value.trim();
     if (!value) {
-        input.classList.remove('is-invalid');
+        input.classList.remove('is-invalid', 'is-valid');
+        input.removeAttribute('aria-invalid');
         return true;
     }
 
@@ -52,9 +53,11 @@ function validateField(input) {
     if (isValid) {
         input.classList.remove('is-invalid');
         input.classList.add('is-valid');
+        input.removeAttribute('aria-invalid');
     } else {
         input.classList.remove('is-valid');
         input.classList.add('is-invalid');
+        input.setAttribute('aria-invalid', 'true');
         
         // Tooltip erstellen/aktualisieren
         const feedback = input.nextElementSibling;
@@ -78,6 +81,15 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', function() {
             if (this.classList.contains('is-invalid')) {
                 validateField(this);
+            }
+        });
+    });
+
+    document.querySelectorAll('[required]').forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.classList.remove('is-invalid');
+                this.removeAttribute('aria-invalid');
             }
         });
     });
@@ -108,7 +120,11 @@ function validateForm() {
     const nachname = document.getElementById('nachname');
     if (!nachname.value.trim()) {
         nachname.classList.add('is-invalid');
+        nachname.setAttribute('aria-invalid', 'true');
         isValid = false;
+    } else {
+        nachname.classList.remove('is-invalid');
+        nachname.removeAttribute('aria-invalid');
     }
     
     // Alle Felder mit Validierung prüfen
