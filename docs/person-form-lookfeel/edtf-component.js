@@ -552,12 +552,21 @@ class EdtfIntervalInput {
     }
 
     render(start, end) {
-        this.host.className = 'edtf-interval border rounded p-3';
-        const boundaryClass = this.options.boundaryClass || 'col-12';
+        const startLabel = this.options.startLabel || 'Beginn';
+        const endLabel = this.options.endLabel || 'Ende';
+        this.host.className = 'edtf-interval form-layout-container border rounded p-3';
         this.host.innerHTML = `
             <fieldset><legend class="fs-6 fw-semibold">${this.options.intervalLabel || 'Tätigkeitszeitraum'}</legend>
-                <div class="row g-3"><div class="${boundaryClass}" data-start-host></div>
-                <div class="${boundaryClass}" data-end-host></div></div>
+                <div class="form-subsection-stack mt-3">
+                    <section class="form-subsection" aria-labelledby="${this.id}-start-title">
+                        <h4 id="${this.id}-start-title" class="form-subsection-title">${startLabel}</h4>
+                        <div class="mt-3" data-start-host></div>
+                    </section>
+                    <section class="form-subsection" aria-labelledby="${this.id}-end-title">
+                        <h4 id="${this.id}-end-title" class="form-subsection-title">${endLabel}</h4>
+                        <div class="mt-3" data-end-host></div>
+                    </section>
+                </div>
                 <div class="row g-2 mt-2"><div class="col-sm-4"><label class="form-label" for="${this.id}-output">EDTF-Zeitraum</label><input id="${this.id}-output" class="form-control edtf-output" readonly aria-describedby="${this.id}-text ${this.id}-error"></div>
                 <div class="col-sm-8"><div class="form-label">Interpretation</div><div id="${this.id}-text" class="form-control-plaintext"></div></div></div>
                 <div id="${this.id}-error" class="invalid-feedback d-block" role="status" aria-live="polite"></div>
@@ -565,12 +574,14 @@ class EdtfIntervalInput {
         const startInput = document.createElement('input'); startInput.type = 'hidden'; startInput.value = start;
         const endInput = document.createElement('input'); endInput.type = 'hidden'; endInput.value = end;
         this.start = new EdtfDateInput(this.host.querySelector('[data-start-host]'), startInput, {
-            label: this.options.startLabel || 'Beginn',
+            label: startLabel,
+            hideHeading: true,
             actionLabel: this.options.startActionLabel,
             onChange: () => this.update()
         });
         this.end = new EdtfDateInput(this.host.querySelector('[data-end-host]'), endInput, {
-            label: this.options.endLabel || 'Ende',
+            label: endLabel,
+            hideHeading: true,
             actionLabel: this.options.endActionLabel,
             onChange: () => this.update()
         });
@@ -623,7 +634,7 @@ class EdtfIntervalInput {
         const removeButton = footer.querySelector('[data-remove-date]');
 
         const actionColumn = this.end.host.querySelector('[data-action-column]');
-        actionColumn.insertAdjacentHTML('beforebegin', '<div class="col-12 col-md d-none" data-end-special-state><span>Weiterhin andauernd</span></div>');
+        actionColumn.insertAdjacentHTML('beforebegin', '<div class="compact-value-primary d-none" data-end-special-state><span>Weiterhin andauernd</span></div>');
         this.endSpecialState = this.end.host.querySelector('[data-end-special-state]');
 
         const toggleEndMask = () => {
@@ -669,7 +680,7 @@ class EdtfIntervalInput {
             bootstrap.Modal.getOrCreateInstance(modal).hide();
         });
         removeButton.addEventListener('click', () => {
-            if (!window.confirm('Das Ende dieses Wirkungsorts wirklich entfernen?')) return;
+            if (!window.confirm('Das Ende dieses Zeitraums wirklich entfernen?')) return;
             this.endApplied = true;
             this.endMode = 'unknown';
             this.end.loadValue('');
