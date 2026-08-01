@@ -1222,6 +1222,81 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    function getSectionCollapse(section) {
+        const toggle = section.querySelector(':scope > .ui-section__header .ui-section__toggle');
+        const targetSelector = toggle?.getAttribute('data-bs-target');
+        const body = targetSelector ? section.querySelector(targetSelector) : null;
+        return { toggle, body };
+    }
+
+    function setInitialSectionExpanded(section, expanded) {
+        const { toggle, body } = getSectionCollapse(section);
+        if (!toggle || !body) return;
+
+        body.classList.remove('collapsing');
+        body.classList.toggle('show', expanded);
+        body.style.removeProperty('height');
+        toggle.classList.toggle('collapsed', !expanded);
+        toggle.setAttribute('aria-expanded', String(expanded));
+    }
+
+    function setSectionExpanded(section, expanded) {
+        const { toggle, body } = getSectionCollapse(section);
+        if (!toggle || !body) return;
+
+        if (!window.bootstrap?.Collapse) {
+            setInitialSectionExpanded(section, expanded);
+            return;
+        }
+
+        const collapse = window.bootstrap.Collapse.getOrCreateInstance(body, { toggle: false });
+        if (expanded) {
+            collapse.show();
+        } else {
+            collapse.hide();
+        }
+    }
+
+    function ensureNavFavoriteIndicator(link) {
+        if (!link) return null;
+
+        let label = link.querySelector(':scope > .sidebar-nav__label');
+        if (!label) {
+            label = document.createElement('span');
+            label.className = 'sidebar-nav__label';
+            label.textContent = link.textContent.trim();
+            link.textContent = '';
+            link.appendChild(label);
+        }
+
+        let indicator = link.querySelector(':scope > .sidebar-nav__favorite');
+        if (!indicator) {
+            indicator = document.createElement('i');
+            indicator.className = 'bi bi-star-fill sidebar-nav__favorite';
+            indicator.setAttribute('aria-hidden', 'true');
+            indicator.hidden = true;
+            link.appendChild(indicator);
+        }
+
+        return indicator;
+    }
+
+    function updateNavFavoriteIndicator(sectionId) {
+        const link = navLinkMap.get(sectionId);
+        if (!link) return;
+
+        const indicator = ensureNavFavoriteIndicator(link);
+        if (!indicator) return;
+
+        const isFavorite = favoriteIds.has(sectionId);
+        indicator.hidden = !isFavorite;
+        link.classList.toggle('is-favorite', isFavorite);
+    }
+
+    function updateAllNavFavoriteIndicators() {
+        favoriteSections.forEach(section => updateNavFavoriteIndicator(section.id));
+    }
+
     function sortedSections() {
         return [...favoriteSections].sort((left, right) => {
             const leftFavorite = favoriteIds.has(left.id) ? 0 : 1;
@@ -1236,6 +1311,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const link = navLinkMap.get(section.id);
             if (link) nav.appendChild(link);
         });
+        updateAllNavFavoriteIndicators();
     }
 
     function sortSections() {
@@ -1247,7 +1323,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function toggleFavorite(section, button) {
-        if (favoriteIds.has(section.id)) {
+        const becomesFavorite = !favoriteIds.has(section.id);
+        if (!becomesFavorite) {
             favoriteIds.delete(section.id);
         } else {
             favoriteIds.add(section.id);
@@ -1255,6 +1332,7 @@ document.addEventListener('DOMContentLoaded', function() {
         writeStoredFavorites([...favoriteIds]);
         updateFavoriteButton(button, section);
         sortSections();
+        setSectionExpanded(section, becomesFavorite);
     }
 
     sections.forEach(section => {
@@ -1291,6 +1369,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         updateFavoriteButton(favoriteButton, section);
+        updateNavFavoriteIndicator(section.id);
+    });
+
+    fixedSections.forEach(section => setInitialSectionExpanded(section, true));
+    favoriteSections.forEach(section => {
+        setInitialSectionExpanded(section, favoriteIds.has(section.id));
+    });
+
+    navLinkMap.forEach((link, sectionId) => {
+        const section = sectionMap.get(sectionId);
+        if (!section || link.dataset.sectionCollapseBound === 'true') return;
+
+        link.dataset.sectionCollapseBound = 'true';
+        link.addEventListener('click', event => {
+            const { body } = getSectionCollapse(section);
+            if (!body || body.classList.contains('show')) return;
+
+            event.preventDefault();
+            body.addEventListener('shown.bs.collapse', () => {
+                window.history.pushState(null, '', `#${section.id}`);
+                section.scrollIntoView({ block: 'start' });
+                refreshScrollSpy();
+            }, { once: true });
+            setSectionExpanded(section, true);
+        });
     });
 
     sortSections();

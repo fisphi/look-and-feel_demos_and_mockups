@@ -382,13 +382,32 @@ h4 { font-size: var(--font-size-md); }
     flex: 1;
 }
 .sidebar .nav-link {
+    align-items: flex-start;
     color: var(--bs-body-color);
+    display: flex;
     font-weight: 500;
+    gap: var(--space-2);
+    justify-content: space-between;
     overflow-wrap: anywhere;
     padding: 0.35rem 0;
     border-radius: 0.5rem;
     transition: color 0.2s ease, background 0.2s ease;
     white-space: normal;
+}
+
+.sidebar-nav__label {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.sidebar-nav__favorite {
+    color: var(--color-warning);
+    flex: 0 0 auto;
+    margin-top: 0.1rem;
+}
+
+[data-bs-theme="dark"] .sidebar-nav__favorite {
+    color: #f7d488;
 }
 .sidebar .nav-link.active {
     color: var(--color-text);
@@ -431,6 +450,11 @@ h4 { font-size: var(--font-size-md); }
     margin-block-end: var(--space-10, 2.5rem);
     min-width: 0;
     padding: var(--space-6, 1.5rem);
+}
+
+#lebensstatus.ui-section,
+#anzeigename.ui-section {
+    border-color: var(--color-text);
 }
 
 .ui-section__header {
