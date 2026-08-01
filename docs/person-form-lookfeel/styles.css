@@ -440,11 +440,24 @@ h4 { font-size: var(--font-size-md); }
 }
 
 .ui-section__header--actions {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3) var(--space-4);
     justify-content: space-between;
+}
+
+.ui-section__intro {
+    align-items: flex-start;
+    display: flex;
+    flex: 1 1 16rem;
+    gap: var(--space-3);
+    min-width: 0;
+}
+
+.ui-section__intro-content {
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .ui-section__title {
@@ -471,6 +484,56 @@ h4 { font-size: var(--font-size-md); }
     gap: var(--space-2, 0.5rem);
     justify-content: flex-end;
     margin-left: auto;
+}
+
+.ui-section__favorite {
+    --bs-btn-color: var(--color-text-muted);
+    --bs-btn-border-color: var(--color-border-strong);
+    --bs-btn-hover-color: var(--color-accent);
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border-strong));
+    --bs-btn-hover-bg: color-mix(in srgb, var(--color-accent-subtle) 75%, transparent);
+    --bs-btn-active-color: var(--color-accent);
+    --bs-btn-active-border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border-strong));
+    --bs-btn-active-bg: color-mix(in srgb, var(--color-accent-subtle) 85%, transparent);
+    border-color: var(--color-border-strong) !important;
+    color: var(--color-text-muted) !important;
+}
+
+.ui-section__favorite:hover,
+.ui-section__favorite:focus-visible {
+    background-color: color-mix(in srgb, var(--color-accent-subtle) 75%, transparent) !important;
+    border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border-strong)) !important;
+    color: var(--color-accent) !important;
+}
+
+.ui-section__favorite[aria-pressed="true"] {
+    --bs-btn-color: var(--color-warning);
+    --bs-btn-border-color: color-mix(in srgb, var(--color-warning) 36%, var(--color-border));
+    --bs-btn-bg: var(--color-warning-subtle);
+    --bs-btn-hover-color: var(--color-warning);
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--color-warning) 45%, var(--color-border));
+    --bs-btn-hover-bg: color-mix(in srgb, var(--color-warning-subtle) 88%, white);
+    --bs-btn-active-color: var(--color-warning);
+    --bs-btn-active-border-color: color-mix(in srgb, var(--color-warning) 45%, var(--color-border));
+    --bs-btn-active-bg: color-mix(in srgb, var(--color-warning-subtle) 84%, white);
+    background-color: var(--color-warning-subtle) !important;
+    border-color: color-mix(in srgb, var(--color-warning) 36%, var(--color-border)) !important;
+    color: var(--color-warning) !important;
+}
+
+[data-bs-theme="dark"] .ui-section__favorite[aria-pressed="true"] {
+    --bs-btn-color: #f7d488;
+    --bs-btn-border-color: color-mix(in srgb, #f7d488 42%, var(--color-border));
+    --bs-btn-bg: color-mix(in srgb, #f7d488 20%, transparent);
+    --bs-btn-hover-color: #ffe2a7;
+    --bs-btn-hover-border-color: color-mix(in srgb, #f7d488 48%, var(--color-border));
+    --bs-btn-hover-bg: color-mix(in srgb, #f7d488 24%, transparent);
+    --bs-btn-active-color: #ffe2a7;
+    --bs-btn-active-border-color: color-mix(in srgb, #f7d488 48%, var(--color-border));
+    --bs-btn-active-bg: color-mix(in srgb, #f7d488 22%, transparent);
+    background-color: color-mix(in srgb, var(--color-warning) 18%, transparent) !important;
+    border-color: color-mix(in srgb, var(--color-warning) 45%, var(--color-border)) !important;
+    color: #f7d488 !important;
 }
 
 .ui-section__toggle .bi {

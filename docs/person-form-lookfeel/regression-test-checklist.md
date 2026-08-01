@@ -770,6 +770,34 @@ noch offene Teile getrennt, ohne die Checkliste mit wiederholten Metadaten zu
 | Gesamte HTML-Parserprüfung | 1 | 0 | 0 | 1 | 0 | 0 |
 | **Identitäts-Nachprüfung gesamt** | **9** | **7** | **0** | **2** | **0** | **0** |
 
+## Zusatzprüfung – Favoritenfunktion (01.08.2026)
+
+Testdatum: 01.08.2026
+Umgebung: Chromium 150.0.7871.181 Headless über DevTools gegen lokalen
+HTTP-Server `http://127.0.0.1:8767`; `localStorage`-Zustände, Reload,
+Rollen-/Lebensstatuswechsel, Collapse und Theme-Umschaltung im tatsächlich
+gerenderten Formular ausgeführt. JavaScript-Syntax zusätzlich mit
+`node --check form.js`, Diff-Hygiene mit `git diff --check`.
+
+| ID | Methode / Nachweis | Tatsächliches Ergebnis | Status |
+| --- | --- | --- | --- |
+| FAV-01 | CDP-Browserlauf im frischen Profil ohne gespeicherte Favoriten. Reihenfolge der Top-Level-Sektionen und Sidebar-Links aus dem DOM gelesen; Anzahl der Favoriten-Buttons sowie Ausschluss von `#userrolle`, `#lebensstatus` und `#anzeigename` geprüft. | Formular startete in der ursprünglichen Reihenfolge `lebensstatus`, `anzeigename`, `identitaet`, `normdaten`, `lebensdaten`, `taetigkeiten`, `orte`, `kontakt`, `quellenangaben`, `meta`, `record_history`, `import`; die Sidebar entsprach `userrolle` plus derselben Reihenfolge. Es wurden genau 10 Favoriten-Buttons erzeugt; `#userrolle`, `#lebensstatus` und `#anzeigename` erhielten keinen Button. | Bestanden |
+| FAV-02 | Zwei Favoriten (`orte`, danach `identitaet`) per Buttonklick gesetzt; anschließend Reihenfolge von Formular und Navigation aus dem DOM gelesen. | `lebensstatus` und `anzeigename` blieben fest auf Position 1 und 2. Darunter war die sichtbare Reihenfolge nach zwei Favoriten stabil `identitaet`, `orte`, danach alle übrigen favorisierbaren Sektionen in ihrer ursprünglichen Reihenfolge. Die Klickreihenfolge beeinflusste die Sortierung nicht. | Bestanden |
+| FAV-03 | Reload mit vorhandenem Favoritenstatus; anschließend absichtlich ausgeschlossene ID `anzeigename` in `localStorage` injiziert und erneut geladen. | Nach Reload blieben `lebensstatus` und `anzeigename` weiterhin oben; `orte` blieb der erste echte Favorit. Der persistierte Speicherwert wurde beim Laden auf zulässige IDs bereinigt und enthielt danach nur noch `["orte"]`. Mit defektem oder ausgeschlossenen Storage-Inhalt blieb die Seite fehlerfrei. | Bestanden |
+| FAV-04 | Nach gesetztem Favoriten Wechsel `verstorben -> lebend` mit bestätigtem Dialog-Stub, dann Wechsel zu Record-Viewer und zurück zu DB-Owner; zusätzlich Collapse von `identitaet`, Nav-Reihenfolge, Theme-Umschaltung und Browser-Log geprüft. | Der Favorit blieb über Lebensstatus-, Rollen- und Viewer-Wechsel erhalten. Im lebenden Viewer blieben nur `anzeigename`, `identitaet`, `quellenangaben` und `meta` sichtbar; die Sidebar zeigte exakt dieselbe Reihenfolge und blendete verborgene Sektionen weiter aus. Collapse von `identitaet` funktionierte weiterhin einschließlich der aktualisierten `aria-label`. Im Dunkelmodus blieb der aktive Stern visuell markiert; der Browserlauf protokollierte `0` Fehler auf Log-Level `error`. | Bestanden |
+| FAV-05 | Zugänglichkeit per CDP geprüft: Nichtvorhandensein eines Sterns in `lebensstatus` und `anzeigename`; zugänglicher Name eines tatsächlichen Favoriten-Buttons aus dem Sektionstitel gelesen; `Tab` bis zum Favoriten-Button, Aktivierung per `Enter`; zweite Aktivierung per Leertaste nach expliziter Fokussetzung auf denselben Button; `aria-pressed` und `aria-hidden` kontrolliert. | `lebensstatus` und `anzeigename` waren nicht fokussierbar als Favoriten, weil dort keine Stern-Buttons erzeugt wurden. Ein realer Favoriten-Button war per `Tab` erreichbar, reagierte auf `Enter` und `Space`; `aria-label`, `title` und `aria-pressed` wurden zustandsabhängig aktualisiert. Das Icon blieb mit `aria-hidden="true"` aus dem Screenreader-Namen ausgeschlossen. | Bestanden |
+
+### Abdeckungsmatrix der Favoriten-Nachprüfung
+
+| Bereich | Gesamt | Bestanden | Fehlgeschlagen | Teilweise getestet | Blockiert | Nicht getestet |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Initialisierung, Standardreihenfolge und Button-Injektion | 1 | 1 | 0 | 0 | 0 | 0 |
+| Stabile Sortierung und Entfernen | 1 | 1 | 0 | 0 | 0 | 0 |
+| Persistenz und fehlerhafte Speicherung | 1 | 1 | 0 | 0 | 0 | 0 |
+| Rollen-/Lebensstatuswechsel, Navigation, Collapse und Theme | 1 | 1 | 0 | 0 | 0 | 0 |
+| Tastatur und Accessibility-Attribute | 1 | 1 | 0 | 0 | 0 | 0 |
+| **Favoriten-Nachprüfung gesamt** | **5** | **5** | **0** | **0** | **0** | **0** |
+
 ## Historische Ausgangsbefunde und heutige Einordnung
 
 Diese Übersicht ersetzt nicht die ursprünglichen Ergebnisfelder. Sie ordnet den
@@ -858,6 +886,7 @@ Abschnitten erhalten:
 4. Aktions-, Seitenlayout- und Sidebar-Nachprüfungen vom 01.08.2026;
 5. Lebensdaten-Nachprüfung vom 01.08.2026.
 6. Identitäts-Nachprüfung als zweiter Komponentenpilot vom 01.08.2026.
+7. Favoriten-Nachprüfung für Formularsektionen vom 01.08.2026.
 
 Ein früheres `Fehlgeschlagen`, `Teilweise getestet` oder `Nicht getestet` wird
 nicht rückwirkend geändert. „Behoben“ und „Status zu verifizieren“ sind

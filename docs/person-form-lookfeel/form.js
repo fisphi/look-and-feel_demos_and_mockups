@@ -1094,6 +1094,208 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Favoriten für Formularsektionen
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.body.dataset.sectionFavoritesInitialized === 'true') return;
+    document.body.dataset.sectionFavoritesInitialized = 'true';
+
+    const FAVORITES_STORAGE_KEY = 'person-form-favorite-sections-v1';
+    const FIXED_SECTION_IDS = ['lebensstatus', 'anzeigename'];
+    const form = document.getElementById('personForm');
+    const nav = document.getElementById('navbar-sections');
+    if (!form || !nav) return;
+
+    const sections = [...form.querySelectorAll('.form-section.ui-section[id]')];
+    if (!sections.length) return;
+
+    const sectionOrder = new Map(sections.map((section, index) => [section.id, index]));
+    const sectionMap = new Map(sections.map(section => [section.id, section]));
+    const fixedSections = FIXED_SECTION_IDS
+        .map(id => sectionMap.get(id))
+        .filter(Boolean);
+    const favoriteSections = sections.filter(section => !FIXED_SECTION_IDS.includes(section.id));
+    const navLinkMap = new Map(
+        [...nav.querySelectorAll('.nav-link[href^="#"]')]
+            .map(link => [link.getAttribute('href')?.slice(1), link])
+            .filter(([id]) => !!id)
+    );
+    let volatileFavorites = [];
+
+    function readStoredFavorites() {
+        try {
+            if (!('localStorage' in window)) return [...volatileFavorites];
+            const raw = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
+            if (!raw) return [];
+            const parsed = JSON.parse(raw);
+            if (!Array.isArray(parsed)) return [];
+            return parsed.filter(id => typeof id === 'string');
+        } catch (error) {
+            return [...volatileFavorites];
+        }
+    }
+
+    function writeStoredFavorites(favoriteIds) {
+        volatileFavorites = [...favoriteIds];
+        try {
+            if (!('localStorage' in window)) return;
+            window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favoriteIds));
+        } catch (error) {
+            // Session fallback stays in memory when localStorage is unavailable.
+        }
+    }
+
+    const favoriteIds = new Set(
+        readStoredFavorites().filter(id => sectionMap.has(id) && !FIXED_SECTION_IDS.includes(id))
+    );
+    writeStoredFavorites([...favoriteIds]);
+
+    function getSectionTitle(section) {
+        return section.querySelector(':scope > .ui-section__header .ui-section__title')?.textContent?.trim()
+            || section.id;
+    }
+
+    function ensureHeaderStructure(section) {
+        const header = section.querySelector(':scope > .ui-section__header');
+        if (!header) return null;
+
+        header.classList.add('ui-section__header--actions');
+
+        let actions = header.querySelector(':scope > .ui-section__actions');
+        if (!actions) {
+            actions = document.createElement('div');
+            actions.className = 'ui-section__actions';
+            header.appendChild(actions);
+        }
+
+        let intro = header.querySelector(':scope > .ui-section__intro');
+        if (!intro) {
+            intro = document.createElement('div');
+            intro.className = 'ui-section__intro';
+            header.insertBefore(intro, actions);
+            [...header.childNodes].forEach(node => {
+                if (node === intro || node === actions) return;
+                intro.appendChild(node);
+            });
+        }
+
+        let introContent = intro.querySelector(':scope > .ui-section__intro-content');
+        if (!introContent) {
+            introContent = document.createElement('div');
+            introContent.className = 'ui-section__intro-content';
+            intro.appendChild(introContent);
+            [...intro.childNodes].forEach(node => {
+                if (node === introContent) return;
+                introContent.appendChild(node);
+            });
+        }
+
+        const toggle = header.querySelector('.ui-section__toggle');
+        if (toggle && toggle.parentElement !== actions) {
+            actions.appendChild(toggle);
+        }
+
+        return { header, actions, intro, introContent };
+    }
+
+    function updateFavoriteButton(button, section) {
+        const title = getSectionTitle(section);
+        const isFavorite = favoriteIds.has(section.id);
+        const actionText = isFavorite ? 'aus Favoriten entfernen' : 'zu Favoriten hinzufügen';
+        const accessibleName = `${title} ${actionText}`;
+        button.setAttribute('aria-pressed', String(isFavorite));
+        button.setAttribute('aria-label', accessibleName);
+        button.title = accessibleName;
+
+        const icon = button.querySelector('.bi');
+        if (icon) {
+            icon.classList.toggle('bi-star', !isFavorite);
+            icon.classList.toggle('bi-star-fill', isFavorite);
+            icon.setAttribute('aria-hidden', 'true');
+        }
+    }
+
+    function refreshScrollSpy() {
+        if (!window.bootstrap?.ScrollSpy) return;
+        const scrollSpy = window.bootstrap.ScrollSpy.getInstance(document.body);
+        if (scrollSpy && typeof scrollSpy.refresh === 'function') {
+            scrollSpy.refresh();
+        }
+    }
+
+    function sortedSections() {
+        return [...favoriteSections].sort((left, right) => {
+            const leftFavorite = favoriteIds.has(left.id) ? 0 : 1;
+            const rightFavorite = favoriteIds.has(right.id) ? 0 : 1;
+            if (leftFavorite !== rightFavorite) return leftFavorite - rightFavorite;
+            return (sectionOrder.get(left.id) || 0) - (sectionOrder.get(right.id) || 0);
+        });
+    }
+
+    function syncNavigation(orderedSections) {
+        [...fixedSections, ...orderedSections].forEach(section => {
+            const link = navLinkMap.get(section.id);
+            if (link) nav.appendChild(link);
+        });
+    }
+
+    function sortSections() {
+        const orderedSections = sortedSections();
+        fixedSections.forEach(section => form.appendChild(section));
+        orderedSections.forEach(section => form.appendChild(section));
+        syncNavigation(orderedSections);
+        refreshScrollSpy();
+    }
+
+    function toggleFavorite(section, button) {
+        if (favoriteIds.has(section.id)) {
+            favoriteIds.delete(section.id);
+        } else {
+            favoriteIds.add(section.id);
+        }
+        writeStoredFavorites([...favoriteIds]);
+        updateFavoriteButton(button, section);
+        sortSections();
+    }
+
+    sections.forEach(section => {
+        const headerParts = ensureHeaderStructure(section);
+        if (!headerParts) return;
+
+        if (FIXED_SECTION_IDS.includes(section.id)) {
+            headerParts.actions.querySelector('[data-section-favorite-button]')?.remove();
+            headerParts.intro.querySelector('[data-section-favorite-button]')?.remove();
+            return;
+        }
+
+        let favoriteButton = headerParts.intro.querySelector('[data-section-favorite-button]')
+            || headerParts.actions.querySelector('[data-section-favorite-button]');
+        if (!favoriteButton) {
+            favoriteButton = document.createElement('button');
+            favoriteButton.type = 'button';
+            favoriteButton.className = 'btn btn-sm btn-outline-secondary ui-icon-button ui-section__favorite';
+            favoriteButton.dataset.sectionFavoriteButton = 'true';
+
+            const icon = document.createElement('i');
+            icon.className = 'bi bi-star';
+            icon.setAttribute('aria-hidden', 'true');
+            favoriteButton.appendChild(icon);
+        }
+
+        if (favoriteButton.parentElement !== headerParts.intro) {
+            headerParts.intro.insertBefore(favoriteButton, headerParts.introContent);
+        }
+
+        if (!favoriteButton.dataset.favoriteBound) {
+            favoriteButton.dataset.favoriteBound = 'true';
+            favoriteButton.addEventListener('click', () => toggleFavorite(section, favoriteButton));
+        }
+
+        updateFavoriteButton(favoriteButton, section);
+    });
+
+    sortSections();
+});
+
 // Einklappbare Hauptabschnitte ab Identität
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.ui-section__toggle').forEach(toggle => {
