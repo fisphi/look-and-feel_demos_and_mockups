@@ -1106,8 +1106,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const toggle = header.querySelector('.ui-section__toggle');
-        if (toggle && toggle.parentElement !== actions) {
-            actions.appendChild(toggle);
+        if (toggle && toggle.parentElement !== intro) {
+            intro.insertBefore(toggle, introContent);
         }
 
         return { header, actions, intro, introContent };
@@ -1128,6 +1128,48 @@ document.addEventListener('DOMContentLoaded', function() {
             icon.classList.toggle('bi-star-fill', isFavorite);
             icon.setAttribute('aria-hidden', 'true');
         }
+    }
+
+    function syncTitleCollapseControl(section) {
+        const titleButton = section.querySelector(':scope > .ui-section__header .ui-section__title-toggle');
+        const toggle = section.querySelector(':scope > .ui-section__header .ui-section__toggle');
+        if (!titleButton || !toggle) return;
+
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        const sectionTitle = titleButton.textContent.trim();
+        const accessibleName = `${sectionTitle} ${expanded ? 'einklappen' : 'ausklappen'}`;
+        titleButton.setAttribute('aria-expanded', String(expanded));
+        titleButton.setAttribute('aria-label', accessibleName);
+        titleButton.title = accessibleName;
+    }
+
+    function ensureTitleCollapseControl(section, headerParts) {
+        const title = headerParts.introContent.querySelector('.ui-section__title');
+        const toggle = headerParts.intro.querySelector(':scope > .ui-section__toggle');
+        const targetSelector = toggle?.getAttribute('data-bs-target');
+        const body = targetSelector ? section.querySelector(targetSelector) : null;
+        if (!title || !toggle || !body) return;
+
+        let titleButton = title.querySelector(':scope > .ui-section__title-toggle');
+        if (!titleButton) {
+            titleButton = document.createElement('button');
+            titleButton.type = 'button';
+            titleButton.className = 'ui-section__title-toggle';
+            while (title.firstChild) titleButton.appendChild(title.firstChild);
+            title.appendChild(titleButton);
+        }
+
+        const controls = toggle.getAttribute('aria-controls');
+        if (controls) titleButton.setAttribute('aria-controls', controls);
+
+        if (titleButton.dataset.collapseBound !== 'true') {
+            titleButton.dataset.collapseBound = 'true';
+            titleButton.addEventListener('click', () => toggle.click());
+            body.addEventListener('shown.bs.collapse', () => syncTitleCollapseControl(section));
+            body.addEventListener('hidden.bs.collapse', () => syncTitleCollapseControl(section));
+        }
+
+        syncTitleCollapseControl(section);
     }
 
     function refreshScrollSpy() {
@@ -1154,6 +1196,7 @@ document.addEventListener('DOMContentLoaded', function() {
         body.style.removeProperty('height');
         toggle.classList.toggle('collapsed', !expanded);
         toggle.setAttribute('aria-expanded', String(expanded));
+        syncTitleCollapseControl(section);
     }
 
     function setSectionExpanded(section, expanded) {
@@ -1271,6 +1314,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sections.forEach(section => {
         const headerParts = ensureHeaderStructure(section);
         if (!headerParts) return;
+        ensureTitleCollapseControl(section, headerParts);
 
         if (FIXED_SECTION_IDS.includes(section.id)) {
             headerParts.actions.querySelector('[data-section-favorite-button]')?.remove();
@@ -1292,8 +1336,8 @@ document.addEventListener('DOMContentLoaded', function() {
             favoriteButton.appendChild(icon);
         }
 
-        if (favoriteButton.parentElement !== headerParts.intro) {
-            headerParts.intro.insertBefore(favoriteButton, headerParts.introContent);
+        if (favoriteButton.parentElement !== headerParts.actions) {
+            headerParts.actions.appendChild(favoriteButton);
         }
 
         if (!favoriteButton.dataset.favoriteBound) {
